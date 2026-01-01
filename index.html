@@ -583,10 +583,210 @@
             /* Push to the right */
             margin-bottom: 5px;
         }
+
+        /* Auth Overlay */
+        #auth-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(255, 255, 255, 0.95);
+            z-index: 10000;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            backdrop-filter: blur(10px);
+        }
+
+        .auth-box {
+            background: white;
+            padding: 3rem;
+            border-radius: 24px;
+            width: 90%;
+            max-width: 480px;
+            box-shadow: 0 20px 80px rgba(0, 0, 0, 0.15);
+            text-align: center;
+            border: 1px solid rgba(0, 0, 0, 0.05);
+            animation: slideUp 0.5s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+
+        @keyframes slideUp {
+            from {
+                transform: translateY(40px);
+                opacity: 0;
+            }
+
+            to {
+                transform: translateY(0);
+                opacity: 1;
+            }
+        }
+
+        .auth-title {
+            font-size: 2rem;
+            margin-bottom: 0.5rem;
+            color: #333;
+            font-weight: 700;
+            letter-spacing: -0.5px;
+        }
+
+        .auth-subtitle {
+            color: #666;
+            margin-bottom: 2.5rem;
+            font-size: 1.1rem;
+        }
+
+        .auth-input {
+            width: 100%;
+            padding: 16px 20px;
+            margin-bottom: 16px;
+            border: 2px solid #f0f0f0;
+            border-radius: 14px;
+            font-size: 1rem;
+            transition: all 0.2s;
+            font-family: inherit;
+            background: #fafafa;
+        }
+
+        .auth-input:focus {
+            border-color: var(--primary-blue);
+            background: #fff;
+            outline: none;
+            box-shadow: 0 0 0 4px rgba(0, 123, 255, 0.1);
+        }
+
+        .auth-btn {
+            width: 100%;
+            padding: 16px;
+            border: none;
+            border-radius: 14px;
+            font-size: 1.1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.2s;
+            margin-bottom: 12px;
+            font-family: inherit;
+        }
+
+        .auth-btn:active {
+            transform: scale(0.98);
+        }
+
+        .btn-primary {
+            background: var(--primary-blue);
+            color: white;
+            box-shadow: 0 10px 20px rgba(0, 123, 255, 0.2);
+        }
+
+        .btn-primary:hover {
+            box-shadow: 0 15px 30px rgba(0, 123, 255, 0.3);
+            transform: translateY(-2px);
+        }
+
+        .btn-google {
+            background: white;
+            border: 2px solid #eee;
+            color: #333;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 12px;
+        }
+
+        .btn-google:hover {
+            background: #fafafa;
+            border-color: #ddd;
+        }
+
+        .toggle-link {
+            color: var(--primary-blue);
+            cursor: pointer;
+            font-size: 0.95rem;
+            margin-top: 20px;
+            display: inline-block;
+            font-weight: 500;
+        }
+
+        .toggle-link:hover {
+            text-decoration: underline;
+        }
+
+        .error-msg {
+            color: #dc3545;
+            font-size: 0.95rem;
+            margin-bottom: 20px;
+            min-height: 24px;
+            font-weight: 500;
+        }
+
+        .legal-check {
+            text-align: left;
+            font-size: 0.9rem;
+            color: #666;
+            margin-bottom: 24px;
+            display: flex;
+            align-items: flex-start;
+            gap: 12px;
+            background: #f8f9fa;
+            padding: 15px;
+            border-radius: 12px;
+        }
+
+        .legal-check input {
+            margin-top: 4px;
+        }
+
+        /* Streak Display */
+        #login-days-display {
+            background: linear-gradient(135deg, #e7f5ff 0%, #d7eded 100%);
+            color: #007bff;
+            padding: 15px;
+            border-radius: 14px;
+            text-align: center;
+            margin-bottom: 25px;
+            font-weight: 600;
+            font-size: 1.05rem;
+            border: 1px solid rgba(0, 0, 0, 0.05);
+            box-shadow: 0 4px 15px rgba(0, 123, 255, 0.1);
+        }
     </style>
 </head>
 
 <body>
+
+    <!-- Auth Overlay -->
+    <div id="auth-overlay">
+        <div class="auth-box">
+            <h2 id="auth-title" class="auth-title">Welcome Back!</h2>
+            <p class="auth-subtitle">Sign in to continue your learning journey</p>
+
+            <div class="error-msg" id="auth-error"></div>
+
+            <input type="email" id="auth-email" class="auth-input" placeholder="Email Address">
+            <input type="password" id="auth-pass" class="auth-input" placeholder="Password">
+
+            <!-- Registration Fields (Hidden by default) -->
+            <div id="reg-fields" style="display: none;">
+                <input type="text" id="parent-name" class="auth-input" placeholder="Parent's Name">
+                <input type="text" id="student-name" class="auth-input" placeholder="Student's Name">
+            </div>
+
+            <div id="legal-box" class="legal-check" style="display: none;">
+                <input type="checkbox" id="legal-agree">
+                <label for="legal-agree">I agree to the Terms of Service and Privacy Policy. I confirm I am a
+                    parent/guardian registering for my child.</label>
+            </div>
+
+            <button onclick="handleLogin()" id="btn-login" class="auth-btn btn-primary">Login</button>
+            <button onclick="handleGoogleLogin()" id="btn-google" class="auth-btn btn-google">
+                <img src="https://www.gstatic.com/firebasejs/ui/2.0.0/images/auth/google.svg" width="20"> Sign in with
+                Google
+            </button>
+
+            <span class="toggle-link" onclick="toggleAuthMode()">New here? Create an Account</span>
+        </div>
+    </div>
 
     <div class="app-container">
         <header class="app-header">
@@ -608,6 +808,9 @@
         <!-- View: CER (Existing) -->
         <div id="view-cer" class="app-body active">
             <aside class="sidebar">
+                <div id="login-days-display">📅 Loading Streak...</div>
+                <button onclick="handleLogout()" class="tab-btn"
+                    style="width: 100%; border-radius: 10px; margin-bottom: 20px; background: #ffeae8; color: #dc3545;">Logout</button>
                 <h2>CER Questions</h2>
                 <nav class="sidebar-nav">
                     <button id="btn-heat">Heat</button>
@@ -1252,29 +1455,97 @@
         });
     </script>
     <script type="module">
-        // Import the functions you need from the SDKs you need
-        import { initializeApp } from "https://www.gstatic.com/firebasejs/12.7.0/firebase-app.js";
-        import { getAnalytics } from "https://www.gstatic.com/firebasejs/12.7.0/firebase-analytics.js";
-        // TODO: Add SDKs for Firebase products that you want to use
-        // https://firebase.google.com/docs/web/setup#available-libraries
-      
-        // Your web app's Firebase configuration
-        // For Firebase JS SDK v7.20.0 and later, measurementId is optional
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js";
+        import { getAuth, createUserWithEmailAndPassword, signInWithEmailAndPassword, onAuthStateChanged, signOut, sendPasswordResetEmail, GoogleAuthProvider, signInWithPopup } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-auth.js";
+        import { getFirestore, doc, getDoc, setDoc, updateDoc, increment } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js";
+
+        // REPLACE WITH YOUR FIREBASE CONFIG
         const firebaseConfig = {
-          apiKey: "AIzaSyAtWmNfRTffoapq5nThegd3Z8SmX8BmypI",
-          authDomain: "cer-backend.firebaseapp.com",
-          databaseURL: "https://cer-backend-default-rtdb.asia-southeast1.firebasedatabase.app",
-          projectId: "cer-backend",
-          storageBucket: "cer-backend.firebasestorage.app",
-          messagingSenderId: "521789211278",
-          appId: "1:521789211278:web:d6b9d101a680d76b78bfdf",
-          measurementId: "G-8KNKWTE98Q"
+            apiKey: "AIzaSyAUSI3Uh28IeqASEp0JhH4QPaVt-O3meBo",
+            authDomain: "mathgen--app.firebaseapp.com",
+            projectId: "mathgen--app",
+            storageBucket: "mathgen--app.firebasestorage.app",
+            messagingSenderId: "165654161198",
+            appId: "1:165654161198:web:16c8bd60eb3a2aa7edbcbf",
+            measurementId: "G-0MWZFG211D"
         };
-      
-        // Initialize Firebase
+
         const app = initializeApp(firebaseConfig);
-        const analytics = getAnalytics(app);
-      </script>
+        const auth = getAuth(app);
+        const db_fs = getFirestore(app);
+        const googleProvider = new GoogleAuthProvider();
+
+        let isSignUpMode = false;
+
+        // Switch between Login UI and Registration UI
+        window.toggleAuthMode = () => {
+            isSignUpMode = !isSignUpMode;
+            document.getElementById('reg-fields').style.display = isSignUpMode ? "block" : "none";
+            document.getElementById('legal-box').style.display = isSignUpMode ? "block" : "none";
+            document.getElementById('btn-google').style.display = isSignUpMode ? "none" : "flex";
+            document.getElementById('auth-title').innerText = isSignUpMode ? "Register Student Account" : "Welcome Back!";
+            document.getElementById('btn-login').innerText = isSignUpMode ? "Confirm Registration" : "Login";
+        };
+
+        // Main Login/SignUp Function
+        window.handleLogin = async () => {
+            const email = document.getElementById('auth-email').value;
+            const pass = document.getElementById('auth-pass').value;
+            const errorMsg = document.getElementById('auth-error');
+            if (!email || !pass) { errorMsg.innerText = "Fields cannot be empty."; return; }
+
+            try {
+                if (isSignUpMode) {
+                    const pName = document.getElementById('parent-name').value;
+                    const sName = document.getElementById('student-name').value;
+                    if (!pName || !sName || !document.getElementById('legal-agree').checked) {
+                        errorMsg.innerText = "Fill all fields and agree to terms."; return;
+                    }
+                    const cred = await createUserWithEmailAndPassword(auth, email, pass);
+                    await setDoc(doc(db_fs, "users", cred.user.uid), {
+                        email, parentName: pName, studentName: sName, loginDays: 1, lastLoginDate: new Date().toDateString(), agreedToTerms: true
+                    });
+                } else {
+                    await signInWithEmailAndPassword(auth, email, pass);
+                }
+            } catch (e) { errorMsg.innerText = e.message; }
+        };
+
+        // Google Sign In Popup
+        window.handleGoogleLogin = async () => {
+            try {
+                const result = await signInWithPopup(auth, googleProvider);
+                await trackLoginDays(result.user);
+            } catch (e) { document.getElementById('auth-error').innerText = "Google Error: " + e.message; }
+        };
+
+        // Day Streak Tracking
+        async function trackLoginDays(user) {
+            const userRef = doc(db_fs, "users", user.uid);
+            const today = new Date().toDateString();
+            const userSnap = await getDoc(userRef);
+            if (userSnap.exists()) {
+                const data = userSnap.data();
+                if (data.lastLoginDate !== today) {
+                    await updateDoc(userRef, { loginDays: increment(1), lastLoginDate: today });
+                }
+                // Display Day Streak (ensure you have an element with this ID in your sidebar)
+                const display = document.getElementById('login-days-display');
+                if (display) display.innerText = `📅 Day ${userSnap.data().loginDays || 1} streak!`;
+            } else {
+                await setDoc(userRef, { email: user.email, studentName: user.displayName || "Student", loginDays: 1, lastLoginDate: today });
+            }
+        }
+
+        window.handleLogout = () => signOut(auth).then(() => location.reload());
+
+        // Auto-check login status
+        onAuthStateChanged(auth, (user) => {
+            const overlay = document.getElementById('auth-overlay');
+            if (user) { overlay.style.display = 'none'; trackLoginDays(user); }
+            else { overlay.style.display = 'flex'; }
+        });
+    </script>
 
 </body>
 
