@@ -1397,163 +1397,67 @@
                 </div>
             </main>
         </div>
-    </div>
-
-    <script>
-        document.addEventListener('DOMContentLoaded', () => {
-            const navButtons = {
-                heat: document.getElementById('btn-heat'),
-                light: document.getElementById('btn-light'),
-                materials: document.getElementById('btn-materials')
-            };
-            const topics = {
-                heat: document.getElementById('topic-heat'),
-                light: document.getElementById('topic-light'),
-                materials: document.getElementById('topic-materials')
-            };
-
-            function switchTopic(topic) {
-                Object.values(navButtons).forEach(btn => btn.classList.remove('active'));
-                Object.values(topics).forEach(t => t.classList.add('hidden'));
-                navButtons[topic].classList.add('active');
-                topics[topic].classList.remove('hidden');
+        <style>
+            /* Admin Edit Buttons */
+            .admin-controls {
+                position: absolute;
+                top: 0.5rem;
+                right: 0.5rem;
+                display: flex;
+                gap: 0.5rem;
+                z-index: 50;
             }
 
-            window.printQuestion = function (btn) {
-                const container = btn.closest('.question-container');
-                container.classList.add('printing');
-                document.body.classList.add('print-single');
-                window.print();
-                document.body.classList.remove('print-single');
-                container.classList.remove('printing');
-            };
-
-            window.printAll = function () {
-                document.body.classList.add('print-all');
-                window.print();
-                document.body.classList.remove('print-all');
-            };
-
-            Object.keys(navButtons).forEach(topic => {
-                navButtons[topic].addEventListener('click', () => switchTopic(topic));
-            });
-
-            window.setupQuestionFormGlobal = function setupQuestionForm(formId) {
-                const form = document.getElementById(formId);
-                const questionContainer = form.closest('.question-container');
-                if (!questionContainer) return; // Fix: avoid crash if container missing
-                const submitBtn = questionContainer.querySelector('.submit-btn');
-                const nextBtn = questionContainer.querySelector('.next-btn');
-                const segments = form.querySelectorAll('.cer-segment');
-
-                submitBtn.addEventListener('click', () => {
-                    segments.forEach(segment => {
-                        const inputs = segment.querySelectorAll('.answer-input');
-                        const icon = segment.querySelector('.feedback-icon');
-                        let isGroupCorrect = true;
-                        inputs.forEach(input => {
-                            const userAnswer = input.value.trim().toLowerCase();
-                            const answerString = input.dataset.answer.toLowerCase();
-                            // Support multiple valid answers separated by |
-                            const validAnswers = answerString.split('|').map(a => a.trim());
-
-                            if (validAnswers.includes(userAnswer)) {
-                                input.style.borderBottomColor = 'var(--correct-color)';
-                            } else {
-                                input.style.borderBottomColor = 'var(--incorrect-color)';
-                                // Show the first/canonical answer
-                                input.value = validAnswers[0];
-                                isGroupCorrect = false;
-                            }
-                        });
-                        icon.textContent = isGroupCorrect ? '✔' : '✖';
-                        icon.classList.add(isGroupCorrect ? 'correct' : 'incorrect', 'visible');
-                    });
-
-                    form.querySelectorAll('.answer-input').forEach(input => input.disabled = true);
-                    submitBtn.disabled = true;
-                    if (nextBtn) {
-                        nextBtn.classList.remove('hidden');
-                    }
-                });
+            .admin-edit-btn,
+            .admin-duplicate-btn {
+                background: white;
+                border: 1px solid #ddd;
+                padding: 4px 8px;
+                border-radius: 6px;
+                font-size: 0.75rem;
+                cursor: pointer;
+                display: flex;
+                align-items: center;
+                gap: 4px;
+                box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+                transition: all 0.2s;
+                font-family: 'Poppins', sans-serif;
+                font-weight: 500;
             }
 
-            document.querySelectorAll('.next-btn').forEach(button => {
-                button.addEventListener('click', () => {
-                    const currentQuestion = button.closest('.question-container');
-                    const nextQuestion = currentQuestion.nextElementSibling;
-                    if (nextQuestion && nextQuestion.classList.contains('question-container')) {
-                        nextQuestion.classList.remove('hidden');
-                        nextQuestion.scrollIntoView({ behavior: 'smooth', block: 'start' });
-                    }
-                });
-            });
+            .admin-edit-btn:hover {
+                background: #e7f5ff;
+                border-color: #007bff;
+                color: #007bff;
+            }
 
-            document.querySelectorAll('.answer-template').forEach(form => {
-                setupQuestionForm(form.id);
-            });
+            .admin-duplicate-btn:hover {
+                background: #fdfdfd;
+                border-color: #555;
+            }
 
-            // Top-Level Tab Switching
-            const tabButtons = document.querySelectorAll('header .tab-btn');
-            const viewContainers = document.querySelectorAll('.app-body');
+            .question-container {
+                position: relative !important;
+            }
 
-            // Colors map for JS to update border
-            const typeColors = {
-                'cer': '#AEC6CF',
-                'single-relationship': '#FFB7B2',
-                'double-relationship': '#FFDAC1',
-                'fairness': '#E2F0CB',
-                'reliability': '#C7CEEA',
-                'accuracy': '#FDFD96',
-                'constant-variable': '#B5EAD7',
-                'explanation': '#FF9AA2',
-                'control-setup': '#E0BBE4',
-                'admin': '#ffd1dc'
-            };
+            /* Ensure controls can be absolute positioned */
+        </style>
+        <script>
+            // --- GLOBAL UTILITIES & ADMIN STATE ---
+            window.adminBlocks = [];
+            window.isAdminUser = false;
 
-            tabButtons.forEach(btn => {
-                btn.addEventListener('click', () => {
-                    // Remove active from all tabs
-                    tabButtons.forEach(b => b.classList.remove('active'));
-                    // Add active to clicked tab
-                    btn.classList.add('active');
-
-                    // Hide all views
-                    viewContainers.forEach(view => {
-                        view.classList.remove('active');
-                        view.classList.add('hidden');
-                        view.style.display = 'none'; // Force hide
-                    });
-
-                    // Show target view & Update color
-                    const targetType = btn.dataset.type;
-                    const targetView = document.getElementById(`view-${targetType}`);
-                    if (targetView) {
-                        targetView.classList.remove('hidden');
-                        targetView.classList.add('active');
-                        targetView.style.display = 'flex'; // Ensure it shows as flex
-                        // Update border color to match the tab
-                        targetView.style.borderTopColor = typeColors[targetType] || '#AEC6CF';
-                    }
-                });
-            });
-
-            switchTopic('heat');
-
-            // --- ADMIN LOGIC ---
-            window.adminBlocks = []; // Move to global for robustness
-
-            window.addAdminBlock = function (type) {
+            function addAdminBlock(type) {
                 const id = Date.now();
                 const block = { id, type, value: '' };
                 window.adminBlocks.push(block);
-                window.renderAdminBlocks();
-            };
+                renderAdminBlocks();
+            }
 
-            window.renderAdminBlocks = function () {
+            function renderAdminBlocks() {
                 const container = document.getElementById('admin-blocks');
                 if (!container) return;
-                container.innerHTML = window.adminBlocks.map((block, index) => {
+                container.innerHTML = window.adminBlocks.map((block) => {
                     let inputHtml = '';
                     if (block.type === 'text' || block.type === 'answer') {
                         const placeholder = block.type === 'answer' ? 'Enter text to be blanked...' : 'Enter question text...';
@@ -1563,50 +1467,26 @@
                     }
 
                     return `
-                        <div class="admin-block" style="margin-bottom: 1rem; position: relative; padding: 1rem; border: 1px solid #eee; border-radius: 8px; ${block.type === 'answer' ? 'background: #fffdf0; border-color: #fbc02d;' : ''}">
-                            <span style="font-size: 0.8rem; color: #999; text-transform: uppercase;">${block.type} Block</span>
-                            <button onclick="removeAdminBlock(${block.id})" style="position: absolute; right: 10px; top: 10px; border: none; background: none; cursor: pointer; color: #dc3545;">✕</button>
-                            ${inputHtml}
-                        </div>
-                    `;
+                    <div class="admin-block" style="margin-bottom: 1rem; position: relative; padding: 1rem; border: 1px solid #eee; border-radius: 8px; ${block.type === 'answer' ? 'background: #fffdf0; border-color: #fbc02d;' : ''}">
+                        <span style="font-size: 0.8rem; color: #999; text-transform: uppercase;">${block.type} Block</span>
+                        <button onclick="removeAdminBlock(${block.id})" style="position: absolute; right: 10px; top: 10px; border: none; background: none; cursor: pointer; color: #dc3545;">✕</button>
+                        ${inputHtml}
+                    </div>
+                `;
                 }).join('');
-            };
+            }
 
-            window.removeAdminBlock = function (id) {
+            function removeAdminBlock(id) {
                 window.adminBlocks = window.adminBlocks.filter(b => b.id !== id);
-                window.renderAdminBlocks();
-            };
+                renderAdminBlocks();
+            }
 
-            window.updateBlockValue = function (id, value) {
+            function updateBlockValue(id, value) {
                 const block = window.adminBlocks.find(b => b.id === id);
                 if (block) block.value = value;
-            };
+            }
 
-            window.processAdminQuestion = function () {
-                const previewSection = document.getElementById('admin-preview-section');
-                const previewContent = document.getElementById('admin-preview-content');
-                previewSection.classList.remove('hidden');
-
-                let html = '';
-                window.adminBlocks.forEach(block => {
-                    if (block.type === 'text' && block.value) {
-                        html += `<div style="margin-bottom: 1.5rem; color: var(--main-text); font-size: 1.1rem;">${block.value.replace(/\n/g, '<br>')}</div>`;
-                    } else if (block.type === 'answer' && block.value) {
-                        // Split answer text into words, wrap each in a clickable span
-                        const words = block.value.split(/\s+/);
-                        const wrappedWords = words.map(word => `<span class="admin-word" onclick="toggleBlank(this)" style="cursor: pointer; padding: 2px 4px; border-radius: 4px; transition: all 0.2s;">${word}</span>`).join(' ');
-                        html += `<div class="cer-segment" style="margin-bottom: 1.5rem; line-height: 2;">${wrappedWords}</div>`;
-                    } else if (block.type === 'image' && block.value) {
-                        html += `<img src="${block.value}" style="max-width: 100%; border-radius: 8px; margin-bottom: 1.5rem; display: block;">`;
-                    }
-                });
-
-                previewContent.innerHTML = html;
-                document.getElementById('save-question-btn').classList.remove('hidden');
-                previewSection.scrollIntoView({ behavior: 'smooth' });
-            };
-
-            window.toggleBlank = function (el) {
+            function toggleBlank(el) {
                 if (el.classList.contains('is-blank')) {
                     el.classList.remove('is-blank');
                     el.style.backgroundColor = 'transparent';
@@ -1616,198 +1496,407 @@
                     el.style.backgroundColor = '#fff9c4';
                     el.style.borderBottom = '2px solid #fbc02d';
                 }
-            };
+            }
 
-            window.saveAdminQuestion = async function () {
-                const previewContent = document.getElementById('admin-preview-content');
-                // The actual Firebase objects (auth, db_fs) are in the module scope below.
-                // We'll expose them to window in the module script.
-                if (!window.auth || !window.auth.currentUser) return alert("You must be logged in to save.");
+            function setupQuestionForm(formId) {
+                const form = document.getElementById(formId);
+                if (!form) return;
+                const questionContainer = form.closest('.question-container');
+                if (!questionContainer) return;
+                const submitBtn = questionContainer.querySelector('.submit-btn');
+                const nextBtn = questionContainer.querySelector('.next-btn');
+                const segments = form.querySelectorAll('.cer-segment');
 
-                try {
-                    const category = document.getElementById('admin-category').value;
-                    const title = document.getElementById('admin-title').value || "Untitled Question";
+                if (!submitBtn) return;
 
-                    // Create a clone to manipulate without affecting preview
-                    const clone = previewContent.cloneNode(true);
+                submitBtn.addEventListener('click', () => {
+                    segments.forEach(segment => {
+                        const inputs = segment.querySelectorAll('.answer-input');
+                        const icon = segment.querySelector('.feedback-icon');
+                        let isGroupCorrect = true;
+                        inputs.forEach(input => {
+                            const userAnswer = input.value.trim().toLowerCase();
+                            const answerString = input.dataset.answer.toLowerCase();
+                            const validAnswers = answerString.split('|').map(a => a.trim());
 
-                    // Convert selected spans to inputs
-                    const selectedWords = clone.querySelectorAll('.admin-word.is-blank');
-                    selectedWords.forEach(word => {
-                        const answer = word.textContent.trim().replace(/[.,!?;:]/g, '');
-                        word.outerHTML = `<input type="text" class="answer-input" data-answer="${answer}" placeholder="..." style="width: auto; min-width: 80px;">`;
-                    });
-
-                    // Add feedback icons to each segment
-                    clone.querySelectorAll('.cer-segment').forEach(seg => {
-                        if (!seg.querySelector('.feedback-icon')) {
-                            const icon = document.createElement('span');
-                            icon.className = 'feedback-icon';
-                            seg.appendChild(icon);
+                            if (validAnswers.includes(userAnswer)) {
+                                input.style.borderBottomColor = 'var(--correct-color)';
+                            } else {
+                                input.style.borderBottomColor = 'var(--incorrect-color)';
+                                input.value = validAnswers[0];
+                                isGroupCorrect = false;
+                            }
+                        });
+                        if (icon) {
+                            icon.textContent = isGroupCorrect ? '✔' : '✖';
+                            icon.classList.add(isGroupCorrect ? 'correct' : 'incorrect', 'visible');
                         }
                     });
 
-                    const questionId = "custom-" + Date.now();
-                    const questionData = {
-                        title: title,
-                        html: clone.innerHTML,
-                        createdBy: window.auth.currentUser.email,
-                        createdAt: new Date().toISOString(),
-                        category: category,
-                        type: 'custom'
-                    };
-                    // Use window.db_fs which we will expose below
-                    const { doc, setDoc } = await import("https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js");
-                    await setDoc(doc(window.db_fs, "custom_questions", questionId), questionData);
-                    alert("Question successfully added to custom_questions database!");
+                    form.querySelectorAll('.answer-input').forEach(input => input.disabled = true);
+                    submitBtn.disabled = true;
+                    if (nextBtn) nextBtn.classList.remove('hidden');
+                });
+            }
+            window.setupQuestionFormGlobal = setupQuestionForm;
+
+            function editQuestion(btn, isDuplicate = false) {
+                const container = btn.closest('.question-container');
+                const title = container.querySelector('h3')?.innerText || "";
+                const category = container.closest('.app-body').id.replace('view-', '');
+
+                // Switch to Admin Tab
+                const adminTab = document.getElementById('tab-admin');
+                adminTab.click();
+
+                // Populate Creator
+                document.getElementById('admin-category').value = category;
+                document.getElementById('admin-title').value = isDuplicate ? title + " (Copy)" : title;
+
+                // Clear current blocks
+                window.adminBlocks = [];
+
+                // Try to parse existing content back into blocks
+                // This is complex for hardcoded vs custom, but for custom questions we can try to recover HTML
+                // For now, let's just add a text block with a hint or the raw HTML if it's too complex
+                const customContent = container.querySelector('.answer-template');
+                if (customContent) {
+                    window.adminBlocks.push({ id: Date.now(), type: 'text', value: "Editing existing questions is best done by re-creating or copying. Below is the current HTML structure for reference:" });
+                    window.adminBlocks.push({ id: Date.now() + 1, type: 'text', value: customContent.innerHTML.trim() });
+                }
+
+                renderAdminBlocks();
+                window.scrollTo({ top: 0, behavior: 'smooth' });
+            }
+
+            function addAdminControls(container) {
+                if (!window.isAdminUser) return;
+                if (container.querySelector('.admin-controls')) return;
+
+                const controls = document.createElement('div');
+                controls.className = 'admin-controls';
+                controls.innerHTML = `
+                <button class="admin-edit-btn" onclick="editQuestion(this)">✏️ Edit</button>
+                <button class="admin-duplicate-btn" onclick="editQuestion(this, true)">📋 Duplicate</button>
+            `;
+                container.appendChild(controls);
+            }
+
+            window.updateAllAdminControls = function () {
+                document.querySelectorAll('.question-container').forEach(addAdminControls);
+            };
+
+            document.addEventListener('DOMContentLoaded', () => {
+                const navButtons = {
+                    heat: document.getElementById('btn-heat'),
+                    light: document.getElementById('btn-light'),
+                    materials: document.getElementById('btn-materials')
+                };
+                const topics = {
+                    heat: document.getElementById('topic-heat'),
+                    light: document.getElementById('topic-light'),
+                    materials: document.getElementById('topic-materials')
+                };
+
+                function switchTopic(topic) {
+                    Object.values(navButtons).forEach(btn => btn.classList.remove('active'));
+                    Object.values(topics).forEach(t => t.classList.add('hidden'));
+                    navButtons[topic].classList.add('active');
+                    topics[topic].classList.remove('hidden');
+                }
+
+                document.querySelectorAll('.next-btn').forEach(button => {
+                    button.addEventListener('click', () => {
+                        const currentQuestion = button.closest('.question-container');
+                        const nextQuestion = currentQuestion ? currentQuestion.nextElementSibling : null;
+                        if (nextQuestion && nextQuestion.classList.contains('question-container')) {
+                            nextQuestion.classList.remove('hidden');
+                            nextQuestion.scrollIntoView({ behavior: 'smooth', block: 'start' });
+                        }
+                    });
+                });
+
+                document.querySelectorAll('.answer-template').forEach(form => {
+                    setupQuestionForm(form.id);
+                });
+
+                window.printQuestion = function (btn) {
+                    const container = btn.closest('.question-container');
+                    container.classList.add('printing');
+                    document.body.classList.add('print-single');
+                    window.print();
+                    document.body.classList.remove('print-single');
+                    container.classList.remove('printing');
+                };
+
+                window.printAll = function () {
+                    document.body.classList.add('print-all');
+                    window.print();
+                    document.body.classList.remove('print-all');
+                };
+
+                Object.keys(navButtons).forEach(topic => {
+                    navButtons[topic].addEventListener('click', () => switchTopic(topic));
+                });
+
+                document.querySelectorAll('.answer-template').forEach(form => {
+                    setupQuestionForm(form.id);
+                });
+
+                // Top-Level Tab Switching
+                const tabButtons = document.querySelectorAll('header .tab-btn');
+                const viewContainers = document.querySelectorAll('.app-body');
+
+                // Colors map for JS to update border
+                const typeColors = {
+                    'cer': '#AEC6CF',
+                    'single-relationship': '#FFB7B2',
+                    'double-relationship': '#FFDAC1',
+                    'fairness': '#E2F0CB',
+                    'reliability': '#C7CEEA',
+                    'accuracy': '#FDFD96',
+                    'constant-variable': '#B5EAD7',
+                    'explanation': '#FF9AA2',
+                    'control-setup': '#E0BBE4',
+                    'admin': '#ffd1dc'
+                };
+
+                tabButtons.forEach(btn => {
+                    btn.addEventListener('click', () => {
+                        // Remove active from all tabs
+                        tabButtons.forEach(b => b.classList.remove('active'));
+                        // Add active to clicked tab
+                        btn.classList.add('active');
+
+                        // Hide all views
+                        viewContainers.forEach(view => {
+                            view.classList.remove('active');
+                            view.classList.add('hidden');
+                            view.style.display = 'none'; // Force hide
+                        });
+
+                        // Show target view & Update color
+                        const targetType = btn.dataset.type;
+                        console.log("Switching to tab:", targetType);
+                        const targetView = document.getElementById(`view-${targetType}`);
+                        if (targetView) {
+                            targetView.classList.remove('hidden');
+                            targetView.classList.add('active');
+                            targetView.style.display = 'flex'; // Ensure it shows as flex
+                            // Update border color to match the tab
+                            targetView.style.borderTopColor = typeColors[targetType] || '#AEC6CF';
+                        }
+                    });
+                });
+
+                switchTopic('heat');
+
+                window.processAdminQuestion = function () {
+                    const previewSection = document.getElementById('admin-preview-section');
+                    const previewContent = document.getElementById('admin-preview-content');
+                    previewSection.classList.remove('hidden');
+
+                    let html = '';
+                    window.adminBlocks.forEach(block => {
+                        if (block.type === 'text' && block.value) {
+                            html += `<div style="margin-bottom: 1.5rem; color: var(--main-text); font-size: 1.1rem;">${block.value.replace(/\n/g, '<br>')}</div>`;
+                        } else if (block.type === 'answer' && block.value) {
+                            const words = block.value.split(/\s+/);
+                            const wrappedWords = words.map(word => `<span class="admin-word" onclick="toggleBlank(this)" style="cursor: pointer; padding: 2px 4px; border-radius: 4px; transition: all 0.2s;">${word}</span>`).join(' ');
+                            html += `<div class="cer-segment" style="margin-bottom: 1.5rem; line-height: 2;">${wrappedWords}</div>`;
+                        } else if (block.type === 'image' && block.value) {
+                            html += `<img src="${block.value}" style="max-width: 100%; border-radius: 8px; margin-bottom: 1.5rem; display: block;">`;
+                        }
+                    });
+
+                    previewContent.innerHTML = html;
+                    document.getElementById('save-question-btn').classList.remove('hidden');
+                    previewSection.scrollIntoView({ behavior: 'smooth' });
+                };
+
+                window.saveAdminQuestion = async function () {
+                    const previewContent = document.getElementById('admin-preview-content');
+                    if (!window.auth || !window.auth.currentUser) return alert("You must be logged in to save.");
+
+                    try {
+                        const category = document.getElementById('admin-category').value;
+                        const title = document.getElementById('admin-title').value || "Untitled Question";
+                        const clone = previewContent.cloneNode(true);
+                        const selectedWords = clone.querySelectorAll('.admin-word.is-blank');
+                        selectedWords.forEach(word => {
+                            const answer = word.textContent.trim().replace(/[.,!?;:]/g, '');
+                            word.outerHTML = `<input type="text" class="answer-input" data-answer="${answer}" placeholder="..." style="width: auto; min-width: 80px;">`;
+                        });
+
+                        clone.querySelectorAll('.cer-segment').forEach(seg => {
+                            if (!seg.querySelector('.feedback-icon')) {
+                                const icon = document.createElement('span');
+                                icon.className = 'feedback-icon';
+                                seg.appendChild(icon);
+                            }
+                        });
+
+                        const questionId = "custom-" + Date.now();
+                        const questionData = {
+                            title: title,
+                            html: clone.innerHTML,
+                            createdBy: window.auth.currentUser.email,
+                            createdAt: new Date().toISOString(),
+                            category: category,
+                            type: 'custom'
+                        };
+                        const { doc, setDoc } = await import("https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js");
+                        await setDoc(doc(window.db_fs, "custom_questions", questionId), questionData);
+                        alert("Question successfully added to custom_questions database!");
+                        location.reload(); // Reload to see new question and controls
+                    } catch (e) {
+                        console.error("Save Error:", e);
+                        alert("Error saving: " + e.message);
+                    }
+                };
+            });
+        </script>
+        <script type="module">
+            import { initializeApp } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js";
+            import { getAuth, createUserWithEmailAndPassword, signInWithEmailAndPassword, onAuthStateChanged, signOut, sendPasswordResetEmail, GoogleAuthProvider, signInWithPopup } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-auth.js";
+            import { getFirestore, doc, getDoc, setDoc, updateDoc, increment } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js";
+
+            // REPLACE WITH YOUR FIREBASE CONFIG
+            const firebaseConfig = {
+                apiKey: "AIzaSyAUSI3Uh28IeqASEp0JhH4QPaVt-O3meBo",
+                authDomain: "mathgen--app.firebaseapp.com",
+                projectId: "mathgen--app",
+                storageBucket: "mathgen--app.firebasestorage.app",
+                messagingSenderId: "165654161198",
+                appId: "1:165654161198:web:16c8bd60eb3a2aa7edbcbf",
+                measurementId: "G-0MWZFG211D"
+            };
+
+            const app = initializeApp(firebaseConfig);
+            const auth = getAuth(app);
+            window.auth = auth;
+            const db_fs = getFirestore(app);
+            window.db_fs = db_fs;
+            const googleProvider = new GoogleAuthProvider();
+
+            let isSignUpMode = false;
+
+            // Switch between Login UI and Registration UI
+            window.toggleAuthMode = () => {
+                isSignUpMode = !isSignUpMode;
+                document.getElementById('reg-fields').style.display = isSignUpMode ? "block" : "none";
+                document.getElementById('legal-box').style.display = isSignUpMode ? "block" : "none";
+                document.getElementById('btn-google').style.display = isSignUpMode ? "none" : "flex";
+                document.getElementById('auth-title').innerText = isSignUpMode ? "Register Student Account" : "Welcome Back!";
+                document.getElementById('btn-login').innerText = isSignUpMode ? "Confirm Registration" : "Login";
+            };
+
+            // Main Login/SignUp Function
+            window.handleLogin = async () => {
+                const email = document.getElementById('auth-email').value;
+                const pass = document.getElementById('auth-pass').value;
+                const errorMsg = document.getElementById('auth-error');
+                if (!email || !pass) { errorMsg.innerText = "Fields cannot be empty."; return; }
+
+                try {
+                    if (isSignUpMode) {
+                        const pName = document.getElementById('parent-name').value;
+                        const sName = document.getElementById('student-name').value;
+                        if (!pName || !sName || !document.getElementById('legal-agree').checked) {
+                            errorMsg.innerText = "Fill all fields and agree to terms."; return;
+                        }
+                        const cred = await createUserWithEmailAndPassword(auth, email, pass);
+                        await setDoc(doc(db_fs, "users", cred.user.uid), {
+                            email, parentName: pName, studentName: sName, loginDays: 1, lastLoginDate: new Date().toDateString(), agreedToTerms: true
+                        });
+                    } else {
+                        await signInWithEmailAndPassword(auth, email, pass);
+                    }
                 } catch (e) {
-                    console.error("Save Error:", e);
-                    alert("Error saving: " + e.message);
+                    console.error("Auth Error:", e);
+                    if (e.code === 'auth/invalid-credential' || e.code === 'auth/user-not-found' || e.code === 'auth/wrong-password' || e.code === 'auth/invalid-email') {
+                        errorMsg.innerText = "Invalid email or password";
+                    } else {
+                        errorMsg.innerText = "Invalid email or password"; // Default as requested
+                    }
                 }
             };
-        });
-    </script>
-    <script type="module">
-        import { initializeApp } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js";
-        import { getAuth, createUserWithEmailAndPassword, signInWithEmailAndPassword, onAuthStateChanged, signOut, sendPasswordResetEmail, GoogleAuthProvider, signInWithPopup } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-auth.js";
-        import { getFirestore, doc, getDoc, setDoc, updateDoc, increment } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js";
 
-        // REPLACE WITH YOUR FIREBASE CONFIG
-        const firebaseConfig = {
-            apiKey: "AIzaSyAUSI3Uh28IeqASEp0JhH4QPaVt-O3meBo",
-            authDomain: "mathgen--app.firebaseapp.com",
-            projectId: "mathgen--app",
-            storageBucket: "mathgen--app.firebasestorage.app",
-            messagingSenderId: "165654161198",
-            appId: "1:165654161198:web:16c8bd60eb3a2aa7edbcbf",
-            measurementId: "G-0MWZFG211D"
-        };
+            // Forgot Password Function
+            window.handleForgotPassword = async () => {
+                const email = document.getElementById('auth-email').value;
+                const errorMsg = document.getElementById('auth-error');
+                if (!email) {
+                    errorMsg.innerText = "Please enter your email address first.";
+                    errorMsg.style.color = "#dc3545";
+                    return;
+                }
 
-        const app = initializeApp(firebaseConfig);
-        const auth = getAuth(app);
-        window.auth = auth;
-        const db_fs = getFirestore(app);
-        window.db_fs = db_fs;
-        const googleProvider = new GoogleAuthProvider();
+                try {
+                    await sendPasswordResetEmail(auth, email);
+                    errorMsg.innerText = "Password reset email sent! Check your inbox.";
+                    errorMsg.style.color = "#28a745";
+                } catch (e) {
+                    console.error("Reset Error:", e);
+                    errorMsg.innerText = "Error sending reset email: " + e.message;
+                    errorMsg.style.color = "#dc3545";
+                }
+            };
 
-        let isSignUpMode = false;
+            // Google Sign In Popup
+            window.handleGoogleLogin = async () => {
+                try {
+                    const result = await signInWithPopup(auth, googleProvider);
+                    await trackLoginDays(result.user);
+                } catch (e) { document.getElementById('auth-error').innerText = "Google Error: " + e.message; }
+            };
 
-        // Switch between Login UI and Registration UI
-        window.toggleAuthMode = () => {
-            isSignUpMode = !isSignUpMode;
-            document.getElementById('reg-fields').style.display = isSignUpMode ? "block" : "none";
-            document.getElementById('legal-box').style.display = isSignUpMode ? "block" : "none";
-            document.getElementById('btn-google').style.display = isSignUpMode ? "none" : "flex";
-            document.getElementById('auth-title').innerText = isSignUpMode ? "Register Student Account" : "Welcome Back!";
-            document.getElementById('btn-login').innerText = isSignUpMode ? "Confirm Registration" : "Login";
-        };
-
-        // Main Login/SignUp Function
-        window.handleLogin = async () => {
-            const email = document.getElementById('auth-email').value;
-            const pass = document.getElementById('auth-pass').value;
-            const errorMsg = document.getElementById('auth-error');
-            if (!email || !pass) { errorMsg.innerText = "Fields cannot be empty."; return; }
-
-            try {
-                if (isSignUpMode) {
-                    const pName = document.getElementById('parent-name').value;
-                    const sName = document.getElementById('student-name').value;
-                    if (!pName || !sName || !document.getElementById('legal-agree').checked) {
-                        errorMsg.innerText = "Fill all fields and agree to terms."; return;
+            // Day Streak Tracking
+            async function trackLoginDays(user) {
+                const userRef = doc(db_fs, "users", user.uid);
+                const today = new Date().toDateString();
+                const userSnap = await getDoc(userRef);
+                if (userSnap.exists()) {
+                    const data = userSnap.data();
+                    if (data.lastLoginDate !== today) {
+                        await updateDoc(userRef, { loginDays: increment(1), lastLoginDate: today });
                     }
-                    const cred = await createUserWithEmailAndPassword(auth, email, pass);
-                    await setDoc(doc(db_fs, "users", cred.user.uid), {
-                        email, parentName: pName, studentName: sName, loginDays: 1, lastLoginDate: new Date().toDateString(), agreedToTerms: true
-                    });
+                    // Display Day Streak (ensure you have an element with this ID in your sidebar)
+                    const display = document.getElementById('login-days-display');
+                    if (display) display.innerText = `📅 Day ${userSnap.data().loginDays || 1} streak!`;
                 } else {
-                    await signInWithEmailAndPassword(auth, email, pass);
-                }
-            } catch (e) {
-                console.error("Auth Error:", e);
-                if (e.code === 'auth/invalid-credential' || e.code === 'auth/user-not-found' || e.code === 'auth/wrong-password' || e.code === 'auth/invalid-email') {
-                    errorMsg.innerText = "Invalid email or password";
-                } else {
-                    errorMsg.innerText = "Invalid email or password"; // Default as requested
+                    await setDoc(userRef, { email: user.email, studentName: user.displayName || "Student", loginDays: 1, lastLoginDate: today });
                 }
             }
-        };
 
-        // Forgot Password Function
-        window.handleForgotPassword = async () => {
-            const email = document.getElementById('auth-email').value;
-            const errorMsg = document.getElementById('auth-error');
-            if (!email) {
-                errorMsg.innerText = "Please enter your email address first.";
-                errorMsg.style.color = "#dc3545";
-                return;
-            }
+            window.handleLogout = () => signOut(auth).then(() => location.reload());
 
-            try {
-                await sendPasswordResetEmail(auth, email);
-                errorMsg.innerText = "Password reset email sent! Check your inbox.";
-                errorMsg.style.color = "#28a745";
-            } catch (e) {
-                console.error("Reset Error:", e);
-                errorMsg.innerText = "Error sending reset email: " + e.message;
-                errorMsg.style.color = "#dc3545";
-            }
-        };
+            // Auto-check login status
+            onAuthStateChanged(auth, (user) => {
+                const overlay = document.getElementById('auth-overlay');
+                const adminTab = document.getElementById('tab-admin');
+                if (user) {
+                    overlay.style.display = 'none';
+                    trackLoginDays(user);
 
-        // Google Sign In Popup
-        window.handleGoogleLogin = async () => {
-            try {
-                const result = await signInWithPopup(auth, googleProvider);
-                await trackLoginDays(result.user);
-            } catch (e) { document.getElementById('auth-error').innerText = "Google Error: " + e.message; }
-        };
+                    async function loadCustomQuestions() {
+                        if (window.customQuestionsLoaded) return;
+                        window.customQuestionsLoaded = true;
+                        const { collection, getDocs, query } = await import("https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js");
+                        try {
+                            const qSnapshot = await getDocs(query(collection(db_fs, "custom_questions")));
+                            qSnapshot.forEach((docSnap) => {
+                                const data = docSnap.data();
+                                const targetView = document.getElementById(`view-${data.category}`);
+                                if (targetView) {
+                                    let targetContent = targetView.querySelector('.main-content') || targetView;
+                                    if (data.category === 'cer') targetContent = document.getElementById('topic-heat');
 
-        // Day Streak Tracking
-        async function trackLoginDays(user) {
-            const userRef = doc(db_fs, "users", user.uid);
-            const today = new Date().toDateString();
-            const userSnap = await getDoc(userRef);
-            if (userSnap.exists()) {
-                const data = userSnap.data();
-                if (data.lastLoginDate !== today) {
-                    await updateDoc(userRef, { loginDays: increment(1), lastLoginDate: today });
-                }
-                // Display Day Streak (ensure you have an element with this ID in your sidebar)
-                const display = document.getElementById('login-days-display');
-                if (display) display.innerText = `📅 Day ${userSnap.data().loginDays || 1} streak!`;
-            } else {
-                await setDoc(userRef, { email: user.email, studentName: user.displayName || "Student", loginDays: 1, lastLoginDate: today });
-            }
-        }
-
-        window.handleLogout = () => signOut(auth).then(() => location.reload());
-
-        // Auto-check login status
-        onAuthStateChanged(auth, (user) => {
-            const overlay = document.getElementById('auth-overlay');
-            const adminTab = document.getElementById('tab-admin');
-            if (user) {
-                overlay.style.display = 'none';
-                trackLoginDays(user);
-
-                async function loadCustomQuestions() {
-                    if (window.customQuestionsLoaded) return;
-                    window.customQuestionsLoaded = true;
-                    const { collection, getDocs, query } = await import("https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js");
-                    try {
-                        const qSnapshot = await getDocs(query(collection(db_fs, "custom_questions")));
-                        qSnapshot.forEach((docSnap) => {
-                            const data = docSnap.data();
-                            const targetView = document.getElementById(`view-${data.category}`);
-                            if (targetView) {
-                                let targetContent = targetView.querySelector('.main-content') || targetView;
-                                if (data.category === 'cer') targetContent = document.getElementById('topic-heat');
-
-                                const qId = "q-" + docSnap.id;
-                                const div = document.createElement('div');
-                                div.className = 'question-container custom-question';
-                                div.style.borderLeft = '4px solid #fbc02d';
-                                div.innerHTML = `
+                                    const qId = "q-" + docSnap.id;
+                                    const div = document.createElement('div');
+                                    div.className = 'question-container custom-question';
+                                    div.style.borderLeft = '4px solid #fbc02d';
+                                    div.innerHTML = `
                                     <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 1rem;">
                                         <h3 style="margin: 0; color: var(--primary-blue);">${data.title || 'Custom Question'}</h3>
                                         <span style="font-size: 0.7rem; background: #fff9c4; padding: 2px 8px; border-radius: 4px; color: #fbc02d; font-weight: bold;">USER CONTRIBUTED</span>
@@ -1819,33 +1908,37 @@
                                         </div>
                                     </div>
                                 `;
-                                targetContent.appendChild(div);
-                                if (window.setupQuestionFormGlobal) window.setupQuestionFormGlobal(qId);
-                            }
-                        });
-                    } catch (e) { console.error(e); }
+                                    targetContent.appendChild(div);
+                                    if (window.setupQuestionFormGlobal) window.setupQuestionFormGlobal(qId);
+                                    if (window.isAdminUser && window.addAdminControls) addAdminControls(div);
+                                }
+                            });
+                        } catch (e) { console.error(e); }
+                    }
+                    loadCustomQuestions();
+
+                    // NORMALIZE EMAIL: Remove dots for Gmail and check case-insensitive handles
+                    const emailParts = user.email.toLowerCase().split('@');
+                    const handle = emailParts[1] === 'gmail.com' ? emailParts[0].replace(/\./g, '') : emailParts[0];
+                    const adminHandles = ['zhikaichung', 'chungzhikai'];
+                    const isAdmin = adminHandles.includes(handle) || user.email.toLowerCase().includes('admin');
+
+                    if (isAdmin) {
+                        console.log("Admin identified:", user.email);
+                        window.isAdminUser = true;
+                        adminTab.classList.remove('hidden');
+                        if (window.updateAllAdminControls) window.updateAllAdminControls();
+                    } else {
+                        window.isAdminUser = false;
+                        adminTab.classList.add('hidden');
+                    }
                 }
-                loadCustomQuestions();
-
-                // NORMALIZE EMAIL: Remove dots for Gmail and check case-insensitive handles
-                const emailParts = user.email.toLowerCase().split('@');
-                const handle = emailParts[1] === 'gmail.com' ? emailParts[0].replace(/\./g, '') : emailParts[0];
-                const adminHandles = ['zhikaichung', 'chungzhikai'];
-                const isAdmin = adminHandles.includes(handle) || user.email.toLowerCase().includes('admin');
-
-                if (isAdmin) {
-                    console.log("Admin identified:", user.email);
-                    adminTab.classList.remove('hidden');
-                } else {
+                else {
+                    overlay.style.display = 'flex';
                     adminTab.classList.add('hidden');
                 }
-            }
-            else {
-                overlay.style.display = 'flex';
-                adminTab.classList.add('hidden');
-            }
-        });
-    </script>
+            });
+        </script>
 
 </body>
 
