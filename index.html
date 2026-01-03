@@ -919,18 +919,18 @@
 
         /* Table Grid Selector (PowerPoint-style) */
         .table-grid-selector {
-            position: absolute;
+            position: fixed;
             background: white;
             border: 1px solid #ddd;
             border-radius: 12px;
             padding: 15px;
-            box-shadow: 0 8px 30px rgba(0,0,0,0.2);
-            z-index: 1000;
+            box-shadow: 0 8px 30px rgba(0,0,0,0.25);
+            z-index: 10000;
             display: none;
         }
 
         .table-grid-selector.visible {
-            display: block;
+            display: block !important;
         }
 
         .table-grid-selector h4 {
@@ -2337,16 +2337,9 @@
                                 <button class="btn" onclick="addAdminBlock('image')"
                                     style="background: #fdfdfd; border: 1px solid #ddd; color: #555; padding: 10px 16px; border-radius: 20px; font-size: 0.85rem;">+ Add
                                     Image URL</button>
-                                <button class="btn" onclick="showTableGridSelector(this)" id="add-table-btn"
-                                    style="background: linear-gradient(135deg, #e8f5e9 0%, #c8e6c9 100%); border: 1px solid #81c784; color: #2e7d32; padding: 10px 16px; border-radius: 20px; font-size: 0.85rem; position: relative;">+ Add
+                                <button class="btn" onclick="event.stopPropagation(); showTableGridSelector(this)" id="add-table-btn"
+                                    style="background: linear-gradient(135deg, #e8f5e9 0%, #c8e6c9 100%); border: 1px solid #81c784; color: #2e7d32; padding: 10px 16px; border-radius: 20px; font-size: 0.85rem;">+ Add
                                     Table</button>
-                            </div>
-                            
-                            <!-- PowerPoint-style Table Grid Selector -->
-                            <div id="table-grid-selector" class="table-grid-selector">
-                                <h4>📊 Insert Table</h4>
-                                <div class="table-grid" id="table-grid"></div>
-                                <div class="grid-size-label" id="grid-size-label">Select size</div>
                             </div>
                             <div id="admin-actions" class="controls"
                                 style="margin-top: 3rem; padding-top: 2rem; border-top: 2px solid #eee;">
@@ -3044,19 +3037,43 @@
 
         window.showTableGridSelector = function(btn) {
             const selector = document.getElementById('table-grid-selector');
-            if (!selector) return;
+            if (!selector) {
+                console.error('Table grid selector not found');
+                return;
+            }
+            
+            // Toggle - if already visible, hide it
+            if (selector.classList.contains('visible')) {
+                hideTableGridSelector();
+                return;
+            }
             
             // Initialize grid if needed
             if (!document.querySelector('.table-grid-cell')) {
                 initTableGridSelector();
             }
             
-            // Position the selector near the button
+            // Position the selector near the button using fixed positioning
             const rect = btn.getBoundingClientRect();
-            const scrollTop = window.pageYOffset || document.documentElement.scrollTop;
             
-            selector.style.top = (rect.bottom + scrollTop + 10) + 'px';
-            selector.style.left = Math.max(10, rect.left - 100) + 'px';
+            // Adjust position to ensure it's visible on screen
+            let top = rect.bottom + 10;
+            let left = rect.left;
+            
+            // Make sure it doesn't go off the right edge
+            const selectorWidth = 280; // approximate width
+            if (left + selectorWidth > window.innerWidth) {
+                left = window.innerWidth - selectorWidth - 20;
+            }
+            
+            // Make sure it doesn't go off the bottom
+            const selectorHeight = 320; // approximate height
+            if (top + selectorHeight > window.innerHeight) {
+                top = rect.top - selectorHeight - 10;
+            }
+            
+            selector.style.top = top + 'px';
+            selector.style.left = Math.max(10, left) + 'px';
             selector.classList.add('visible');
             
             // Reset grid selection
@@ -3065,8 +3082,8 @@
             
             // Close when clicking outside
             setTimeout(() => {
-                document.addEventListener('click', closeGridSelectorOnClickOutside);
-            }, 10);
+                document.addEventListener('click', closeGridSelectorOnClickOutside, true);
+            }, 100);
         };
 
         function hideTableGridSelector() {
@@ -3074,13 +3091,13 @@
             if (selector) {
                 selector.classList.remove('visible');
             }
-            document.removeEventListener('click', closeGridSelectorOnClickOutside);
+            document.removeEventListener('click', closeGridSelectorOnClickOutside, true);
         }
 
         function closeGridSelectorOnClickOutside(e) {
             const selector = document.getElementById('table-grid-selector');
             const btn = document.getElementById('add-table-btn');
-            if (selector && !selector.contains(e.target) && e.target !== btn) {
+            if (selector && !selector.contains(e.target) && e.target !== btn && !btn.contains(e.target)) {
                 hideTableGridSelector();
             }
         }
@@ -4453,6 +4470,13 @@
             }
         });
     </script>
+
+    <!-- PowerPoint-style Table Grid Selector (positioned fixed, outside all containers) -->
+    <div id="table-grid-selector" class="table-grid-selector">
+        <h4 style="margin: 0 0 12px 0; font-size: 0.95rem; color: #333; font-weight: 600;">📊 Insert Table</h4>
+        <div class="table-grid" id="table-grid"></div>
+        <div class="grid-size-label" id="grid-size-label" style="text-align: center; margin-top: 12px; font-size: 0.9rem; color: #007bff; font-weight: 600;">Select size</div>
+    </div>
 
 </body>
 
