@@ -1336,6 +1336,31 @@
 
                 <div id="admin-editor" class="answer-box"
                     style="background: #fff; border: 1px solid var(--border-color);">
+                    <div style="margin-bottom: 2rem; padding: 1rem; background: #f8f9fa; border-radius: 8px;">
+                        <label for="admin-category"
+                            style="display: block; font-weight: 600; margin-bottom: 0.5rem; color: #555;">Question
+                            Category:</label>
+                        <select id="admin-category" class="auth-input"
+                            style="width: 100%; height: 45px; cursor: pointer; margin-bottom: 1rem;">
+                            <option value="cer">CER</option>
+                            <option value="definition">Definition</option>
+                            <option value="single-relationship">Single Relationship</option>
+                            <option value="double-relationship">Double Relationship</option>
+                            <option value="fairness">Fairness</option>
+                            <option value="reliability">Reliability</option>
+                            <option value="accuracy">Accuracy</option>
+                            <option value="constant-variable">Constant Variable</option>
+                            <option value="explanation">Explanation</option>
+                            <option value="control-setup">Control Set-up</option>
+                        </select>
+
+                        <label for="admin-title"
+                            style="display: block; font-weight: 600; margin-bottom: 0.5rem; color: #555;">Question
+                            Title:</label>
+                        <input type="text" id="admin-title" class="auth-input" style="width: 100%; height: 45px;"
+                            placeholder="e.g., Heat Transfer Experiment">
+                    </div>
+
                     <div id="admin-blocks">
                         <!-- Dynamic blocks will be added here -->
                     </div>
@@ -1344,6 +1369,9 @@
                         style="display: flex; gap: 1rem; margin-top: 2rem; border-top: 2px dashed #eee; padding-top: 1.5rem;">
                         <button class="btn" onclick="addAdminBlock('text')"
                             style="background: #e7f5ff; color: #007bff; flex: 1;">+ Add Text</button>
+                        <button class="btn" onclick="addAdminBlock('answer')"
+                            style="background: #fff9c4; color: #fbc02d; border: 1px solid #fbc02d; flex: 1;">+ Add
+                            Answer</button>
                         <button class="btn" onclick="addAdminBlock('image')"
                             style="background: #fdfdfd; border: 1px solid #ddd; color: #555; flex: 1;">+ Add Image
                             URL</button>
@@ -1410,7 +1438,7 @@
                 navButtons[topic].addEventListener('click', () => switchTopic(topic));
             });
 
-            function setupQuestionForm(formId) {
+            window.setupQuestionFormGlobal = function setupQuestionForm(formId) {
                 const form = document.getElementById(formId);
                 const questionContainer = form.closest('.question-container');
                 if (!questionContainer) return; // Fix: avoid crash if container missing
@@ -1525,16 +1553,23 @@
             window.renderAdminBlocks = function () {
                 const container = document.getElementById('admin-blocks');
                 if (!container) return;
-                container.innerHTML = window.adminBlocks.map((block, index) => `
-                    <div class="admin-block" style="margin-bottom: 1rem; position: relative; padding: 1rem; border: 1px solid #eee; border-radius: 8px;">
-                        <span style="font-size: 0.8rem; color: #999; text-transform: uppercase;">${block.type} Block</span>
-                        <button onclick="removeAdminBlock(${block.id})" style="position: absolute; right: 10px; top: 10px; border: none; background: none; cursor: pointer; color: #dc3545;">✕</button>
-                        ${block.type === 'text' ?
-                        `<textarea class="auth-input" style="height: 100px; margin-top: 10px;" oninput="updateBlockValue(${block.id}, this.value)" placeholder="Enter text here...">${block.value}</textarea>` :
-                        `<input type="text" class="auth-input" style="margin-top: 10px;" oninput="updateBlockValue(${block.id}, this.value)" value="${block.value}" placeholder="Enter image URL here...">`
+                container.innerHTML = window.adminBlocks.map((block, index) => {
+                    let inputHtml = '';
+                    if (block.type === 'text' || block.type === 'answer') {
+                        const placeholder = block.type === 'answer' ? 'Enter text to be blanked...' : 'Enter question text...';
+                        inputHtml = `<textarea class="auth-input" style="height: 100px; margin-top: 10px;" oninput="updateBlockValue(${block.id}, this.value)" placeholder="${placeholder}">${block.value}</textarea>`;
+                    } else if (block.type === 'image') {
+                        inputHtml = `<input type="text" class="auth-input" style="margin-top: 10px;" oninput="updateBlockValue(${block.id}, this.value)" value="${block.value}" placeholder="Enter image URL here...">`;
                     }
-                    </div>
-                `).join('');
+
+                    return `
+                        <div class="admin-block" style="margin-bottom: 1rem; position: relative; padding: 1rem; border: 1px solid #eee; border-radius: 8px; ${block.type === 'answer' ? 'background: #fffdf0; border-color: #fbc02d;' : ''}">
+                            <span style="font-size: 0.8rem; color: #999; text-transform: uppercase;">${block.type} Block</span>
+                            <button onclick="removeAdminBlock(${block.id})" style="position: absolute; right: 10px; top: 10px; border: none; background: none; cursor: pointer; color: #dc3545;">✕</button>
+                            ${inputHtml}
+                        </div>
+                    `;
+                }).join('');
             };
 
             window.removeAdminBlock = function (id) {
@@ -1554,13 +1589,15 @@
 
                 let html = '';
                 window.adminBlocks.forEach(block => {
-                    if (block.type === 'text') {
-                        // Split text into words, wrap each in a clickable span
+                    if (block.type === 'text' && block.value) {
+                        html += `<div style="margin-bottom: 1.5rem; color: var(--main-text); font-size: 1.1rem;">${block.value.replace(/\n/g, '<br>')}</div>`;
+                    } else if (block.type === 'answer' && block.value) {
+                        // Split answer text into words, wrap each in a clickable span
                         const words = block.value.split(/\s+/);
                         const wrappedWords = words.map(word => `<span class="admin-word" onclick="toggleBlank(this)" style="cursor: pointer; padding: 2px 4px; border-radius: 4px; transition: all 0.2s;">${word}</span>`).join(' ');
-                        html += `<div class="cer-segment" style="margin-bottom: 1rem; line-height: 2;">${wrappedWords}</div>`;
+                        html += `<div class="cer-segment" style="margin-bottom: 1.5rem; line-height: 2;">${wrappedWords}</div>`;
                     } else if (block.type === 'image' && block.value) {
-                        html += `<img src="${block.value}" style="max-width: 100%; border-radius: 8px; margin-bottom: 1rem;">`;
+                        html += `<img src="${block.value}" style="max-width: 100%; border-radius: 8px; margin-bottom: 1.5rem; display: block;">`;
                     }
                 });
 
@@ -1588,11 +1625,36 @@
                 if (!window.auth || !window.auth.currentUser) return alert("You must be logged in to save.");
 
                 try {
+                    const category = document.getElementById('admin-category').value;
+                    const title = document.getElementById('admin-title').value || "Untitled Question";
+
+                    // Create a clone to manipulate without affecting preview
+                    const clone = previewContent.cloneNode(true);
+
+                    // Convert selected spans to inputs
+                    const selectedWords = clone.querySelectorAll('.admin-word.is-blank');
+                    selectedWords.forEach(word => {
+                        const answer = word.textContent.trim().replace(/[.,!?;:]/g, '');
+                        word.outerHTML = `<input type="text" class="answer-input" data-answer="${answer}" placeholder="..." style="width: auto; min-width: 80px;">`;
+                    });
+
+                    // Add feedback icons to each segment
+                    clone.querySelectorAll('.cer-segment').forEach(seg => {
+                        if (!seg.querySelector('.feedback-icon')) {
+                            const icon = document.createElement('span');
+                            icon.className = 'feedback-icon';
+                            seg.appendChild(icon);
+                        }
+                    });
+
                     const questionId = "custom-" + Date.now();
                     const questionData = {
-                        html: previewContent.innerHTML,
+                        title: title,
+                        html: clone.innerHTML,
                         createdBy: window.auth.currentUser.email,
-                        createdAt: new Date().toISOString()
+                        createdAt: new Date().toISOString(),
+                        category: category,
+                        type: 'custom'
                     };
                     // Use window.db_fs which we will expose below
                     const { doc, setDoc } = await import("https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js");
@@ -1727,6 +1789,43 @@
             if (user) {
                 overlay.style.display = 'none';
                 trackLoginDays(user);
+
+                async function loadCustomQuestions() {
+                    if (window.customQuestionsLoaded) return;
+                    window.customQuestionsLoaded = true;
+                    const { collection, getDocs, query } = await import("https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js");
+                    try {
+                        const qSnapshot = await getDocs(query(collection(db_fs, "custom_questions")));
+                        qSnapshot.forEach((docSnap) => {
+                            const data = docSnap.data();
+                            const targetView = document.getElementById(`view-${data.category}`);
+                            if (targetView) {
+                                let targetContent = targetView.querySelector('.main-content') || targetView;
+                                if (data.category === 'cer') targetContent = document.getElementById('topic-heat');
+
+                                const qId = "q-" + docSnap.id;
+                                const div = document.createElement('div');
+                                div.className = 'question-container custom-question';
+                                div.style.borderLeft = '4px solid #fbc02d';
+                                div.innerHTML = `
+                                    <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 1rem;">
+                                        <h3 style="margin: 0; color: var(--primary-blue);">${data.title || 'Custom Question'}</h3>
+                                        <span style="font-size: 0.7rem; background: #fff9c4; padding: 2px 8px; border-radius: 4px; color: #fbc02d; font-weight: bold;">USER CONTRIBUTED</span>
+                                    </div>
+                                    <div id="${qId}" class="answer-template" style="background: rgba(251, 192, 45, 0.05); padding: 1.5rem; border-radius: 8px;">
+                                        ${data.html}
+                                        <div class="controls" style="margin-top: 2rem;">
+                                            <button class="btn btn-primary submit-btn" style="background: #fbc02d; border-color: #fbc02d;">Check Answer</button>
+                                        </div>
+                                    </div>
+                                `;
+                                targetContent.appendChild(div);
+                                if (window.setupQuestionFormGlobal) window.setupQuestionFormGlobal(qId);
+                            }
+                        });
+                    } catch (e) { console.error(e); }
+                }
+                loadCustomQuestions();
 
                 // NORMALIZE EMAIL: Remove dots for Gmail and check case-insensitive handles
                 const emailParts = user.email.toLowerCase().split('@');
