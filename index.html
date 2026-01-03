@@ -3885,30 +3885,24 @@
             const container = btn.closest('.question-container');
             const titleEl = container.querySelector('h3');
             
-            // Determine if this is a custom question
-            const isCustomQuestion = container.classList.contains('custom-question') || container.id.includes('custom');
-            
+            // Extract title from h3 - this works for both custom and built-in questions
             let title = "";
-            if (isCustomQuestion && titleEl) {
-                // For custom questions, the h3 contains the actual title directly
+            if (titleEl) {
                 title = titleEl.innerText.trim();
-            } else if (titleEl) {
-                // For built-in questions, h3 might say "Question 1", so try to get a better title
-                const rawTitle = titleEl.innerText.trim();
-                // If it's just "Question X", try to get the question-title paragraph instead
-                if (/^Question\s*\d*$/i.test(rawTitle)) {
-                    const questionTitleEl = container.querySelector('.question-title, p.question-title');
-                    if (questionTitleEl) {
-                        // Use first sentence or first 50 chars as title
-                        const fullText = questionTitleEl.textContent.trim();
-                        title = fullText.length > 60 ? fullText.substring(0, 57) + '...' : fullText;
-                    } else {
-                        title = rawTitle; // Fall back to "Question 1" etc
-                    }
-                } else {
-                    // h3 has actual content, use it
-                    title = rawTitle;
+            }
+            
+            // If h3 is generic like "Question 1" for built-in questions, try question-title paragraph
+            if (!title || (/^Question\s*\d*$/i.test(title) && !container.classList.contains('custom-question') && !container.id.includes('custom'))) {
+                const questionTitleEl = container.querySelector('.question-title, p.question-title');
+                if (questionTitleEl) {
+                    const fullText = questionTitleEl.textContent.trim();
+                    title = fullText.length > 60 ? fullText.substring(0, 57) + '...' : fullText;
                 }
+            }
+            
+            // Fallback if still no title
+            if (!title) {
+                title = "Untitled Question";
             }
 
             // Detect category from container location
@@ -3934,48 +3928,61 @@
                 }
             }
 
-            // Switch to admin tab
-            switchTab('admin', document.getElementById('btn-sidebar-admin'));
-
-            // Set category and topic
-            document.getElementById('admin-category').value = category;
-            handleCategoryChange(category);
-            document.getElementById('admin-title').value = isDuplicate ? title + " (Copy)" : title;
-            
-            // Try to set the topic
-            const topicSelect = document.getElementById('admin-topic');
-            const topicExists = Array.from(topicSelect.options).some(opt => opt.value === detectedTopic);
-            if (topicExists) {
-                topicSelect.value = detectedTopic;
-            }
-            
-            // Try to detect MCQ level from topic container
-            if (category === 'mcq') {
-                // Check which level's topics include this topic
-                for (const [level, topics] of Object.entries(window.mcqCurriculum)) {
-                    const normalizedTopics = topics.map(t => t.toLowerCase().replace(/\s+/g, '-'));
-                    if (normalizedTopics.includes(detectedTopic)) {
-                        document.getElementById('admin-level').value = level;
-                        updateAdminTopicsByLevel(level);
-                        // Re-set the topic after updating options
-                        setTimeout(() => {
-                            const topicSelect = document.getElementById('admin-topic');
-                            const topicExists = Array.from(topicSelect.options).some(opt => opt.value === detectedTopic);
-                            if (topicExists) {
-                                topicSelect.value = detectedTopic;
-                            }
-                        }, 50);
-                        break;
-                    }
-                }
-            }
-
-            // Store the question ID if editing (not duplicating)
+            // Store the question ID if editing (not duplicating) - do this BEFORE setTimeout
             if (!isDuplicate && container.id) {
                 window.editingQuestionId = container.id;
             } else {
                 window.editingQuestionId = null;
             }
+            
+            // Store the title for later use
+            const finalTitle = isDuplicate ? title + " (Copy)" : title;
+
+            // Switch to admin tab
+            switchTab('admin', document.getElementById('btn-sidebar-admin'));
+
+            // Set form values with a small delay to ensure DOM is ready
+            setTimeout(() => {
+                // Set category
+                document.getElementById('admin-category').value = category;
+                handleCategoryChange(category);
+                
+                // Set the title explicitly
+                document.getElementById('admin-title').value = finalTitle;
+                
+                // Try to set the topic
+                const topicSelect = document.getElementById('admin-topic');
+                const topicExists = Array.from(topicSelect.options).some(opt => opt.value === detectedTopic);
+                if (topicExists) {
+                    topicSelect.value = detectedTopic;
+                }
+                
+                // Try to detect MCQ level from topic container
+                if (category === 'mcq') {
+                    // Check which level's topics include this topic
+                    for (const [level, topics] of Object.entries(window.mcqCurriculum)) {
+                        const normalizedTopics = topics.map(t => t.toLowerCase().replace(/\s+/g, '-'));
+                        if (normalizedTopics.includes(detectedTopic)) {
+                            document.getElementById('admin-level').value = level;
+                            updateAdminTopicsByLevel(level);
+                            // Re-set the topic after updating options
+                            setTimeout(() => {
+                                const topicSelect = document.getElementById('admin-topic');
+                                const topicExists = Array.from(topicSelect.options).some(opt => opt.value === detectedTopic);
+                                if (topicExists) {
+                                    topicSelect.value = detectedTopic;
+                                }
+                                // Re-set title again after MCQ updates to be sure
+                                document.getElementById('admin-title').value = finalTitle;
+                            }, 100);
+                            break;
+                        }
+                    }
+                }
+                
+                // Update editing indicator after title is set
+                updateEditingIndicator();
+            }, 100);
 
             window.adminBlocks = [];
             
@@ -4139,8 +4146,11 @@
             // Hide preview section when loading new content
             document.getElementById('admin-preview-section').classList.add('hidden');
             
-            // Update editing indicator
-            updateEditingIndicator();
+            // Final safety: set title again after everything is done
+            setTimeout(() => {
+                document.getElementById('admin-title').value = finalTitle;
+                updateEditingIndicator();
+            }, 200);
             
             window.scrollTo({ top: 0, behavior: 'smooth' });
         }
