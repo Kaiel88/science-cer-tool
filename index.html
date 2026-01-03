@@ -372,19 +372,34 @@
 
         /* Top Navigation Tabs */
         .app-header {
-            padding: 1rem 1rem 0;
+            padding: 0.8rem 1rem 0;
             display: flex;
-            gap: 0.3rem;
-            flex-wrap: wrap;
-            align-items: flex-end;
+            flex-direction: column;
             position: relative;
             z-index: 10;
+            background: #f8f9fa;
+        }
+
+        /* Colored line below header that changes with tabs */
+        .header-color-line {
+            height: 5px;
+            background: linear-gradient(90deg, #4a90d9 0%, #6ba3e0 100%);
+            transition: background 0.4s ease;
+            box-shadow: 0 2px 6px rgba(0,0,0,0.15);
+        }
+
+        #header-tabs-container {
+            display: flex;
+            flex-wrap: wrap;
+            align-items: flex-end;
+            margin: 0;
+            padding: 0;
         }
 
         .app-logo {
-            height: 55px;
-            margin-right: 1.5rem;
-            margin-bottom: 0.5rem;
+            height: 50px;
+            margin-right: 0;
+            margin-bottom: 0;
             filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.1));
             transition: transform 0.3s ease;
         }
@@ -394,35 +409,39 @@
         }
 
         .tab-btn {
-            padding: 0.6rem 1.2rem;
-            border: none;
-            background-color: #eee;
+            padding: 0.45rem 0.9rem;
+            border: 1px solid #ccc;
+            border-bottom: none;
+            background-color: #e8e8e8;
             font-family: 'Poppins', sans-serif;
-            font-size: 0.95rem;
+            font-size: 0.8rem;
             font-weight: 500;
             color: #555;
             cursor: pointer;
-            border-radius: 10px 10px 0 0;
-            transition: all 0.2s ease;
+            border-radius: 6px 6px 0 0;
+            transition: all 0.15s ease;
             position: relative;
-            box-shadow: 0 -2px 5px rgba(0, 0, 0, 0.05);
-            margin-bottom: 0;
-            opacity: 0.8;
+            margin: 0;
+            margin-left: -1px;
+            opacity: 0.9;
+        }
+
+        .tab-btn:first-child {
+            margin-left: 0;
         }
 
         .tab-btn:hover {
             opacity: 1;
-            transform: translateY(-2px);
+            z-index: 2;
         }
 
         .tab-btn.active {
             opacity: 1;
-            padding-bottom: 0.8rem;
+            border-color: #aaa;
+            z-index: 3;
             font-weight: 600;
-            color: #000;
-            z-index: 20;
-            box-shadow: 0 -4px 8px rgba(0, 0, 0, 0.1);
-            transform: translateY(0);
+            color: #333;
+            box-shadow: 0 -2px 5px rgba(0, 0, 0, 0.08);
         }
 
         /* Specific Pastel Colors for Tabs */
@@ -470,7 +489,7 @@
             display: none;
             flex-grow: 1;
             background: #fff;
-            border-top: 5px solid #AEC6CF;
+            border-top: none;
             position: relative;
             z-index: 15;
         }
@@ -546,10 +565,10 @@
         .print-btn {
             background-color: #ffda9e;
             border: none;
-            padding: 0.6rem 1.2rem;
+            padding: 0.5rem 1rem;
             border-radius: 50px;
             cursor: pointer;
-            font-size: 0.95rem;
+            font-size: 0.85rem;
             color: #555;
             font-weight: 500;
             transition: all 0.2s ease;
@@ -564,11 +583,6 @@
             transform: translateY(-2px);
             box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
             background-color: #ffc978;
-        }
-
-        .app-header .print-btn {
-            margin-left: auto;
-            margin-bottom: 5px;
         }
 
         /* Auth Overlay */
@@ -1652,29 +1666,24 @@
 
     <div class="app-container">
         <header class="app-header">
-            <img src="https://www.dropbox.com/scl/fi/h40yjlyg8ldefwfaa3dib/polymath-logo-sticker.png?rlkey=o1ra4taqy79gt9t8u096v82zj&raw=1"
-                alt="Polymath Logo" class="app-logo">
-            <div id="header-tabs-container" style="display: flex; gap: 0.8rem; flex-wrap: wrap; flex-grow: 1;">
-                <button class="tab-btn active" data-type="cer" onclick="switchTab('cer', this)">CER</button>
-                <button class="tab-btn" data-type="definition"
-                    onclick="switchTab('definition', this)">Definition</button>
-                <button class="tab-btn" data-type="single-relationship"
-                    onclick="switchTab('single-relationship', this)">Single Relationship</button>
-                <button class="tab-btn" data-type="double-relationship"
-                    onclick="switchTab('double-relationship', this)">Double Relationship</button>
-                <button class="tab-btn" data-type="fairness" onclick="switchTab('fairness', this)">Fairness</button>
-                <button class="tab-btn" data-type="reliability"
-                    onclick="switchTab('reliability', this)">Reliability</button>
-                <button class="tab-btn" data-type="accuracy" onclick="switchTab('accuracy', this)">Accuracy</button>
-                <button class="tab-btn" data-type="constant-variable"
-                    onclick="switchTab('constant-variable', this)">Constant Variable</button>
-                <button class="tab-btn" data-type="explanation"
-                    onclick="switchTab('explanation', this)">Explanation</button>
-                <button class="tab-btn" data-type="control-setup" onclick="switchTab('control-setup', this)">Control
-                    Set-up</button>
+            <div style="display: flex; align-items: center; gap: 0.8rem; margin-bottom: 0.3rem;">
+                <img src="https://www.dropbox.com/scl/fi/h40yjlyg8ldefwfaa3dib/polymath-logo-sticker.png?rlkey=o1ra4taqy79gt9t8u096v82zj&raw=1"
+                    alt="Polymath Logo" class="app-logo">
+                <button class="print-btn" onclick="printAll()">🖨️ Print All</button>
             </div>
-            <button class="print-btn" onclick="printAll()" style="margin-left: 1rem;">🖨️ Print All</button>
+            <div id="header-tabs-container">
+                <button class="tab-btn active" data-type="cer" onclick="switchTab('cer', this)">CER</button><button class="tab-btn" data-type="definition"
+                    onclick="switchTab('definition', this)">Definition</button><button class="tab-btn" data-type="single-relationship"
+                    onclick="switchTab('single-relationship', this)">Single Relationship</button><button class="tab-btn" data-type="double-relationship"
+                    onclick="switchTab('double-relationship', this)">Double Relationship</button><button class="tab-btn" data-type="fairness" onclick="switchTab('fairness', this)">Fairness</button><button class="tab-btn" data-type="reliability"
+                    onclick="switchTab('reliability', this)">Reliability</button><button class="tab-btn" data-type="accuracy" onclick="switchTab('accuracy', this)">Accuracy</button><button class="tab-btn" data-type="constant-variable"
+                    onclick="switchTab('constant-variable', this)">Constant Variable</button><button class="tab-btn" data-type="explanation"
+                    onclick="switchTab('explanation', this)">Explanation</button><button class="tab-btn" data-type="control-setup" onclick="switchTab('control-setup', this)">Control Set-up</button>
+            </div>
         </header>
+        
+        <!-- Colored line that changes based on active tab -->
+        <div class="header-color-line" id="header-color-line" style="background: linear-gradient(90deg, #AEC6CF 0%, #c4d6dd 50%, #AEC6CF 100%);"></div>
 
         <div class="app-body active" style="display: flex;">
             <aside class="sidebar">
@@ -2539,7 +2548,12 @@
             'explanation': '#FF9AA2',
             'control-setup': '#E0BBE4',
             'admin': '#ffd1dc',
-            'worksheet': '#e3f2fd'
+            'worksheet': '#e3f2fd',
+            // MCQ level colors
+            'mcq-P3': '#FFB3BA',
+            'mcq-P4': '#BAFFC9',
+            'mcq-P5': '#BAE1FF',
+            'mcq-P6': '#FFFFBA'
         };
 
         // =====================================================
@@ -2762,10 +2776,19 @@
                 if (heatBtn) heatBtn.click();
             }
 
-            // Update border color
+            // Update border color and header line color
             const appBody = document.querySelector('.app-body');
-            if (appBody && window.typeColors[type]) {
-                appBody.style.borderTopColor = window.typeColors[type];
+            const headerLine = document.getElementById('header-color-line');
+            if (window.typeColors[type]) {
+                const color = window.typeColors[type];
+                if (appBody) {
+                    appBody.style.borderTopColor = color;
+                }
+                if (headerLine) {
+                    // Create a gradient effect for the line
+                    const lighterColor = adjustColorBrightness(color, 20);
+                    headerLine.style.background = `linear-gradient(90deg, ${color} 0%, ${lighterColor} 50%, ${color} 100%)`;
+                }
             }
 
             // Refresh worksheet UI when switching to worksheet tab
@@ -2773,6 +2796,25 @@
                 updateWorksheetUI();
             }
         };
+        
+        // Helper function to adjust color brightness
+        function adjustColorBrightness(hex, percent) {
+            // Remove # if present
+            hex = hex.replace('#', '');
+            
+            // Parse the hex color
+            let r = parseInt(hex.substring(0, 2), 16);
+            let g = parseInt(hex.substring(2, 4), 16);
+            let b = parseInt(hex.substring(4, 6), 16);
+            
+            // Adjust brightness
+            r = Math.min(255, Math.floor(r + (255 - r) * (percent / 100)));
+            g = Math.min(255, Math.floor(g + (255 - g) * (percent / 100)));
+            b = Math.min(255, Math.floor(b + (255 - b) * (percent / 100)));
+            
+            // Convert back to hex
+            return '#' + ((1 << 24) + (r << 16) + (g << 8) + b).toString(16).slice(1);
+        }
 
         // =====================================================
         // MODE SWITCHING (OEQ/MCQ)
@@ -2796,18 +2838,7 @@
             } else {
                 oeqSidebar.classList.remove('hidden');
                 mcqSidebar.classList.add('hidden');
-                container.innerHTML = `
-                    <button class="tab-btn active" data-type="cer" onclick="switchTab('cer', this)">CER</button>
-                    <button class="tab-btn" data-type="definition" onclick="switchTab('definition', this)">Definition</button>
-                    <button class="tab-btn" data-type="single-relationship" onclick="switchTab('single-relationship', this)">Single Relationship</button>
-                    <button class="tab-btn" data-type="double-relationship" onclick="switchTab('double-relationship', this)">Double Relationship</button>
-                    <button class="tab-btn" data-type="fairness" onclick="switchTab('fairness', this)">Fairness</button>
-                    <button class="tab-btn" data-type="reliability" onclick="switchTab('reliability', this)">Reliability</button>
-                    <button class="tab-btn" data-type="accuracy" onclick="switchTab('accuracy', this)">Accuracy</button>
-                    <button class="tab-btn" data-type="constant-variable" onclick="switchTab('constant-variable', this)">Constant Variable</button>
-                    <button class="tab-btn" data-type="explanation" onclick="switchTab('explanation', this)">Explanation</button>
-                    <button class="tab-btn" data-type="control-setup" onclick="switchTab('control-setup', this)">Control Set-up</button>
-                `;
+                container.innerHTML = `<button class="tab-btn active" data-type="cer" onclick="switchTab('cer', this)">CER</button><button class="tab-btn" data-type="definition" onclick="switchTab('definition', this)">Definition</button><button class="tab-btn" data-type="single-relationship" onclick="switchTab('single-relationship', this)">Single Relationship</button><button class="tab-btn" data-type="double-relationship" onclick="switchTab('double-relationship', this)">Double Relationship</button><button class="tab-btn" data-type="fairness" onclick="switchTab('fairness', this)">Fairness</button><button class="tab-btn" data-type="reliability" onclick="switchTab('reliability', this)">Reliability</button><button class="tab-btn" data-type="accuracy" onclick="switchTab('accuracy', this)">Accuracy</button><button class="tab-btn" data-type="constant-variable" onclick="switchTab('constant-variable', this)">Constant Variable</button><button class="tab-btn" data-type="explanation" onclick="switchTab('explanation', this)">Explanation</button><button class="tab-btn" data-type="control-setup" onclick="switchTab('control-setup', this)">Control Set-up</button>`;
                 switchTab('cer', document.querySelector('.tab-btn[data-type="cer"]'));
                 if (window.isAdminUser) document.getElementById('btn-sidebar-admin').classList.remove('hidden');
             }
@@ -2830,6 +2861,14 @@
                 return `<button class="tab-btn ${activeClass}" onclick="switchMcqTopicAndTab('${topicId}', this)" style="background-color: ${color};">${t}</button>`;
             }).join('');
 
+            // Set initial header line color to first topic's color
+            const headerLine = document.getElementById('header-color-line');
+            if (headerLine && topics.length > 0) {
+                const firstColor = pastelColors[0];
+                const lighterColor = adjustColorBrightness(firstColor, 20);
+                headerLine.style.background = `linear-gradient(90deg, ${firstColor} 0%, ${lighterColor} 50%, ${firstColor} 100%)`;
+            }
+
             renderMcqQuestionList();
         };
 
@@ -2837,6 +2876,23 @@
             document.querySelectorAll('#header-tabs-container .tab-btn').forEach(b => b.classList.remove('active'));
             btn.classList.add('active');
             window.currentMcqTopic = topicId;
+            
+            // Update header line color based on the button's background color
+            const headerLine = document.getElementById('header-color-line');
+            if (headerLine && btn) {
+                const btnColor = btn.style.backgroundColor || '#AEC6CF';
+                // Convert rgb to hex if needed
+                let hexColor = btnColor;
+                if (btnColor.startsWith('rgb')) {
+                    const rgb = btnColor.match(/\d+/g);
+                    if (rgb) {
+                        hexColor = '#' + ((1 << 24) + (parseInt(rgb[0]) << 16) + (parseInt(rgb[1]) << 8) + parseInt(rgb[2])).toString(16).slice(1);
+                    }
+                }
+                const lighterColor = adjustColorBrightness(hexColor, 20);
+                headerLine.style.background = `linear-gradient(90deg, ${hexColor} 0%, ${lighterColor} 50%, ${hexColor} 100%)`;
+            }
+            
             renderMcqQuestionList();
         };
 
