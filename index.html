@@ -1488,6 +1488,7 @@
                     viewContainers.forEach(view => {
                         view.classList.remove('active');
                         view.classList.add('hidden');
+                        view.style.display = 'none'; // Force hide
                     });
 
                     // Show target view & Update color
@@ -1496,6 +1497,7 @@
                     if (targetView) {
                         targetView.classList.remove('hidden');
                         targetView.classList.add('active');
+                        targetView.style.display = 'flex'; // Ensure it shows as flex
                         // Update border color to match the tab
                         targetView.style.borderTopColor = typeColors[targetType] || '#AEC6CF';
                     }
@@ -1677,7 +1679,8 @@
                 trackLoginDays(user);
                 // Simple admin check: if email contains admin keyword (FOR DEMO)
                 // In production, check Firestore user role
-                if (user.email && (user.email.includes('admin') || user.email === 'zhikaichung@gmail.com')) {
+                const adminEmails = ['zhikaichung@gmail.com', 'chungzhikai@gmail.com'];
+                if (user.email && (user.email.includes('admin') || adminEmails.includes(user.email.toLowerCase()))) {
                     adminTab.classList.remove('hidden');
                 } else {
                     adminTab.classList.add('hidden');
