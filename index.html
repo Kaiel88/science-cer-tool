@@ -1781,6 +1781,10 @@
                 <div id="view-admin" class="view-content hidden" style="flex: 1;">
                     <main style="max-width: 900px; margin: 0 auto; padding-top: 2rem;">
                         <h2 style="margin-bottom: 1rem; color: var(--main-text);">Question Creator (Admin)</h2>
+                        <div id="editing-indicator" class="hidden" style="background: #fff3cd; padding: 0.75rem 1rem; border-radius: 8px; margin-bottom: 1rem; font-size: 0.9rem; color: #856404; display: flex; justify-content: space-between; align-items: center;">
+                            <span>✏️ <strong>Editing:</strong> <span id="editing-question-name"></span></span>
+                            <button onclick="cancelEditing()" style="background: #856404; color: white; border: none; padding: 4px 12px; border-radius: 4px; cursor: pointer; font-size: 0.85rem;">Cancel Edit</button>
+                        </div>
                         <div style="background: #e8f5e9; padding: 1rem; border-radius: 8px; margin-bottom: 1.5rem; font-size: 0.9rem; color: #2e7d32;">
                             <strong>📝 How to create a question:</strong>
                             <ol style="margin: 0.5rem 0 0 1.5rem; line-height: 1.8;">
@@ -2463,33 +2467,62 @@
                 let inputHtml = '';
                 if (block.type === 'text' || block.type === 'answer' || block.type === 'explanation') {
                     const placeholders = {
-                        'answer': 'Enter text to be blanked...',
+                        'answer': 'Enter text to be blanked... Use [brackets] around words to make them blanks.',
                         'explanation': 'Enter step-by-step explanation...',
                         'text': 'Enter question text...'
                     };
                     inputHtml = `<textarea class="auth-input" style="height: 100px; margin-top: 10px;" oninput="updateBlockValue(${block.id}, this.value)" placeholder="${placeholders[block.type]}">${block.value}</textarea>`;
-                } else if (block.type === 'image' || block.type === 'video') {
-                    const placeholder = block.type === 'image' ? 'Enter image URL here...' : 'Enter Video URL (Dropbox or YouTube)...';
-                    inputHtml = `<input type="text" class="auth-input" style="margin-top: 10px;" oninput="updateBlockValue(${block.id}, this.value)" value="${block.value}" placeholder="${placeholder}">`;
+                } else if (block.type === 'image') {
+                    const previewUrl = convertDropboxUrl(block.value);
+                    inputHtml = `
+                        <input type="text" class="auth-input" style="margin-top: 10px;" oninput="updateBlockValue(${block.id}, this.value); updateImagePreview(${block.id})" value="${block.value}" placeholder="Enter image URL (Dropbox, Imgur, etc.)...">
+                        <div id="img-preview-${block.id}" style="margin-top: 10px; text-align: center;">
+                            ${block.value ? `<img src="${previewUrl}" style="max-width: 200px; max-height: 150px; border-radius: 8px; border: 1px solid #ddd;" onerror="this.style.display='none'; this.nextElementSibling.style.display='block'"><span style="display: none; color: #dc3545; font-size: 0.85rem;">⚠️ Image failed to load</span>` : '<span style="color: #888; font-size: 0.85rem;">Image preview will appear here</span>'}
+                        </div>
+                    `;
+                } else if (block.type === 'video') {
+                    inputHtml = `<input type="text" class="auth-input" style="margin-top: 10px;" oninput="updateBlockValue(${block.id}, this.value)" value="${block.value}" placeholder="Enter Video URL (Dropbox or YouTube)...">`;
                 }
 
                 const typeColors = {
                     'answer': 'background: #fffdf0; border-color: #fbc02d;',
                     'explanation': 'background: #f0f4ff; border-color: #007bff;',
                     'video': 'background: #fdf2f2; border-color: #dc3545;',
-                    'image': '',
+                    'image': 'background: #f5f5f5; border-color: #9e9e9e;',
                     'text': ''
+                };
+                
+                const typeLabels = {
+                    'text': '📝 TEXT BLOCK',
+                    'answer': '✏️ ANSWER BLOCK (fill-in-blank)',
+                    'explanation': '💡 EXPLANATION BLOCK',
+                    'video': '🎬 VIDEO BLOCK',
+                    'image': '🖼️ IMAGE BLOCK'
                 };
 
                 return `
                         <div class="admin-block" style="margin-bottom: 1rem; position: relative; padding: 1rem; border: 1px solid #eee; border-radius: 8px; ${typeColors[block.type] || ''}">
-                            <span style="font-size: 0.8rem; color: #999; text-transform: uppercase;">${block.type} Block</span>
-                            <button onclick="removeAdminBlock(${block.id})" style="position: absolute; right: 10px; top: 10px; border: none; background: none; cursor: pointer; color: #dc3545;">✕</button>
+                            <span style="font-size: 0.8rem; color: #666; font-weight: 600;">${typeLabels[block.type] || block.type.toUpperCase()}</span>
+                            <button onclick="removeAdminBlock(${block.id})" style="position: absolute; right: 10px; top: 10px; border: none; background: none; cursor: pointer; color: #dc3545; font-size: 1.2rem;">✕</button>
                             ${inputHtml}
                         </div>
                     `;
             }).join('');
         }
+        
+        // Update image preview when URL changes
+        window.updateImagePreview = function(blockId) {
+            const block = window.adminBlocks.find(b => b.id === blockId);
+            const previewDiv = document.getElementById(`img-preview-${blockId}`);
+            if (block && previewDiv) {
+                const previewUrl = convertDropboxUrl(block.value);
+                if (block.value) {
+                    previewDiv.innerHTML = `<img src="${previewUrl}" style="max-width: 200px; max-height: 150px; border-radius: 8px; border: 1px solid #ddd;" onerror="this.style.display='none'; this.nextElementSibling.style.display='block'"><span style="display: none; color: #dc3545; font-size: 0.85rem;">⚠️ Image failed to load</span>`;
+                } else {
+                    previewDiv.innerHTML = '<span style="color: #888; font-size: 0.85rem;">Image preview will appear here</span>';
+                }
+            }
+        };
 
         window.removeAdminBlock = function (id) {
             window.adminBlocks = window.adminBlocks.filter(b => b.id !== id);
@@ -2539,7 +2572,8 @@
                                 <div style="color: #444; line-height: 1.6;">${block.value.replace(/\n/g, '<br>')}</div>
                              </div>`;
                 } else if (block.type === 'image' && block.value) {
-                    html += `<img src="${block.value}" style="max-width: 100%; border-radius: 8px; margin-bottom: 1.5rem; display: block; margin-left: auto; margin-right: auto;">`;
+                    const imageUrl = convertDropboxUrl(block.value);
+                    html += `<img src="${imageUrl}" style="max-width: 100%; border-radius: 8px; margin-bottom: 1.5rem; display: block; margin-left: auto; margin-right: auto;" onerror="this.style.display='none'; this.insertAdjacentHTML('afterend', '<p style=\\'color:#dc3545;\\'>⚠️ Image failed to load. Check URL.</p>');">`;
                 } else if (block.type === 'video' && block.value) {
                     let videoUrl = block.value;
                     if (videoUrl.includes('dropbox.com')) {
@@ -2658,7 +2692,8 @@
                                 <div style="color: #444; line-height: 1.6;">${block.value.replace(/\n/g, '<br>')}</div>
                              </div>`;
                         } else if (block.type === 'image' && block.value) {
-                            finalHtml += `<img src="${block.value}" style="max-width: 100%; border-radius: 8px; margin-bottom: 1.5rem; display: block; margin-left: auto; margin-right: auto;">`;
+                            const imageUrl = convertDropboxUrl(block.value);
+                            finalHtml += `<img src="${imageUrl}" class="question-diagram" style="max-width: 100%; border-radius: 8px; margin-bottom: 1.5rem; display: block; margin-left: auto; margin-right: auto;">`;
                         } else if (block.type === 'video' && block.value) {
                             let videoUrl = block.value;
                             if (videoUrl.includes('dropbox.com')) {
@@ -2726,9 +2761,9 @@
                 const actionText = isEditing ? "updated" : "added";
                 alert(`Question successfully ${actionText}!`);
                 
-                // Clear the form
+                // Clear the form (force without confirmation since we just saved)
                 window.editingQuestionId = null;
-                window.clearAdminForm();
+                window.clearAdminForm(true);
                 
                 // Reload to show changes
                 location.reload();
@@ -2738,9 +2773,33 @@
             }
         };
 
+        // Cancel editing and clear form
+        window.cancelEditing = function() {
+            if (window.adminBlocks.length > 0 && !confirm("Cancel editing? Unsaved changes will be lost.")) return;
+            window.editingQuestionId = null;
+            window.clearAdminForm(true); // force clear without confirmation
+            updateEditingIndicator();
+        };
+        
+        // Update the editing indicator
+        window.updateEditingIndicator = function() {
+            const indicator = document.getElementById('editing-indicator');
+            const nameSpan = document.getElementById('editing-question-name');
+            const titleInput = document.getElementById('admin-title');
+            
+            if (window.editingQuestionId) {
+                indicator.classList.remove('hidden');
+                indicator.style.display = 'flex';
+                nameSpan.textContent = titleInput.value || window.editingQuestionId;
+            } else {
+                indicator.classList.add('hidden');
+                indicator.style.display = 'none';
+            }
+        };
+
         // Clear admin form
-        window.clearAdminForm = function() {
-            if (window.adminBlocks.length > 0 && !confirm("Clear all content? This cannot be undone.")) return;
+        window.clearAdminForm = function(force = false) {
+            if (!force && window.adminBlocks.length > 0 && !confirm("Clear all content? This cannot be undone.")) return;
             
             window.adminBlocks = [];
             window.editingQuestionId = null;
@@ -2761,23 +2820,97 @@
             
             document.getElementById('admin-preview-section').classList.add('hidden');
             document.getElementById('admin-preview-content').innerHTML = '';
+            
+            updateEditingIndicator();
+        };
+
+        // Convert Dropbox URL to displayable format
+        window.convertDropboxUrl = function(url) {
+            if (!url) return url;
+            
+            // Handle new Dropbox format: /scl/fi/xxx/file.jpg?rlkey=xxx&dl=0
+            if (url.includes('dropbox.com/scl/')) {
+                // Replace dl=0 or dl=1 with raw=1
+                url = url.replace(/[?&]dl=[01]/, '&raw=1');
+                if (!url.includes('raw=1')) {
+                    url += (url.includes('?') ? '&' : '?') + 'raw=1';
+                }
+                return url;
+            }
+            
+            // Handle old Dropbox format
+            if (url.includes('dropbox.com')) {
+                return url.replace('www.dropbox.com', 'dl.dropboxusercontent.com')
+                          .replace('?dl=0', '')
+                          .replace('?dl=1', '');
+            }
+            
+            return url;
         };
 
         function editQuestion(btn, isDuplicate = false) {
             const container = btn.closest('.question-container');
-            const title = container.querySelector('h3')?.innerText || "";
+            const titleEl = container.querySelector('h3');
+            const title = titleEl ? titleEl.innerText.replace(/^Question\s*\d*\s*/i, '').trim() : "";
 
+            // Detect category from container location
             let category = 'cer';
-            if (container.closest('#view-cer')) category = 'cer';
-            else if (container.closest('#view-definition')) category = 'definition';
-            else if (container.closest('#view-single-relationship')) category = 'single-relationship';
-            else if (container.id.includes('mcq') || container.closest('[id^="topic-mcq-"]')) category = 'mcq';
+            let detectedTopic = 'heat';
+            
+            if (container.closest('#view-cer') || container.closest('[id^="topic-heat"]') || container.closest('[id^="topic-light"]') || container.closest('[id^="topic-materials"]')) {
+                category = 'cer';
+            } else if (container.closest('#view-definition')) {
+                category = 'definition';
+            } else if (container.closest('#view-single-relationship')) {
+                category = 'single-relationship';
+            } else if (container.id.includes('mcq') || container.closest('[id^="topic-mcq-"]')) {
+                category = 'mcq';
+            }
+            
+            // Try to detect topic from container ID
+            const containerId = container.closest('[id^="topic-"]')?.id || '';
+            if (containerId) {
+                const topicMatch = containerId.match(/topic-(?:mcq-)?(.+)/);
+                if (topicMatch) {
+                    detectedTopic = topicMatch[1];
+                }
+            }
 
+            // Switch to admin tab
             switchTab('admin', document.getElementById('btn-sidebar-admin'));
 
+            // Set category and topic
             document.getElementById('admin-category').value = category;
             handleCategoryChange(category);
             document.getElementById('admin-title').value = isDuplicate ? title + " (Copy)" : title;
+            
+            // Try to set the topic
+            const topicSelect = document.getElementById('admin-topic');
+            const topicExists = Array.from(topicSelect.options).some(opt => opt.value === detectedTopic);
+            if (topicExists) {
+                topicSelect.value = detectedTopic;
+            }
+            
+            // Try to detect MCQ level from topic container
+            if (category === 'mcq') {
+                // Check which level's topics include this topic
+                for (const [level, topics] of Object.entries(window.mcqCurriculum)) {
+                    const normalizedTopics = topics.map(t => t.toLowerCase().replace(/\s+/g, '-'));
+                    if (normalizedTopics.includes(detectedTopic)) {
+                        document.getElementById('admin-level').value = level;
+                        updateAdminTopicsByLevel(level);
+                        // Re-set the topic after updating options
+                        setTimeout(() => {
+                            const topicSelect = document.getElementById('admin-topic');
+                            const topicExists = Array.from(topicSelect.options).some(opt => opt.value === detectedTopic);
+                            if (topicExists) {
+                                topicSelect.value = detectedTopic;
+                            }
+                        }, 50);
+                        break;
+                    }
+                }
+            }
 
             // Store the question ID if editing (not duplicating)
             if (!isDuplicate && container.id) {
@@ -2788,17 +2921,15 @@
 
             window.adminBlocks = [];
             
-            // Try to extract content more intelligently
-            const answerTemplate = container.querySelector('.answer-template');
-            const mcqBody = container.querySelector('.mcq-body');
-            const questionBody = container.querySelector('.question-body');
+            // ========== EXTRACT CONTENT ==========
             
-            // Get question text (paragraphs before the answer box)
-            const questionParagraphs = container.querySelectorAll('p:not(.question-title)');
+            // 1. Get all text paragraphs (question stem)
+            const paragraphs = container.querySelectorAll('p:not(.question-title)');
             let questionText = '';
-            questionParagraphs.forEach(p => {
-                if (p.textContent.trim()) {
-                    questionText += p.textContent.trim() + '\n\n';
+            paragraphs.forEach(p => {
+                const text = p.textContent.trim();
+                if (text && !p.closest('.answer-box') && !p.closest('.mcq-option')) {
+                    questionText += text + '\n\n';
                 }
             });
             
@@ -2810,10 +2941,10 @@
                 });
             }
             
-            // Get images
-            const images = container.querySelectorAll('.question-diagram');
+            // 2. Get all images
+            const images = container.querySelectorAll('img.question-diagram, img[src*="dropbox"], img[src*="imgur"], img[style*="max-width"]');
             images.forEach((img, idx) => {
-                if (img.src) {
+                if (img.src && !img.src.includes('data:')) {
                     window.adminBlocks.push({ 
                         id: Date.now() + idx + 100, 
                         type: 'image', 
@@ -2822,7 +2953,7 @@
                 }
             });
             
-            // Get the question title
+            // 3. Get the question title/prompt
             const questionTitle = container.querySelector('.question-title');
             if (questionTitle) {
                 window.adminBlocks.push({ 
@@ -2832,54 +2963,126 @@
                 });
             }
             
-            // Get answer content
-            const customContent = answerTemplate || mcqBody || questionBody;
-            if (customContent) {
-                // Try to extract the answer text with blanks indicated
-                const segments = customContent.querySelectorAll('.cer-segment');
+            // 4. Handle MCQ specific content
+            if (category === 'mcq') {
+                const mcqOptions = container.querySelectorAll('.mcq-option');
+                mcqOptions.forEach((opt, idx) => {
+                    const input = opt.querySelector('input[type="radio"]');
+                    const span = opt.querySelector('span');
+                    if (span && idx < 4) {
+                        // Extract just the option text (remove the number prefix)
+                        let optText = span.textContent.trim();
+                        optText = optText.replace(/^\d+\.\s*/, '');
+                        document.getElementById(`mcq-opt-${idx + 1}`).value = optText;
+                        
+                        // Check if this is the correct answer
+                        if (input && input.dataset.correct === 'true') {
+                            document.getElementById('mcq-correct').value = (idx + 1).toString();
+                        }
+                    }
+                });
+                
+                // Also check for options in different format (A, B, C, D style)
+                if (mcqOptions.length === 0) {
+                    const optionDivs = container.querySelectorAll('[class*="option"], p');
+                    let optIdx = 0;
+                    optionDivs.forEach(div => {
+                        const text = div.textContent.trim();
+                        const match = text.match(/^[A-D]\.\s*(.+)/);
+                        if (match && optIdx < 4) {
+                            document.getElementById(`mcq-opt-${optIdx + 1}`).value = match[1];
+                            optIdx++;
+                        }
+                    });
+                }
+            } else {
+                // 5. Handle fill-in-the-blank content (CER, definition, etc.)
+                const answerTemplate = container.querySelector('.answer-template');
+                const segments = container.querySelectorAll('.cer-segment');
+                
                 if (segments.length > 0) {
                     segments.forEach((seg, idx) => {
                         let segText = '';
-                        seg.childNodes.forEach(node => {
+                        const label = seg.getAttribute('data-label') || '';
+                        
+                        // Walk through all nodes to build the text with blanks marked
+                        const walker = document.createTreeWalker(seg, NodeFilter.SHOW_TEXT | NodeFilter.SHOW_ELEMENT);
+                        let node;
+                        while (node = walker.nextNode()) {
                             if (node.nodeType === Node.TEXT_NODE) {
                                 segText += node.textContent;
-                            } else if (node.classList && node.classList.contains('answer-blank')) {
-                                const input = node.querySelector('.answer-input');
-                                if (input && input.dataset.answer) {
-                                    // Mark blanks with brackets
-                                    segText += ` [${input.dataset.answer}] `;
+                            } else if (node.nodeType === Node.ELEMENT_NODE) {
+                                if (node.classList.contains('answer-input') || node.tagName === 'INPUT') {
+                                    const answer = node.dataset?.answer || node.value || '';
+                                    if (answer) {
+                                        segText += `[${answer}]`;
+                                    }
+                                } else if (node.classList.contains('feedback-icon')) {
+                                    // Skip feedback icons
                                 }
-                            } else if (node.classList && node.classList.contains('answer-input')) {
-                                if (node.dataset.answer) {
-                                    segText += ` [${node.dataset.answer}] `;
-                                }
-                            } else if (node.textContent) {
-                                segText += node.textContent;
                             }
-                        });
+                        }
                         
-                        if (segText.trim()) {
+                        segText = segText.replace(/\s+/g, ' ').trim();
+                        
+                        if (segText && !segText.match(/^[✔✖]$/)) {
                             window.adminBlocks.push({ 
                                 id: Date.now() + 300 + idx, 
                                 type: 'answer', 
-                                value: segText.trim().replace(/\s+/g, ' ') 
+                                value: (label ? `(${label}) ` : '') + segText
                             });
                         }
                     });
-                } else {
-                    // Fallback: just get the text content
+                } else if (answerTemplate) {
+                    // Fallback: extract from answer template directly
+                    let templateText = '';
+                    answerTemplate.querySelectorAll('input.answer-input').forEach(input => {
+                        const answer = input.dataset.answer || '';
+                        if (answer) {
+                            templateText += `[${answer}] `;
+                        }
+                    });
+                    
+                    if (templateText.trim()) {
+                        window.adminBlocks.push({ 
+                            id: Date.now() + 400, 
+                            type: 'answer', 
+                            value: templateText.trim()
+                        });
+                    }
+                }
+            }
+            
+            // 6. Get explanation if exists
+            const explanation = container.querySelector('.explanation-box');
+            if (explanation) {
+                const explainText = explanation.querySelector('div')?.textContent || explanation.textContent;
+                if (explainText.trim()) {
                     window.adminBlocks.push({ 
-                        id: Date.now() + 400, 
-                        type: 'answer', 
-                        value: customContent.textContent.trim().replace(/\s+/g, ' ') 
+                        id: Date.now() + 500, 
+                        type: 'explanation', 
+                        value: explainText.trim()
                     });
                 }
+            }
+            
+            // 7. Get video if exists
+            const video = container.querySelector('iframe[src*="youtube"], iframe[src*="dropbox"], .video-container iframe');
+            if (video && video.src) {
+                window.adminBlocks.push({ 
+                    id: Date.now() + 600, 
+                    type: 'video', 
+                    value: video.src
+                });
             }
 
             renderAdminBlocks();
             
             // Hide preview section when loading new content
             document.getElementById('admin-preview-section').classList.add('hidden');
+            
+            // Update editing indicator
+            updateEditingIndicator();
             
             window.scrollTo({ top: 0, behavior: 'smooth' });
         }
@@ -3234,13 +3437,25 @@
                                 div.className = 'question-container custom-question';
                                 div.id = qId;
                                 div.style.borderLeft = '4px solid #fbc02d';
+                                
+                                // Convert any Dropbox URLs in the saved HTML
+                                let processedHtml = data.html;
+                                // Fix Dropbox image URLs
+                                processedHtml = processedHtml.replace(/src="(https:\/\/www\.dropbox\.com\/scl\/[^"]+)"/g, (match, url) => {
+                                    let fixedUrl = url.replace(/[?&]dl=[01]/, '&raw=1');
+                                    if (!fixedUrl.includes('raw=1')) {
+                                        fixedUrl += (fixedUrl.includes('?') ? '&' : '?') + 'raw=1';
+                                    }
+                                    return `src="${fixedUrl}"`;
+                                });
+                                
                                 div.innerHTML = `
                                         <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 1rem;">
                                             <h3 style="margin: 0; color: var(--primary-blue);">${data.title || 'Custom Question'}</h3>
                                             <span style="font-size: 0.7rem; background: #fff9c4; padding: 2px 8px; border-radius: 4px; color: #fbc02d; font-weight: bold;">USER CONTRIBUTED (${topic.toUpperCase()})</span>
                                         </div>
                                         <div id="${qId}-body" class="question-body ${category === 'mcq' ? 'mcq-body' : 'answer-template'}" style="background: rgba(251, 192, 45, 0.05); padding: 1.5rem; border-radius: 8px;">
-                                            ${data.html}
+                                            ${processedHtml}
                                             <div class="controls" style="margin-top: 2rem;">
                                                 <button class="btn btn-primary submit-btn" onclick="checkMcq('${qId}-body')" style="background: #fbc02d; border-color: #fbc02d;">Check Answer</button>
                                             </div>
