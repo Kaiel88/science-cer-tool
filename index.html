@@ -2653,6 +2653,10 @@
                 if (previewContent.innerHTML.trim()) {
                     // Use preview content (with blanks selected)
                     const clone = previewContent.cloneNode(true);
+                    
+                    // Remove any controls that might be in the preview
+                    clone.querySelectorAll('.controls, button.submit-btn, button.next-btn, button.print-btn, button.btn-primary').forEach(el => el.remove());
+                    
                     const selectedWords = clone.querySelectorAll('.admin-word.is-blank');
                     selectedWords.forEach(word => {
                         const answer = word.textContent.trim().replace(/[.,!?;:]/g, '');
@@ -3449,6 +3453,27 @@
                                     return `src="${fixedUrl}"`;
                                 });
                                 
+                                // Remove any existing controls/buttons from saved HTML to prevent duplicates
+                                const tempDiv = document.createElement('div');
+                                tempDiv.innerHTML = processedHtml;
+                                tempDiv.querySelectorAll('.controls').forEach(el => el.remove());
+                                // Also remove any stray buttons that might be outside controls
+                                tempDiv.querySelectorAll('button.submit-btn, button.next-btn, button.print-btn, button.btn-primary').forEach(el => el.remove());
+                                // Remove any divs that only contain "Check Answer" text
+                                tempDiv.querySelectorAll('div').forEach(div => {
+                                    const text = div.textContent.trim();
+                                    if (text === 'Check Answer' || text === 'Submit') {
+                                        div.remove();
+                                    }
+                                });
+                                // Remove mcq-option labels that contain "Check Answer"
+                                tempDiv.querySelectorAll('.mcq-option, label').forEach(el => {
+                                    if (el.textContent.trim().includes('Check Answer')) {
+                                        el.remove();
+                                    }
+                                });
+                                processedHtml = tempDiv.innerHTML;
+                                
                                 div.innerHTML = `
                                         <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 1rem;">
                                             <h3 style="margin: 0; color: var(--primary-blue);">${data.title || 'Custom Question'}</h3>
@@ -3457,7 +3482,7 @@
                                         <div id="${qId}-body" class="question-body ${category === 'mcq' ? 'mcq-body' : 'answer-template'}" style="background: rgba(251, 192, 45, 0.05); padding: 1.5rem; border-radius: 8px;">
                                             ${processedHtml}
                                             <div class="controls" style="margin-top: 2rem;">
-                                                <button class="btn btn-primary submit-btn" onclick="checkMcq('${qId}-body')" style="background: #fbc02d; border-color: #fbc02d;">Check Answer</button>
+                                                <button class="btn btn-primary submit-btn" ${category === 'mcq' ? `onclick="checkMcq('${qId}-body')"` : ''} style="background: #fbc02d; border-color: #fbc02d;">Check Answer</button>
                                             </div>
                                         </div>
                                     `;
