@@ -611,6 +611,12 @@
             animation: slideUp 0.5s cubic-bezier(0.16, 1, 0.3, 1);
         }
 
+        .auth-logo {
+            height: 70px;
+            margin-bottom: 2rem;
+            filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.1));
+        }
+
         @keyframes slideUp {
             from {
                 transform: translateY(40px);
@@ -758,6 +764,8 @@
     <!-- Auth Overlay -->
     <div id="auth-overlay">
         <div class="auth-box">
+            <img src="https://www.dropbox.com/scl/fi/h40yjlyg8ldefwfaa3dib/polymath-logo-sticker.png?rlkey=o1ra4taqy79gt9t8u096v82zj&raw=1"
+                alt="Polymath Logo" class="auth-logo">
             <h2 id="auth-title" class="auth-title">Welcome Back!</h2>
             <p class="auth-subtitle">Sign in to continue your learning journey</p>
 
@@ -802,6 +810,8 @@
             <button class="tab-btn" data-type="constant-variable">Constant Variable</button>
             <button class="tab-btn" data-type="explanation">Explanation</button>
             <button class="tab-btn" data-type="control-setup">Control Set-up</button>
+            <button class="tab-btn hidden" id="tab-admin" data-type="admin"
+                style="background-color: #ffd1dc;">Admin</button>
             <button class="print-btn" onclick="printAll()">🖨️ Print All</button>
         </header>
 
@@ -1314,6 +1324,46 @@
                 <p>Coming Soon</p>
             </div>
         </div>
+
+        <div id="view-admin" class="app-body hidden">
+            <main class="main-content" style="max-width: 900px; margin: 0 auto; padding-top: 2rem;">
+                <h2 style="margin-bottom: 2rem; color: var(--main-text);">Question Creator (Admin)</h2>
+
+                <div id="admin-editor" class="answer-box"
+                    style="background: #fff; border: 1px solid var(--border-color);">
+                    <div id="admin-blocks">
+                        <!-- Dynamic blocks will be added here -->
+                    </div>
+
+                    <div
+                        style="display: flex; gap: 1rem; margin-top: 2rem; border-top: 2px dashed #eee; padding-top: 1.5rem;">
+                        <button class="btn" onclick="addAdminBlock('text')"
+                            style="background: #e7f5ff; color: #007bff; flex: 1;">+ Add Text</button>
+                        <button class="btn" onclick="addAdminBlock('image')"
+                            style="background: #fdfdfd; border: 1px solid #ddd; color: #555; flex: 1;">+ Add Image
+                            URL</button>
+                    </div>
+
+                    <div id="admin-actions" class="controls"
+                        style="margin-top: 3rem; padding-top: 2rem; border-top: 2px solid #eee;">
+                        <button class="btn" onclick="processAdminQuestion()"
+                            style="background: #28a745; color: white;">Process for Blanks</button>
+                        <button id="save-question-btn" class="btn hidden" onclick="saveAdminQuestion()"
+                            style="background: var(--primary-blue); color: white;">Save Question</button>
+                    </div>
+                </div>
+
+                <div id="admin-preview-section" class="hidden" style="margin-top: 4rem;">
+                    <h3 style="margin-bottom: 1.5rem;">Interactive Preview</h3>
+                    <p style="color: #666; font-size: 0.9rem; margin-bottom: 1.5rem;">Click the words you want to turn
+                        into blanks. Yellow words will become questions.</p>
+                    <div id="admin-preview-content" class="answer-template"
+                        style="background: var(--blue-light); padding: 2rem; border-radius: 12px;">
+                        <!-- Preview content here -->
+                    </div>
+                </div>
+            </main>
+        </div>
     </div>
 
     <script>
@@ -1423,7 +1473,8 @@
                 'accuracy': '#FDFD96',
                 'constant-variable': '#B5EAD7',
                 'explanation': '#FF9AA2',
-                'control-setup': '#E0BBE4'
+                'control-setup': '#E0BBE4',
+                'admin': '#ffd1dc'
             };
 
             tabButtons.forEach(btn => {
@@ -1452,6 +1503,84 @@
             });
 
             switchTopic('heat');
+
+            // --- ADMIN LOGIC ---
+            let adminBlocks = [];
+
+            window.addAdminBlock = function (type) {
+                const id = Date.now();
+                const block = { id, type, value: '' };
+                adminBlocks.push(block);
+                renderAdminBlocks();
+            };
+
+            function renderAdminBlocks() {
+                const container = document.getElementById('admin-blocks');
+                container.innerHTML = adminBlocks.map((block, index) => `
+                    <div class="admin-block" style="margin-bottom: 1rem; position: relative; padding: 1rem; border: 1px solid #eee; border-radius: 8px;">
+                        <span style="font-size: 0.8rem; color: #999; text-transform: uppercase;">${block.type} Block</span>
+                        <button onclick="removeAdminBlock(${block.id})" style="position: absolute; right: 10px; top: 10px; border: none; background: none; cursor: pointer; color: #dc3545;">✕</button>
+                        ${block.type === 'text' ?
+                        `<textarea class="auth-input" style="height: 100px; margin-top: 10px;" oninput="updateBlockValue(${block.id}, this.value)" placeholder="Enter text here...">${block.value}</textarea>` :
+                        `<input type="text" class="auth-input" style="margin-top: 10px;" oninput="updateBlockValue(${block.id}, this.value)" value="${block.value}" placeholder="Enter image URL here...">`
+                    }
+                    </div>
+                `).join('');
+            }
+
+            window.removeAdminBlock = function (id) {
+                adminBlocks = adminBlocks.filter(b => b.id !== id);
+                renderAdminBlocks();
+            };
+
+            window.updateBlockValue = function (id, value) {
+                const block = adminBlocks.find(b => b.id === id);
+                if (block) block.value = value;
+            };
+
+            window.processAdminQuestion = function () {
+                const previewSection = document.getElementById('admin-preview-section');
+                const previewContent = document.getElementById('admin-preview-content');
+                previewSection.classList.remove('hidden');
+
+                let html = '';
+                adminBlocks.forEach(block => {
+                    if (block.type === 'text') {
+                        // Split text into words, wrap each in a clickable span
+                        const words = block.value.split(/\s+/);
+                        const wrappedWords = words.map(word => `<span class="admin-word" onclick="toggleBlank(this)" style="cursor: pointer; padding: 2px 4px; border-radius: 4px; transition: all 0.2s;">${word}</span>`).join(' ');
+                        html += `<div class="cer-segment" style="margin-bottom: 1rem; line-height: 2;">${wrappedWords}</div>`;
+                    } else if (block.type === 'image' && block.value) {
+                        html += `<img src="${block.value}" style="max-width: 100%; border-radius: 8px; margin-bottom: 1rem;">`;
+                    }
+                });
+
+                previewContent.innerHTML = html;
+                document.getElementById('save-question-btn').classList.remove('hidden');
+                previewSection.scrollIntoView({ behavior: 'smooth' });
+            };
+
+            window.toggleBlank = function (el) {
+                if (el.classList.contains('is-blank')) {
+                    el.classList.remove('is-blank');
+                    el.style.backgroundColor = 'transparent';
+                    el.style.borderBottom = 'none';
+                } else {
+                    el.classList.add('is-blank');
+                    el.style.backgroundColor = '#fff9c4';
+                    el.style.borderBottom = '2px solid #fbc02d';
+                }
+            };
+
+            window.saveAdminQuestion = async function () {
+                const previewContent = document.getElementById('admin-preview-content');
+                const segments = previewContent.querySelectorAll('.cer-segment');
+
+                // Construct the final question object
+                // This is a simplified version, in a real app we'd save it to Firestore
+                alert("Question generated! In a full implementation, this would be saved to Firestore and appear in a 'Custom' tab.");
+                console.log("Generated Content HTML:", previewContent.innerHTML);
+            };
         });
     </script>
     <script type="module">
@@ -1542,8 +1671,22 @@
         // Auto-check login status
         onAuthStateChanged(auth, (user) => {
             const overlay = document.getElementById('auth-overlay');
-            if (user) { overlay.style.display = 'none'; trackLoginDays(user); }
-            else { overlay.style.display = 'flex'; }
+            const adminTab = document.getElementById('tab-admin');
+            if (user) {
+                overlay.style.display = 'none';
+                trackLoginDays(user);
+                // Simple admin check: if email contains admin keyword (FOR DEMO)
+                // In production, check Firestore user role
+                if (user.email && (user.email.includes('admin') || user.email === 'zhikaichung@gmail.com')) {
+                    adminTab.classList.remove('hidden');
+                } else {
+                    adminTab.classList.add('hidden');
+                }
+            }
+            else {
+                overlay.style.display = 'flex';
+                adminTab.classList.add('hidden');
+            }
         });
     </script>
 
