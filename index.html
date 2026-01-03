@@ -243,6 +243,60 @@
             display: block;
         }
 
+        /* Video container - hidden by default, shown after answering */
+        .video-container.hidden-until-answered {
+            display: none;
+        }
+
+        /* Draggable admin blocks */
+        .admin-block {
+            transition: transform 0.2s, box-shadow 0.2s, opacity 0.2s;
+        }
+        
+        .admin-block:not(.no-drag) {
+            cursor: grab;
+        }
+        
+        .admin-block:not(.no-drag):active {
+            cursor: grabbing;
+        }
+        
+        .admin-block.no-drag {
+            cursor: default;
+            opacity: 0.95;
+        }
+        
+        .admin-block.dragging {
+            opacity: 0.5;
+            transform: scale(1.02);
+            box-shadow: 0 8px 20px rgba(0,0,0,0.15);
+        }
+        
+        .admin-block.drag-over {
+            border-top: 3px solid #007bff !important;
+            margin-top: -3px;
+        }
+        
+        .admin-block .drag-handle {
+            position: absolute;
+            left: 10px;
+            top: 50%;
+            transform: translateY(-50%);
+            cursor: grab;
+            color: #999;
+            font-size: 1.2rem;
+            padding: 5px;
+            user-select: none;
+        }
+        
+        .admin-block .drag-handle:hover {
+            color: #666;
+        }
+        
+        .admin-block .drag-handle:active {
+            cursor: grabbing;
+        }
+
         @keyframes circle-pop {
             0% {
                 transform: scale(0);
@@ -2958,6 +3012,12 @@
             if (explanationBox) {
                 explanationBox.style.display = 'block';
             }
+            
+            // Show video if it exists
+            const videoContainer = container.querySelector('.video-container');
+            if (videoContainer) {
+                videoContainer.style.display = 'block';
+            }
         };
 
         // =====================================================
@@ -3013,17 +3073,42 @@
         function addAdminBlock(type) {
             const id = Date.now();
             const block = { id, type, value: '' };
-            window.adminBlocks.push(block);
+            
+            // Video and explanation should always be at the end
+            if (type === 'video' || type === 'explanation') {
+                window.adminBlocks.push(block);
+            } else {
+                // Insert before any video/explanation blocks
+                const lastContentIndex = window.adminBlocks.findIndex(b => b.type === 'video' || b.type === 'explanation');
+                if (lastContentIndex === -1) {
+                    window.adminBlocks.push(block);
+                } else {
+                    window.adminBlocks.splice(lastContentIndex, 0, block);
+                }
+            }
             renderAdminBlocks();
         }
 
         function renderAdminBlocks() {
             const container = document.getElementById('admin-blocks');
             if (!container) return;
-            container.innerHTML = window.adminBlocks.map((block) => {
+            
+            let html = '';
+            let addedSeparator = false;
+            
+            window.adminBlocks.forEach((block, index) => {
+                // Add separator before first video/explanation block
+                if (!addedSeparator && (block.type === 'video' || block.type === 'explanation')) {
+                    html += `<div style="margin: 1.5rem 0; padding: 0.8rem; background: linear-gradient(90deg, #e3f2fd 0%, #f5f5f5 50%, #e3f2fd 100%); border-radius: 8px; text-align: center;">
+                        <span style="color: #666; font-size: 0.85rem; font-weight: 500;">📌 Shown after students answer (drag blocks above to reorder)</span>
+                    </div>`;
+                    addedSeparator = true;
+                }
+                
                 // Handle table blocks specially
                 if (block.type === 'table') {
-                    return renderTableBlock(block);
+                    html += renderTableBlock(block);
+                    return;
                 }
                 
                 let inputHtml = '';
@@ -3057,20 +3142,127 @@
                 const typeLabels = {
                     'text': '📝 TEXT BLOCK',
                     'answer': '✏️ ANSWER BLOCK (fill-in-blank)',
-                    'explanation': '💡 EXPLANATION BLOCK',
-                    'video': '🎬 VIDEO BLOCK',
+                    'explanation': '💡 EXPLANATION (shown after answer)',
+                    'video': '🎬 VIDEO (shown after answer, optional)',
                     'image': '🖼️ IMAGE BLOCK'
                 };
+                
+                // Only text, image, answer, and table blocks are draggable
+                // Video and explanation are fixed at the end
+                const isDraggable = ['text', 'image', 'answer', 'table'].includes(block.type);
+                const dragAttrs = isDraggable ? `draggable="true" 
+                             ondragstart="handleDragStart(event, ${block.id})" 
+                             ondragend="handleDragEnd(event)"
+                             ondragover="handleDragOver(event)" 
+                             ondragleave="handleDragLeave(event)"
+                             ondrop="handleDrop(event, ${block.id})"` : '';
+                const dragHandle = isDraggable ? `<span class="drag-handle" title="Drag to reorder">⋮⋮</span>` : '';
+                const leftPadding = isDraggable ? '40px' : '1rem';
 
-                return `
-                        <div class="admin-block" style="margin-bottom: 1rem; position: relative; padding: 1rem; border: 1px solid #eee; border-radius: 8px; ${typeColors[block.type] || ''}">
+                html += `
+                        <div class="admin-block ${isDraggable ? '' : 'no-drag'}" data-block-id="${block.id}" ${dragAttrs}
+                             style="margin-bottom: 1rem; position: relative; padding: 1rem 1rem 1rem ${leftPadding}; border: 1px solid #eee; border-radius: 8px; ${typeColors[block.type] || ''}">
+                            ${dragHandle}
                             <span style="font-size: 0.8rem; color: #666; font-weight: 600;">${typeLabels[block.type] || block.type.toUpperCase()}</span>
                             <button onclick="removeAdminBlock(${block.id})" style="position: absolute; right: 10px; top: 10px; border: none; background: none; cursor: pointer; color: #dc3545; font-size: 1.2rem;">✕</button>
                             ${inputHtml}
                         </div>
                     `;
-            }).join('');
+            });
+            
+            container.innerHTML = html;
+            
+            // Re-attach any event listeners if needed
+            initDragAndDrop();
         }
+        
+        // ==================== DRAG AND DROP FUNCTIONS ====================
+        
+        window.draggedBlockId = null;
+        
+        window.initDragAndDrop = function() {
+            // Initialize is called after render, nothing special needed here
+            // All handlers are inline in the HTML
+        };
+        
+        window.handleDragStart = function(event, blockId) {
+            window.draggedBlockId = blockId;
+            event.target.classList.add('dragging');
+            event.dataTransfer.effectAllowed = 'move';
+            event.dataTransfer.setData('text/plain', blockId);
+        };
+        
+        window.handleDragEnd = function(event) {
+            event.target.classList.remove('dragging');
+            // Remove drag-over class from all blocks
+            document.querySelectorAll('.admin-block').forEach(block => {
+                block.classList.remove('drag-over');
+            });
+            window.draggedBlockId = null;
+        };
+        
+        window.handleDragOver = function(event) {
+            event.preventDefault();
+            event.dataTransfer.dropEffect = 'move';
+            const block = event.target.closest('.admin-block');
+            if (block && !block.classList.contains('dragging')) {
+                // Remove drag-over from other blocks
+                document.querySelectorAll('.admin-block').forEach(b => {
+                    if (b !== block) b.classList.remove('drag-over');
+                });
+                block.classList.add('drag-over');
+            }
+        };
+        
+        window.handleDragLeave = function(event) {
+            const block = event.target.closest('.admin-block');
+            if (block) {
+                block.classList.remove('drag-over');
+            }
+        };
+        
+        window.handleDrop = function(event, targetBlockId) {
+            event.preventDefault();
+            const block = event.target.closest('.admin-block');
+            if (block) {
+                block.classList.remove('drag-over');
+            }
+            
+            if (window.draggedBlockId === null || window.draggedBlockId === targetBlockId) return;
+            
+            // Find the blocks
+            const draggedBlock = window.adminBlocks.find(b => b.id === window.draggedBlockId);
+            const targetBlock = window.adminBlocks.find(b => b.id === targetBlockId);
+            
+            // Don't allow dragging video/explanation blocks
+            if (draggedBlock && (draggedBlock.type === 'video' || draggedBlock.type === 'explanation')) {
+                window.draggedBlockId = null;
+                return;
+            }
+            
+            // Don't allow dropping onto video/explanation blocks
+            if (targetBlock && (targetBlock.type === 'video' || targetBlock.type === 'explanation')) {
+                window.draggedBlockId = null;
+                return;
+            }
+            
+            // Find indices
+            const fromIndex = window.adminBlocks.findIndex(b => b.id === window.draggedBlockId);
+            const toIndex = window.adminBlocks.findIndex(b => b.id === targetBlockId);
+            
+            if (fromIndex === -1 || toIndex === -1) return;
+            
+            // Reorder the array
+            const [movedBlock] = window.adminBlocks.splice(fromIndex, 1);
+            window.adminBlocks.splice(toIndex, 0, movedBlock);
+            
+            // Re-render
+            renderAdminBlocks();
+            
+            window.draggedBlockId = null;
+        };
+        
+        // ==================== END DRAG AND DROP ====================
         
         // Update image preview when URL changes
         window.updateImagePreview = function(blockId) {
@@ -3283,7 +3475,14 @@
             tableHtml += '</table>';
             
             return `
-                <div class="admin-block" id="table-block-${blockId}" style="margin-bottom: 1rem; position: relative; padding: 1rem; border: 1px solid #81c784; border-radius: 8px; background: linear-gradient(135deg, #f1f8e9 0%, #e8f5e9 100%);">
+                <div class="admin-block" id="table-block-${blockId}" data-block-id="${blockId}" draggable="true"
+                     ondragstart="handleDragStart(event, ${blockId})" 
+                     ondragend="handleDragEnd(event)"
+                     ondragover="handleDragOver(event)" 
+                     ondragleave="handleDragLeave(event)"
+                     ondrop="handleDrop(event, ${blockId})"
+                     style="margin-bottom: 1rem; position: relative; padding: 1rem 1rem 1rem 40px; border: 1px solid #81c784; border-radius: 8px; background: linear-gradient(135deg, #f1f8e9 0%, #e8f5e9 100%);">
+                    <span class="drag-handle" title="Drag to reorder">⋮⋮</span>
                     <span style="font-size: 0.8rem; color: #2e7d32; font-weight: 600;">📊 TABLE BLOCK</span>
                     <button onclick="removeAdminBlock(${blockId})" style="position: absolute; right: 10px; top: 10px; border: none; background: none; cursor: pointer; color: #dc3545; font-size: 1.2rem;">✕</button>
                     
@@ -3596,7 +3795,7 @@
                     } else if (videoUrl.includes('youtu.be/')) {
                         videoUrl = videoUrl.replace('youtu.be/', 'youtube.com/embed/');
                     }
-                    html += `<div class="video-container" style="margin-bottom: 1.5rem; border-radius: 12px; overflow: hidden; box-shadow: 0 4px 12px rgba(0,0,0,0.1);">
+                    html += `<div class="video-container hidden-until-answered" style="margin-bottom: 1.5rem; border-radius: 12px; overflow: hidden; box-shadow: 0 4px 12px rgba(0,0,0,0.1); display: none;">
                                 <iframe src="${videoUrl}" style="width: 100%; height: 315px; border: none;" allowfullscreen></iframe>
                              </div>`;
                 } else if (block.type === 'table' && block.value) {
@@ -3693,6 +3892,12 @@
                         el.style.display = 'none';
                     });
                     
+                    // Ensure video containers are hidden by default
+                    clone.querySelectorAll('.video-container').forEach(el => {
+                        el.style.display = 'none';
+                        el.classList.add('hidden-until-answered');
+                    });
+                    
                     const selectedWords = clone.querySelectorAll('.admin-word.is-blank');
                     selectedWords.forEach(word => {
                         const answer = word.textContent.trim().replace(/[.,!?;:]/g, '');
@@ -3743,7 +3948,7 @@
                             } else if (videoUrl.includes('youtu.be/')) {
                                 videoUrl = videoUrl.replace('youtu.be/', 'youtube.com/embed/');
                             }
-                            finalHtml += `<div class="video-container" style="margin-bottom: 1.5rem; border-radius: 12px; overflow: hidden; box-shadow: 0 4px 12px rgba(0,0,0,0.1);">
+                            finalHtml += `<div class="video-container hidden-until-answered" style="margin-bottom: 1.5rem; border-radius: 12px; overflow: hidden; box-shadow: 0 4px 12px rgba(0,0,0,0.1); display: none;">
                                 <iframe src="${videoUrl}" style="width: 100%; height: 315px; border: none;" allowfullscreen></iframe>
                              </div>`;
                         } else if (block.type === 'table' && block.value) {
@@ -4237,6 +4442,12 @@
                 if (explanationBox) {
                     explanationBox.style.display = 'block';
                 }
+                
+                // Show video if it exists
+                const videoContainer = form.querySelector('.video-container');
+                if (videoContainer) {
+                    videoContainer.style.display = 'block';
+                }
             });
         }
         window.setupQuestionFormGlobal = setupQuestionForm;
@@ -4579,6 +4790,11 @@
                                 // Ensure explanation boxes are hidden by default
                                 tempDiv.querySelectorAll('.explanation-box').forEach(el => {
                                     el.style.display = 'none';
+                                });
+                                // Ensure video containers are hidden by default
+                                tempDiv.querySelectorAll('.video-container').forEach(el => {
+                                    el.style.display = 'none';
+                                    el.classList.add('hidden-until-answered');
                                 });
                                 processedHtml = tempDiv.innerHTML;
                                 
