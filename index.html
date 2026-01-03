@@ -921,16 +921,44 @@
         .table-grid-selector {
             position: fixed;
             background: white;
-            border: 1px solid #ddd;
+            border: 2px solid #81c784;
             border-radius: 12px;
-            padding: 15px;
-            box-shadow: 0 8px 30px rgba(0,0,0,0.25);
+            padding: 15px 18px 18px 18px;
+            box-shadow: 0 8px 30px rgba(0,0,0,0.25), 0 0 0 4px rgba(129, 199, 132, 0.2);
             z-index: 10000;
-            display: none;
+            visibility: hidden;
+            opacity: 0;
+            transform: translateY(10px) scale(0.95);
+            transition: opacity 0.2s ease, transform 0.2s ease, visibility 0.2s;
         }
 
         .table-grid-selector.visible {
-            display: block !important;
+            visibility: visible;
+            opacity: 1;
+            transform: translateY(0) scale(1);
+        }
+
+        /* Arrow pointing down to the button */
+        .table-grid-selector::after {
+            content: '';
+            position: absolute;
+            bottom: -10px;
+            left: 50%;
+            transform: translateX(-50%);
+            border-width: 10px 10px 0 10px;
+            border-style: solid;
+            border-color: white transparent transparent transparent;
+        }
+        
+        .table-grid-selector::before {
+            content: '';
+            position: absolute;
+            bottom: -13px;
+            left: 50%;
+            transform: translateX(-50%);
+            border-width: 12px 12px 0 12px;
+            border-style: solid;
+            border-color: #81c784 transparent transparent transparent;
         }
 
         .table-grid-selector h4 {
@@ -945,25 +973,28 @@
             grid-template-columns: repeat(8, 28px);
             grid-template-rows: repeat(8, 28px);
             gap: 3px;
+            background: #f5f5f5;
+            padding: 5px;
+            border-radius: 6px;
         }
 
         .table-grid-cell {
             width: 28px;
             height: 28px;
-            border: 1px solid #ddd;
-            background: #f9f9f9;
+            border: 1px solid #ccc;
+            background: white;
             border-radius: 3px;
             cursor: pointer;
             transition: all 0.1s;
         }
 
         .table-grid-cell.selected {
-            background: #AEC6CF;
-            border-color: #7fb3c2;
+            background: #81c784;
+            border-color: #4caf50;
         }
 
         .table-grid-cell:hover {
-            background: #e0f0f5;
+            border-color: #4caf50;
         }
 
         .grid-size-label {
@@ -3025,7 +3056,7 @@
                 }
             });
             
-            document.getElementById('grid-size-label').textContent = `${targetCol} × ${targetRow} Table`;
+            document.getElementById('grid-size-label').innerHTML = `<strong>${targetCol} × ${targetRow}</strong> table`;
         }
 
         function handleGridClick(e) {
@@ -3053,32 +3084,36 @@
                 initTableGridSelector();
             }
             
-            // Position the selector near the button using fixed positioning
+            // Position the selector ABOVE the button
             const rect = btn.getBoundingClientRect();
+            const selectorHeight = 320; // approximate height of the selector
             
-            // Adjust position to ensure it's visible on screen
-            let top = rect.bottom + 10;
-            let left = rect.left;
+            // Position above the button, centered horizontally on the button
+            let top = rect.top - selectorHeight - 10;
+            let left = rect.left + (rect.width / 2) - 140; // center it (selector is ~280px wide)
             
-            // Make sure it doesn't go off the right edge
-            const selectorWidth = 280; // approximate width
-            if (left + selectorWidth > window.innerWidth) {
-                left = window.innerWidth - selectorWidth - 20;
+            // Make sure it doesn't go off the left edge
+            if (left < 10) {
+                left = 10;
             }
             
-            // Make sure it doesn't go off the bottom
-            const selectorHeight = 320; // approximate height
-            if (top + selectorHeight > window.innerHeight) {
-                top = rect.top - selectorHeight - 10;
+            // Make sure it doesn't go off the right edge
+            if (left + 280 > window.innerWidth) {
+                left = window.innerWidth - 290;
+            }
+            
+            // If not enough space above, show below instead
+            if (top < 10) {
+                top = rect.bottom + 10;
             }
             
             selector.style.top = top + 'px';
-            selector.style.left = Math.max(10, left) + 'px';
+            selector.style.left = left + 'px';
             selector.classList.add('visible');
             
             // Reset grid selection
             document.querySelectorAll('.table-grid-cell').forEach(c => c.classList.remove('selected'));
-            document.getElementById('grid-size-label').textContent = 'Select size';
+            document.getElementById('grid-size-label').innerHTML = '<span style="color: #888;">Hover to select</span>';
             
             // Close when clicking outside
             setTimeout(() => {
@@ -4473,9 +4508,12 @@
 
     <!-- PowerPoint-style Table Grid Selector (positioned fixed, outside all containers) -->
     <div id="table-grid-selector" class="table-grid-selector">
-        <h4 style="margin: 0 0 12px 0; font-size: 0.95rem; color: #333; font-weight: 600;">📊 Insert Table</h4>
+        <h4 style="margin: 0 0 12px 0; font-size: 1rem; color: #2e7d32; font-weight: 600; display: flex; align-items: center; gap: 8px;">
+            <span style="font-size: 1.2rem;">📊</span> Insert Table
+        </h4>
+        <p style="margin: 0 0 10px 0; font-size: 0.8rem; color: #666;">Hover to select size, click to insert</p>
         <div class="table-grid" id="table-grid"></div>
-        <div class="grid-size-label" id="grid-size-label" style="text-align: center; margin-top: 12px; font-size: 0.9rem; color: #007bff; font-weight: 600;">Select size</div>
+        <div class="grid-size-label" id="grid-size-label" style="text-align: center; margin-top: 12px; font-size: 0.95rem; color: #2e7d32; font-weight: 600; min-height: 20px;">Select size</div>
     </div>
 
 </body>
