@@ -2106,10 +2106,8 @@
 
                 <div id="oeq-sidebar-content">
                     <h2 id="oeq-title">OEQ Questions</h2>
-                    <nav class="sidebar-nav">
-                        <button id="btn-heat">Heat</button>
-                        <button id="btn-light">Light</button>
-                        <button id="btn-materials">Materials</button>
+                    <nav id="oeq-topic-nav" class="sidebar-nav">
+                        <!-- Dynamic topic buttons will be populated here -->
                     </nav>
                 </div>
 
@@ -2517,16 +2515,9 @@
 
                 <!-- View: Single Relationship -->
                 <div id="view-single-relationship" class="view-content hidden">
-                    <div class="sidebar">
-                        <h2>Single Relationship</h2>
-                        <nav class="sidebar-nav">
-                            <button id="btn-sr-forces" class="active">Forces</button>
-                        </nav>
-                    </div>
-                    <div class="main-content">
-                        <!-- TOPIC: FORCES -->
-                        <div id="topic-sr-forces" class="topic-content">
-                            <div id="sr-forces-question-1" class="question-container">
+                    <!-- TOPIC: FORCES -->
+                    <div id="topic-sr-forces" class="topic-content">
+                        <div id="sr-forces-question-1" class="question-container">
                                 <h3>Question 1</h3>
                                 <p>Meiling conducted an experiment by placing a 1 kg block on a flat surface and
                                     measured the amount of force needed to pull it along the surface using a spring
@@ -2574,7 +2565,6 @@
                                 </div>
                             </div>
                         </div>
-                    </div>
                 </div>
 
                 <div id="view-double-relationship" class="view-content hidden">
@@ -2585,15 +2575,8 @@
                 </div>
 
                 <div id="view-definition" class="view-content hidden">
-                    <div class="sidebar">
-                        <h2>Definition</h2>
-                        <nav class="sidebar-nav">
-                            <button id="btn-def-evap" class="active">Evaporation</button>
-                        </nav>
-                    </div>
-                    <div class="main-content">
-                        <div id="topic-def-evap" class="topic-content">
-                            <div id="def-evap-question-1" class="question-container">
+                    <div id="topic-def-evap" class="topic-content">
+                        <div id="def-evap-question-1" class="question-container">
                                 <h3>Question 1</h3>
                                 <p class="question-title">Define evaporation.</p>
                                 <div class="answer-box">
@@ -2621,7 +2604,6 @@
                                 </div>
                             </div>
                         </div>
-                    </div>
                 </div>
 
                 <div id="view-fairness" class="view-content hidden" style="flex: 1;">
@@ -3017,6 +2999,100 @@
             'mcq-P4': '#BAFFC9',
             'mcq-P5': '#BAE1FF',
             'mcq-P6': '#FFFFBA'
+        };
+
+        // =====================================================
+        // OEQ TOPICS BY TAB TYPE
+        // =====================================================
+        // Maps tab type to array of {name, id} objects
+        window.oeqTopics = {
+            'cer': [
+                {name: 'Heat', id: 'heat'},
+                {name: 'Light', id: 'light'},
+                {name: 'Materials', id: 'materials'}
+            ],
+            'definition': [
+                {name: 'Evaporation', id: 'def-evap'}
+            ],
+            'single-relationship': [
+                {name: 'Forces', id: 'sr-forces'}
+            ],
+            'double-relationship': [],
+            'fairness': [],
+            'reliability': [],
+            'accuracy': [],
+            'constant-variable': [],
+            'explanation': [],
+            'control-setup': []
+        };
+
+        window.currentOeqTab = 'cer';
+        window.currentOeqTopic = 'heat';
+
+        // Update OEQ sidebar topics based on current tab
+        window.updateOeqSidebar = function(tabType) {
+            const nav = document.getElementById('oeq-topic-nav');
+            const title = document.getElementById('oeq-title');
+            if (!nav) return;
+
+            const topics = window.oeqTopics[tabType] || [];
+            const tabNames = {
+                'cer': 'CER Questions',
+                'definition': 'Definition',
+                'single-relationship': 'Single Relationship',
+                'double-relationship': 'Double Relationship',
+                'fairness': 'Fairness',
+                'reliability': 'Reliability',
+                'accuracy': 'Accuracy',
+                'constant-variable': 'Constant Variable',
+                'explanation': 'Explanation',
+                'control-setup': 'Control Set-up'
+            };
+
+            if (title) {
+                title.textContent = tabNames[tabType] || 'OEQ Questions';
+            }
+
+            if (topics.length === 0) {
+                nav.innerHTML = '<p style="color: #888; font-size: 0.9rem;">Coming Soon</p>';
+                return;
+            }
+
+            nav.innerHTML = topics.map((topic, idx) => {
+                const activeClass = idx === 0 ? 'active' : '';
+                return `<button id="btn-${topic.id}" class="${activeClass}" onclick="selectOeqTopic('${tabType}', '${topic.id}', this)">${topic.name}</button>`;
+            }).join('');
+
+            // Select first topic by default
+            if (topics.length > 0) {
+                selectOeqTopic(tabType, topics[0].id, nav.querySelector('button'));
+            }
+        };
+
+        // Select an OEQ topic and show its content
+        window.selectOeqTopic = function(tabType, topicId, btn) {
+            window.currentOeqTopic = topicId;
+
+            // Update button states
+            const nav = document.getElementById('oeq-topic-nav');
+            if (nav) {
+                nav.querySelectorAll('button').forEach(b => b.classList.remove('active'));
+                if (btn) btn.classList.add('active');
+            }
+
+            // Hide all topic contents within the current view
+            const viewContainer = document.getElementById(`view-${tabType}`);
+            if (viewContainer) {
+                viewContainer.querySelectorAll('.topic-content').forEach(tc => {
+                    tc.classList.add('hidden');
+                });
+
+                // Show the selected topic - try multiple ID patterns
+                let targetTopic = viewContainer.querySelector(`#topic-${topicId}`);
+                if (targetTopic) {
+                    targetTopic.classList.remove('hidden');
+                }
+            }
         };
 
         // =====================================================
@@ -3749,33 +3825,27 @@
                 target.classList.remove('hidden');
             }
 
-            // Handle sidebar visibility - OEQ sidebar only shows for CER tab
+            // Handle sidebar visibility
             const oeqSidebarContent = document.getElementById('oeq-sidebar-content');
             const mcqSidebarContent = document.getElementById('mcq-sidebar-content');
             
-            // List of OEQ tabs that should show the OEQ sidebar (only CER)
-            const oeqTabsWithSidebar = ['cer'];
-            // List of tabs that are non-sidebar tabs (other OEQ question types)
-            const nonSidebarTabs = ['definition', 'single-relationship', 'double-relationship', 'fairness', 'reliability', 'accuracy', 'constant-variable', 'explanation', 'control-setup'];
+            // List of all OEQ tabs
+            const oeqTabs = ['cer', 'definition', 'single-relationship', 'double-relationship', 'fairness', 'reliability', 'accuracy', 'constant-variable', 'explanation', 'control-setup'];
             // List of special tabs (admin, worksheet, etc)
             const specialTabs = ['admin', 'worksheet', 'saved-worksheets', 'lessons', 'lesson-detail'];
             
             if (oeqSidebarContent && mcqSidebarContent) {
-                if (oeqTabsWithSidebar.includes(type)) {
-                    // Show OEQ sidebar for CER tab
+                if (oeqTabs.includes(type)) {
+                    // Show OEQ sidebar for all OEQ tabs and update topics
                     oeqSidebarContent.classList.remove('hidden');
                     mcqSidebarContent.classList.add('hidden');
-                } else if (nonSidebarTabs.includes(type) || specialTabs.includes(type)) {
-                    // Hide both sidebars for other OEQ tabs and special tabs
+                    window.currentOeqTab = type;
+                    updateOeqSidebar(type);
+                } else if (specialTabs.includes(type)) {
+                    // Hide both sidebars for special tabs
                     oeqSidebarContent.classList.add('hidden');
                     mcqSidebarContent.classList.add('hidden');
                 }
-            }
-
-            // Handle specific view logic
-            if (type === 'cer') {
-                const heatBtn = document.getElementById('btn-heat');
-                if (heatBtn) heatBtn.click();
             }
 
             // Update border color and header line color
@@ -6851,8 +6921,13 @@
                                 if (category === 'mcq') {
                                     mainContentArea.appendChild(topicContainer);
                                 } else if (targetView) {
+                                    // Try to find main-content, if not found, append directly to view
                                     const targetContent = targetView.querySelector('.main-content');
-                                    if (targetContent) targetContent.appendChild(topicContainer);
+                                    if (targetContent) {
+                                        targetContent.appendChild(topicContainer);
+                                    } else {
+                                        targetView.appendChild(topicContainer);
+                                    }
                                 }
                             }
 
