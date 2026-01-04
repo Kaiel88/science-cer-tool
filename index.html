@@ -3175,7 +3175,7 @@
     </div>
 
     <!-- Consult Mr Chung Modal -->
-    <div id="consult-modal" class="modal-overlay" style="display: none;">
+    <div id="consult-modal" class="modal-overlay">
         <div class="modal-box" style="max-width: 600px;">
             <h3 style="color: #0288d1; margin-bottom: 1rem;">💬 Ask Mr Chung</h3>
             <div id="consult-question-preview" style="background: #f5f5f5; padding: 1rem; border-radius: 8px; margin-bottom: 1rem; max-height: 150px; overflow-y: auto; font-size: 0.9rem; border-left: 4px solid #0288d1;">
@@ -3193,7 +3193,7 @@
     </div>
 
     <!-- New Message Modal (for admin to message students) -->
-    <div id="new-message-modal" class="modal-overlay" style="display: none;">
+    <div id="new-message-modal" class="modal-overlay">
         <div class="modal-box" style="max-width: 600px;">
             <h3 style="color: #0288d1; margin-bottom: 1rem;">✉️ New Message</h3>
             <div class="form-group" id="recipient-select-group">
@@ -3219,7 +3219,7 @@
     </div>
 
     <!-- View Message Modal -->
-    <div id="view-message-modal" class="modal-overlay" style="display: none;">
+    <div id="view-message-modal" class="modal-overlay">
         <div class="modal-box" style="max-width: 650px;">
             <div id="view-message-content"></div>
             <div class="modal-buttons" style="margin-top: 1.5rem;">
@@ -4746,7 +4746,7 @@
                 // Show/hide reply button based on whether this is a received message
                 document.getElementById('btn-reply-message').style.display = isReceived ? 'inline-block' : 'none';
                 
-                document.getElementById('view-message-modal').style.display = 'flex';
+                document.getElementById('view-message-modal').classList.add('visible');
                 
             } catch (e) {
                 console.error("Error viewing message:", e);
@@ -4755,7 +4755,7 @@
         };
 
         window.hideViewMessageModal = function() {
-            document.getElementById('view-message-modal').style.display = 'none';
+            document.getElementById('view-message-modal').classList.remove('visible');
             window.currentViewingMessage = null;
             loadInbox(); // Refresh inbox to update read status
         };
@@ -4768,7 +4768,7 @@
             hideViewMessageModal();
             
             // Open new message modal with pre-filled info
-            document.getElementById('new-message-modal').style.display = 'flex';
+            document.getElementById('new-message-modal').classList.add('visible');
             document.getElementById('new-message-subject').value = `Re: ${msg.subject || 'No Subject'}`;
             document.getElementById('new-message-content').value = '';
             
@@ -4829,11 +4829,11 @@
                 select.appendChild(option);
             }
             
-            document.getElementById('new-message-modal').style.display = 'flex';
+            document.getElementById('new-message-modal').classList.add('visible');
         };
 
         window.hideNewMessageModal = function() {
-            document.getElementById('new-message-modal').style.display = 'none';
+            document.getElementById('new-message-modal').classList.remove('visible');
             window.replyToRecipient = null;
         };
 
@@ -4980,11 +4980,11 @@
             `;
             
             document.getElementById('consult-message').value = '';
-            document.getElementById('consult-modal').style.display = 'flex';
+            document.getElementById('consult-modal').classList.add('visible');
         };
 
         window.hideConsultModal = function() {
-            document.getElementById('consult-modal').style.display = 'none';
+            document.getElementById('consult-modal').classList.remove('visible');
             window.currentConsultQuestion = null;
         };
 
