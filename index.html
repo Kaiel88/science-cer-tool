@@ -3749,6 +3749,29 @@
                 target.classList.remove('hidden');
             }
 
+            // Handle sidebar visibility - OEQ sidebar only shows for CER tab
+            const oeqSidebarContent = document.getElementById('oeq-sidebar-content');
+            const mcqSidebarContent = document.getElementById('mcq-sidebar-content');
+            
+            // List of OEQ tabs that should show the OEQ sidebar (only CER)
+            const oeqTabsWithSidebar = ['cer'];
+            // List of tabs that are non-sidebar tabs (other OEQ question types)
+            const nonSidebarTabs = ['definition', 'single-relationship', 'double-relationship', 'fairness', 'reliability', 'accuracy', 'constant-variable', 'explanation', 'control-setup'];
+            // List of special tabs (admin, worksheet, etc)
+            const specialTabs = ['admin', 'worksheet', 'saved-worksheets', 'lessons', 'lesson-detail'];
+            
+            if (oeqSidebarContent && mcqSidebarContent) {
+                if (oeqTabsWithSidebar.includes(type)) {
+                    // Show OEQ sidebar for CER tab
+                    oeqSidebarContent.classList.remove('hidden');
+                    mcqSidebarContent.classList.add('hidden');
+                } else if (nonSidebarTabs.includes(type) || specialTabs.includes(type)) {
+                    // Hide both sidebars for other OEQ tabs and special tabs
+                    oeqSidebarContent.classList.add('hidden');
+                    mcqSidebarContent.classList.add('hidden');
+                }
+            }
+
             // Handle specific view logic
             if (type === 'cer') {
                 const heatBtn = document.getElementById('btn-heat');
