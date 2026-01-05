@@ -13,6 +13,8 @@
     <meta http-equiv="Pragma" content="no-cache">
     <meta http-equiv="Expires" content="-1">
     <meta http-equiv="X-Content-Type-Options" content="nosniff">
+    <!-- APP VERSION - Update this when making changes -->
+    <meta name="app-version" content="2025.01.05.1">
     <title>CER Interactive Questions</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -315,6 +317,154 @@
         
         .admin-block .drag-handle:active {
             cursor: grabbing;
+        }
+
+        /* Rich Text Editor Styles */
+        .text-formatting-toolbar {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 4px;
+            margin-bottom: 8px;
+            padding: 8px 10px;
+            background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
+            border-radius: 8px;
+            border: 1px solid #dee2e6;
+            box-shadow: inset 0 1px 2px rgba(0,0,0,0.05);
+        }
+
+        .toolbar-group {
+            display: flex;
+            gap: 2px;
+            padding: 0 8px;
+            border-right: 1px solid #dee2e6;
+        }
+
+        .toolbar-group:last-child {
+            border-right: none;
+        }
+
+        .toolbar-group:first-child {
+            padding-left: 0;
+        }
+
+        .format-btn {
+            width: 34px;
+            height: 34px;
+            border: 1px solid #ced4da;
+            background: white;
+            border-radius: 6px;
+            cursor: pointer;
+            font-size: 0.9rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.15s ease;
+            color: #495057;
+        }
+
+        .format-btn:hover {
+            background: #e9ecef;
+            border-color: #adb5bd;
+            transform: translateY(-1px);
+        }
+
+        .format-btn:active {
+            background: #dee2e6;
+            transform: translateY(0);
+        }
+
+        .format-btn.active {
+            background: #007bff;
+            color: white;
+            border-color: #007bff;
+        }
+
+        .rich-text-editor {
+            min-height: 120px;
+            padding: 14px;
+            border: 2px solid #dee2e6;
+            border-radius: 8px;
+            background: white;
+            outline: none;
+            font-family: inherit;
+            font-size: 1rem;
+            line-height: 1.7;
+            transition: border-color 0.2s, box-shadow 0.2s;
+        }
+
+        .rich-text-editor:focus {
+            border-color: #007bff;
+            box-shadow: 0 0 0 3px rgba(0, 123, 255, 0.15);
+        }
+
+        .rich-text-editor:empty:before {
+            content: attr(data-placeholder);
+            color: #adb5bd;
+            pointer-events: none;
+        }
+
+        .rich-text-editor ol {
+            padding-left: 2em;
+            margin: 0.5em 0;
+        }
+
+        .rich-text-editor ul {
+            padding-left: 2em;
+            margin: 0.5em 0;
+        }
+
+        .rich-text-editor li {
+            margin: 0.3em 0;
+        }
+
+        /* List type dropdown */
+        .list-type-select {
+            height: 34px;
+            border: 1px solid #ced4da;
+            background: white;
+            border-radius: 6px;
+            cursor: pointer;
+            font-size: 0.8rem;
+            padding: 0 8px;
+            color: #495057;
+            transition: all 0.15s ease;
+        }
+
+        .list-type-select:hover {
+            background: #e9ecef;
+            border-color: #adb5bd;
+        }
+
+        .list-type-select:focus {
+            outline: none;
+            border-color: #007bff;
+        }
+
+        /* Parenthesis list styles using CSS counters */
+        .rich-text-editor ol.paren-list {
+            list-style: none;
+            counter-reset: paren-counter;
+        }
+
+        .rich-text-editor ol.paren-list li {
+            counter-increment: paren-counter;
+        }
+
+        .rich-text-editor ol.paren-list li::before {
+            content: counter(paren-counter) ") ";
+            margin-right: 0.3em;
+        }
+
+        .rich-text-editor ol.paren-list[data-list-type="lower-alpha"] li::before {
+            content: counter(paren-counter, lower-alpha) ") ";
+        }
+
+        .rich-text-editor ol.paren-list[data-list-type="upper-alpha"] li::before {
+            content: counter(paren-counter, upper-alpha) ") ";
+        }
+
+        .rich-text-editor ol.paren-list[data-list-type="decimal"] li::before {
+            content: counter(paren-counter, decimal) ") ";
         }
 
         @keyframes circle-pop {
@@ -1289,6 +1439,74 @@
             font-size: 10px;
             color: #ccc;
             z-index: 9999;
+        }
+
+        /* Update notification banner */
+        .update-banner {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 12px 20px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 15px;
+            z-index: 100000;
+            box-shadow: 0 4px 15px rgba(102, 126, 234, 0.4);
+            animation: slideDown 0.5s ease;
+            flex-wrap: wrap;
+        }
+
+        @keyframes slideDown {
+            from {
+                transform: translateY(-100%);
+                opacity: 0;
+            }
+            to {
+                transform: translateY(0);
+                opacity: 1;
+            }
+        }
+
+        .update-banner-text {
+            font-size: 0.95rem;
+            font-weight: 500;
+        }
+
+        .update-banner-btn {
+            background: white;
+            color: #667eea;
+            border: none;
+            padding: 8px 20px;
+            border-radius: 20px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            font-size: 0.9rem;
+        }
+
+        .update-banner-btn:hover {
+            transform: scale(1.05);
+            box-shadow: 0 2px 10px rgba(0,0,0,0.2);
+        }
+
+        .update-banner-dismiss {
+            background: transparent;
+            color: white;
+            border: 1px solid rgba(255,255,255,0.5);
+            padding: 6px 12px;
+            border-radius: 15px;
+            cursor: pointer;
+            font-size: 0.8rem;
+            transition: all 0.2s ease;
+        }
+
+        .update-banner-dismiss:hover {
+            background: rgba(255,255,255,0.1);
+            border-color: white;
         }
 
         /* Table Grid Selector (PowerPoint-style) */
@@ -2914,6 +3132,34 @@
                 margin: 12px 0;
             }
 
+            /* Text formatting toolbar on mobile */
+            .text-formatting-toolbar {
+                padding: 6px;
+                gap: 3px;
+            }
+
+            .toolbar-group {
+                padding: 0 4px;
+            }
+
+            .format-btn {
+                width: 30px;
+                height: 30px;
+                font-size: 0.8rem;
+            }
+
+            .list-type-select {
+                height: 30px;
+                font-size: 0.7rem;
+                padding: 0 4px;
+            }
+
+            .rich-text-editor {
+                min-height: 100px;
+                padding: 10px;
+                font-size: 0.95rem;
+            }
+
             /* Saved worksheets */
             .saved-worksheet-card .actions {
                 flex-direction: column;
@@ -4018,6 +4264,25 @@
                 <div id="view-admin" class="view-content hidden" style="flex: 1;">
                     <main style="max-width: 900px; margin: 0 auto; padding-top: 2rem;">
                         <h2 style="margin-bottom: 1rem; color: var(--main-text);">Question Creator (Admin)</h2>
+                        
+                        <!-- Push Update Section -->
+                        <div id="push-update-section" style="background: linear-gradient(135deg, #667eea15 0%, #764ba215 100%); padding: 1rem; border-radius: 12px; margin-bottom: 1.5rem; border: 1px solid #667eea30;">
+                            <div style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 10px;">
+                                <div>
+                                    <strong style="color: #667eea;">🚀 Push App Update</strong>
+                                    <div style="font-size: 0.8rem; color: #666; margin-top: 2px;">Current version: <code id="current-version-display" style="background: #e9ecef; padding: 2px 6px; border-radius: 4px;"></code></div>
+                                </div>
+                                <div style="display: flex; gap: 8px; flex-wrap: wrap;">
+                                    <button onclick="pushUpdateNotification(false)" class="btn" style="background: #667eea; color: white; font-size: 0.85rem; padding: 8px 16px;">
+                                        📢 Notify Users
+                                    </button>
+                                    <button onclick="pushUpdateNotification(true)" class="btn" style="background: #dc3545; color: white; font-size: 0.85rem; padding: 8px 16px;">
+                                        ⚡ Force Refresh
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                        
                         <div id="editing-indicator" class="hidden" style="background: #fff3cd; padding: 0.75rem 1rem; border-radius: 8px; margin-bottom: 1rem; font-size: 0.9rem; color: #856404; display: flex; justify-content: space-between; align-items: center;">
                             <span>✏️ <strong>Editing:</strong> <span id="editing-question-name"></span></span>
                             <button onclick="cancelEditing()" style="background: #856404; color: white; border: none; padding: 4px 12px; border-radius: 4px; cursor: pointer; font-size: 0.85rem;">Cancel Edit</button>
@@ -6353,6 +6618,198 @@
         };
 
         // =====================================================
+        // AUTO-UPDATE SYSTEM
+        // =====================================================
+        
+        // Get current app version from meta tag
+        window.getCurrentAppVersion = function() {
+            const versionMeta = document.querySelector('meta[name="app-version"]');
+            return versionMeta ? versionMeta.content : '0';
+        };
+
+        // Check for updates from Firestore
+        window.checkForUpdates = async function() {
+            try {
+                const { doc, getDoc } = await import("https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js");
+                
+                const currentVersion = getCurrentAppVersion();
+                const lastCheckedVersion = localStorage.getItem('app_last_version');
+                
+                // Check Firestore for the latest version
+                const versionDoc = await getDoc(doc(window.db_fs, "app_settings", "version"));
+                
+                if (versionDoc.exists()) {
+                    const serverVersion = versionDoc.data().current;
+                    const forceRefresh = versionDoc.data().forceRefresh || false;
+                    
+                    console.log(`Current: ${currentVersion}, Server: ${serverVersion}, Last: ${lastCheckedVersion}`);
+                    
+                    // If server version is newer than current version
+                    if (serverVersion && serverVersion !== currentVersion) {
+                        if (forceRefresh) {
+                            // Force refresh immediately
+                            showUpdateBanner(serverVersion, true);
+                        } else {
+                            // Show update notification
+                            showUpdateBanner(serverVersion, false);
+                        }
+                    }
+                }
+                
+                // Update last checked version
+                localStorage.setItem('app_last_version', currentVersion);
+                
+            } catch (e) {
+                console.log("Update check skipped:", e.message);
+            }
+        };
+
+        // Show update notification banner
+        window.showUpdateBanner = function(newVersion, autoRefresh = false) {
+            // Remove existing banner if any
+            const existingBanner = document.getElementById('update-banner');
+            if (existingBanner) existingBanner.remove();
+            
+            const banner = document.createElement('div');
+            banner.id = 'update-banner';
+            banner.className = 'update-banner';
+            
+            if (autoRefresh) {
+                banner.innerHTML = `
+                    <span class="update-banner-text">🚀 New update available! Refreshing in <span id="refresh-countdown">5</span> seconds...</span>
+                    <button class="update-banner-btn" onclick="forceRefresh()">Refresh Now</button>
+                `;
+                document.body.prepend(banner);
+                
+                // Countdown and refresh
+                let countdown = 5;
+                const interval = setInterval(() => {
+                    countdown--;
+                    const countdownEl = document.getElementById('refresh-countdown');
+                    if (countdownEl) countdownEl.textContent = countdown;
+                    if (countdown <= 0) {
+                        clearInterval(interval);
+                        forceRefresh();
+                    }
+                }, 1000);
+            } else {
+                banner.innerHTML = `
+                    <span class="update-banner-text">🆕 A new version is available with new features and improvements!</span>
+                    <button class="update-banner-btn" onclick="forceRefresh()">🔄 Update Now</button>
+                    <button class="update-banner-dismiss" onclick="dismissUpdateBanner()">Later</button>
+                `;
+                document.body.prepend(banner);
+            }
+        };
+
+        // Force refresh the page
+        window.forceRefresh = function() {
+            // Clear cache and reload
+            if ('caches' in window) {
+                caches.keys().then(names => {
+                    names.forEach(name => caches.delete(name));
+                });
+            }
+            
+            // Force reload from server
+            window.location.reload(true);
+        };
+
+        // Dismiss update banner
+        window.dismissUpdateBanner = function() {
+            const banner = document.getElementById('update-banner');
+            if (banner) {
+                banner.style.animation = 'slideUp 0.3s ease forwards';
+                setTimeout(() => banner.remove(), 300);
+            }
+            
+            // Don't show again for this session
+            sessionStorage.setItem('update_dismissed', 'true');
+        };
+
+        // Admin function to push update notification to all users
+        window.pushAppUpdate = async function(newVersion, forceRefresh = false) {
+            if (!window.isAdminUser) {
+                alert("Only admins can push updates.");
+                return;
+            }
+            
+            try {
+                const { doc, setDoc, serverTimestamp } = await import("https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js");
+                
+                await setDoc(doc(window.db_fs, "app_settings", "version"), {
+                    current: newVersion,
+                    forceRefresh: forceRefresh,
+                    updatedAt: serverTimestamp(),
+                    updatedBy: window.auth.currentUser.email
+                });
+                
+                alert(`✅ Update pushed!\n\nVersion: ${newVersion}\nForce Refresh: ${forceRefresh ? 'Yes' : 'No'}\n\nAll users will be notified on their next page load.`);
+                
+            } catch (e) {
+                console.error("Error pushing update:", e);
+                alert("Error pushing update: " + e.message);
+            }
+        };
+
+        // UI function for push update button
+        window.pushUpdateNotification = function(forceRefresh = false) {
+            const currentVersion = getCurrentAppVersion();
+            const newVersion = prompt(
+                `Push Update to All Users\n\n` +
+                `Current version: ${currentVersion}\n\n` +
+                `Enter new version number (or leave blank to use current):`,
+                currentVersion
+            );
+            
+            if (newVersion === null) return; // Cancelled
+            
+            const versionToUse = newVersion.trim() || currentVersion;
+            const confirmMsg = forceRefresh 
+                ? `⚠️ FORCE REFRESH\n\nThis will immediately refresh all users' browsers!\n\nVersion: ${versionToUse}\n\nProceed?`
+                : `📢 NOTIFY USERS\n\nUsers will see an update banner and can choose to refresh.\n\nVersion: ${versionToUse}\n\nProceed?`;
+            
+            if (confirm(confirmMsg)) {
+                pushAppUpdate(versionToUse, forceRefresh);
+            }
+        };
+
+        // Update version display when admin view loads
+        window.updateVersionDisplay = function() {
+            const display = document.getElementById('current-version-display');
+            if (display) {
+                display.textContent = getCurrentAppVersion();
+            }
+        };
+
+        // Periodic update check (every 5 minutes)
+        window.startUpdateChecker = function() {
+            // Check immediately
+            setTimeout(() => {
+                if (!sessionStorage.getItem('update_dismissed')) {
+                    checkForUpdates();
+                }
+            }, 3000);
+            
+            // Then check every 5 minutes
+            setInterval(() => {
+                if (!sessionStorage.getItem('update_dismissed')) {
+                    checkForUpdates();
+                }
+            }, 5 * 60 * 1000);
+        };
+
+        // Add CSS for slideUp animation
+        const styleSheet = document.createElement('style');
+        styleSheet.textContent = `
+            @keyframes slideUp {
+                from { transform: translateY(0); opacity: 1; }
+                to { transform: translateY(-100%); opacity: 0; }
+            }
+        `;
+        document.head.appendChild(styleSheet);
+
+        // =====================================================
         // STUDENT PROGRESS TRACKING (Admin)
         // =====================================================
         
@@ -7641,6 +8098,11 @@
             if (type === 'student-progress') {
                 loadStudentProgress();
             }
+            
+            // Update version display when switching to admin tab
+            if (type === 'admin') {
+                updateVersionDisplay();
+            }
         };
         
         // Helper function to adjust color brightness
@@ -7949,7 +8411,80 @@
                         'explanation': 'Enter step-by-step explanation...',
                         'text': 'Enter question text...'
                     };
-                    inputHtml = `<textarea class="auth-input" style="height: 100px; margin-top: 10px;" oninput="updateBlockValue(${block.id}, this.value)" placeholder="${placeholders[block.type]}">${block.value}</textarea>`;
+                    
+                    // Add formatting toolbar for text and explanation blocks
+                    const formattingToolbar = `
+                        <div class="text-formatting-toolbar">
+                            <!-- Text Style -->
+                            <div class="toolbar-group">
+                                <button type="button" onclick="formatText(${block.id}, 'bold')" class="format-btn" title="Bold (Ctrl+B)"><strong>B</strong></button>
+                                <button type="button" onclick="formatText(${block.id}, 'italic')" class="format-btn" title="Italic (Ctrl+I)"><em>I</em></button>
+                                <button type="button" onclick="formatText(${block.id}, 'underline')" class="format-btn" title="Underline (Ctrl+U)"><u>U</u></button>
+                            </div>
+                            
+                            <!-- Alignment -->
+                            <div class="toolbar-group">
+                                <button type="button" onclick="formatText(${block.id}, 'justifyLeft')" class="format-btn" title="Align Left">
+                                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="3" y1="6" x2="21" y2="6"/><line x1="3" y1="12" x2="15" y2="12"/><line x1="3" y1="18" x2="18" y2="18"/></svg>
+                                </button>
+                                <button type="button" onclick="formatText(${block.id}, 'justifyCenter')" class="format-btn" title="Align Center">
+                                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="3" y1="6" x2="21" y2="6"/><line x1="6" y1="12" x2="18" y2="12"/><line x1="4" y1="18" x2="20" y2="18"/></svg>
+                                </button>
+                                <button type="button" onclick="formatText(${block.id}, 'justifyRight')" class="format-btn" title="Align Right">
+                                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="3" y1="6" x2="21" y2="6"/><line x1="9" y1="12" x2="21" y2="12"/><line x1="6" y1="18" x2="21" y2="18"/></svg>
+                                </button>
+                                <button type="button" onclick="formatText(${block.id}, 'justifyFull')" class="format-btn" title="Justify">
+                                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="3" y1="6" x2="21" y2="6"/><line x1="3" y1="12" x2="21" y2="12"/><line x1="3" y1="18" x2="21" y2="18"/></svg>
+                                </button>
+                            </div>
+                            
+                            <!-- Indentation -->
+                            <div class="toolbar-group">
+                                <button type="button" onclick="formatText(${block.id}, 'outdent')" class="format-btn" title="Decrease Indent">
+                                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="3" y1="6" x2="21" y2="6"/><line x1="3" y1="12" x2="21" y2="12"/><line x1="3" y1="18" x2="21" y2="18"/><polyline points="7 9 4 12 7 15"/></svg>
+                                </button>
+                                <button type="button" onclick="formatText(${block.id}, 'indent')" class="format-btn" title="Increase Indent">
+                                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="3" y1="6" x2="21" y2="6"/><line x1="9" y1="12" x2="21" y2="12"/><line x1="9" y1="18" x2="21" y2="18"/><polyline points="4 9 7 12 4 15"/></svg>
+                                </button>
+                            </div>
+                            
+                            <!-- Lists/Numbering -->
+                            <div class="toolbar-group" style="border-right: none;">
+                                <button type="button" onclick="formatText(${block.id}, 'insertUnorderedList')" class="format-btn" title="Bullet List">
+                                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="4" cy="6" r="1.5" fill="currentColor"/><circle cx="4" cy="12" r="1.5" fill="currentColor"/><circle cx="4" cy="18" r="1.5" fill="currentColor"/><line x1="9" y1="6" x2="21" y2="6"/><line x1="9" y1="12" x2="21" y2="12"/><line x1="9" y1="18" x2="21" y2="18"/></svg>
+                                </button>
+                                <button type="button" onclick="formatText(${block.id}, 'insertOrderedList')" class="format-btn" title="Numbered List">
+                                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><text x="2" y="8" font-size="6" fill="currentColor">1</text><text x="2" y="14" font-size="6" fill="currentColor">2</text><text x="2" y="20" font-size="6" fill="currentColor">3</text><line x1="9" y1="6" x2="21" y2="6"/><line x1="9" y1="12" x2="21" y2="12"/><line x1="9" y1="18" x2="21" y2="18"/></svg>
+                                </button>
+                                <select class="list-type-select" onchange="insertNumberedList(${block.id}, this.value); this.selectedIndex=0;" title="List Style">
+                                    <option value="">List Style ▾</option>
+                                    <optgroup label="Numbers">
+                                        <option value="decimal">1, 2, 3...</option>
+                                        <option value="decimal-paren">1), 2), 3)...</option>
+                                    </optgroup>
+                                    <optgroup label="Letters">
+                                        <option value="lower-alpha">a, b, c...</option>
+                                        <option value="upper-alpha">A, B, C...</option>
+                                        <option value="lower-alpha-paren">a), b), c)...</option>
+                                        <option value="upper-alpha-paren">A), B), C)...</option>
+                                    </optgroup>
+                                    <optgroup label="Roman Numerals">
+                                        <option value="lower-roman">i, ii, iii...</option>
+                                        <option value="upper-roman">I, II, III...</option>
+                                    </optgroup>
+                                </select>
+                            </div>
+                        </div>
+                        <div id="editor-${block.id}" 
+                             class="rich-text-editor" 
+                             contenteditable="true" 
+                             data-placeholder="${placeholders[block.type]}"
+                             oninput="updateBlockValueFromEditor(${block.id})"
+                             onpaste="handleEditorPaste(event)"
+                             onkeydown="handleEditorKeydown(event, ${block.id})"
+                        >${block.value || ''}</div>
+                    `;
+                    inputHtml = formattingToolbar;
                 } else if (block.type === 'image') {
                     const previewUrl = convertDropboxUrl(block.value);
                     inputHtml = `
@@ -8006,6 +8541,119 @@
             // Re-attach any event listeners if needed
             initDragAndDrop();
         }
+        
+        // ==================== TEXT FORMATTING FUNCTIONS ====================
+        
+        window.formatText = function(blockId, command) {
+            const editor = document.getElementById(`editor-${blockId}`);
+            if (!editor) return;
+            
+            // Focus the editor first
+            editor.focus();
+            
+            // Execute the formatting command
+            document.execCommand(command, false, null);
+            
+            // Update block value
+            updateBlockValueFromEditor(blockId);
+        };
+        
+        window.insertNumberedList = function(blockId, listType) {
+            const editor = document.getElementById(`editor-${blockId}`);
+            if (!editor || !listType) return;
+            
+            editor.focus();
+            
+            // Handle parenthesis variants
+            let cssListType = listType;
+            let useParenthesis = false;
+            
+            if (listType.endsWith('-paren')) {
+                cssListType = listType.replace('-paren', '');
+                useParenthesis = true;
+            }
+            
+            // Insert ordered list first
+            document.execCommand('insertOrderedList', false, null);
+            
+            // Find the created ol element and set its style
+            const selection = window.getSelection();
+            if (selection.rangeCount > 0) {
+                let node = selection.anchorNode;
+                while (node && node.nodeName !== 'OL') {
+                    node = node.parentNode;
+                }
+                if (node && node.nodeName === 'OL') {
+                    node.style.listStyleType = cssListType;
+                    node.style.paddingLeft = '2em';
+                    
+                    // For parenthesis style, we use CSS counter
+                    if (useParenthesis) {
+                        node.classList.add('paren-list');
+                        node.setAttribute('data-list-type', cssListType);
+                    }
+                }
+            }
+            
+            // Update block value
+            updateBlockValueFromEditor(blockId);
+        };
+        
+        window.updateBlockValueFromEditor = function(blockId) {
+            const editor = document.getElementById(`editor-${blockId}`);
+            if (!editor) return;
+            
+            const block = window.adminBlocks.find(b => b.id === blockId);
+            if (block) {
+                block.value = editor.innerHTML;
+            }
+        };
+        
+        // Handle keyboard shortcuts in the editor
+        window.handleEditorKeydown = function(event, blockId) {
+            // Ctrl/Cmd + B = Bold
+            if ((event.ctrlKey || event.metaKey) && event.key === 'b') {
+                event.preventDefault();
+                formatText(blockId, 'bold');
+            }
+            // Ctrl/Cmd + I = Italic
+            else if ((event.ctrlKey || event.metaKey) && event.key === 'i') {
+                event.preventDefault();
+                formatText(blockId, 'italic');
+            }
+            // Ctrl/Cmd + U = Underline
+            else if ((event.ctrlKey || event.metaKey) && event.key === 'u') {
+                event.preventDefault();
+                formatText(blockId, 'underline');
+            }
+            // Tab = Indent
+            else if (event.key === 'Tab' && !event.shiftKey) {
+                event.preventDefault();
+                formatText(blockId, 'indent');
+            }
+            // Shift + Tab = Outdent
+            else if (event.key === 'Tab' && event.shiftKey) {
+                event.preventDefault();
+                formatText(blockId, 'outdent');
+            }
+        };
+        
+        window.handleEditorPaste = function(event) {
+            // Prevent default paste and paste as plain text to avoid formatting issues
+            event.preventDefault();
+            
+            const text = event.clipboardData.getData('text/html') || event.clipboardData.getData('text/plain');
+            
+            // Create a temporary div to parse the HTML
+            const temp = document.createElement('div');
+            temp.innerHTML = text;
+            
+            // Remove scripts and potentially harmful elements
+            temp.querySelectorAll('script, style, meta, link').forEach(el => el.remove());
+            
+            // Insert the cleaned HTML
+            document.execCommand('insertHTML', false, temp.innerHTML);
+        };
         
         // ==================== DRAG AND DROP FUNCTIONS ====================
         
@@ -10938,6 +11586,9 @@
                     window.updateWorksheetUI();
                     window.addConsultButtons();
                     window.updateUnreadCount();
+                    
+                    // Start checking for updates
+                    window.startUpdateChecker();
                 }, 200);
             } else {
                 overlay.style.display = 'flex';
