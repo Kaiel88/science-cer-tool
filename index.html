@@ -2030,6 +2030,56 @@
             font-weight: bold;
         }
 
+        /* Header Icons (Inbox, Settings) */
+        .header-icons {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .header-icon-btn {
+            position: relative;
+            width: 44px;
+            height: 44px;
+            border-radius: 50%;
+            border: 2px solid #e0e0e0;
+            background: white;
+            font-size: 1.3rem;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .header-icon-btn:hover {
+            background: #e3f2fd;
+            border-color: #1976d2;
+            transform: scale(1.05);
+        }
+
+        .header-icon-btn.active {
+            background: #e3f2fd;
+            border-color: #1976d2;
+        }
+
+        .header-icon-badge {
+            position: absolute;
+            top: -5px;
+            right: -5px;
+            background: #dc3545;
+            color: white;
+            font-size: 0.65rem;
+            min-width: 18px;
+            height: 18px;
+            border-radius: 9px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+            border: 2px solid white;
+        }
+
         /* Inbox Tabs */
         .inbox-tab {
             padding: 10px 20px;
@@ -2276,6 +2326,25 @@
                 border-radius: 0;
                 box-shadow: none;
                 min-height: 100vh;
+            }
+
+            /* Header icons on mobile */
+            .header-icons {
+                gap: 5px;
+            }
+
+            .header-icon-btn {
+                width: 38px;
+                height: 38px;
+                font-size: 1.1rem;
+            }
+
+            .header-icon-badge {
+                top: -4px;
+                right: -4px;
+                min-width: 16px;
+                height: 16px;
+                font-size: 0.6rem;
             }
 
             /* Show mobile menu toggle */
@@ -2988,10 +3057,21 @@
 
     <div class="app-container">
         <header class="app-header">
-            <div style="display: flex; align-items: center; gap: 0.8rem; margin-bottom: 0.3rem;">
-                <img src="https://www.dropbox.com/scl/fi/h40yjlyg8ldefwfaa3dib/polymath-logo-sticker.png?rlkey=o1ra4taqy79gt9t8u096v82zj&raw=1"
-                    alt="Polymath Logo" class="app-logo">
-                <button class="print-btn" onclick="printAll()">🖨️ Print All</button>
+            <div style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 0.3rem;">
+                <div style="display: flex; align-items: center; gap: 0.8rem;">
+                    <img src="https://www.dropbox.com/scl/fi/h40yjlyg8ldefwfaa3dib/polymath-logo-sticker.png?rlkey=o1ra4taqy79gt9t8u096v82zj&raw=1"
+                        alt="Polymath Logo" class="app-logo">
+                    <button class="print-btn" onclick="printAll()">🖨️ Print All</button>
+                </div>
+                <div class="header-icons">
+                    <button class="header-icon-btn" onclick="switchTab('inbox', this)" title="Inbox" id="header-inbox-btn">
+                        📬
+                        <span id="header-inbox-badge" class="header-icon-badge" style="display: none;">0</span>
+                    </button>
+                    <button class="header-icon-btn" onclick="showAccountSettings()" title="Account Settings" id="header-settings-btn">
+                        ⚙️
+                    </button>
+                </div>
             </div>
             <div id="header-tabs-container">
                 <button class="tab-btn active" data-type="cer" onclick="switchTab('cer', this)">CER</button><button class="tab-btn" data-type="definition"
@@ -3059,10 +3139,6 @@
                 <button id="btn-sidebar-practice" onclick="switchTab('practice', this)"
                     style="width: 100%; border-radius: 10px; margin-bottom: 10px; background: #f3e5f5; color: #7b1fa2; border: none; padding: 10px; cursor: pointer; font-weight: 600;">🎯
                     Practice Mode</button>
-
-                <button id="btn-sidebar-inbox" onclick="switchTab('inbox', this)"
-                    style="width: 100%; border-radius: 10px; margin-bottom: 10px; background: #e1f5fe; color: #0288d1; border: none; padding: 10px; cursor: pointer; font-weight: 600; position: relative;">📬
-                    Inbox <span id="inbox-badge" class="inbox-badge" style="display: none;">0</span></button>
 
                 <button id="btn-sidebar-lessons" onclick="switchTab('lessons', this)"
                     style="width: 100%; border-radius: 10px; margin-bottom: 20px; background: #fff3e0; color: #f57c00; border: none; padding: 10px; cursor: pointer; font-weight: 600;">🎓
@@ -3915,9 +3991,10 @@
                         </div>
 
                         <!-- Message Tabs -->
-                        <div style="display: flex; gap: 10px; margin-bottom: 1.5rem;">
+                        <div style="display: flex; gap: 10px; margin-bottom: 1.5rem; flex-wrap: wrap;">
                             <button id="inbox-tab-received" class="inbox-tab active" onclick="switchInboxTab('received')">📥 Received</button>
                             <button id="inbox-tab-sent" class="inbox-tab" onclick="switchInboxTab('sent')">📤 Sent</button>
+                            <button id="inbox-tab-deleted" class="inbox-tab" onclick="switchInboxTab('deleted')" style="background: #fff5f5; border-color: #ffcdd2;">🗑️ Deleted</button>
                         </div>
 
                         <!-- Messages Container -->
@@ -3981,8 +4058,9 @@
     <div id="view-message-modal" class="modal-overlay">
         <div class="modal-box" style="max-width: 650px;">
             <div id="view-message-content"></div>
-            <div class="modal-buttons" style="margin-top: 1.5rem;">
+            <div class="modal-buttons" style="margin-top: 1.5rem; flex-wrap: wrap;">
                 <button class="btn-cancel" onclick="hideViewMessageModal()">Close</button>
+                <button id="btn-delete-message" class="btn" style="background: #dc3545; color: white;" onclick="deleteCurrentMessage()">🗑️ Delete</button>
                 <button id="btn-reply-message" class="btn-save" style="background: #0288d1;" onclick="replyToMessage()">↩️ Reply</button>
             </div>
         </div>
@@ -3996,6 +4074,48 @@
                 <button class="btn" style="background: #666; color: white; padding: 8px 16px;" onclick="hideQuestionPopup()">✕ Close</button>
             </div>
             <div id="question-popup-content" style="padding: 1rem 0;"></div>
+        </div>
+    </div>
+
+    <!-- Account Settings Modal -->
+    <div id="account-settings-modal" class="modal-overlay">
+        <div class="modal-box" style="max-width: 500px;">
+            <h3 style="color: #1976d2; margin-bottom: 1.5rem;">⚙️ Account Settings</h3>
+            
+            <!-- Account Info Section -->
+            <div style="background: #f5f5f5; padding: 1rem; border-radius: 8px; margin-bottom: 1.5rem;">
+                <div style="font-size: 0.85rem; color: #666; margin-bottom: 0.5rem;">Email</div>
+                <div id="settings-email" style="font-weight: 600; color: #333;">Loading...</div>
+            </div>
+
+            <!-- Student Names Section -->
+            <div id="settings-students-section" style="margin-bottom: 1.5rem;">
+                <h4 style="color: #333; margin-bottom: 1rem; font-size: 1rem;">👨‍🎓 Students</h4>
+                <div id="settings-students-list">
+                    <!-- Student entries will be populated here -->
+                </div>
+            </div>
+
+            <!-- Change Password Section -->
+            <div style="border-top: 1px solid #e0e0e0; padding-top: 1.5rem; margin-bottom: 1.5rem;">
+                <h4 style="color: #333; margin-bottom: 1rem; font-size: 1rem;">🔐 Change Password</h4>
+                <div class="form-group">
+                    <label for="settings-new-password">New Password</label>
+                    <input type="password" id="settings-new-password" class="auth-input" placeholder="Enter new password" style="margin-bottom: 10px;">
+                </div>
+                <div class="form-group">
+                    <label for="settings-confirm-password">Confirm New Password</label>
+                    <input type="password" id="settings-confirm-password" class="auth-input" placeholder="Confirm new password">
+                </div>
+                <button class="btn" style="background: #f57c00; color: white; width: 100%; margin-top: 1rem;" onclick="changePassword()">
+                    🔑 Update Password
+                </button>
+            </div>
+
+            <div class="modal-buttons">
+                <button class="btn-cancel" onclick="hideAccountSettings()">Close</button>
+                <button class="btn-save" onclick="saveAccountSettings()">💾 Save Changes</button>
+            </div>
         </div>
     </div>
 
@@ -5371,14 +5491,38 @@
                 
                 // Filter messages based on current tab
                 let messages = [];
+                const now = new Date();
+                
                 snapshot.forEach(doc => {
                     const msg = { id: doc.id, ...doc.data() };
-                    if (window.currentInboxTab === 'received') {
-                        if (msg.recipientId === user.uid) {
+                    
+                    // Check if message is deleted by this user
+                    const isDeletedByMe = msg.deletedBy && msg.deletedBy.includes(user.uid);
+                    
+                    // For deleted tab, show messages deleted by this user
+                    if (window.currentInboxTab === 'deleted') {
+                        if (isDeletedByMe && (msg.recipientId === user.uid || msg.senderId === user.uid)) {
+                            // Check if message is older than 30 days since deletion
+                            const deletedAt = msg.deletedAt?.[user.uid];
+                            if (deletedAt) {
+                                const deletedDate = deletedAt.toDate ? deletedAt.toDate() : new Date(deletedAt);
+                                const daysSinceDeleted = (now - deletedDate) / (1000 * 60 * 60 * 24);
+                                if (daysSinceDeleted < 30) {
+                                    msg.daysUntilPermanentDelete = Math.ceil(30 - daysSinceDeleted);
+                                    messages.push(msg);
+                                }
+                            } else {
+                                messages.push(msg);
+                            }
+                        }
+                    } else if (window.currentInboxTab === 'received') {
+                        // Show non-deleted received messages
+                        if (msg.recipientId === user.uid && !isDeletedByMe) {
                             messages.push(msg);
                         }
-                    } else {
-                        if (msg.senderId === user.uid) {
+                    } else if (window.currentInboxTab === 'sent') {
+                        // Show non-deleted sent messages
+                        if (msg.senderId === user.uid && !isDeletedByMe) {
                             messages.push(msg);
                         }
                     }
@@ -5396,8 +5540,9 @@
                     const emptyDiv = document.createElement('div');
                     emptyDiv.className = 'inbox-empty';
                     emptyDiv.innerHTML = `
-                        <div style="font-size: 3rem; margin-bottom: 1rem;">📭</div>
-                        <p>No messages yet</p>
+                        <div style="font-size: 3rem; margin-bottom: 1rem;">${window.currentInboxTab === 'deleted' ? '🗑️' : '📭'}</div>
+                        <p>${window.currentInboxTab === 'deleted' ? 'No deleted messages' : 'No messages yet'}</p>
+                        ${window.currentInboxTab === 'deleted' ? '<p style="font-size: 0.85rem; color: #888;">Deleted messages are permanently removed after 30 days</p>' : ''}
                     `;
                     container.appendChild(emptyDiv);
                     return;
@@ -5416,20 +5561,32 @@
                     }
                     
                     const card = document.createElement('div');
-                    card.className = `message-card ${isUnread ? 'unread' : ''}`;
-                    card.onclick = () => viewMessage(msg.id);
-                    card.innerHTML = `
+                    card.className = `message-card ${isUnread ? 'unread' : ''} ${window.currentInboxTab === 'deleted' ? 'deleted-message' : ''}`;
+                    card.style.cssText = window.currentInboxTab === 'deleted' ? 'border-left-color: #dc3545; opacity: 0.85;' : '';
+                    
+                    let cardContent = `
                         <div class="message-header">
                             <span class="message-from">
                                 ${isUnread ? '<span class="unread-dot"></span>' : ''}
-                                ${window.currentInboxTab === 'received' ? senderDisplay : `To: ${msg.recipientName || 'Mr Chung'}`}
+                                ${window.currentInboxTab === 'received' || window.currentInboxTab === 'deleted' ? senderDisplay : `To: ${msg.recipientName || 'Mr Chung'}`}
                             </span>
                             <span class="message-date">${date}</span>
                         </div>
                         <div class="message-subject">${msg.subject || 'No Subject'}</div>
                         <div class="message-preview">${(msg.message || '').substring(0, 100)}${msg.message?.length > 100 ? '...' : ''}</div>
-                        ${msg.questionId ? '<span style="font-size: 0.75rem; background: #e3f2fd; color: #1976d2; padding: 2px 8px; border-radius: 4px; margin-top: 5px; display: inline-block;">📋 Has Question</span>' : ''}
                     `;
+                    
+                    if (msg.questionId && window.currentInboxTab !== 'deleted') {
+                        cardContent += '<span style="font-size: 0.75rem; background: #e3f2fd; color: #1976d2; padding: 2px 8px; border-radius: 4px; margin-top: 5px; display: inline-block;">📋 Has Question</span>';
+                    }
+                    
+                    if (window.currentInboxTab === 'deleted' && msg.daysUntilPermanentDelete) {
+                        cardContent += `<div style="font-size: 0.75rem; color: #dc3545; margin-top: 8px;">⏳ Permanently deleted in ${msg.daysUntilPermanentDelete} days</div>`;
+                        cardContent += `<button class="btn" style="background: #28a745; color: white; padding: 5px 10px; font-size: 0.8rem; margin-top: 8px;" onclick="event.stopPropagation(); restoreMessage('${msg.id}')">♻️ Restore</button>`;
+                    }
+                    
+                    card.innerHTML = cardContent;
+                    card.onclick = () => viewMessage(msg.id);
                     container.appendChild(card);
                 });
                 
@@ -5450,6 +5607,7 @@
             window.currentInboxTab = tab;
             document.getElementById('inbox-tab-received').classList.toggle('active', tab === 'received');
             document.getElementById('inbox-tab-sent').classList.toggle('active', tab === 'sent');
+            document.getElementById('inbox-tab-deleted').classList.toggle('active', tab === 'deleted');
             loadInbox();
         };
 
@@ -5466,15 +5624,18 @@
                 let count = 0;
                 snapshot.forEach(doc => {
                     const msg = doc.data();
-                    if (msg.recipientId === user.uid && msg.read === false) {
+                    // Count unread messages that are not deleted by this user
+                    const isDeletedByMe = msg.deletedBy && msg.deletedBy.includes(user.uid);
+                    if (msg.recipientId === user.uid && msg.read === false && !isDeletedByMe) {
                         count++;
                     }
                 });
                 
-                const badge = document.getElementById('inbox-badge');
-                if (badge) {
-                    badge.textContent = count;
-                    badge.style.display = count > 0 ? 'inline' : 'none';
+                // Update header badge
+                const headerBadge = document.getElementById('header-inbox-badge');
+                if (headerBadge) {
+                    headerBadge.textContent = count;
+                    headerBadge.style.display = count > 0 ? 'flex' : 'none';
                 }
             } catch (e) {
                 console.error("Error updating unread count:", e);
@@ -5577,6 +5738,212 @@
             document.getElementById('view-message-modal').classList.remove('visible');
             window.currentViewingMessage = null;
             loadInbox(); // Refresh inbox to update read status
+        };
+
+        // Delete current message (move to trash)
+        window.deleteCurrentMessage = async function() {
+            if (!window.currentViewingMessage) return;
+            
+            if (!confirm("Move this message to deleted folder? It will be permanently deleted after 30 days.")) return;
+            
+            try {
+                const user = window.auth?.currentUser;
+                if (!user) return;
+                
+                const { doc, updateDoc, arrayUnion } = await import("https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js");
+                
+                const msgRef = doc(window.db_fs, "messages", window.currentViewingMessage.id);
+                
+                // Add user to deletedBy array and record deletion time
+                await updateDoc(msgRef, {
+                    deletedBy: arrayUnion(user.uid),
+                    [`deletedAt.${user.uid}`]: new Date()
+                });
+                
+                alert("Message moved to deleted folder.");
+                hideViewMessageModal();
+                
+            } catch (e) {
+                console.error("Error deleting message:", e);
+                alert("Error deleting message: " + e.message);
+            }
+        };
+
+        // Restore a deleted message
+        window.restoreMessage = async function(messageId) {
+            try {
+                const user = window.auth?.currentUser;
+                if (!user) return;
+                
+                const { doc, updateDoc, arrayRemove } = await import("https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js");
+                
+                const msgRef = doc(window.db_fs, "messages", messageId);
+                
+                // Remove user from deletedBy array
+                await updateDoc(msgRef, {
+                    deletedBy: arrayRemove(user.uid)
+                });
+                
+                alert("Message restored!");
+                loadInbox();
+                
+            } catch (e) {
+                console.error("Error restoring message:", e);
+                alert("Error restoring message: " + e.message);
+            }
+        };
+
+        // =====================================================
+        // ACCOUNT SETTINGS
+        // =====================================================
+
+        window.showAccountSettings = async function() {
+            const user = window.auth?.currentUser;
+            if (!user) {
+                alert("Please login first.");
+                return;
+            }
+            
+            // Show email
+            document.getElementById('settings-email').textContent = user.email;
+            
+            // Clear password fields
+            document.getElementById('settings-new-password').value = '';
+            document.getElementById('settings-confirm-password').value = '';
+            
+            // Load student info
+            try {
+                const { doc, getDoc } = await import("https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js");
+                const userDoc = await getDoc(doc(window.db_fs, "users", user.uid));
+                
+                if (userDoc.exists()) {
+                    const userData = userDoc.data();
+                    const studentsContainer = document.getElementById('settings-students-list');
+                    studentsContainer.innerHTML = '';
+                    
+                    // Check if using new students array or old format
+                    if (userData.students && Array.isArray(userData.students)) {
+                        userData.students.forEach((student, index) => {
+                            const entry = document.createElement('div');
+                            entry.style.cssText = 'display: flex; gap: 10px; margin-bottom: 10px; align-items: center;';
+                            entry.innerHTML = `
+                                <input type="text" class="auth-input student-name-input" value="${student.name || ''}" 
+                                       data-index="${index}" placeholder="Student Name" 
+                                       style="flex: 1; margin: 0;">
+                                <span style="background: #e8f5e9; color: #388e3c; padding: 8px 16px; border-radius: 8px; font-weight: 600; min-width: 60px; text-align: center;">
+                                    ${student.level || 'N/A'}
+                                </span>
+                            `;
+                            studentsContainer.appendChild(entry);
+                        });
+                    } else if (userData.studentName) {
+                        // Old format - single student
+                        const entry = document.createElement('div');
+                        entry.style.cssText = 'display: flex; gap: 10px; margin-bottom: 10px; align-items: center;';
+                        entry.innerHTML = `
+                            <input type="text" class="auth-input student-name-input" value="${userData.studentName || ''}" 
+                                   data-index="0" placeholder="Student Name" 
+                                   style="flex: 1; margin: 0;">
+                            <span style="background: #e8f5e9; color: #388e3c; padding: 8px 16px; border-radius: 8px; font-weight: 600; min-width: 60px; text-align: center;">
+                                ${userData.level || 'N/A'}
+                            </span>
+                        `;
+                        studentsContainer.appendChild(entry);
+                    } else {
+                        studentsContainer.innerHTML = '<p style="color: #666;">No students registered</p>';
+                    }
+                }
+            } catch (e) {
+                console.error("Error loading user data:", e);
+            }
+            
+            document.getElementById('account-settings-modal').classList.add('visible');
+        };
+
+        window.hideAccountSettings = function() {
+            document.getElementById('account-settings-modal').classList.remove('visible');
+        };
+
+        window.saveAccountSettings = async function() {
+            const user = window.auth?.currentUser;
+            if (!user) return;
+            
+            try {
+                const { doc, getDoc, updateDoc } = await import("https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js");
+                
+                const userRef = doc(window.db_fs, "users", user.uid);
+                const userDoc = await getDoc(userRef);
+                
+                if (userDoc.exists()) {
+                    const userData = userDoc.data();
+                    const nameInputs = document.querySelectorAll('.student-name-input');
+                    
+                    if (userData.students && Array.isArray(userData.students)) {
+                        // Update students array
+                        const updatedStudents = [...userData.students];
+                        nameInputs.forEach(input => {
+                            const index = parseInt(input.dataset.index);
+                            if (updatedStudents[index]) {
+                                updatedStudents[index].name = input.value.trim();
+                            }
+                        });
+                        await updateDoc(userRef, { students: updatedStudents });
+                    } else if (nameInputs.length > 0) {
+                        // Old format - update studentName
+                        await updateDoc(userRef, { studentName: nameInputs[0].value.trim() });
+                    }
+                    
+                    alert("Settings saved successfully!");
+                    hideAccountSettings();
+                }
+            } catch (e) {
+                console.error("Error saving settings:", e);
+                alert("Error saving settings: " + e.message);
+            }
+        };
+
+        window.changePassword = async function() {
+            const newPassword = document.getElementById('settings-new-password').value;
+            const confirmPassword = document.getElementById('settings-confirm-password').value;
+            
+            if (!newPassword || !confirmPassword) {
+                alert("Please fill in both password fields.");
+                return;
+            }
+            
+            if (newPassword !== confirmPassword) {
+                alert("Passwords do not match.");
+                return;
+            }
+            
+            if (newPassword.length < 6) {
+                alert("Password must be at least 6 characters.");
+                return;
+            }
+            
+            try {
+                const user = window.auth?.currentUser;
+                if (!user) {
+                    alert("Please login again to change your password.");
+                    return;
+                }
+                
+                const { updatePassword } = await import("https://www.gstatic.com/firebasejs/10.7.1/firebase-auth.js");
+                
+                await updatePassword(user, newPassword);
+                
+                alert("Password updated successfully!");
+                document.getElementById('settings-new-password').value = '';
+                document.getElementById('settings-confirm-password').value = '';
+                
+            } catch (e) {
+                console.error("Error changing password:", e);
+                if (e.code === 'auth/requires-recent-login') {
+                    alert("For security, please logout and login again before changing your password.");
+                } else {
+                    alert("Error changing password: " + e.message);
+                }
+            }
         };
 
         // Reply to a message
@@ -5932,7 +6299,7 @@
             }
 
             // Update button states
-            const allBtns = document.querySelectorAll('.tab-btn, #btn-sidebar-admin, #btn-sidebar-worksheet, #btn-sidebar-saved-worksheets, #btn-sidebar-practice, #btn-sidebar-inbox, #btn-sidebar-lessons');
+            const allBtns = document.querySelectorAll('.tab-btn, #btn-sidebar-admin, #btn-sidebar-worksheet, #btn-sidebar-saved-worksheets, #btn-sidebar-practice, #btn-sidebar-lessons, #header-inbox-btn');
             allBtns.forEach(b => b.classList.remove('active'));
             if (btn) btn.classList.add('active');
 
