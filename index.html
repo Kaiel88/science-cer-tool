@@ -1153,6 +1153,11 @@
             color: #f57c00;
         }
 
+        .sidebar-nav-btn.progress-btn {
+            background: linear-gradient(135deg, #e8eaf6, #c5cae9);
+            color: #3f51b5;
+        }
+
         /* iOS-Style Toggle Switch */
         .ios-toggle-container {
             display: flex;
@@ -3446,6 +3451,10 @@
                         🛠️ Admin Mode
                     </button>
 
+                    <button id="btn-sidebar-progress" class="hidden sidebar-nav-btn progress-btn" onclick="switchTab('student-progress', this)">
+                        📊 Student Progress
+                    </button>
+
                     <button id="btn-sidebar-worksheet" class="sidebar-nav-btn worksheet-btn" onclick="switchTab('worksheet', this)">
                         📝 My Worksheet <span id="worksheet-count" class="worksheet-badge">0</span>
                     </button>
@@ -4197,6 +4206,110 @@
                     </div>
                 </div>
 
+                <!-- STUDENT PROGRESS VIEW (Admin Only) -->
+                <div id="view-student-progress" class="view-content hidden" style="flex: 1;">
+                    <div style="max-width: 1100px; margin: 0 auto; padding: 2rem;">
+                        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 2rem; flex-wrap: wrap; gap: 1rem;">
+                            <h2 style="margin: 0;">📊 Student Progress Tracker</h2>
+                            <div style="display: flex; gap: 10px;">
+                                <button class="btn" style="background: #1976d2; color: white;" onclick="refreshStudentProgress()">🔄 Refresh</button>
+                                <button class="btn" style="background: #28a745; color: white;" onclick="exportProgressToCSV()">📥 Export CSV</button>
+                            </div>
+                        </div>
+                        
+                        <!-- Filter Controls -->
+                        <div style="background: #f5f5f5; padding: 1rem; border-radius: 12px; margin-bottom: 1.5rem; display: flex; gap: 1rem; flex-wrap: wrap; align-items: center;">
+                            <div>
+                                <label style="font-weight: 600; margin-right: 8px;">Worksheet:</label>
+                                <select id="progress-worksheet-filter" style="padding: 8px 12px; border: 2px solid #ddd; border-radius: 8px; font-size: 0.9rem;" onchange="filterProgressByWorksheet()">
+                                    <option value="all">All Worksheets</option>
+                                </select>
+                            </div>
+                            <div>
+                                <label style="font-weight: 600; margin-right: 8px;">Student:</label>
+                                <select id="progress-student-filter" style="padding: 8px 12px; border: 2px solid #ddd; border-radius: 8px; font-size: 0.9rem;" onchange="filterProgressByStudent()">
+                                    <option value="all">All Students</option>
+                                </select>
+                            </div>
+                            <div>
+                                <label style="font-weight: 600; margin-right: 8px;">Status:</label>
+                                <select id="progress-status-filter" style="padding: 8px 12px; border: 2px solid #ddd; border-radius: 8px; font-size: 0.9rem;" onchange="filterProgressByStatus()">
+                                    <option value="all">All</option>
+                                    <option value="completed">Completed</option>
+                                    <option value="in-progress">In Progress</option>
+                                </select>
+                            </div>
+                        </div>
+
+                        <!-- Summary Stats -->
+                        <div id="progress-summary-stats" style="display: grid; grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); gap: 1rem; margin-bottom: 2rem;">
+                            <div style="background: linear-gradient(135deg, #e3f2fd, #bbdefb); padding: 1.2rem; border-radius: 12px; text-align: center;">
+                                <div style="font-size: 2rem; font-weight: bold; color: #1976d2;" id="stat-total-attempts">0</div>
+                                <div style="color: #666; font-size: 0.85rem;">Total Attempts</div>
+                            </div>
+                            <div style="background: linear-gradient(135deg, #e8f5e9, #c8e6c9); padding: 1.2rem; border-radius: 12px; text-align: center;">
+                                <div style="font-size: 2rem; font-weight: bold; color: #388e3c;" id="stat-completed-count">0</div>
+                                <div style="color: #666; font-size: 0.85rem;">Completed</div>
+                            </div>
+                            <div style="background: linear-gradient(135deg, #fff3e0, #ffe0b2); padding: 1.2rem; border-radius: 12px; text-align: center;">
+                                <div style="font-size: 2rem; font-weight: bold; color: #f57c00;" id="stat-avg-score">0%</div>
+                                <div style="color: #666; font-size: 0.85rem;">Avg Score</div>
+                            </div>
+                            <div style="background: linear-gradient(135deg, #fce4ec, #f8bbd9); padding: 1.2rem; border-radius: 12px; text-align: center;">
+                                <div style="font-size: 2rem; font-weight: bold; color: #c2185b;" id="stat-unique-students">0</div>
+                                <div style="color: #666; font-size: 0.85rem;">Students</div>
+                            </div>
+                        </div>
+
+                        <!-- Progress Table -->
+                        <div style="background: white; border-radius: 12px; box-shadow: 0 2px 8px rgba(0,0,0,0.1); overflow: hidden;">
+                            <div style="overflow-x: auto;">
+                                <table id="progress-table" style="width: 100%; border-collapse: collapse; font-size: 0.9rem;">
+                                    <thead>
+                                        <tr style="background: linear-gradient(135deg, #667eea, #764ba2); color: white;">
+                                            <th style="padding: 1rem; text-align: left; font-weight: 600;">Student</th>
+                                            <th style="padding: 1rem; text-align: left; font-weight: 600;">Worksheet</th>
+                                            <th style="padding: 1rem; text-align: center; font-weight: 600;">Score</th>
+                                            <th style="padding: 1rem; text-align: center; font-weight: 600;">Status</th>
+                                            <th style="padding: 1rem; text-align: center; font-weight: 600;">Date</th>
+                                            <th style="padding: 1rem; text-align: center; font-weight: 600;">Actions</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody id="progress-table-body">
+                                        <tr>
+                                            <td colspan="6" style="padding: 3rem; text-align: center; color: #888;">
+                                                <div style="font-size: 3rem; margin-bottom: 1rem;">📊</div>
+                                                <p>No worksheet attempts yet</p>
+                                                <p style="font-size: 0.85rem; margin-top: 0.5rem;">Student progress will appear here when they attempt assigned worksheets</p>
+                                            </td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Student Progress Detail Modal -->
+                <div id="progress-detail-modal" class="modal-overlay">
+                    <div class="modal-box" style="max-width: 800px; max-height: 90vh; overflow-y: auto;">
+                        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 1.5rem; border-bottom: 2px solid #e0e0e0; padding-bottom: 1rem;">
+                            <h3 style="margin: 0; color: #1976d2;">📋 Detailed Results</h3>
+                            <button class="btn" style="background: #666; color: white;" onclick="hideProgressDetailModal()">✕ Close</button>
+                        </div>
+                        
+                        <!-- Student Info -->
+                        <div id="progress-detail-header" style="background: #f5f5f5; padding: 1rem; border-radius: 8px; margin-bottom: 1.5rem;">
+                            <!-- Populated dynamically -->
+                        </div>
+                        
+                        <!-- Question Results -->
+                        <div id="progress-detail-questions">
+                            <!-- Populated dynamically -->
+                        </div>
+                    </div>
+                </div>
+
                 <!-- SHARED LESSONS VIEW -->
                 <div id="view-lessons" class="view-content hidden" style="flex: 1;">
                     <div style="max-width: 900px; margin: 0 auto; padding: 2rem;">
@@ -4324,6 +4437,38 @@
                     </div>
                 </div>
             </main>
+        </div>
+    </div>
+
+    <!-- Worksheet Attempt Modal -->
+    <div id="worksheet-attempt-modal" class="modal-overlay">
+        <div class="modal-box" style="max-width: 900px; max-height: 95vh; overflow-y: auto;">
+            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 1.5rem; border-bottom: 2px solid #667eea; padding-bottom: 1rem;">
+                <div>
+                    <h3 style="margin: 0; color: #667eea;" id="attempt-worksheet-title">📝 Worksheet</h3>
+                    <div style="font-size: 0.85rem; color: #666; margin-top: 5px;" id="attempt-worksheet-progress">Question 1 of 5</div>
+                </div>
+                <button class="btn" style="background: #666; color: white;" onclick="cancelWorksheetAttempt()">✕ Exit</button>
+            </div>
+            
+            <!-- Progress Bar -->
+            <div style="background: #e0e0e0; height: 8px; border-radius: 4px; margin-bottom: 1.5rem; overflow: hidden;">
+                <div id="attempt-progress-bar" style="background: linear-gradient(90deg, #667eea, #764ba2); height: 100%; width: 0%; transition: width 0.3s ease;"></div>
+            </div>
+            
+            <!-- Question Container -->
+            <div id="attempt-question-container" style="min-height: 300px;">
+                <!-- Question will be loaded here -->
+            </div>
+            
+            <!-- Navigation Buttons -->
+            <div style="display: flex; justify-content: space-between; align-items: center; margin-top: 1.5rem; padding-top: 1.5rem; border-top: 1px solid #e0e0e0;">
+                <button id="attempt-prev-btn" class="btn" style="background: #666; color: white;" onclick="prevAttemptQuestion()">← Previous</button>
+                <div style="display: flex; gap: 10px;">
+                    <button id="attempt-next-btn" class="btn" style="background: #667eea; color: white;" onclick="nextAttemptQuestion()">Next →</button>
+                    <button id="attempt-submit-btn" class="btn hidden" style="background: #28a745; color: white;" onclick="submitWorksheetAttempt()">✓ Submit Worksheet</button>
+                </div>
+            </div>
         </div>
     </div>
 
@@ -5037,7 +5182,8 @@
                         <h4>📋 ${ws.name}</h4>
                         <div class="meta">${ws.questionCount} questions • Saved on ${date}</div>
                         ${ws.description ? `<p style="color: #666; margin-bottom: 1rem;">${ws.description}</p>` : ''}
-                        <div class="actions">
+                        <div class="actions" style="flex-wrap: wrap;">
+                            <button class="btn" style="background: linear-gradient(135deg, #667eea, #764ba2); color: white;" onclick="attemptWorksheet('${ws.id}')">✏️ Attempt</button>
                             <button class="btn" style="background: #1976d2; color: white;" onclick="loadWorksheetToActive('${ws.id}')">📥 Load</button>
                             <button class="btn" style="background: #28a745; color: white;" onclick="viewSavedWorksheet('${ws.id}')">👁️ View</button>
                             <button class="btn" style="background: #dc3545; color: white;" onclick="deleteSavedWorksheet('${ws.id}')">🗑️ Delete</button>
@@ -5169,6 +5315,273 @@
             } catch (e) {
                 console.error("Delete worksheet error:", e);
                 alert("Error deleting worksheet: " + e.message);
+            }
+        };
+
+        // =====================================================
+        // WORKSHEET ATTEMPT SYSTEM
+        // =====================================================
+        
+        window.currentAttempt = {
+            worksheetId: null,
+            worksheetName: null,
+            questions: [],
+            currentIndex: 0,
+            answers: [] // {questionId, questionTitle, topic, type, studentAnswer, correctAnswer, correct}
+        };
+
+        // Start attempting a worksheet
+        window.attemptWorksheet = async function(worksheetId) {
+            try {
+                const { doc, getDoc } = await import("https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js");
+                
+                const docRef = doc(window.db_fs, "user_worksheets", worksheetId);
+                const docSnap = await getDoc(docRef);
+                
+                if (!docSnap.exists()) {
+                    alert("Worksheet not found.");
+                    return;
+                }
+                
+                const data = docSnap.data();
+                
+                // Initialize attempt state
+                window.currentAttempt = {
+                    worksheetId: worksheetId,
+                    worksheetName: data.name,
+                    questions: data.questions || [],
+                    currentIndex: 0,
+                    answers: data.questions.map((q, i) => ({
+                        questionId: q.id || `q-${i}`,
+                        questionTitle: q.title || `Question ${i + 1}`,
+                        topic: q.topic || 'N/A',
+                        type: q.type || 'unknown',
+                        studentAnswer: null,
+                        correctAnswer: null,
+                        correct: false
+                    }))
+                };
+                
+                // Update UI
+                document.getElementById('attempt-worksheet-title').textContent = `📝 ${data.name}`;
+                
+                // Show modal
+                document.getElementById('worksheet-attempt-modal').classList.add('visible');
+                
+                // Show first question
+                showAttemptQuestion(0);
+                
+            } catch (e) {
+                console.error("Error loading worksheet for attempt:", e);
+                alert("Error loading worksheet: " + e.message);
+            }
+        };
+
+        // Show a specific question in the attempt
+        window.showAttemptQuestion = function(index) {
+            const attempt = window.currentAttempt;
+            const total = attempt.questions.length;
+            
+            if (index < 0 || index >= total) return;
+            
+            attempt.currentIndex = index;
+            
+            // Update progress
+            document.getElementById('attempt-worksheet-progress').textContent = `Question ${index + 1} of ${total}`;
+            document.getElementById('attempt-progress-bar').style.width = `${((index + 1) / total) * 100}%`;
+            
+            // Update navigation buttons
+            document.getElementById('attempt-prev-btn').style.display = index === 0 ? 'none' : 'inline-block';
+            document.getElementById('attempt-next-btn').classList.toggle('hidden', index === total - 1);
+            document.getElementById('attempt-submit-btn').classList.toggle('hidden', index !== total - 1);
+            
+            // Render question
+            const question = attempt.questions[index];
+            const container = document.getElementById('attempt-question-container');
+            
+            // Get previous answer if any
+            const previousAnswer = attempt.answers[index]?.studentAnswer;
+            
+            container.innerHTML = `
+                <div style="background: #f8f9fa; padding: 1.5rem; border-radius: 12px; border-left: 4px solid #667eea;">
+                    <h4 style="margin: 0 0 1rem 0; color: #333;">Question ${index + 1}: ${question.title || 'Untitled'}</h4>
+                    <div style="font-size: 0.85rem; color: #666; margin-bottom: 1rem;">
+                        <span style="background: #e3f2fd; padding: 2px 8px; border-radius: 4px; margin-right: 8px;">Topic: ${question.topic || 'N/A'}</span>
+                        <span style="background: #f3e5f5; padding: 2px 8px; border-radius: 4px;">Type: ${question.type || 'N/A'}</span>
+                    </div>
+                    <div id="attempt-question-content" style="margin-bottom: 1.5rem;">
+                        ${question.html || '<p>No question content</p>'}
+                    </div>
+                    ${renderAttemptAnswerInput(question, index, previousAnswer)}
+                </div>
+            `;
+            
+            // Initialize MCQ radio buttons with previous selection
+            if (previousAnswer && question.type === 'mcq') {
+                const radios = container.querySelectorAll('input[type="radio"]');
+                radios.forEach(radio => {
+                    if (radio.value === previousAnswer) {
+                        radio.checked = true;
+                    }
+                });
+            }
+        };
+
+        // Render answer input based on question type
+        window.renderAttemptAnswerInput = function(question, index, previousAnswer) {
+            if (question.type === 'mcq') {
+                // For MCQ, find the options in the HTML
+                return `
+                    <div style="background: white; padding: 1rem; border-radius: 8px; border: 2px solid #e0e0e0;">
+                        <p style="font-weight: 600; margin-bottom: 0.5rem; color: #555;">Select your answer:</p>
+                        <p style="font-size: 0.85rem; color: #888;">Click on an option above or in the question content</p>
+                    </div>
+                `;
+            } else {
+                // For other types, provide a text area
+                return `
+                    <div style="background: white; padding: 1rem; border-radius: 8px; border: 2px solid #e0e0e0;">
+                        <p style="font-weight: 600; margin-bottom: 0.5rem; color: #555;">Your Answer:</p>
+                        <textarea id="attempt-answer-${index}" 
+                                  style="width: 100%; min-height: 100px; padding: 12px; border: 2px solid #ddd; border-radius: 8px; font-size: 1rem; resize: vertical;"
+                                  placeholder="Type your answer here..."
+                                  onchange="saveAttemptAnswer(${index}, this.value)">${previousAnswer || ''}</textarea>
+                    </div>
+                `;
+            }
+        };
+
+        // Save answer for a question
+        window.saveAttemptAnswer = function(index, answer) {
+            if (window.currentAttempt.answers[index]) {
+                window.currentAttempt.answers[index].studentAnswer = answer;
+            }
+        };
+
+        // Navigate to previous question
+        window.prevAttemptQuestion = function() {
+            const index = window.currentAttempt.currentIndex;
+            if (index > 0) {
+                // Save current answer first
+                saveCurrentAttemptAnswer();
+                showAttemptQuestion(index - 1);
+            }
+        };
+
+        // Navigate to next question
+        window.nextAttemptQuestion = function() {
+            const attempt = window.currentAttempt;
+            const index = attempt.currentIndex;
+            
+            // Save current answer first
+            saveCurrentAttemptAnswer();
+            
+            if (index < attempt.questions.length - 1) {
+                showAttemptQuestion(index + 1);
+            }
+        };
+
+        // Save the current question's answer
+        window.saveCurrentAttemptAnswer = function() {
+            const attempt = window.currentAttempt;
+            const index = attempt.currentIndex;
+            const question = attempt.questions[index];
+            
+            if (question.type === 'mcq') {
+                // Find selected MCQ option
+                const container = document.getElementById('attempt-question-container');
+                const selected = container.querySelector('input[type="radio"]:checked');
+                if (selected) {
+                    attempt.answers[index].studentAnswer = selected.value || selected.nextSibling?.textContent?.trim();
+                    attempt.answers[index].correct = selected.dataset.correct === 'true';
+                }
+            } else {
+                // Get text answer
+                const textarea = document.getElementById(`attempt-answer-${index}`);
+                if (textarea) {
+                    attempt.answers[index].studentAnswer = textarea.value;
+                    // For non-MCQ, we can't automatically determine correctness
+                    // Mark as correct if they provided an answer (teacher can review)
+                    attempt.answers[index].correct = textarea.value.trim().length > 0;
+                }
+            }
+        };
+
+        // Submit the worksheet attempt
+        window.submitWorksheetAttempt = async function() {
+            // Save last answer
+            saveCurrentAttemptAnswer();
+            
+            const attempt = window.currentAttempt;
+            
+            // Check if all questions answered
+            const unanswered = attempt.answers.filter(a => !a.studentAnswer || a.studentAnswer.trim() === '').length;
+            if (unanswered > 0) {
+                if (!confirm(`You have ${unanswered} unanswered question(s). Submit anyway?`)) {
+                    return;
+                }
+            }
+            
+            try {
+                // Calculate results for MCQ questions
+                let correctCount = 0;
+                attempt.answers.forEach((ans, idx) => {
+                    const question = attempt.questions[idx];
+                    if (question.type === 'mcq') {
+                        // For MCQ, correctness was determined when selecting
+                        if (ans.correct) correctCount++;
+                    } else {
+                        // For other types, mark as correct if answered
+                        if (ans.studentAnswer && ans.studentAnswer.trim()) {
+                            ans.correct = true;
+                            correctCount++;
+                        }
+                    }
+                });
+                
+                // Save the attempt to Firestore
+                await saveWorksheetAttempt(
+                    attempt.worksheetId,
+                    attempt.worksheetName,
+                    attempt.answers,
+                    'completed'
+                );
+                
+                // Show completion message
+                const score = Math.round((correctCount / attempt.answers.length) * 100);
+                const wrongCount = attempt.answers.length - correctCount;
+                
+                alert(`Worksheet submitted!\n\nScore: ${score}%\nCorrect: ${correctCount}/${attempt.answers.length}\nWrong: ${wrongCount}`);
+                
+                // Close modal
+                document.getElementById('worksheet-attempt-modal').classList.remove('visible');
+                
+                // Reset attempt state
+                window.currentAttempt = {
+                    worksheetId: null,
+                    worksheetName: null,
+                    questions: [],
+                    currentIndex: 0,
+                    answers: []
+                };
+                
+            } catch (e) {
+                console.error("Error submitting worksheet:", e);
+                alert("Error submitting worksheet: " + e.message);
+            }
+        };
+
+        // Cancel worksheet attempt
+        window.cancelWorksheetAttempt = function() {
+            if (confirm("Are you sure you want to exit? Your progress will be lost.")) {
+                document.getElementById('worksheet-attempt-modal').classList.remove('visible');
+                window.currentAttempt = {
+                    worksheetId: null,
+                    worksheetName: null,
+                    questions: [],
+                    currentIndex: 0,
+                    answers: []
+                };
             }
         };
 
@@ -5937,6 +6350,378 @@
         window.trackAnswerForPractice = function(questionId, isCorrect) {
             // This can be expanded to track performance over time
             console.log(`Question ${questionId}: ${isCorrect ? 'Correct' : 'Wrong'}`);
+        };
+
+        // =====================================================
+        // STUDENT PROGRESS TRACKING (Admin)
+        // =====================================================
+        
+        window.allProgressData = [];
+        window.filteredProgressData = [];
+
+        // Load student progress data
+        window.loadStudentProgress = async function() {
+            if (!window.isAdminUser) {
+                alert("Only admins can view student progress.");
+                return;
+            }
+            
+            try {
+                const { collection, getDocs } = await import("https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js");
+                
+                // Fetch all worksheet attempts
+                const attemptsSnapshot = await getDocs(collection(window.db_fs, "worksheet_attempts"));
+                const worksheetsSnapshot = await getDocs(collection(window.db_fs, "user_worksheets"));
+                
+                // Build worksheets lookup
+                const worksheetsMap = {};
+                worksheetsSnapshot.forEach(doc => {
+                    worksheetsMap[doc.id] = { id: doc.id, ...doc.data() };
+                });
+                
+                // Build progress data
+                window.allProgressData = [];
+                const studentsSet = new Set();
+                const worksheetsSet = new Set();
+                
+                attemptsSnapshot.forEach(doc => {
+                    const data = { id: doc.id, ...doc.data() };
+                    data.worksheetInfo = worksheetsMap[data.worksheetId] || { name: 'Unknown Worksheet' };
+                    window.allProgressData.push(data);
+                    
+                    if (data.studentName) studentsSet.add(data.studentName);
+                    if (data.worksheetInfo.name) worksheetsSet.add(data.worksheetInfo.name);
+                });
+                
+                // Sort by date descending
+                window.allProgressData.sort((a, b) => {
+                    const dateA = a.completedAt?.toDate ? a.completedAt.toDate() : new Date(a.completedAt || 0);
+                    const dateB = b.completedAt?.toDate ? b.completedAt.toDate() : new Date(b.completedAt || 0);
+                    return dateB - dateA;
+                });
+                
+                window.filteredProgressData = [...window.allProgressData];
+                
+                // Populate filter dropdowns
+                populateProgressFilters(studentsSet, worksheetsSet);
+                
+                // Update summary stats
+                updateProgressSummaryStats();
+                
+                // Render table
+                renderProgressTable();
+                
+            } catch (e) {
+                console.error("Error loading student progress:", e);
+                document.getElementById('progress-table-body').innerHTML = `
+                    <tr>
+                        <td colspan="6" style="padding: 2rem; text-align: center; color: #dc3545;">
+                            Error loading progress data. Please try again.
+                        </td>
+                    </tr>
+                `;
+            }
+        };
+
+        window.populateProgressFilters = function(studentsSet, worksheetsSet) {
+            // Worksheet filter
+            const worksheetFilter = document.getElementById('progress-worksheet-filter');
+            worksheetFilter.innerHTML = '<option value="all">All Worksheets</option>';
+            [...worksheetsSet].sort().forEach(ws => {
+                worksheetFilter.innerHTML += `<option value="${ws}">${ws}</option>`;
+            });
+            
+            // Student filter
+            const studentFilter = document.getElementById('progress-student-filter');
+            studentFilter.innerHTML = '<option value="all">All Students</option>';
+            [...studentsSet].sort().forEach(st => {
+                studentFilter.innerHTML += `<option value="${st}">${st}</option>`;
+            });
+        };
+
+        window.updateProgressSummaryStats = function() {
+            const data = window.filteredProgressData;
+            
+            // Total attempts
+            document.getElementById('stat-total-attempts').textContent = data.length;
+            
+            // Completed count
+            const completed = data.filter(d => d.status === 'completed').length;
+            document.getElementById('stat-completed-count').textContent = completed;
+            
+            // Average score
+            const scoresData = data.filter(d => typeof d.score === 'number');
+            const avgScore = scoresData.length > 0 
+                ? Math.round(scoresData.reduce((sum, d) => sum + d.score, 0) / scoresData.length) 
+                : 0;
+            document.getElementById('stat-avg-score').textContent = avgScore + '%';
+            
+            // Unique students
+            const uniqueStudents = new Set(data.map(d => d.studentName)).size;
+            document.getElementById('stat-unique-students').textContent = uniqueStudents;
+        };
+
+        window.renderProgressTable = function() {
+            const tbody = document.getElementById('progress-table-body');
+            const data = window.filteredProgressData;
+            
+            if (data.length === 0) {
+                tbody.innerHTML = `
+                    <tr>
+                        <td colspan="6" style="padding: 3rem; text-align: center; color: #888;">
+                            <div style="font-size: 3rem; margin-bottom: 1rem;">📊</div>
+                            <p>No worksheet attempts found</p>
+                            <p style="font-size: 0.85rem; margin-top: 0.5rem;">Student progress will appear here when they attempt worksheets</p>
+                        </td>
+                    </tr>
+                `;
+                return;
+            }
+            
+            tbody.innerHTML = data.map(attempt => {
+                const date = attempt.completedAt?.toDate 
+                    ? attempt.completedAt.toDate().toLocaleString() 
+                    : new Date(attempt.completedAt).toLocaleString();
+                
+                const scoreClass = attempt.score >= 80 ? 'color: #28a745;' : 
+                                   attempt.score >= 50 ? 'color: #f57c00;' : 'color: #dc3545;';
+                
+                const statusBadge = attempt.status === 'completed' 
+                    ? '<span style="background: #d4edda; color: #155724; padding: 4px 10px; border-radius: 20px; font-size: 0.8rem;">✓ Completed</span>'
+                    : '<span style="background: #fff3cd; color: #856404; padding: 4px 10px; border-radius: 20px; font-size: 0.8rem;">⏳ In Progress</span>';
+                
+                const wrongCount = attempt.questionResults ? 
+                    attempt.questionResults.filter(q => !q.correct).length : 0;
+                const totalCount = attempt.questionResults ? attempt.questionResults.length : 0;
+                
+                return `
+                    <tr style="border-bottom: 1px solid #eee;">
+                        <td style="padding: 1rem;">
+                            <div style="font-weight: 600;">${attempt.studentName || 'Unknown'}</div>
+                            <div style="font-size: 0.8rem; color: #888;">${attempt.studentLevel || ''}</div>
+                        </td>
+                        <td style="padding: 1rem;">
+                            <div style="font-weight: 500;">${attempt.worksheetInfo?.name || 'Unknown'}</div>
+                            <div style="font-size: 0.8rem; color: #888;">${totalCount} questions</div>
+                        </td>
+                        <td style="padding: 1rem; text-align: center;">
+                            <div style="font-size: 1.3rem; font-weight: bold; ${scoreClass}">${attempt.score || 0}%</div>
+                            ${wrongCount > 0 ? `<div style="font-size: 0.75rem; color: #dc3545;">${wrongCount} wrong</div>` : ''}
+                        </td>
+                        <td style="padding: 1rem; text-align: center;">${statusBadge}</td>
+                        <td style="padding: 1rem; text-align: center; font-size: 0.85rem; color: #666;">${date}</td>
+                        <td style="padding: 1rem; text-align: center;">
+                            <button class="btn" style="background: #1976d2; color: white; padding: 6px 12px; font-size: 0.8rem;" 
+                                    onclick="viewProgressDetail('${attempt.id}')">
+                                👁️ Details
+                            </button>
+                        </td>
+                    </tr>
+                `;
+            }).join('');
+        };
+
+        window.filterProgressByWorksheet = function() {
+            const value = document.getElementById('progress-worksheet-filter').value;
+            applyProgressFilters();
+        };
+
+        window.filterProgressByStudent = function() {
+            applyProgressFilters();
+        };
+
+        window.filterProgressByStatus = function() {
+            applyProgressFilters();
+        };
+
+        window.applyProgressFilters = function() {
+            const worksheetFilter = document.getElementById('progress-worksheet-filter').value;
+            const studentFilter = document.getElementById('progress-student-filter').value;
+            const statusFilter = document.getElementById('progress-status-filter').value;
+            
+            window.filteredProgressData = window.allProgressData.filter(d => {
+                if (worksheetFilter !== 'all' && d.worksheetInfo?.name !== worksheetFilter) return false;
+                if (studentFilter !== 'all' && d.studentName !== studentFilter) return false;
+                if (statusFilter !== 'all' && d.status !== statusFilter) return false;
+                return true;
+            });
+            
+            updateProgressSummaryStats();
+            renderProgressTable();
+        };
+
+        window.refreshStudentProgress = function() {
+            loadStudentProgress();
+        };
+
+        window.viewProgressDetail = async function(attemptId) {
+            const attempt = window.allProgressData.find(a => a.id === attemptId);
+            if (!attempt) {
+                alert("Attempt not found.");
+                return;
+            }
+            
+            // Populate header
+            const header = document.getElementById('progress-detail-header');
+            const date = attempt.completedAt?.toDate 
+                ? attempt.completedAt.toDate().toLocaleString() 
+                : new Date(attempt.completedAt).toLocaleString();
+            
+            header.innerHTML = `
+                <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); gap: 1rem;">
+                    <div>
+                        <div style="font-size: 0.8rem; color: #666;">Student</div>
+                        <div style="font-weight: 600;">${attempt.studentName || 'Unknown'} (${attempt.studentLevel || 'N/A'})</div>
+                    </div>
+                    <div>
+                        <div style="font-size: 0.8rem; color: #666;">Worksheet</div>
+                        <div style="font-weight: 600;">${attempt.worksheetInfo?.name || 'Unknown'}</div>
+                    </div>
+                    <div>
+                        <div style="font-size: 0.8rem; color: #666;">Score</div>
+                        <div style="font-weight: 600; font-size: 1.2rem; color: ${attempt.score >= 80 ? '#28a745' : attempt.score >= 50 ? '#f57c00' : '#dc3545'};">
+                            ${attempt.score || 0}%
+                        </div>
+                    </div>
+                    <div>
+                        <div style="font-size: 0.8rem; color: #666;">Date</div>
+                        <div style="font-weight: 500;">${date}</div>
+                    </div>
+                </div>
+            `;
+            
+            // Populate question results
+            const questionsContainer = document.getElementById('progress-detail-questions');
+            
+            if (!attempt.questionResults || attempt.questionResults.length === 0) {
+                questionsContainer.innerHTML = '<p style="color: #888; text-align: center;">No detailed question results available.</p>';
+            } else {
+                questionsContainer.innerHTML = attempt.questionResults.map((q, idx) => {
+                    const isCorrect = q.correct;
+                    const bgColor = isCorrect ? '#d4edda' : '#f8d7da';
+                    const borderColor = isCorrect ? '#28a745' : '#dc3545';
+                    const icon = isCorrect ? '✓' : '✗';
+                    
+                    return `
+                        <div style="background: ${bgColor}; border-left: 4px solid ${borderColor}; padding: 1rem; border-radius: 8px; margin-bottom: 1rem;">
+                            <div style="display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 0.5rem;">
+                                <strong style="color: #333;">Question ${idx + 1}: ${q.questionTitle || 'Untitled'}</strong>
+                                <span style="font-size: 1.2rem; color: ${borderColor};">${icon}</span>
+                            </div>
+                            <div style="font-size: 0.9rem; color: #555; margin-bottom: 0.5rem;">
+                                <span style="background: white; padding: 2px 8px; border-radius: 4px; margin-right: 8px;">Topic: ${q.topic || 'N/A'}</span>
+                                <span style="background: white; padding: 2px 8px; border-radius: 4px;">Type: ${q.type || 'N/A'}</span>
+                            </div>
+                            ${!isCorrect ? `
+                                <div style="margin-top: 0.75rem; padding: 0.75rem; background: white; border-radius: 6px;">
+                                    <div style="font-size: 0.85rem;">
+                                        <span style="color: #dc3545;">Student's Answer:</span> ${q.studentAnswer || 'No answer'}
+                                    </div>
+                                    ${q.correctAnswer ? `
+                                        <div style="font-size: 0.85rem; margin-top: 0.5rem;">
+                                            <span style="color: #28a745;">Correct Answer:</span> ${q.correctAnswer}
+                                        </div>
+                                    ` : ''}
+                                </div>
+                            ` : ''}
+                        </div>
+                    `;
+                }).join('');
+            }
+            
+            document.getElementById('progress-detail-modal').classList.add('visible');
+        };
+
+        window.hideProgressDetailModal = function() {
+            document.getElementById('progress-detail-modal').classList.remove('visible');
+        };
+
+        // Export progress data to CSV
+        window.exportProgressToCSV = function() {
+            if (window.filteredProgressData.length === 0) {
+                alert("No data to export.");
+                return;
+            }
+            
+            const headers = ['Student', 'Level', 'Worksheet', 'Score', 'Status', 'Questions', 'Wrong', 'Date'];
+            const rows = window.filteredProgressData.map(d => {
+                const date = d.completedAt?.toDate 
+                    ? d.completedAt.toDate().toLocaleString() 
+                    : new Date(d.completedAt).toLocaleString();
+                const wrongCount = d.questionResults ? d.questionResults.filter(q => !q.correct).length : 0;
+                const totalCount = d.questionResults ? d.questionResults.length : 0;
+                
+                return [
+                    d.studentName || 'Unknown',
+                    d.studentLevel || 'N/A',
+                    d.worksheetInfo?.name || 'Unknown',
+                    (d.score || 0) + '%',
+                    d.status || 'unknown',
+                    totalCount,
+                    wrongCount,
+                    date
+                ];
+            });
+            
+            const csv = [headers, ...rows].map(row => row.map(cell => `"${cell}"`).join(',')).join('\n');
+            
+            const blob = new Blob([csv], { type: 'text/csv' });
+            const url = URL.createObjectURL(blob);
+            const a = document.createElement('a');
+            a.href = url;
+            a.download = `student_progress_${new Date().toISOString().split('T')[0]}.csv`;
+            a.click();
+            URL.revokeObjectURL(url);
+        };
+
+        // Save worksheet attempt when student completes/submits
+        window.saveWorksheetAttempt = async function(worksheetId, worksheetName, questionResults, status = 'completed') {
+            try {
+                const user = window.auth?.currentUser;
+                if (!user) return;
+                
+                const { collection, addDoc, serverTimestamp } = await import("https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js");
+                const { doc, getDoc } = await import("https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js");
+                
+                // Get student info
+                const userDoc = await getDoc(doc(window.db_fs, "users", user.uid));
+                let studentName = 'Unknown';
+                let studentLevel = 'N/A';
+                
+                if (userDoc.exists()) {
+                    const data = userDoc.data();
+                    if (data.students && data.students.length > 0) {
+                        studentName = data.students[0].name;
+                        studentLevel = data.students[0].level;
+                    } else if (data.studentName) {
+                        studentName = data.studentName;
+                        studentLevel = data.level || 'N/A';
+                    }
+                }
+                
+                // Calculate score
+                const correctCount = questionResults.filter(q => q.correct).length;
+                const totalCount = questionResults.length;
+                const score = totalCount > 0 ? Math.round((correctCount / totalCount) * 100) : 0;
+                
+                await addDoc(collection(window.db_fs, "worksheet_attempts"), {
+                    worksheetId: worksheetId,
+                    worksheetName: worksheetName,
+                    userId: user.uid,
+                    userEmail: user.email,
+                    studentName: studentName,
+                    studentLevel: studentLevel,
+                    questionResults: questionResults,
+                    score: score,
+                    status: status,
+                    completedAt: serverTimestamp()
+                });
+                
+                console.log("Worksheet attempt saved successfully");
+                
+            } catch (e) {
+                console.error("Error saving worksheet attempt:", e);
+            }
         };
 
         // =====================================================
@@ -6773,7 +7558,7 @@
             }
 
             // Update button states
-            const allBtns = document.querySelectorAll('.tab-btn, #btn-sidebar-admin, #btn-sidebar-worksheet, #btn-sidebar-saved-worksheets, #btn-sidebar-practice, #btn-sidebar-lessons, #header-inbox-btn');
+            const allBtns = document.querySelectorAll('.tab-btn, #btn-sidebar-admin, #btn-sidebar-worksheet, #btn-sidebar-saved-worksheets, #btn-sidebar-practice, #btn-sidebar-lessons, #btn-sidebar-progress, #header-inbox-btn');
             allBtns.forEach(b => b.classList.remove('active'));
             if (btn) btn.classList.add('active');
 
@@ -6796,7 +7581,7 @@
             // List of all OEQ tabs
             const oeqTabs = ['cer', 'definition', 'single-relationship', 'double-relationship', 'fairness', 'reliability', 'accuracy', 'constant-variable', 'explanation', 'control-setup'];
             // List of special tabs (admin, worksheet, etc)
-            const specialTabs = ['admin', 'worksheet', 'saved-worksheets', 'practice', 'inbox', 'lessons', 'lesson-detail'];
+            const specialTabs = ['admin', 'worksheet', 'saved-worksheets', 'practice', 'inbox', 'lessons', 'lesson-detail', 'student-progress'];
             
             if (oeqSidebarContent && mcqSidebarContent) {
                 if (oeqTabs.includes(type)) {
@@ -6850,6 +7635,11 @@
             // Load inbox when switching to inbox tab
             if (type === 'inbox') {
                 loadInbox();
+            }
+            
+            // Load student progress when switching to student-progress tab
+            if (type === 'student-progress') {
+                loadStudentProgress();
             }
         };
         
@@ -10133,9 +10923,11 @@
                     console.log("Admin identified:", user.email);
                     window.isAdminUser = true;
                     document.getElementById('btn-sidebar-admin').classList.remove('hidden');
+                    document.getElementById('btn-sidebar-progress').classList.remove('hidden');
                 } else {
                     window.isAdminUser = false;
                     document.getElementById('btn-sidebar-admin').classList.add('hidden');
+                    document.getElementById('btn-sidebar-progress').classList.add('hidden');
                 }
 
                 window.loadCustomQuestions();
