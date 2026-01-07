@@ -654,12 +654,66 @@
             box-shadow: 0 2px 6px rgba(0,0,0,0.15);
         }
 
+        /* Header Tabs Row with Level Selector */
+        .header-tabs-row {
+            display: flex;
+            align-items: flex-end;
+            gap: 0;
+        }
+
+        .level-selector-container {
+            display: flex;
+            align-items: center;
+            padding-right: 8px;
+        }
+
+        .level-select {
+            padding: 0.5rem 1.5rem 0.5rem 0.8rem;
+            font-family: 'Poppins', sans-serif;
+            font-size: 0.85rem;
+            font-weight: 700;
+            color: white;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            border: none;
+            border-radius: 8px 8px 0 0;
+            cursor: pointer;
+            outline: none;
+            appearance: none;
+            -webkit-appearance: none;
+            -moz-appearance: none;
+            min-width: 60px;
+            text-align: center;
+            box-shadow: 0 -2px 8px rgba(102, 126, 234, 0.3);
+            transition: all 0.2s ease;
+            background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 24 24' fill='none' stroke='white' stroke-width='3' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpolyline points='6 9 12 15 18 9'%3E%3C/polyline%3E%3C/svg%3E");
+            background-repeat: no-repeat;
+            background-position: right 8px center;
+            background-size: 12px;
+        }
+
+        .level-select:hover {
+            background: linear-gradient(135deg, #5a6fd6 0%, #6a4190 100%);
+            transform: translateY(-2px);
+        }
+
+        .level-select:focus {
+            box-shadow: 0 -2px 12px rgba(102, 126, 234, 0.5);
+        }
+
+        .level-select option {
+            background: white;
+            color: #333;
+            font-weight: 600;
+            padding: 10px;
+        }
+
         #header-tabs-container {
             display: flex;
             flex-wrap: wrap;
             align-items: flex-end;
             margin: 0;
             padding: 0;
+            flex: 1;
         }
 
         .app-logo {
@@ -3103,6 +3157,22 @@
                 display: none;
             }
 
+            /* Level selector mobile */
+            .header-tabs-row {
+                flex-wrap: nowrap;
+            }
+
+            .level-selector-container {
+                padding-right: 4px;
+            }
+
+            .level-select {
+                padding: 0.35rem 0.5rem;
+                font-size: 0.75rem;
+                min-width: 45px;
+                border-radius: 6px 6px 0 0;
+            }
+
             .tab-btn {
                 padding: 0.35rem 0.6rem;
                 font-size: 0.7rem;
@@ -3868,14 +3938,24 @@
                     </button>
                 </div>
             </div>
-            <div id="header-tabs-container">
-                <button class="tab-btn active" data-type="cer" onclick="switchTab('cer', this)">CER</button><button class="tab-btn" data-type="definition"
-                    onclick="switchTab('definition', this)">Definition</button><button class="tab-btn" data-type="single-relationship"
-                    onclick="switchTab('single-relationship', this)">Single Relationship</button><button class="tab-btn" data-type="double-relationship"
-                    onclick="switchTab('double-relationship', this)">Double Relationship</button><button class="tab-btn" data-type="fairness" onclick="switchTab('fairness', this)">Fairness</button><button class="tab-btn" data-type="reliability"
-                    onclick="switchTab('reliability', this)">Reliability</button><button class="tab-btn" data-type="accuracy" onclick="switchTab('accuracy', this)">Accuracy</button><button class="tab-btn" data-type="constant-variable"
-                    onclick="switchTab('constant-variable', this)">Constant Variable</button><button class="tab-btn" data-type="explanation"
-                    onclick="switchTab('explanation', this)">Explanation</button><button class="tab-btn" data-type="control-setup" onclick="switchTab('control-setup', this)">Control Set-up</button>
+            <div class="header-tabs-row">
+                <div class="level-selector-container" id="header-level-selector">
+                    <select id="header-level-select" class="level-select" onchange="changeLevel(this.value)">
+                        <option value="P3">P3</option>
+                        <option value="P4">P4</option>
+                        <option value="P5">P5</option>
+                        <option value="P6" selected>P6</option>
+                    </select>
+                </div>
+                <div id="header-tabs-container">
+                    <button class="tab-btn active" data-type="cer" onclick="switchTab('cer', this)">CER</button><button class="tab-btn" data-type="definition"
+                        onclick="switchTab('definition', this)">Definition</button><button class="tab-btn" data-type="single-relationship"
+                        onclick="switchTab('single-relationship', this)">Single Relationship</button><button class="tab-btn" data-type="double-relationship"
+                        onclick="switchTab('double-relationship', this)">Double Relationship</button><button class="tab-btn" data-type="fairness" onclick="switchTab('fairness', this)">Fairness</button><button class="tab-btn" data-type="reliability"
+                        onclick="switchTab('reliability', this)">Reliability</button><button class="tab-btn" data-type="accuracy" onclick="switchTab('accuracy', this)">Accuracy</button><button class="tab-btn" data-type="constant-variable"
+                        onclick="switchTab('constant-variable', this)">Constant Variable</button><button class="tab-btn" data-type="explanation"
+                        onclick="switchTab('explanation', this)">Explanation</button><button class="tab-btn" data-type="control-setup" onclick="switchTab('control-setup', this)">Control Set-up</button>
+                </div>
             </div>
         </header>
         
@@ -5210,8 +5290,46 @@
         window.currentActiveTab = 'cer';
         window.currentMode = 'oeq';
         window.currentMcqLevel = 'P3';
+        window.currentOeqLevel = 'P6';
         window.currentMcqTopic = '';
         window.editingQuestionId = null;
+
+        // Change level (works for both OEQ and MCQ modes)
+        window.changeLevel = function(level) {
+            if (window.currentMode === 'mcq') {
+                window.currentMcqLevel = level;
+                // Update MCQ level select if it exists
+                const mcqSelect = document.getElementById('mcq-level-select');
+                if (mcqSelect) mcqSelect.value = level;
+                renderMcqHeaders();
+            } else {
+                window.currentOeqLevel = level;
+                // Refresh OEQ tabs with new level
+                renderOeqHeaderTabs(window.currentActiveTab || 'cer');
+                // Update sidebar
+                updateOeqSidebar(window.currentActiveTab || 'cer');
+            }
+            
+            // Update the header level select
+            const headerSelect = document.getElementById('header-level-select');
+            if (headerSelect) headerSelect.value = level;
+            
+            // Save preference
+            localStorage.setItem('selectedLevel', level);
+        };
+
+        // Initialize level from localStorage
+        window.initLevel = function() {
+            const savedLevel = localStorage.getItem('selectedLevel');
+            if (savedLevel) {
+                window.currentOeqLevel = savedLevel;
+                window.currentMcqLevel = savedLevel;
+                const headerSelect = document.getElementById('header-level-select');
+                if (headerSelect) headerSelect.value = savedLevel;
+                const mcqSelect = document.getElementById('mcq-level-select');
+                if (mcqSelect) mcqSelect.value = savedLevel;
+            }
+        };
 
         window.mcqCurriculum = {
             'P3': ['Living and non-living things', 'Materials', 'Life Cycles', 'Magnets'],
@@ -8679,6 +8797,7 @@
             const toggle = document.getElementById('mode-toggle');
             const oeqLabel = document.querySelector('.ios-toggle-label:first-of-type');
             const mcqLabel = document.querySelector('.ios-toggle-label:last-of-type');
+            const headerLevelSelect = document.getElementById('header-level-select');
 
             // Update iOS toggle state
             if (toggle) {
@@ -8699,10 +8818,14 @@
                 oeqSidebar.classList.add('hidden');
                 mcqSidebar.classList.remove('hidden');
                 document.querySelectorAll('.view-content').forEach(v => v.classList.add('hidden'));
+                // Sync header level selector with MCQ level
+                if (headerLevelSelect) headerLevelSelect.value = window.currentMcqLevel;
                 renderMcqHeaders();
             } else {
                 oeqSidebar.classList.remove('hidden');
                 mcqSidebar.classList.add('hidden');
+                // Sync header level selector with OEQ level
+                if (headerLevelSelect) headerLevelSelect.value = window.currentOeqLevel;
                 renderOeqHeaderTabs('cer');
                 switchTab('cer', document.querySelector('.tab-btn[data-type="cer"]'));
                 if (window.isAdminUser) document.getElementById('btn-sidebar-admin').classList.remove('hidden');
@@ -11868,6 +11991,9 @@
             // Initialize OEQ/MCQ toggle label
             const oeqLabel = document.querySelector('.ios-toggle-label:first-of-type');
             if (oeqLabel) oeqLabel.classList.add('active');
+
+            // Initialize level selection
+            initLevel();
 
             // Initialize Exam Mode (Colour/Monochrome)
             initExamMode();
