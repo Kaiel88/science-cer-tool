@@ -3080,6 +3080,19 @@
             color: #2e7d32;
         }
 
+        /* Ratings Dashboard Table */
+        #ratings-table-body tr:hover {
+            background-color: #f3e5f5 !important;
+        }
+
+        #ratings-table-body tr:hover td {
+            color: #7b1fa2;
+        }
+
+        #ratings-table-body tr:hover td span[style*="underline"] {
+            color: #4a148c;
+        }
+
         /* View Message Modal Content */
         .view-message-header {
             border-bottom: 1px solid #e0e0e0;
@@ -4813,6 +4826,8 @@
                                         <thead style="position: sticky; top: 0; background: #f5f5f5;">
                                             <tr>
                                                 <th style="padding: 10px; text-align: left; border-bottom: 2px solid #e0e0e0;">Question</th>
+                                                <th style="padding: 10px; text-align: center; border-bottom: 2px solid #e0e0e0;">Level</th>
+                                                <th style="padding: 10px; text-align: center; border-bottom: 2px solid #e0e0e0;">Topic</th>
                                                 <th style="padding: 10px; text-align: center; border-bottom: 2px solid #e0e0e0;">Rating</th>
                                                 <th style="padding: 10px; text-align: center; border-bottom: 2px solid #e0e0e0;">Attempts</th>
                                                 <th style="padding: 10px; text-align: center; border-bottom: 2px solid #e0e0e0;">Correct %</th>
@@ -4820,7 +4835,7 @@
                                             </tr>
                                         </thead>
                                         <tbody id="ratings-table-body">
-                                            <tr><td colspan="5" style="padding: 20px; text-align: center; color: #888;">Click "Refresh Ratings" to load data</td></tr>
+                                            <tr><td colspan="7" style="padding: 20px; text-align: center; color: #888;">Click "Refresh Ratings" to load data</td></tr>
                                         </tbody>
                                     </table>
                                 </div>
@@ -7860,26 +7875,64 @@
             if (!window.isAdminUser) return;
             
             const tableBody = document.getElementById('ratings-table-body');
-            tableBody.innerHTML = '<tr><td colspan="5" style="padding: 20px; text-align: center; color: #888;">Loading...</td></tr>';
+            tableBody.innerHTML = '<tr><td colspan="7" style="padding: 20px; text-align: center; color: #888;">Loading...</td></tr>';
             
             try {
                 // Load question ratings
                 await loadQuestionRatings();
                 
-                // Get all questions from DOM
+                // Get all questions from DOM with level and topic info
                 const allQuestions = [];
                 document.querySelectorAll('.question-container').forEach(q => {
                     const id = q.id;
                     const titleEl = q.querySelector('h3');
                     const title = titleEl ? titleEl.textContent.trim() : id;
                     
+                    // Extract level and topic from parent container IDs
+                    let level = '-';
+                    let topic = '-';
+                    
+                    // Check if it's an MCQ question (parent has topic-mcq-* id)
+                    const mcqParent = q.closest('[id^="topic-mcq-"]');
+                    if (mcqParent) {
+                        // Find which level this topic belongs to
+                        const topicId = mcqParent.id.replace('topic-mcq-', '');
+                        for (const [lvl, topics] of Object.entries(window.mcqCurriculum || {})) {
+                            const matchingTopic = topics.find(t => t.toLowerCase().replace(/\s+/g, '-') === topicId);
+                            if (matchingTopic) {
+                                level = lvl;
+                                topic = matchingTopic;
+                                break;
+                            }
+                        }
+                    } else {
+                        // OEQ question - check parent view container
+                        const viewParent = q.closest('[id^="view-"]');
+                        if (viewParent) {
+                            const viewType = viewParent.id.replace('view-', '');
+                            // Check topic container
+                            const topicParent = q.closest('[id^="topic-"]');
+                            if (topicParent) {
+                                const topicId = topicParent.id.replace('topic-', '').replace(viewType + '-', '');
+                                topic = topicId.charAt(0).toUpperCase() + topicId.slice(1).replace(/-/g, ' ');
+                            }
+                            // Set level based on current OEQ level
+                            level = window.currentOeqLevel || 'P6';
+                        }
+                    }
+                    
                     const ratingData = getQuestionRating(id);
                     allQuestions.push({
                         id,
-                        title: title.substring(0, 50) + (title.length > 50 ? '...' : ''),
+                        title: title.substring(0, 40) + (title.length > 40 ? '...' : ''),
+                        fullTitle: title,
+                        level: level,
+                        topic: topic.length > 20 ? topic.substring(0, 18) + '...' : topic,
+                        fullTopic: topic,
                         rating: ratingData.rating,
                         attempts: ratingData.attempts,
-                        correctCount: ratingData.correctCount || 0
+                        correctCount: ratingData.correctCount || 0,
+                        element: q
                     });
                 });
                 
@@ -7899,13 +7952,24 @@
                 // Sort by rating descending (hardest first)
                 allQuestions.sort((a, b) => b.rating - a.rating);
                 
+                // Store for popup access
+                window.ratingsDashboardQuestions = allQuestions;
+                
                 // Render table
                 if (allQuestions.length === 0) {
-                    tableBody.innerHTML = '<tr><td colspan="5" style="padding: 20px; text-align: center; color: #888;">No questions found</td></tr>';
+                    tableBody.innerHTML = '<tr><td colspan="7" style="padding: 20px; text-align: center; color: #888;">No questions found</td></tr>';
                     return;
                 }
                 
-                tableBody.innerHTML = allQuestions.map(q => {
+                // Level colors
+                const levelColors = {
+                    'P3': '#FFB3BA',
+                    'P4': '#BAFFC9',
+                    'P5': '#BAE1FF',
+                    'P6': '#FFFFBA'
+                };
+                
+                tableBody.innerHTML = allQuestions.map((q, idx) => {
                     const correctPercent = q.attempts > 0 
                         ? Math.round((q.correctCount / q.attempts) * 100) 
                         : '-';
@@ -7915,10 +7979,17 @@
                         : q.rating >= 1200 ? '#2196F3'
                         : q.rating >= 1000 ? '#4CAF50'
                         : '#FF9800';
+                    const levelBg = levelColors[q.level] || '#f5f5f5';
                     
                     return `
-                        <tr>
-                            <td style="padding: 8px 10px; border-bottom: 1px solid #eee; max-width: 200px; overflow: hidden; text-overflow: ellipsis;">${q.title}</td>
+                        <tr style="cursor: pointer;" onclick="showRatingQuestionPopup(${idx})" title="Click to view question">
+                            <td style="padding: 8px 10px; border-bottom: 1px solid #eee; max-width: 180px; overflow: hidden; text-overflow: ellipsis;">
+                                <span style="color: #1976d2; text-decoration: underline;">${q.title}</span>
+                            </td>
+                            <td style="padding: 8px 10px; border-bottom: 1px solid #eee; text-align: center;">
+                                <span style="background: ${levelBg}; padding: 3px 8px; border-radius: 12px; font-size: 0.75rem; font-weight: 600;">${q.level}</span>
+                            </td>
+                            <td style="padding: 8px 10px; border-bottom: 1px solid #eee; text-align: center; font-size: 0.8rem; color: #666;" title="${q.fullTopic}">${q.topic}</td>
                             <td style="padding: 8px 10px; border-bottom: 1px solid #eee; text-align: center;">
                                 <strong style="color: ${ratingColor};">${q.rating}</strong>
                             </td>
@@ -7937,8 +8008,55 @@
                 
             } catch (e) {
                 console.error("Error loading ratings dashboard:", e);
-                tableBody.innerHTML = '<tr><td colspan="5" style="padding: 20px; text-align: center; color: #dc3545;">Error loading data</td></tr>';
+                tableBody.innerHTML = '<tr><td colspan="7" style="padding: 20px; text-align: center; color: #dc3545;">Error loading data</td></tr>';
             }
+        };
+
+        // Show question popup from ratings dashboard
+        window.showRatingQuestionPopup = function(idx) {
+            const questions = window.ratingsDashboardQuestions;
+            if (!questions || !questions[idx]) return;
+            
+            const q = questions[idx];
+            const questionElement = q.element;
+            
+            if (!questionElement) {
+                alert('Question element not found');
+                return;
+            }
+            
+            // Clone the question content
+            const clone = questionElement.cloneNode(true);
+            
+            // Remove controls, buttons, etc.
+            clone.querySelectorAll('.controls, .worksheet-control-bar, .admin-controls, .consult-btn, .print-question-btn, .flag-question-btn').forEach(el => el.remove());
+            
+            // Get rating info
+            const ratingData = getQuestionRating(q.id);
+            const ratingTier = q.rating >= 1600 ? 'Hard' : q.rating >= 1400 ? 'Medium-Hard' : q.rating >= 1200 ? 'Medium' : q.rating >= 1000 ? 'Medium-Easy' : 'Easy';
+            
+            // Build popup content
+            const content = document.getElementById('question-popup-content');
+            content.innerHTML = `
+                <div style="background: linear-gradient(135deg, #f3e5f5, #e1bee7); padding: 12px 15px; border-radius: 10px; margin-bottom: 1rem;">
+                    <div style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 10px;">
+                        <div>
+                            <div style="font-weight: 600; color: #7b1fa2; font-size: 1.1rem;">${q.fullTitle}</div>
+                            <div style="font-size: 0.85rem; color: #666; margin-top: 5px;">
+                                Level: <strong>${q.level}</strong> | Topic: <strong>${q.fullTopic}</strong>
+                            </div>
+                        </div>
+                        <div style="text-align: right;">
+                            <div style="font-size: 1.5rem; font-weight: 700; color: #7b1fa2;">${ratingData.rating}</div>
+                            <div style="font-size: 0.75rem; color: #888;">${ratingTier} • ${ratingData.attempts} attempts</div>
+                        </div>
+                    </div>
+                </div>
+            `;
+            content.appendChild(clone);
+            
+            // Show the popup
+            document.getElementById('question-popup-modal').classList.add('visible');
         };
 
         // =====================================================
