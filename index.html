@@ -8380,6 +8380,7 @@
         window.showWelcomeModal = function(newQuestionsCount, lastLoginDate, userStats) {
             const modal = document.getElementById('welcome-back-modal');
             const isNewUser = userStats?.isNewUser || false;
+            const reviewCount = userStats?.reviewCount || 0;
             
             // Update title based on new user or time of day
             const hour = new Date().getHours();
@@ -8398,31 +8399,11 @@
             document.getElementById('welcome-back-title').textContent = greeting;
             document.getElementById('welcome-back-subtitle').textContent = subtitle;
             
-            // Update new questions count
-            document.getElementById('new-questions-count').textContent = newQuestionsCount;
-            
-            // Update subtitle in info box
-            const infoSubtitle = document.getElementById('new-questions-since');
-            if (isNewUser) {
-                infoSubtitle.textContent = 'Questions available to practice';
-            } else if (lastLoginDate) {
-                const daysAgo = Math.floor((new Date() - lastLoginDate) / 86400000);
-                if (daysAgo === 0) {
-                    infoSubtitle.textContent = 'Since earlier today';
-                } else if (daysAgo === 1) {
-                    infoSubtitle.textContent = 'Since yesterday';
-                } else {
-                    infoSubtitle.textContent = `Since ${daysAgo} days ago`;
-                }
-            } else {
-                infoSubtitle.textContent = 'New questions for you';
-            }
-            
             // Update quick stats
             if (userStats) {
                 document.getElementById('welcome-stat-streak').textContent = userStats.streak || 0;
                 document.getElementById('welcome-stat-rating').textContent = userStats.rating || 1000;
-                document.getElementById('welcome-stat-review').textContent = userStats.reviewCount || 0;
+                document.getElementById('welcome-stat-review').textContent = reviewCount;
             }
             
             // Update button text and info display
@@ -8440,22 +8421,37 @@
                 practiceBtn.innerHTML = '🚀 Start Learning';
             } else if (newQuestionsCount > 0) {
                 // Returning user with new questions
+                const daysAgo = lastLoginDate ? Math.floor((new Date() - lastLoginDate) / 86400000) : 0;
+                let sinceText = 'Since your last visit';
+                if (daysAgo === 0) sinceText = 'Since earlier today';
+                else if (daysAgo === 1) sinceText = 'Since yesterday';
+                else if (daysAgo > 1) sinceText = `Since ${daysAgo} days ago`;
+                
                 infoBox.style.background = 'linear-gradient(135deg, #e8f5e9, #c8e6c9)';
                 infoBox.innerHTML = `
                     <div style="font-size: 2.5rem; font-weight: 700; color: #2e7d32;">${newQuestionsCount}</div>
                     <div style="font-size: 1rem; color: #2e7d32; font-weight: 600;">New Questions Added!</div>
-                    <div style="font-size: 0.85rem; color: #666; margin-top: 5px;" id="new-questions-since">Since your last visit</div>
+                    <div style="font-size: 0.85rem; color: #666; margin-top: 5px;">${sinceText}</div>
                 `;
                 practiceBtn.innerHTML = `🚀 Practice ${newQuestionsCount} New Questions`;
-            } else {
-                // Returning user with no new questions (but has reviews)
+            } else if (reviewCount > 0) {
+                // Returning user with no new questions but has reviews due
                 infoBox.style.background = 'linear-gradient(135deg, #fff3e0, #ffe0b2)';
                 infoBox.innerHTML = `
-                    <div style="font-size: 1.5rem; margin-bottom: 5px;">📅</div>
+                    <div style="font-size: 2.5rem; font-weight: 700; color: #e65100;">${reviewCount}</div>
                     <div style="font-size: 1rem; color: #e65100; font-weight: 600;">Questions Due for Review!</div>
                     <div style="font-size: 0.85rem; color: #666; margin-top: 5px;">Practice to reinforce your learning</div>
                 `;
-                practiceBtn.innerHTML = '🚀 Start Practice';
+                practiceBtn.innerHTML = '🚀 Start Review';
+            } else {
+                // Returning user with no new questions and no reviews - all caught up!
+                infoBox.style.background = 'linear-gradient(135deg, #f3e5f5, #e1bee7)';
+                infoBox.innerHTML = `
+                    <div style="font-size: 2.5rem; margin-bottom: 5px;">✨</div>
+                    <div style="font-size: 1rem; color: #7b1fa2; font-weight: 600;">You're All Caught Up!</div>
+                    <div style="font-size: 0.85rem; color: #666; margin-top: 5px;">No new questions since your last visit</div>
+                `;
+                practiceBtn.innerHTML = '🚀 Continue Practice';
             }
             
             modal.classList.add('visible');
@@ -8539,7 +8535,6 @@
                 let userRating = 1000;
                 let reviewCount = 0;
                 let isNewUser = false;
-                let alreadyLoggedInToday = false;
                 
                 if (userDoc.exists()) {
                     const data = userDoc.data();
@@ -8560,8 +8555,7 @@
                     
                     if (lastLogin) {
                         if (lastLogin >= todayStart) {
-                            // Already logged in today, maintain streak, don't show modal
-                            alreadyLoggedInToday = true;
+                            // Already logged in today, maintain streak
                         } else if (lastLogin >= yesterdayStart) {
                             // Logged in yesterday, increment streak
                             loginStreak++;
@@ -8616,19 +8610,16 @@
                     newQuestionsCount = await checkNewQuestionsSinceLastLogin(lastLogin);
                 }
                 
-                // Show welcome modal
-                // - Always show for new users
-                // - Show for returning users who haven't logged in today and have new questions or reviews
-                if (isNewUser || (!alreadyLoggedInToday && (newQuestionsCount > 0 || reviewCount > 0))) {
-                    setTimeout(() => {
-                        showWelcomeModal(newQuestionsCount, lastLogin, {
-                            streak: loginStreak,
-                            rating: userRating,
-                            reviewCount: reviewCount,
-                            isNewUser: isNewUser,
-                            totalQuestions: totalQuestionsCount
-                        });
-                    }, 1500); // Delay to let page load
+                // Always show welcome modal on login
+                setTimeout(() => {
+                    showWelcomeModal(newQuestionsCount, lastLogin, {
+                        streak: loginStreak,
+                        rating: userRating,
+                        reviewCount: reviewCount,
+                        isNewUser: isNewUser,
+                        totalQuestions: totalQuestionsCount
+                    });
+                }, 1500); // Delay to let page load
                 }
                 
             } catch (e) {
