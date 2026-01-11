@@ -2367,6 +2367,31 @@
                 visibility: visible !important;
             }
 
+            /* Worksheet summary page styles */
+            #worksheet-summary-page {
+                display: block !important;
+                visibility: visible !important;
+                page-break-after: always !important;
+                break-after: page !important;
+                margin-bottom: 2rem;
+            }
+
+            body.print-worksheet #worksheet-summary-page {
+                display: block !important;
+                visibility: visible !important;
+            }
+
+            #worksheet-summary-page table {
+                -webkit-print-color-adjust: exact !important;
+                print-color-adjust: exact !important;
+            }
+
+            #worksheet-summary-page th,
+            #worksheet-summary-page td {
+                -webkit-print-color-adjust: exact !important;
+                print-color-adjust: exact !important;
+            }
+
             /* Hide worksheet header in non-print, show in print */
             #worksheet-header {
                 display: none;
@@ -6456,11 +6481,162 @@
             }
         };
 
+        // Helper function to get topic and rating for a question
+        async function getQuestionInfo(questionId) {
+            let topic = 'General';
+            let rating = RATING_CONFIG.DEFAULT_QUESTION_RATING;
+            
+            // Try to find the question in the DOM
+            const questionElement = document.getElementById(questionId);
+            if (questionElement) {
+                // Try to find topic from parent containers
+                const mcqParent = questionElement.closest('[id^="topic-mcq-"]');
+                if (mcqParent) {
+                    const topicId = mcqParent.id.replace('topic-mcq-', '');
+                    // Find which level this topic belongs to
+                    if (window.mcqCurriculum) {
+                        for (const [lvl, topics] of Object.entries(window.mcqCurriculum)) {
+                            const matchingTopic = topics.find(t => t.toLowerCase().replace(/\s+/g, '-') === topicId);
+                            if (matchingTopic) {
+                                topic = matchingTopic;
+                                break;
+                            }
+                        }
+                    }
+                } else {
+                    // Check for OEQ topic container
+                    const topicParent = questionElement.closest('[id^="topic-"]');
+                    if (topicParent) {
+                        const topicId = topicParent.id.replace('topic-', '');
+                        // Remove view prefix if present
+                        const cleanTopicId = topicId.replace(/^(mcq|oeq|cer)-/, '');
+                        topic = cleanTopicId.charAt(0).toUpperCase() + cleanTopicId.slice(1).replace(/-/g, ' ');
+                    }
+                }
+                
+                // Get rating
+                if (window.getQuestionRating) {
+                    const ratingData = window.getQuestionRating(questionId);
+                    rating = ratingData.rating || RATING_CONFIG.DEFAULT_QUESTION_RATING;
+                }
+            } else {
+                // Question not in DOM - might be from Firestore
+                // Check if it's a custom question (starts with q-)
+                if (questionId.startsWith('q-')) {
+                    const firestoreId = questionId.replace('q-', '');
+                    try {
+                        // Try to get topic from Firestore
+                        const { doc, getDoc } = await import("https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js");
+                        const questionDoc = await getDoc(doc(window.db_fs, "custom_questions", firestoreId));
+                        if (questionDoc.exists()) {
+                            const data = questionDoc.data();
+                            topic = data.topic || 'General';
+                        }
+                    } catch (e) {
+                        console.warn("Could not fetch question topic from Firestore:", e);
+                    }
+                }
+                
+                // Get rating
+                if (window.getQuestionRating) {
+                    const ratingData = window.getQuestionRating(questionId);
+                    rating = ratingData.rating || RATING_CONFIG.DEFAULT_QUESTION_RATING;
+                }
+            }
+            
+            return { topic, rating };
+        }
+
         // Export worksheet as PDF
-        window.exportWorksheet = function () {
+        window.exportWorksheet = async function () {
             if (window.worksheetItems.length === 0) {
                 alert("Your worksheet is empty! Add some questions first.");
                 return;
+            }
+
+            // Load question ratings if not already loaded
+            if (window.loadQuestionRatings && !window.questionRatings || Object.keys(window.questionRatings || {}).length === 0) {
+                await window.loadQuestionRatings();
+            }
+
+            // Create summary table page
+            const summaryContainer = document.createElement('div');
+            summaryContainer.id = 'worksheet-summary-page';
+            summaryContainer.style.cssText = 'page-break-after: always; padding: 2rem; background: white;';
+            
+            // Create summary table
+            let summaryTableHTML = `
+                <div style="margin-bottom: 2rem;">
+                    <h2 style="text-align: center; margin-bottom: 1.5rem; color: #333;">Worksheet Summary</h2>
+                    <table style="width: 100%; border-collapse: collapse; border: 2px solid #333; font-size: 0.9rem;">
+                        <thead>
+                            <tr style="background: #f5f5f5;">
+                                <th style="border: 1px solid #333; padding: 12px; text-align: center; font-weight: bold; width: 10%;">Question #</th>
+                                <th style="border: 1px solid #333; padding: 12px; text-align: center; font-weight: bold; width: 20%;">Rating</th>
+                                <th style="border: 1px solid #333; padding: 12px; text-align: left; font-weight: bold; width: 40%;">Topic</th>
+                                <th style="border: 1px solid #333; padding: 12px; text-align: center; font-weight: bold; width: 30%;">Marks</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+            `;
+            
+            // Add rows for each question (await all async calls)
+            const questionInfos = await Promise.all(
+                window.worksheetItems.map(item => getQuestionInfo(item.id))
+            );
+            
+            questionInfos.forEach((questionInfo, idx) => {
+                const questionNum = idx + 1;
+                const topic = questionInfo.topic;
+                const rating = questionInfo.rating;
+                
+                summaryTableHTML += `
+                    <tr>
+                        <td style="border: 1px solid #333; padding: 10px; text-align: center; font-weight: 600;">${questionNum}</td>
+                        <td style="border: 1px solid #333; padding: 10px; text-align: center;">${rating}</td>
+                        <td style="border: 1px solid #333; padding: 10px; text-align: left;">${topic}</td>
+                        <td style="border: 1px solid #333; padding: 10px; text-align: center;">_____</td>
+                    </tr>
+                `;
+            });
+            
+            // Add total row
+            const totalRating = questionInfos.reduce((sum, info) => sum + info.rating, 0);
+            const avgRating = Math.round(totalRating / window.worksheetItems.length);
+            
+            summaryTableHTML += `
+                        </tbody>
+                        <tfoot>
+                            <tr style="background: #f9f9f9; font-weight: bold;">
+                                <td style="border: 1px solid #333; padding: 12px; text-align: center;" colspan="2">Total Questions: ${window.worksheetItems.length}</td>
+                                <td style="border: 1px solid #333; padding: 12px; text-align: center;" colspan="2">Average Rating: ${avgRating}</td>
+                            </tr>
+                            <tr style="background: #f9f9f9;">
+                                <td style="border: 1px solid #333; padding: 12px; text-align: center; font-weight: bold;" colspan="4">Total Marks: ________ / ________</td>
+                            </tr>
+                        </tfoot>
+                    </table>
+                </div>
+            `;
+            
+            summaryContainer.innerHTML = summaryTableHTML;
+            
+            // Insert summary page at the beginning of the worksheet view
+            const worksheetView = document.getElementById('view-worksheet');
+            if (worksheetView) {
+                // Insert after the header but before questions container
+                const worksheetContainer = document.getElementById('worksheet-questions-container');
+                if (worksheetContainer && worksheetContainer.parentNode) {
+                    worksheetContainer.parentNode.insertBefore(summaryContainer, worksheetContainer);
+                } else {
+                    // Fallback: insert at the beginning of worksheet view
+                    const firstChild = worksheetView.firstElementChild;
+                    if (firstChild) {
+                        worksheetView.insertBefore(summaryContainer, firstChild);
+                    } else {
+                        worksheetView.appendChild(summaryContainer);
+                    }
+                }
             }
 
             // Add print class to body
@@ -6477,6 +6653,10 @@
             setTimeout(() => {
                 document.body.classList.remove('print-worksheet');
                 if (header) header.style.display = 'none';
+                // Remove summary page
+                if (summaryContainer && summaryContainer.parentNode) {
+                    summaryContainer.parentNode.removeChild(summaryContainer);
+                }
             }, 100);
         };
 
