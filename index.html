@@ -4320,6 +4320,10 @@
                         📊 Student Progress
                     </button>
 
+                    <button id="btn-sidebar-leaderboard" class="sidebar-nav-btn" style="background: linear-gradient(135deg, #FFD700, #FFA500); color: white;" onclick="switchTab('leaderboard', this)">
+                        🏆 Leaderboard
+                    </button>
+
                     <button id="btn-sidebar-worksheet" class="sidebar-nav-btn worksheet-btn" onclick="switchTab('worksheet', this)">
                         📝 My Worksheet <span id="worksheet-count" class="worksheet-badge">0</span>
                     </button>
@@ -5203,6 +5207,22 @@
                     </div>
                 </div>
 
+                <!-- LEADERBOARD VIEW -->
+                <div id="view-leaderboard" class="view-content hidden" style="flex: 1;">
+                    <div style="max-width: 1000px; margin: 0 auto; padding: 2rem;">
+                        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 2rem; flex-wrap: wrap; gap: 1rem;">
+                            <h2 style="margin: 0; background: linear-gradient(135deg, #FFD700, #FFA500); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;">🏆 Student Leaderboard</h2>
+                            <button class="btn" style="background: #1976d2; color: white;" onclick="loadLeaderboard()">🔄 Refresh</button>
+                        </div>
+
+                        <div id="leaderboard-container">
+                            <div class="placeholder-content" id="leaderboard-loading-msg">
+                                <p style="font-size: 1.2rem; color: #666;">Loading leaderboard...</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
                 <!-- STUDENT PROGRESS VIEW (Admin Only) -->
                 <div id="view-student-progress" class="view-content hidden" style="flex: 1;">
                     <div style="max-width: 1100px; margin: 0 auto; padding: 2rem;">
@@ -5834,6 +5854,8 @@
             'lessons': '#fff3e0',
             'lesson-detail': '#fff3e0',
             'flagged': '#fff3e0',
+            'leaderboard': '#FFD700',
+            'student-progress': '#e3f2fd',
             // MCQ level colors
             'mcq-P3': '#FFB3BA',
             'mcq-P4': '#BAFFC9',
@@ -7750,6 +7772,11 @@
                     }
                 }
                 
+                // Store starting rating if this is the first time the student gets a rating
+                if (students[studentIndex].startingRating === undefined || students[studentIndex].startingRating === null) {
+                    students[studentIndex].startingRating = RATING_CONFIG.DEFAULT_STUDENT_RATING;
+                }
+                
                 // Update the student's rating data
                 students[studentIndex].rating = Math.round(newRating);
                 students[studentIndex].totalAttempts = (students[studentIndex].totalAttempts || 0) + 1;
@@ -7768,6 +7795,229 @@
                 }
             } catch (e) {
                 console.error("Error updating student rating:", e);
+            }
+        };
+
+        // Load and display leaderboard
+        window.loadLeaderboard = async function() {
+            const container = document.getElementById('leaderboard-container');
+            if (!container) return;
+
+            container.innerHTML = '<div class="placeholder-content" id="leaderboard-loading-msg"><p style="font-size: 1.2rem; color: #666;">Loading leaderboard...</p></div>';
+
+            try {
+                const { collection, getDocs } = await import("https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js");
+                
+                // Fetch all users
+                const usersRef = collection(window.db_fs, "users");
+                const snapshot = await getDocs(usersRef);
+                
+                const allStudents = [];
+                
+                snapshot.forEach(doc => {
+                    const userData = doc.data();
+                    const students = userData.students || [];
+                    const parentName = userData.parentName || userData.email || 'Unknown';
+                    
+                    students.forEach((student, index) => {
+                        const currentRating = student.rating !== undefined && student.rating !== null 
+                            ? student.rating 
+                            : RATING_CONFIG.DEFAULT_STUDENT_RATING;
+                        
+                        // Get starting rating (stored or default to 1000)
+                        const startingRating = student.startingRating !== undefined && student.startingRating !== null
+                            ? student.startingRating
+                            : RATING_CONFIG.DEFAULT_STUDENT_RATING;
+                        
+                        // Calculate improvement
+                        const improvement = currentRating - startingRating;
+                        
+                        allStudents.push({
+                            name: student.name || 'Student',
+                            level: student.level || 'P6',
+                            rating: currentRating,
+                            startingRating: startingRating,
+                            improvement: improvement,
+                            attempts: student.totalAttempts || 0,
+                            correctCount: student.correctCount || 0,
+                            parentName: parentName,
+                            userId: doc.id,
+                            studentIndex: index
+                        });
+                    });
+                });
+
+                if (allStudents.length === 0) {
+                    container.innerHTML = '<div class="placeholder-content"><p style="font-size: 1.2rem; color: #666;">No students found in the leaderboard.</p></div>';
+                    return;
+                }
+
+                // Sort by rating (descending) for top ratings
+                const sortedByRating = [...allStudents].sort((a, b) => b.rating - a.rating);
+                
+                // Sort by improvement (descending) for biggest improvement
+                const sortedByImprovement = [...allStudents].sort((a, b) => b.improvement - a.improvement);
+                
+                // Get top 3 and biggest improvement
+                const top1 = sortedByRating[0];
+                const top2 = sortedByRating[1];
+                const top3 = sortedByRating[2];
+                const biggestImprovement = sortedByImprovement[0];
+
+                // Build leaderboard HTML
+                let leaderboardHTML = `
+                    <div style="margin-bottom: 2rem;">
+                        <h3 style="color: #333; margin-bottom: 1rem;">🏅 Top Ratings</h3>
+                        <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 1rem; margin-bottom: 2rem;">
+                `;
+
+                // Top 3 podium
+                if (top3) {
+                    leaderboardHTML += `
+                        <div style="background: linear-gradient(135deg, #FFD700, #FFA500); padding: 1.5rem; border-radius: 12px; text-align: center; box-shadow: 0 4px 12px rgba(255, 215, 0, 0.3);">
+                            <div style="font-size: 3rem; margin-bottom: 0.5rem;">🥇</div>
+                            <div style="font-weight: bold; font-size: 1.2rem; margin-bottom: 0.5rem;">${top1.name}</div>
+                            <div style="font-size: 0.9rem; color: #666; margin-bottom: 0.5rem;">${top1.level}</div>
+                            <div style="font-size: 1.5rem; font-weight: bold; color: #333;">${top1.rating}</div>
+                            <div style="font-size: 0.85rem; color: #666; margin-top: 0.5rem;">${top1.attempts} attempts</div>
+                        </div>
+                    `;
+                }
+
+                if (top2) {
+                    leaderboardHTML += `
+                        <div style="background: linear-gradient(135deg, #C0C0C0, #A8A8A8); padding: 1.5rem; border-radius: 12px; text-align: center; box-shadow: 0 4px 12px rgba(192, 192, 192, 0.3);">
+                            <div style="font-size: 3rem; margin-bottom: 0.5rem;">🥈</div>
+                            <div style="font-weight: bold; font-size: 1.2rem; margin-bottom: 0.5rem;">${top2.name}</div>
+                            <div style="font-size: 0.9rem; color: #666; margin-bottom: 0.5rem;">${top2.level}</div>
+                            <div style="font-size: 1.5rem; font-weight: bold; color: #333;">${top2.rating}</div>
+                            <div style="font-size: 0.85rem; color: #666; margin-top: 0.5rem;">${top2.attempts} attempts</div>
+                        </div>
+                    `;
+                }
+
+                if (top3) {
+                    leaderboardHTML += `
+                        <div style="background: linear-gradient(135deg, #CD7F32, #B87333); padding: 1.5rem; border-radius: 12px; text-align: center; box-shadow: 0 4px 12px rgba(205, 127, 50, 0.3);">
+                            <div style="font-size: 3rem; margin-bottom: 0.5rem;">🥉</div>
+                            <div style="font-weight: bold; font-size: 1.2rem; margin-bottom: 0.5rem;">${top3.name}</div>
+                            <div style="font-size: 0.9rem; color: #666; margin-bottom: 0.5rem;">${top3.level}</div>
+                            <div style="font-size: 1.5rem; font-weight: bold; color: #333;">${top3.rating}</div>
+                            <div style="font-size: 0.85rem; color: #666; margin-top: 0.5rem;">${top3.attempts} attempts</div>
+                        </div>
+                    `;
+                }
+
+                leaderboardHTML += `</div>`;
+
+                // Biggest improvement
+                if (biggestImprovement && biggestImprovement.improvement > 0) {
+                    leaderboardHTML += `
+                        <div style="background: linear-gradient(135deg, #4CAF50, #45a049); padding: 1.5rem; border-radius: 12px; margin-bottom: 2rem; box-shadow: 0 4px 12px rgba(76, 175, 80, 0.3);">
+                            <h3 style="color: white; margin-bottom: 1rem; display: flex; align-items: center; gap: 0.5rem;">
+                                <span style="font-size: 2rem;">📈</span>
+                                <span>Biggest Improvement</span>
+                            </h3>
+                            <div style="display: grid; grid-template-columns: auto 1fr; gap: 1rem; align-items: center;">
+                                <div style="font-size: 2.5rem;">🏆</div>
+                                <div>
+                                    <div style="font-weight: bold; font-size: 1.3rem; color: white; margin-bottom: 0.3rem;">${biggestImprovement.name}</div>
+                                    <div style="font-size: 0.9rem; color: rgba(255,255,255,0.9); margin-bottom: 0.5rem;">${biggestImprovement.level}</div>
+                                    <div style="display: flex; gap: 1rem; flex-wrap: wrap;">
+                                        <div>
+                                            <div style="font-size: 0.85rem; color: rgba(255,255,255,0.8);">Starting Rating</div>
+                                            <div style="font-size: 1.1rem; font-weight: bold; color: white;">${biggestImprovement.startingRating}</div>
+                                        </div>
+                                        <div>
+                                            <div style="font-size: 0.85rem; color: rgba(255,255,255,0.8);">Current Rating</div>
+                                            <div style="font-size: 1.1rem; font-weight: bold; color: white;">${biggestImprovement.rating}</div>
+                                        </div>
+                                        <div>
+                                            <div style="font-size: 0.85rem; color: rgba(255,255,255,0.8);">Improvement</div>
+                                            <div style="font-size: 1.1rem; font-weight: bold; color: #FFD700;">+${biggestImprovement.improvement}</div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    `;
+                }
+
+                // Full leaderboard table
+                leaderboardHTML += `
+                    <h3 style="color: #333; margin-bottom: 1rem;">📊 Full Leaderboard</h3>
+                    <div style="background: white; border-radius: 8px; overflow: hidden; box-shadow: 0 2px 8px rgba(0,0,0,0.1);">
+                        <table style="width: 100%; border-collapse: collapse;">
+                            <thead>
+                                <tr style="background: linear-gradient(135deg, #667eea, #764ba2); color: white;">
+                                    <th style="padding: 12px; text-align: center; font-weight: bold; width: 60px;">Rank</th>
+                                    <th style="padding: 12px; text-align: left; font-weight: bold;">Student</th>
+                                    <th style="padding: 12px; text-align: center; font-weight: bold; width: 100px;">Level</th>
+                                    <th style="padding: 12px; text-align: center; font-weight: bold; width: 120px;">Rating</th>
+                                    <th style="padding: 12px; text-align: center; font-weight: bold; width: 120px;">Improvement</th>
+                                    <th style="padding: 12px; text-align: center; font-weight: bold; width: 100px;">Attempts</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                `;
+
+                sortedByRating.forEach((student, index) => {
+                    const rank = index + 1;
+                    let medalIcon = '';
+                    let rowStyle = '';
+                    
+                    if (rank === 1) {
+                        medalIcon = '🥇';
+                        rowStyle = 'background: linear-gradient(90deg, rgba(255, 215, 0, 0.1), rgba(255, 215, 0, 0.05));';
+                    } else if (rank === 2) {
+                        medalIcon = '🥈';
+                        rowStyle = 'background: linear-gradient(90deg, rgba(192, 192, 192, 0.1), rgba(192, 192, 192, 0.05));';
+                    } else if (rank === 3) {
+                        medalIcon = '🥉';
+                        rowStyle = 'background: linear-gradient(90deg, rgba(205, 127, 50, 0.1), rgba(205, 127, 50, 0.05));';
+                    }
+                    
+                    const isBiggestImprovement = biggestImprovement && 
+                        student.name === biggestImprovement.name && 
+                        student.userId === biggestImprovement.userId &&
+                        student.studentIndex === biggestImprovement.studentIndex;
+                    
+                    if (isBiggestImprovement && rank > 3) {
+                        rowStyle += ' border-left: 4px solid #4CAF50;';
+                    }
+
+                    leaderboardHTML += `
+                        <tr style="${rowStyle}">
+                            <td style="padding: 12px; text-align: center; font-weight: bold;">
+                                ${medalIcon || rank}
+                            </td>
+                            <td style="padding: 12px; text-align: left;">
+                                <div style="font-weight: 600;">${student.name}</div>
+                                ${isBiggestImprovement ? '<div style="font-size: 0.75rem; color: #4CAF50; margin-top: 2px;">📈 Biggest Improvement</div>' : ''}
+                            </td>
+                            <td style="padding: 12px; text-align: center;">${student.level}</td>
+                            <td style="padding: 12px; text-align: center; font-weight: bold; color: #667eea;">${student.rating}</td>
+                            <td style="padding: 12px; text-align: center;">
+                                <span style="color: ${student.improvement >= 0 ? '#4CAF50' : '#dc3545'}; font-weight: ${student.improvement !== 0 ? 'bold' : 'normal'};">
+                                    ${student.improvement > 0 ? '+' : ''}${student.improvement}
+                                </span>
+                            </td>
+                            <td style="padding: 12px; text-align: center;">${student.attempts}</td>
+                        </tr>
+                    `;
+                });
+
+                leaderboardHTML += `
+                            </tbody>
+                        </table>
+                    </div>
+                `;
+
+                container.innerHTML = leaderboardHTML;
+
+            } catch (e) {
+                console.error("Error loading leaderboard:", e);
+                container.innerHTML = '<div class="placeholder-content"><p style="font-size: 1.2rem; color: #dc3545;">Error loading leaderboard. Please try again.</p></div>';
             }
         };
 
@@ -11148,7 +11398,7 @@
             }
 
             // Update button states
-            const allBtns = document.querySelectorAll('.tab-btn, #btn-sidebar-admin, #btn-sidebar-worksheet, #btn-sidebar-saved-worksheets, #btn-sidebar-practice, #btn-sidebar-lessons, #btn-sidebar-progress, #header-inbox-btn, #header-flagged-btn');
+            const allBtns = document.querySelectorAll('.tab-btn, #btn-sidebar-admin, #btn-sidebar-worksheet, #btn-sidebar-saved-worksheets, #btn-sidebar-practice, #btn-sidebar-lessons, #btn-sidebar-progress, #btn-sidebar-leaderboard, #header-inbox-btn, #header-flagged-btn');
             allBtns.forEach(b => b.classList.remove('active'));
             if (btn) btn.classList.add('active');
 
@@ -11159,7 +11409,7 @@
             });
             
             // List of special tabs (admin, worksheet, etc) - these need topic containers hidden
-            const specialTabs = ['admin', 'worksheet', 'saved-worksheets', 'practice', 'inbox', 'lessons', 'lesson-detail', 'student-progress', 'flagged'];
+            const specialTabs = ['admin', 'worksheet', 'saved-worksheets', 'practice', 'inbox', 'lessons', 'lesson-detail', 'student-progress', 'flagged', 'leaderboard'];
             
             // Hide all topic containers for special tabs (practice mode should be a full-page view)
             if (specialTabs.includes(type)) {
@@ -11238,6 +11488,11 @@
             // Load student progress when switching to student-progress tab
             if (type === 'student-progress') {
                 loadStudentProgress();
+            }
+            
+            // Load leaderboard when switching to leaderboard tab
+            if (type === 'leaderboard') {
+                loadLeaderboard();
             }
             
             // Update version display when switching to admin tab
