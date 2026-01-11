@@ -5128,6 +5128,8 @@
                             style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 2rem;">
                             <h2 style="margin: 0;">📝 My Worksheet</h2>
                             <div style="display: flex; gap: 10px; flex-wrap: wrap;">
+                                <button class="btn" style="background: #9c27b0; color: white;"
+                                    onclick="quickGenerateWorksheet()">⚡ Quick Generate</button>
                                 <button class="btn" style="background: #1976d2; color: white;"
                                     onclick="showSaveWorksheetModal()">💾 Save Worksheet</button>
                                 <button class="btn" style="background: #28a745; color: white;"
@@ -6144,6 +6146,314 @@
             window.worksheetItems = [];
             saveWorksheetToStorage();
             updateWorksheetUI();
+        };
+
+        // Quick Generate Worksheet - generates 30 questions prioritizing unanswered and ELO-matched questions
+        window.quickGenerateWorksheet = async function() {
+            try {
+                const user = window.auth?.currentUser;
+                if (!user || !window.db_fs) {
+                    alert("Please log in to use Quick Generate.");
+                    return;
+                }
+
+                // Show loading message
+                const loadingMsg = document.createElement('div');
+                loadingMsg.id = 'quick-generate-loading';
+                loadingMsg.style.cssText = 'position: fixed; top: 50%; left: 50%; transform: translate(-50%, -50%); background: white; padding: 2rem; border-radius: 12px; box-shadow: 0 4px 20px rgba(0,0,0,0.3); z-index: 10000; text-align: center;';
+                loadingMsg.innerHTML = '<div style="font-size: 1.2rem; margin-bottom: 1rem;">⚡ Generating worksheet...</div><div style="color: #666;">Loading questions and student data...</div>';
+                document.body.appendChild(loadingMsg);
+
+                // Get student data and answered questions
+                let studentIndex = 0;
+                let studentRating = RATING_CONFIG.DEFAULT_STUDENT_RATING;
+                let answeredQuestions = new Set();
+
+                // Try to get current student from practice state, otherwise use first student
+                if (window.practiceState?.currentStudent) {
+                    studentIndex = window.practiceState.currentStudent.index;
+                } else {
+                    // Load user data to get first student
+                    const { doc, getDoc } = await import("https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js");
+                    const userDoc = await getDoc(doc(window.db_fs, "users", user.uid));
+                    if (userDoc.exists()) {
+                        const data = userDoc.data();
+                        const students = data.students || [];
+                        if (students.length > 0 && students[0].rating !== undefined) {
+                            studentRating = students[0].rating;
+                        }
+                    }
+                }
+
+                // Get student rating
+                if (window.getStudentRating) {
+                    const ratingData = await window.getStudentRating(studentIndex);
+                    studentRating = ratingData.rating || RATING_CONFIG.DEFAULT_STUDENT_RATING;
+                }
+
+                // Load answered questions
+                const answeredKey = `answered_${user.uid}_${studentIndex}`;
+                const answeredStored = localStorage.getItem(answeredKey);
+                if (answeredStored) {
+                    answeredQuestions = new Set(JSON.parse(answeredStored));
+                }
+
+                // Load question ratings
+                if (window.loadQuestionRatings) {
+                    await window.loadQuestionRatings();
+                }
+
+                loadingMsg.innerHTML = '<div style="font-size: 1.2rem; margin-bottom: 1rem;">⚡ Generating worksheet...</div><div style="color: #666;">Fetching questions from database...</div>';
+
+                // Get all questions from Firestore
+                const { collection, getDocs } = await import("https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js");
+                const questionsRef = collection(window.db_fs, "custom_questions");
+                const snapshot = await getDocs(questionsRef);
+
+                const allQuestions = [];
+                const firestoreQuestionIds = new Set();
+                
+                // First, add questions from Firestore
+                snapshot.forEach(doc => {
+                    const data = doc.data();
+                    const qId = `q-${doc.id}`;
+                    firestoreQuestionIds.add(qId);
+                    
+                    // Check if question is already in worksheet
+                    const isInWorksheet = window.worksheetItems.some(item => item.id === qId);
+                    
+                    // Check if question has been answered
+                    const isAnswered = answeredQuestions.has(qId);
+                    
+                    // Get question rating
+                    const qRatingData = window.getQuestionRating ? window.getQuestionRating(qId) : { rating: RATING_CONFIG.DEFAULT_QUESTION_RATING };
+                    const questionRating = qRatingData.rating || RATING_CONFIG.DEFAULT_QUESTION_RATING;
+                    
+                    // Calculate if in growth zone
+                    let inGrowthZone = false;
+                    if (window.isInGrowthZone) {
+                        inGrowthZone = window.isInGrowthZone(studentRating, questionRating);
+                    }
+                    
+                    // Calculate expected success rate
+                    let expectedSuccess = 0.5;
+                    if (window.calculateExpectedSuccess) {
+                        expectedSuccess = window.calculateExpectedSuccess(studentRating, questionRating);
+                    }
+                    
+                    allQuestions.push({
+                        id: qId,
+                        firestoreId: doc.id,
+                        title: data.title || 'Question',
+                        html: data.html || '',
+                        topic: data.topic || 'general',
+                        category: data.category || 'mcq',
+                        level: data.level || 'P6',
+                        isAnswered: isAnswered,
+                        questionRating: questionRating,
+                        inGrowthZone: inGrowthZone,
+                        expectedSuccess: expectedSuccess,
+                        isInWorksheet: isInWorksheet,
+                        fromFirestore: true
+                    });
+                });
+
+                // Also gather questions from DOM that aren't in Firestore (hardcoded questions)
+                const domQuestions = document.querySelectorAll('.question-container[id]');
+                domQuestions.forEach(container => {
+                    const qId = container.id;
+                    // Skip if already in Firestore questions or doesn't have a valid ID
+                    if (!qId || firestoreQuestionIds.has(qId) || qId.startsWith('q-custom-')) {
+                        return;
+                    }
+                    
+                    // Check if question is already in worksheet
+                    const isInWorksheet = window.worksheetItems.some(item => item.id === qId);
+                    
+                    // Check if question has been answered
+                    const isAnswered = answeredQuestions.has(qId);
+                    
+                    // Get question rating
+                    const qRatingData = window.getQuestionRating ? window.getQuestionRating(qId) : { rating: RATING_CONFIG.DEFAULT_QUESTION_RATING };
+                    const questionRating = qRatingData.rating || RATING_CONFIG.DEFAULT_QUESTION_RATING;
+                    
+                    // Calculate if in growth zone
+                    let inGrowthZone = false;
+                    if (window.isInGrowthZone) {
+                        inGrowthZone = window.isInGrowthZone(studentRating, questionRating);
+                    }
+                    
+                    // Calculate expected success rate
+                    let expectedSuccess = 0.5;
+                    if (window.calculateExpectedSuccess) {
+                        expectedSuccess = window.calculateExpectedSuccess(studentRating, questionRating);
+                    }
+                    
+                    // Get question title
+                    const questionTitle = container.querySelector('h3')?.textContent || 'Question';
+                    
+                    allQuestions.push({
+                        id: qId,
+                        firestoreId: null,
+                        title: questionTitle,
+                        html: container.innerHTML,
+                        topic: 'general',
+                        category: 'mcq',
+                        level: 'P6',
+                        isAnswered: isAnswered,
+                        questionRating: questionRating,
+                        inGrowthZone: inGrowthZone,
+                        expectedSuccess: expectedSuccess,
+                        isInWorksheet: isInWorksheet,
+                        fromFirestore: false,
+                        domElement: container
+                    });
+                });
+
+                loadingMsg.innerHTML = '<div style="font-size: 1.2rem; margin-bottom: 1rem;">⚡ Generating worksheet...</div><div style="color: #666;">Selecting best questions for you...</div>';
+
+                // Sort questions by priority:
+                // 1. Not in worksheet already
+                // 2. Not answered (unanswered first)
+                // 3. In growth zone (ELO-matched)
+                // 4. Closest to optimal challenge (55% expected success)
+                const sortedQuestions = allQuestions
+                    .filter(q => !q.isInWorksheet) // Exclude questions already in worksheet
+                    .sort((a, b) => {
+                        // Priority 1: Unanswered questions first
+                        if (a.isAnswered !== b.isAnswered) {
+                            return a.isAnswered ? 1 : -1;
+                        }
+                        
+                        // Priority 2: Growth zone questions
+                        if (a.inGrowthZone !== b.inGrowthZone) {
+                            return a.inGrowthZone ? -1 : 1;
+                        }
+                        
+                        // Priority 3: Closest to optimal challenge (55% expected success)
+                        const optimalExpected = 0.55;
+                        const aDiff = Math.abs(a.expectedSuccess - optimalExpected);
+                        const bDiff = Math.abs(b.expectedSuccess - optimalExpected);
+                        return aDiff - bDiff;
+                    });
+
+                // Select top 30 questions
+                const selectedQuestions = sortedQuestions.slice(0, 30);
+
+                if (selectedQuestions.length === 0) {
+                    loadingMsg.remove();
+                    alert("No new questions available to add. All questions are either already in your worksheet or you've completed them all!");
+                    return;
+                }
+
+                loadingMsg.innerHTML = '<div style="font-size: 1.2rem; margin-bottom: 1rem;">⚡ Generating worksheet...</div><div style="color: #666;">Adding questions to worksheet...</div>';
+
+                // Add questions to worksheet
+                // First, clear existing worksheet if user wants
+                if (window.worksheetItems.length > 0) {
+                    if (!confirm(`You currently have ${window.worksheetItems.length} questions in your worksheet. Quick Generate will add ${selectedQuestions.length} new questions. Continue?`)) {
+                        loadingMsg.remove();
+                        return;
+                    }
+                }
+
+                // Add each question to worksheet
+                for (const question of selectedQuestions) {
+                    // Check if question container exists in DOM
+                    const questionContainer = document.getElementById(question.id);
+                    
+                    if (questionContainer) {
+                        // Question exists in DOM, use existing toggleWorksheetItem logic
+                        const btn = questionContainer.querySelector('.btn-worksheet-add');
+                        if (btn && !window.worksheetItems.some(item => item.id === question.id)) {
+                            // Simulate adding to worksheet
+                            const questionTitle = questionContainer.querySelector('h3')?.textContent || question.title;
+                            
+                            // Clone the container to capture its content
+                            const clone = questionContainer.cloneNode(true);
+                            
+                            // Remove UI elements from the clone
+                            clone.querySelectorAll('.admin-controls, .worksheet-control-bar, .controls, .feedback-icon').forEach(el => el.remove());
+                            
+                            // Reset any input states in the clone
+                            clone.querySelectorAll('.answer-input').forEach(input => {
+                                input.disabled = false;
+                                input.value = '';
+                                input.style.borderBottomColor = '';
+                            });
+                            
+                            // Get the cleaned HTML
+                            const cleanedHtml = clone.innerHTML;
+                            
+                            window.worksheetItems.push({
+                                id: question.id,
+                                title: questionTitle,
+                                html: cleanedHtml,
+                                addedAt: new Date().toISOString()
+                            });
+                            
+                            // Update button state
+                            if (btn) {
+                                btn.innerHTML = '✅ Added';
+                                btn.classList.add('added');
+                            }
+                        }
+                    } else {
+                        // Question not in DOM, create worksheet item from stored data
+                        if (!window.worksheetItems.some(item => item.id === question.id)) {
+                            // Process HTML similar to how it's done in loadCustomQuestions
+                            let processedHtml = question.html;
+                            
+                            // Fix Dropbox image URLs
+                            processedHtml = processedHtml.replace(/src="(https:\/\/www\.dropbox\.com\/scl\/[^"]+)"/g, (match, url) => {
+                                let fixedUrl = url.replace(/[?&]dl=[01]/, '&raw=1');
+                                if (!fixedUrl.includes('raw=1')) {
+                                    fixedUrl += (fixedUrl.includes('?') ? '&' : '?') + 'raw=1';
+                                }
+                                return `src="${fixedUrl}"`;
+                            });
+                            
+                            // Remove controls/buttons from HTML
+                            const tempDiv = document.createElement('div');
+                            tempDiv.innerHTML = processedHtml;
+                            tempDiv.querySelectorAll('.controls, .admin-controls, .worksheet-control-bar, .feedback-icon').forEach(el => el.remove());
+                            tempDiv.querySelectorAll('button.submit-btn, button.next-btn, button.print-btn, button.btn-primary').forEach(el => el.remove());
+                            tempDiv.querySelectorAll('.explanation-box').forEach(el => {
+                                el.style.display = 'none';
+                            });
+                            tempDiv.querySelectorAll('.video-container').forEach(el => {
+                                el.style.display = 'none';
+                                el.classList.add('hidden-until-answered');
+                            });
+                            processedHtml = tempDiv.innerHTML;
+                            
+                            window.worksheetItems.push({
+                                id: question.id,
+                                title: question.title,
+                                html: processedHtml,
+                                addedAt: new Date().toISOString()
+                            });
+                        }
+                    }
+                }
+
+                // Save and update UI
+                saveWorksheetToStorage();
+                updateWorksheetUI();
+
+                loadingMsg.remove();
+                
+                const unansweredCount = selectedQuestions.filter(q => !q.isAnswered).length;
+                const growthZoneCount = selectedQuestions.filter(q => q.inGrowthZone).length;
+                
+                alert(`✅ Worksheet generated successfully!\n\nAdded ${selectedQuestions.length} questions:\n- ${unansweredCount} new questions (not yet attempted)\n- ${growthZoneCount} questions matched to your skill level`);
+                
+            } catch (e) {
+                console.error("Error generating worksheet:", e);
+                const loadingMsg = document.getElementById('quick-generate-loading');
+                if (loadingMsg) loadingMsg.remove();
+                alert("Error generating worksheet: " + e.message);
+            }
         };
 
         // Export worksheet as PDF
