@@ -8129,6 +8129,12 @@
             const container = document.getElementById('my-progress-container');
             if (!container) return;
 
+            // Reset header to default
+            const progressHeader = document.querySelector('#view-my-progress h2');
+            if (progressHeader) {
+                progressHeader.innerHTML = '📈 My Progress';
+            }
+
             container.innerHTML = '<div class="placeholder-content" id="my-progress-loading-msg"><p style="font-size: 1.2rem; color: #666;">Loading your progress...</p></div>';
 
             try {
@@ -8494,17 +8500,37 @@
             }
         };
 
-        // View student progress (Admin only)
+        // View student progress (Admin only) - Now uses the same view as My Progress
         window.viewStudentProgress = async function(userId, studentIndex, studentName) {
             if (!window.isAdminUser) return;
             
             try {
+                // Switch to my-progress view
+                const progressBtn = document.getElementById('btn-sidebar-my-progress');
+                if (progressBtn) {
+                    window.switchTab('my-progress', progressBtn);
+                }
+
+                const container = document.getElementById('my-progress-container');
+                if (!container) {
+                    alert("Progress view not found.");
+                    return;
+                }
+
+                // Update header to show student name
+                const progressHeader = document.querySelector('#view-my-progress h2');
+                if (progressHeader) {
+                    progressHeader.innerHTML = `📈 ${studentName}'s Progress`;
+                }
+
+                container.innerHTML = '<div class="placeholder-content" id="my-progress-loading-msg"><p style="font-size: 1.2rem; color: #666;">Loading student progress...</p></div>';
+
                 const { doc, getDoc, collection, getDocs } = await import("https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js");
                 
                 // Get user data
                 const userDoc = await getDoc(doc(window.db_fs, "users", userId));
                 if (!userDoc.exists()) {
-                    alert("Student data not found.");
+                    container.innerHTML = '<div class="placeholder-content"><p style="font-size: 1.2rem; color: #dc3545;">Student data not found.</p></div>';
                     return;
                 }
 
@@ -8513,7 +8539,7 @@
                 const questionAttempts = userData.questionAttempts || {};
 
                 if (!students[studentIndex]) {
-                    alert("Student not found.");
+                    container.innerHTML = '<div class="placeholder-content"><p style="font-size: 1.2rem; color: #dc3545;">Student not found.</p></div>';
                     return;
                 }
 
@@ -8521,7 +8547,13 @@
                 const studentKey = `student_${studentIndex}`;
                 const studentQuestionAttempts = questionAttempts[studentKey] || {};
 
-                // Get all questions
+                // Hide student selector for admin view
+                const studentSelector = document.getElementById('my-progress-student-selector');
+                if (studentSelector) {
+                    studentSelector.style.display = 'none';
+                }
+
+                // Get all questions from Firestore to determine topics
                 const questionsSnapshot = await getDocs(collection(window.db_fs, "custom_questions"));
                 const allQuestions = {};
                 questionsSnapshot.forEach(doc => {
@@ -8534,6 +8566,82 @@
                         level: data.level || 'P6',
                         category: data.category || 'mcq'
                     };
+                });
+
+                // Also get questions from DOM (including hardcoded questions)
+                document.querySelectorAll('.question-container[id]').forEach(container => {
+                    const qId = container.id;
+                    if (!allQuestions[qId]) {
+                        // Try to determine topic from DOM
+                        let topic = 'General';
+                        const mcqParent = container.closest('[id^="topic-mcq-"]');
+                        if (mcqParent) {
+                            const topicId = mcqParent.id.replace('topic-mcq-', '');
+                            if (window.mcqCurriculum) {
+                                for (const [lvl, topics] of Object.entries(window.mcqCurriculum)) {
+                                    const matchingTopic = topics.find(t => t.toLowerCase().replace(/\s+/g, '-') === topicId);
+                                    if (matchingTopic) {
+                                        topic = matchingTopic;
+                                        break;
+                                    }
+                                }
+                            }
+                        } else {
+                            const topicParent = container.closest('[id^="topic-"]');
+                            if (topicParent) {
+                                const topicId = topicParent.id.replace('topic-', '').replace(/^(mcq|oeq|cer)-/, '');
+                                topic = topicId.charAt(0).toUpperCase() + topicId.slice(1).replace(/-/g, ' ');
+                            }
+                        }
+                        
+                        allQuestions[qId] = {
+                            id: qId,
+                            title: container.querySelector('h3')?.textContent || 'Question',
+                            topic: topic,
+                            level: currentStudent.level || 'P6',
+                            category: 'mcq'
+                        };
+                    }
+                });
+
+                // Also check for questions that have attempts but aren't in allQuestions yet
+                Object.keys(studentQuestionAttempts).forEach(qId => {
+                    if (!allQuestions[qId]) {
+                        // Try to find in DOM
+                        const container = document.getElementById(qId);
+                        if (container) {
+                            let topic = 'General';
+                            const mcqParent = container.closest('[id^="topic-mcq-"]');
+                            if (mcqParent) {
+                                const topicId = mcqParent.id.replace('topic-mcq-', '');
+                                if (window.mcqCurriculum) {
+                                    for (const [lvl, topics] of Object.entries(window.mcqCurriculum)) {
+                                        const matchingTopic = topics.find(t => t.toLowerCase().replace(/\s+/g, '-') === topicId);
+                                        if (matchingTopic) {
+                                            topic = matchingTopic;
+                                            break;
+                                        }
+                                    }
+                                }
+                            }
+                            allQuestions[qId] = {
+                                id: qId,
+                                title: container.querySelector('h3')?.textContent || 'Question',
+                                topic: topic,
+                                level: currentStudent.level || 'P6',
+                                category: 'mcq'
+                            };
+                        } else {
+                            // Question not found, use generic info
+                            allQuestions[qId] = {
+                                id: qId,
+                                title: 'Question',
+                                topic: 'General',
+                                level: currentStudent.level || 'P6',
+                                category: 'mcq'
+                            };
+                        }
+                    }
                 });
 
                 // Calculate topic mastery
@@ -8560,7 +8668,7 @@
                     }
                 });
 
-                // Find weak questions
+                // Find weak questions (success rate < 50% and attempted at least once)
                 const weakQuestions = [];
                 Object.values(topicStats).forEach(topic => {
                     topic.questions.forEach(q => {
@@ -8571,73 +8679,112 @@
                 });
                 weakQuestions.sort((a, b) => a.successRate - b.successRate);
 
-                // Create modal to display progress
-                const modal = document.createElement('div');
-                modal.className = 'modal-overlay visible';
-                modal.style.zIndex = '10000';
-                modal.innerHTML = `
-                    <div class="modal-box" style="max-width: 900px; max-height: 90vh; overflow-y: auto;">
-                        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 1.5rem; border-bottom: 2px solid #667eea; padding-bottom: 1rem;">
-                            <h3 style="margin: 0; color: #667eea;">📊 Progress: ${studentName}</h3>
-                            <button class="btn" style="background: #666; color: white;" onclick="this.closest('.modal-overlay').remove()">✕ Close</button>
-                        </div>
-                        <div id="admin-student-progress-content"></div>
-                    </div>
-                `;
-                document.body.appendChild(modal);
+                // Build progress HTML with beautiful pastel colors and emojis (same as loadMyProgress)
+                const totalAttempted = Object.values(studentQuestionAttempts).reduce((sum, a) => sum + (a.attempts || 0), 0);
+                const totalCorrect = Object.values(studentQuestionAttempts).reduce((sum, a) => sum + (a.correct || 0), 0);
+                const overallSuccess = totalAttempted > 0 ? (totalCorrect / totalAttempted * 100).toFixed(1) : 0;
 
-                const content = document.getElementById('admin-student-progress-content');
-                
                 let progressHTML = `
-                    <div style="background: linear-gradient(135deg, #667eea, #764ba2); padding: 1.5rem; border-radius: 12px; color: white; margin-bottom: 2rem;">
-                        <div style="display: flex; gap: 2rem; flex-wrap: wrap;">
-                            <div>
-                                <div style="font-size: 0.85rem; opacity: 0.9;">Level</div>
-                                <div style="font-size: 1.2rem; font-weight: bold;">${currentStudent.level || 'N/A'}</div>
+                    <div style="margin-bottom: 2rem;">
+                        <div style="background: linear-gradient(135deg, #a8e6cf, #dcedc8); padding: 2rem; border-radius: 16px; color: #2d5016; margin-bottom: 2rem; box-shadow: 0 4px 12px rgba(0,0,0,0.1);">
+                            <div style="display: flex; align-items: center; gap: 1rem; margin-bottom: 1rem;">
+                                <span style="font-size: 3rem;">👤</span>
+                                <h3 style="margin: 0; font-size: 1.8rem; color: #2d5016;">${currentStudent.name}</h3>
                             </div>
-                            <div>
-                                <div style="font-size: 0.85rem; opacity: 0.9;">Rating</div>
-                                <div style="font-size: 1.2rem; font-weight: bold;">${currentStudent.rating || RATING_CONFIG.DEFAULT_STUDENT_RATING}</div>
-                            </div>
-                            <div>
-                                <div style="font-size: 0.85rem; opacity: 0.9;">Total Attempts</div>
-                                <div style="font-size: 1.2rem; font-weight: bold;">${currentStudent.totalAttempts || 0}</div>
+                            <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); gap: 1.5rem; margin-top: 1.5rem;">
+                                <div style="background: rgba(255,255,255,0.7); padding: 1rem; border-radius: 12px;">
+                                    <div style="font-size: 0.9rem; opacity: 0.8; margin-bottom: 0.5rem;">📚 Level</div>
+                                    <div style="font-size: 1.5rem; font-weight: bold; color: #2d5016;">${currentStudent.level || 'N/A'}</div>
+                                </div>
+                                <div style="background: rgba(255,255,255,0.7); padding: 1rem; border-radius: 12px;">
+                                    <div style="font-size: 0.9rem; opacity: 0.8; margin-bottom: 0.5rem;">⭐ Rating</div>
+                                    <div style="font-size: 1.5rem; font-weight: bold; color: #2d5016;">${currentStudent.rating || RATING_CONFIG.DEFAULT_STUDENT_RATING}</div>
+                                </div>
+                                <div style="background: rgba(255,255,255,0.7); padding: 1rem; border-radius: 12px;">
+                                    <div style="font-size: 0.9rem; opacity: 0.8; margin-bottom: 0.5rem;">📝 Total Attempts</div>
+                                    <div style="font-size: 1.5rem; font-weight: bold; color: #2d5016;">${currentStudent.totalAttempts || 0}</div>
+                                </div>
+                                <div style="background: rgba(255,255,255,0.7); padding: 1rem; border-radius: 12px;">
+                                    <div style="font-size: 0.9rem; opacity: 0.8; margin-bottom: 0.5rem;">🎯 Overall Success</div>
+                                    <div style="font-size: 1.5rem; font-weight: bold; color: #2d5016;">${overallSuccess}%</div>
+                                </div>
                             </div>
                         </div>
-                    </div>
 
-                    <h3 style="color: #333; margin-bottom: 1rem;">📊 Topic Mastery</h3>
-                    <div style="display: grid; grid-template-columns: repeat(auto-fill, minmax(250px, 1fr)); gap: 1rem; margin-bottom: 2rem;">
+                        <div style="display: flex; align-items: center; gap: 0.5rem; margin-bottom: 1.5rem;">
+                            <span style="font-size: 2rem;">📊</span>
+                            <h3 style="color: #333; margin: 0; font-size: 1.5rem;">Topic Mastery</h3>
+                        </div>
+                        <div style="display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 1.2rem; margin-bottom: 2rem;">
                 `;
 
+                // Sort topics by mastery percentage
                 const sortedTopics = Object.entries(topicStats).sort((a, b) => {
                     const masteryA = a[1].attempted > 0 ? (a[1].correct / a[1].attempted) * 100 : 0;
                     const masteryB = b[1].attempted > 0 ? (b[1].correct / b[1].attempted) * 100 : 0;
                     return masteryB - masteryA;
                 });
 
-                sortedTopics.forEach(([topic, stats]) => {
+                // Pastel color palette for topics
+                const pastelColors = [
+                    { bg: '#ffe0e6', border: '#ffb3c1', text: '#8b1538', icon: '🌸' }, // Pink
+                    { bg: '#e0f2f1', border: '#b2dfdb', text: '#004d40', icon: '🌿' }, // Teal
+                    { bg: '#fff3e0', border: '#ffe0b2', text: '#e65100', icon: '☀️' }, // Orange
+                    { bg: '#e8eaf6', border: '#c5cae9', text: '#1a237e', icon: '💙' }, // Indigo
+                    { bg: '#f3e5f5', border: '#e1bee7', text: '#4a148c', icon: '💜' }, // Purple
+                    { bg: '#e0f7fa', border: '#b2ebf2', text: '#006064', icon: '💧' }, // Cyan
+                    { bg: '#fff8e1', border: '#ffecb3', text: '#f57f17', icon: '⭐' }, // Yellow
+                    { bg: '#fce4ec', border: '#f8bbd0', text: '#880e4f', icon: '💗' }, // Pink
+                    { bg: '#e8f5e9', border: '#c8e6c9', text: '#1b5e20', icon: '🌱' }, // Green
+                    { bg: '#fff9c4', border: '#fff59d', text: '#f57f17', icon: '🌻' }, // Yellow
+                ];
+
+                sortedTopics.forEach(([topic, stats], index) => {
                     const mastery = stats.attempted > 0 ? (stats.correct / stats.attempted) * 100 : 0;
-                    const masteryColor = mastery >= 80 ? '#4CAF50' : mastery >= 50 ? '#FF9800' : '#dc3545';
-                    const masteryIcon = mastery >= 80 ? '✅' : mastery >= 50 ? '⚠️' : '❌';
+                    const colorIndex = index % pastelColors.length;
+                    const colors = pastelColors[colorIndex];
+                    
+                    let masteryIcon = '📚';
+                    let masteryEmoji = '';
+                    if (mastery >= 80) {
+                        masteryIcon = '🏆';
+                        masteryEmoji = '✨';
+                    } else if (mastery >= 50) {
+                        masteryIcon = '📖';
+                        masteryEmoji = '💪';
+                    } else if (mastery > 0) {
+                        masteryIcon = '📝';
+                        masteryEmoji = '🌱';
+                    } else {
+                        masteryIcon = '📋';
+                        masteryEmoji = '🆕';
+                    }
+
+                    const progressColor = mastery >= 80 ? '#4CAF50' : mastery >= 50 ? '#FF9800' : mastery > 0 ? '#FFC107' : '#9E9E9E';
 
                     progressHTML += `
-                        <div style="background: white; padding: 1.5rem; border-radius: 12px; box-shadow: 0 2px 8px rgba(0,0,0,0.1);">
+                        <div style="background: ${colors.bg}; padding: 1.5rem; border-radius: 16px; border: 2px solid ${colors.border}; box-shadow: 0 4px 12px rgba(0,0,0,0.08); transition: transform 0.2s;">
                             <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 1rem;">
-                                <h4 style="margin: 0; font-size: 1rem; color: #333;">${topic}</h4>
-                                <span style="font-size: 1.5rem;">${masteryIcon}</span>
-                            </div>
-                            <div style="margin-bottom: 0.5rem;">
-                                <div style="display: flex; justify-content: space-between; margin-bottom: 0.5rem;">
-                                    <span style="font-size: 0.85rem; color: #666;">Mastery</span>
-                                    <span style="font-weight: bold; color: ${masteryColor}; font-size: 1rem;">${mastery.toFixed(1)}%</span>
+                                <div style="display: flex; align-items: center; gap: 0.5rem;">
+                                    <span style="font-size: 1.8rem;">${colors.icon}</span>
+                                    <h4 style="margin: 0; font-size: 1.1rem; color: ${colors.text}; font-weight: 600;">${topic}</h4>
                                 </div>
-                                <div style="background: #e0e0e0; height: 18px; border-radius: 9px; overflow: hidden;">
-                                    <div style="background: linear-gradient(90deg, ${masteryColor}, ${masteryColor}dd); height: 100%; width: ${mastery}%; transition: width 0.5s ease; border-radius: 9px;"></div>
+                                <span style="font-size: 1.8rem;">${masteryIcon}</span>
+                            </div>
+                            <div style="margin-bottom: 0.8rem;">
+                                <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 0.6rem;">
+                                    <span style="font-size: 0.9rem; color: ${colors.text}; font-weight: 500;">${masteryEmoji} Mastery</span>
+                                    <span style="font-weight: bold; color: ${progressColor}; font-size: 1.2rem;">${mastery.toFixed(1)}%</span>
+                                </div>
+                                <div style="background: rgba(255,255,255,0.6); height: 24px; border-radius: 12px; overflow: hidden; box-shadow: inset 0 2px 4px rgba(0,0,0,0.1);">
+                                    <div style="background: linear-gradient(90deg, ${progressColor}, ${progressColor}cc); height: 100%; width: ${Math.max(mastery, 2)}%; transition: width 0.8s ease; border-radius: 12px; box-shadow: 0 2px 4px rgba(0,0,0,0.2);"></div>
                                 </div>
                             </div>
-                            <div style="font-size: 0.8rem; color: #666; margin-top: 0.5rem;">
-                                ${stats.correct} / ${stats.attempted} correct • ${stats.total} questions
+                            <div style="font-size: 0.85rem; color: ${colors.text}; margin-top: 0.8rem; padding-top: 0.8rem; border-top: 1px solid ${colors.border};">
+                                <div style="display: flex; justify-content: space-between;">
+                                    <span>✅ ${stats.correct} / ${stats.attempted} correct</span>
+                                    <span>📚 ${stats.total} questions</span>
+                                </div>
                             </div>
                         </div>
                     `;
@@ -8645,39 +8792,68 @@
 
                 progressHTML += `</div>`;
 
+                // Weak Questions Section
                 if (weakQuestions.length > 0) {
                     progressHTML += `
-                        <h3 style="color: #333; margin-bottom: 1rem;">⚠️ Weak Questions</h3>
-                        <div style="background: white; border-radius: 12px; box-shadow: 0 2px 8px rgba(0,0,0,0.1); overflow: hidden;">
-                            <table style="width: 100%; border-collapse: collapse; font-size: 0.9rem;">
-                                <thead>
-                                    <tr style="background: linear-gradient(135deg, #dc3545, #c82333); color: white;">
-                                        <th style="padding: 10px; text-align: left;">Question</th>
-                                        <th style="padding: 10px; text-align: center;">Attempts</th>
-                                        <th style="padding: 10px; text-align: center;">Success Rate</th>
-                                    </tr>
-                                </thead>
-                                <tbody>
+                        <div style="display: flex; align-items: center; gap: 0.5rem; margin-bottom: 1.5rem;">
+                            <span style="font-size: 2rem;">⚠️</span>
+                            <h3 style="color: #333; margin: 0; font-size: 1.5rem;">Questions Needing Practice</h3>
+                        </div>
+                        <div style="background: linear-gradient(135deg, #fff5f5, #ffe0e0); border-radius: 16px; box-shadow: 0 4px 12px rgba(0,0,0,0.1); overflow: hidden; border: 2px solid #ffb3b3;">
+                            <div style="background: linear-gradient(135deg, #ff6b6b, #ee5a6f); padding: 1rem; color: white;">
+                                <div style="display: flex; align-items: center; gap: 0.5rem;">
+                                    <span style="font-size: 1.5rem;">💪</span>
+                                    <span style="font-weight: 600;">Focus on these to improve!</span>
+                                </div>
+                            </div>
+                            <div style="padding: 1rem;">
                     `;
 
-                    weakQuestions.slice(0, 10).forEach(q => {
+                    weakQuestions.slice(0, 10).forEach((q, idx) => {
+                        const bgColor = idx % 2 === 0 ? 'rgba(255,255,255,0.5)' : 'rgba(255,255,255,0.3)';
                         progressHTML += `
-                            <tr style="border-bottom: 1px solid #eee;">
-                                <td style="padding: 10px;">${q.title}</td>
-                                <td style="padding: 10px; text-align: center;">${q.attempts}</td>
-                                <td style="padding: 10px; text-align: center; color: #dc3545; font-weight: bold;">${q.successRate.toFixed(1)}%</td>
-                            </tr>
+                            <div style="background: ${bgColor}; padding: 1rem; border-radius: 12px; margin-bottom: 0.8rem; border-left: 4px solid #ff6b6b;">
+                                <div style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 1rem;">
+                                    <div style="flex: 1; min-width: 200px;">
+                                        <div style="font-weight: 600; color: #333; margin-bottom: 0.3rem;">📝 ${q.title}</div>
+                                    </div>
+                                    <div style="display: flex; gap: 1.5rem; align-items: center;">
+                                        <div style="text-align: center;">
+                                            <div style="font-size: 0.75rem; color: #666;">Attempts</div>
+                                            <div style="font-weight: bold; color: #333;">${q.attempts}</div>
+                                        </div>
+                                        <div style="text-align: center;">
+                                            <div style="font-size: 0.75rem; color: #666;">Success</div>
+                                            <div style="font-weight: bold; color: #ff6b6b; font-size: 1.1rem;">${q.successRate.toFixed(1)}%</div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
                         `;
                     });
 
-                    progressHTML += `</tbody></table></div>`;
+                    progressHTML += `
+                            </div>
+                        </div>
+                    `;
+                } else {
+                    progressHTML += `
+                        <div style="background: linear-gradient(135deg, #d4edda, #c3e6cb); padding: 2rem; border-radius: 16px; text-align: center; border: 2px solid #4CAF50; box-shadow: 0 4px 12px rgba(0,0,0,0.1);">
+                            <div style="font-size: 4rem; margin-bottom: 1rem;">🎉</div>
+                            <p style="margin: 0; font-size: 1.2rem; color: #155724; font-weight: 600;">Excellent work! No weak questions found.</p>
+                            <p style="margin: 0.5rem 0 0 0; font-size: 1rem; color: #2e7d32;">Keep up the amazing progress! 🌟</p>
+                        </div>
+                    `;
                 }
 
-                content.innerHTML = progressHTML;
+                container.innerHTML = progressHTML;
 
             } catch (e) {
                 console.error("Error loading student progress:", e);
-                alert("Error loading student progress: " + e.message);
+                const container = document.getElementById('my-progress-container');
+                if (container) {
+                    container.innerHTML = '<div class="placeholder-content"><p style="font-size: 1.2rem; color: #dc3545;">Error loading student progress. Please try again.</p></div>';
+                }
             }
         };
 
