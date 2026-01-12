@@ -9097,7 +9097,7 @@
                 return;
             }
 
-            let html = `<div style="display: grid; grid-template-columns: repeat(auto-fill, minmax(350px, 1fr)); gap: 1.5rem;">`;
+            let html = `<div style="display: flex; flex-direction: column; gap: 1rem;">`;
 
             window.filteredQuestionsList.forEach((question, index) => {
                 const date = question.createdAt ? new Date(question.createdAt).toLocaleDateString() : 'N/A';
@@ -9106,26 +9106,26 @@
                 const sourceBadge = question.fromFirestore ? '<span style="font-size: 0.7rem; background: #e3f2fd; color: #1976d2; padding: 2px 8px; border-radius: 4px; margin-left: 8px;">Custom</span>' : '';
 
                 html += `
-                    <div class="question-list-card" style="background: white; border-radius: 12px; padding: 1.5rem; box-shadow: 0 2px 8px rgba(0,0,0,0.1); transition: transform 0.2s, box-shadow 0.2s; cursor: pointer;" 
+                    <div class="question-list-card" style="background: white; border-radius: 8px; padding: 1rem 1.5rem; box-shadow: 0 2px 8px rgba(0,0,0,0.1); transition: transform 0.2s, box-shadow 0.2s; cursor: pointer; display: flex; align-items: center; justify-content: space-between; gap: 1.5rem;" 
                          onclick="showQuestionPopup('${question.id.replace(/'/g, "\\'")}', ${index})"
-                         onmouseover="this.style.transform='translateY(-2px)'; this.style.boxShadow='0 4px 12px rgba(0,0,0,0.15)'"
-                         onmouseout="this.style.transform='translateY(0)'; this.style.boxShadow='0 2px 8px rgba(0,0,0,0.1)'">
-                        <div style="display: flex; justify-content: space-between; align-items: start; margin-bottom: 1rem;">
-                            <h3 style="margin: 0; font-size: 1.1rem; color: #333; flex: 1;">${categoryIcon} ${question.title.length > 50 ? question.title.substring(0, 50) + '...' : question.title}${sourceBadge}</h3>
+                         onmouseover="this.style.transform='translateX(4px)'; this.style.boxShadow='0 4px 12px rgba(0,0,0,0.15)'"
+                         onmouseout="this.style.transform='translateX(0)'; this.style.boxShadow='0 2px 8px rgba(0,0,0,0.1)'">
+                        <div style="flex: 1; min-width: 0;">
+                            <h3 style="margin: 0 0 0.5rem 0; font-size: 1rem; color: #333; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">${categoryIcon} ${question.title}${sourceBadge}</h3>
+                            <div style="display: flex; gap: 0.8rem; flex-wrap: wrap;">
+                                <span style="background: #f5f5f5; padding: 3px 8px; border-radius: 4px; font-size: 0.8rem; color: #666; white-space: nowrap;">
+                                    📚 ${question.topic}
+                                </span>
+                                <span style="background: #e3f2fd; padding: 3px 8px; border-radius: 4px; font-size: 0.8rem; color: #1976d2; white-space: nowrap;">
+                                    🎓 ${question.level}
+                                </span>
+                                <span style="background: ${ratingColor}15; padding: 3px 8px; border-radius: 4px; font-size: 0.8rem; color: ${ratingColor}; font-weight: 600; white-space: nowrap;">
+                                    ⭐ ${question.rating}
+                                </span>
+                            </div>
                         </div>
-                        <div style="display: flex; flex-wrap: wrap; gap: 0.8rem; margin-bottom: 1rem;">
-                            <span style="background: #f5f5f5; padding: 4px 10px; border-radius: 6px; font-size: 0.85rem; color: #666;">
-                                📚 ${question.topic}
-                            </span>
-                            <span style="background: #e3f2fd; padding: 4px 10px; border-radius: 6px; font-size: 0.85rem; color: #1976d2;">
-                                🎓 ${question.level}
-                            </span>
-                            <span style="background: ${ratingColor}15; padding: 4px 10px; border-radius: 6px; font-size: 0.85rem; color: ${ratingColor}; font-weight: 600;">
-                                ⭐ ${question.rating}
-                            </span>
-                        </div>
-                        <div style="font-size: 0.8rem; color: #999; border-top: 1px solid #eee; padding-top: 0.8rem;">
-                            ${question.fromFirestore ? `📅 Added: ${date}` : '📄 Built-in Question'}
+                        <div style="font-size: 0.75rem; color: #999; white-space: nowrap; text-align: right;">
+                            ${question.fromFirestore ? `📅 ${date}` : '📄 Built-in'}
                         </div>
                     </div>
                 `;
