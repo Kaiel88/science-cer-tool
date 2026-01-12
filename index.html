@@ -82,6 +82,12 @@
             margin-bottom: 1.5rem;
         }
 
+        /* Ensure all buttons are clickable */
+        button {
+            pointer-events: auto !important;
+            cursor: pointer !important;
+        }
+        
         .sidebar-nav button {
             display: flex;
             justify-content: space-between;
@@ -550,9 +556,12 @@
             border-radius: 50px;
             font-size: 1.1rem;
             font-weight: 500;
-            cursor: pointer;
+            cursor: pointer !important;
             transition: all 0.3s ease;
             font-family: 'Poppins', sans-serif;
+            pointer-events: auto !important;
+            position: relative;
+            z-index: 1;
         }
 
         .btn:hover {
@@ -3319,6 +3328,12 @@
             .sidebar-overlay.active {
                 pointer-events: auto;
             }
+            
+            /* Ensure sidebar is always above overlay and clickable */
+            .app-body > .sidebar.mobile-open {
+                pointer-events: auto !important;
+            }
+            
 
             /* Sidebar - slide in from left */
             .app-body > .sidebar {
@@ -3343,15 +3358,26 @@
             }
 
             /* Ensure all interactive elements in sidebar are clickable */
-            .app-body > .sidebar.mobile-open * {
-                pointer-events: auto;
+            .app-body > .sidebar.mobile-open button,
+            .app-body > .sidebar.mobile-open a,
+            .app-body > .sidebar.mobile-open input,
+            .app-body > .sidebar.mobile-open select,
+            .app-body > .sidebar.mobile-open .ios-toggle,
+            .app-body > .sidebar.mobile-open .exam-mode-toggle,
+            .app-body > .sidebar.mobile-open .ios-toggle-track,
+            .app-body > .sidebar.mobile-open .ios-toggle-thumb,
+            .app-body > .sidebar.mobile-open .exam-mode-track,
+            .app-body > .sidebar.mobile-open .exam-mode-thumb {
+                pointer-events: auto !important;
+                position: relative;
+                z-index: 10001;
             }
 
             /* Show close button in mobile sidebar */
             .app-body > .sidebar .mobile-sidebar-close {
                 display: block !important;
                 z-index: 10001;
-                pointer-events: auto;
+                pointer-events: auto !important;
             }
 
             /* Header adjustments */
@@ -15344,19 +15370,27 @@
         document.addEventListener('DOMContentLoaded', function() {
             const sidebar = document.querySelector('.app-body > .sidebar');
             if (sidebar) {
-                // Stop clicks on sidebar from bubbling to overlay
+                // Stop clicks on sidebar background from bubbling to overlay
+                // But allow all interactive elements to work normally
                 sidebar.addEventListener('click', function(e) {
-                    e.stopPropagation();
-                }, true); // Use capture phase
-                
-                // Ensure all buttons in sidebar are clickable
-                const buttons = sidebar.querySelectorAll('button, a, .sidebar-nav-btn');
-                buttons.forEach(btn => {
-                    btn.style.pointerEvents = 'auto';
-                    btn.addEventListener('click', function(e) {
+                    // Check if the click is on an interactive element
+                    const isInteractive = e.target.closest('button') || 
+                                        e.target.closest('a') || 
+                                        e.target.closest('input') || 
+                                        e.target.closest('select') ||
+                                        e.target.closest('.ios-toggle') ||
+                                        e.target.closest('.exam-mode-toggle') ||
+                                        e.target.closest('.ios-toggle-track') ||
+                                        e.target.closest('.ios-toggle-thumb') ||
+                                        e.target.closest('.exam-mode-track') ||
+                                        e.target.closest('.exam-mode-thumb');
+                    
+                    // Only stop propagation for non-interactive elements (sidebar background)
+                    // This prevents overlay from closing sidebar, but allows buttons to work
+                    if (!isInteractive && e.target === sidebar) {
                         e.stopPropagation();
-                    });
-                });
+                    }
+                }, false); // Use bubble phase, not capture
             }
         });
 
@@ -15401,7 +15435,8 @@
         document.addEventListener('touchmove', function(e) {
             const sidebar = document.querySelector('.app-body > .sidebar');
             if (sidebar && sidebar.classList.contains('mobile-open')) {
-                // Allow scrolling within the sidebar
+                // Allow scrolling and clicking within the sidebar
+                // Only prevent scroll on the overlay/background
                 if (!sidebar.contains(e.target)) {
                     e.preventDefault();
                 }
