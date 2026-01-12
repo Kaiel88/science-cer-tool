@@ -4403,6 +4403,10 @@
                     <button id="btn-sidebar-lessons" class="sidebar-nav-btn lessons-btn" onclick="switchTab('lessons', this)">
                         🎓 Lessons
                     </button>
+
+                    <button id="btn-sidebar-question-list" class="sidebar-nav-btn" style="background: linear-gradient(135deg, #9c27b0, #673ab7); color: white;" onclick="switchTab('question-list', this)">
+                        📚 Question Library
+                    </button>
                     
                     <button onclick="handleLogout()" class="logout-btn">🚪 Logout</button>
                 </div>
@@ -5309,6 +5313,59 @@
                         <div id="my-progress-container">
                             <div class="placeholder-content" id="my-progress-loading-msg">
                                 <p style="font-size: 1.2rem; color: #666;">Loading your progress...</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- QUESTION LIST VIEW -->
+                <div id="view-question-list" class="view-content hidden" style="flex: 1;">
+                    <div style="max-width: 1400px; margin: 0 auto; padding: 2rem;">
+                        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 2rem; flex-wrap: wrap; gap: 1rem;">
+                            <h2 style="margin: 0; background: linear-gradient(135deg, #667eea, #764ba2); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;">📚 Question Library</h2>
+                            <button class="btn" style="background: #1976d2; color: white;" onclick="loadQuestionList()">🔄 Refresh</button>
+                        </div>
+
+                        <!-- Filter and Sort Controls -->
+                        <div style="background: #f5f5f5; padding: 1.5rem; border-radius: 12px; margin-bottom: 2rem; display: flex; gap: 1rem; flex-wrap: wrap; align-items: center;">
+                            <div style="flex: 1; min-width: 200px;">
+                                <label style="display: block; margin-bottom: 0.5rem; font-weight: 600; color: #333;">Sort By:</label>
+                                <select id="question-list-sort" class="auth-input" style="width: 100%; padding: 10px; border-radius: 8px;" onchange="sortQuestionList()">
+                                    <option value="rating-desc">Rating (High to Low)</option>
+                                    <option value="rating-asc">Rating (Low to High)</option>
+                                    <option value="topic-asc">Topic (A-Z)</option>
+                                    <option value="topic-desc">Topic (Z-A)</option>
+                                    <option value="date-desc">Date Added (Newest)</option>
+                                    <option value="date-asc">Date Added (Oldest)</option>
+                                    <option value="level-asc">Level (P3-P6)</option>
+                                    <option value="level-desc">Level (P6-P3)</option>
+                                </select>
+                            </div>
+                            <div style="flex: 1; min-width: 200px;">
+                                <label style="display: block; margin-bottom: 0.5rem; font-weight: 600; color: #333;">Filter by Topic:</label>
+                                <select id="question-list-filter-topic" class="auth-input" style="width: 100%; padding: 10px; border-radius: 8px;" onchange="filterQuestionList()">
+                                    <option value="">All Topics</option>
+                                </select>
+                            </div>
+                            <div style="flex: 1; min-width: 200px;">
+                                <label style="display: block; margin-bottom: 0.5rem; font-weight: 600; color: #333;">Filter by Level:</label>
+                                <select id="question-list-filter-level" class="auth-input" style="width: 100%; padding: 10px; border-radius: 8px;" onchange="filterQuestionList()">
+                                    <option value="">All Levels</option>
+                                    <option value="P3">Primary 3</option>
+                                    <option value="P4">Primary 4</option>
+                                    <option value="P5">Primary 5</option>
+                                    <option value="P6">Primary 6</option>
+                                </select>
+                            </div>
+                            <div style="flex: 1; min-width: 200px;">
+                                <label style="display: block; margin-bottom: 0.5rem; font-weight: 600; color: #333;">Search:</label>
+                                <input type="text" id="question-list-search" class="auth-input" style="width: 100%; padding: 10px; border-radius: 8px;" placeholder="Search questions..." onkeyup="filterQuestionList()">
+                            </div>
+                        </div>
+
+                        <div id="question-list-container">
+                            <div class="placeholder-content" id="question-list-loading-msg">
+                                <p style="font-size: 1.2rem; color: #666;">Loading questions...</p>
                             </div>
                         </div>
                     </div>
@@ -8890,6 +8947,328 @@
             });
         };
 
+        // =====================================================
+        // QUESTION LIST PAGE FUNCTIONS
+        // =====================================================
+
+        window.allQuestionsList = [];
+        window.filteredQuestionsList = [];
+
+        // Load all questions for the question list page
+        window.loadQuestionList = async function() {
+            const container = document.getElementById('question-list-container');
+            if (!container) return;
+
+            container.innerHTML = '<div class="placeholder-content" id="question-list-loading-msg"><p style="font-size: 1.2rem; color: #666;">Loading questions...</p></div>';
+
+            try {
+                // Load question ratings if available
+                if (window.loadQuestionRatings) {
+                    await window.loadQuestionRatings();
+                }
+
+                const { collection, getDocs } = await import("https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js");
+                
+                // Get questions from Firestore
+                const questionsSnapshot = await getDocs(collection(window.db_fs, "custom_questions"));
+                const allQuestions = [];
+
+                questionsSnapshot.forEach(doc => {
+                    const data = doc.data();
+                    const qId = `q-${doc.id}`;
+                    const ratingData = window.getQuestionRating ? window.getQuestionRating(qId) : { rating: RATING_CONFIG.DEFAULT_QUESTION_RATING };
+                    
+                    allQuestions.push({
+                        id: qId,
+                        firestoreId: doc.id,
+                        title: data.title || 'Question',
+                        html: data.html || '',
+                        topic: data.topic || 'General',
+                        level: data.level || 'P6',
+                        category: data.category || 'mcq',
+                        rating: ratingData.rating || RATING_CONFIG.DEFAULT_QUESTION_RATING,
+                        createdAt: data.createdAt || data.updatedAt || new Date().toISOString(),
+                        fromFirestore: true
+                    });
+                });
+
+                // Get questions from DOM (hardcoded questions)
+                document.querySelectorAll('.question-container[id]').forEach(container => {
+                    const qId = container.id;
+                    // Skip if already in Firestore list
+                    if (allQuestions.find(q => q.id === qId)) return;
+
+                    // Get title
+                    const titleEl = container.querySelector('h3, h4');
+                    const title = titleEl ? titleEl.textContent.trim() : 'Question';
+
+                    // Get topic
+                    let topic = 'General';
+                    const mcqParent = container.closest('[id^="topic-mcq-"]');
+                    if (mcqParent) {
+                        const topicId = mcqParent.id.replace('topic-mcq-', '');
+                        if (window.mcqCurriculum) {
+                            for (const [lvl, topics] of Object.entries(window.mcqCurriculum)) {
+                                const matchingTopic = topics.find(t => t.toLowerCase().replace(/\s+/g, '-') === topicId);
+                                if (matchingTopic) {
+                                    topic = matchingTopic;
+                                    break;
+                                }
+                            }
+                        }
+                    } else {
+                        const topicParent = container.closest('[id^="topic-"]');
+                        if (topicParent) {
+                            const topicId = topicParent.id.replace('topic-', '').replace(/^(mcq|oeq|cer)-/, '');
+                            topic = topicId.charAt(0).toUpperCase() + topicId.slice(1).replace(/-/g, ' ');
+                        }
+                    }
+
+                    // Get level
+                    let level = 'P6';
+                    const levelParent = container.closest('[id^="topic-mcq-"]');
+                    if (levelParent && window.mcqCurriculum) {
+                        for (const [lvl, topics] of Object.entries(window.mcqCurriculum)) {
+                            const topicId = levelParent.id.replace('topic-mcq-', '');
+                            if (topics.find(t => t.toLowerCase().replace(/\s+/g, '-') === topicId)) {
+                                level = lvl;
+                                break;
+                            }
+                        }
+                    } else {
+                        level = window.currentMcqLevel || window.currentOeqLevel || 'P6';
+                    }
+
+                    // Get rating
+                    const ratingData = window.getQuestionRating ? window.getQuestionRating(qId) : { rating: RATING_CONFIG.DEFAULT_QUESTION_RATING };
+                    
+                    // Get HTML content
+                    const questionBody = container.querySelector('.question-body, .mcq-body');
+                    const html = questionBody ? questionBody.innerHTML : container.innerHTML;
+
+                    // Determine category
+                    const category = container.querySelector('.mcq-container') ? 'mcq' : 'oeq';
+
+                    allQuestions.push({
+                        id: qId,
+                        title: title,
+                        html: html,
+                        topic: topic,
+                        level: level,
+                        category: category,
+                        rating: ratingData.rating || RATING_CONFIG.DEFAULT_QUESTION_RATING,
+                        createdAt: new Date(0).toISOString(), // DOM questions have no date
+                        fromFirestore: false
+                    });
+                });
+
+                window.allQuestionsList = allQuestions;
+                window.filteredQuestionsList = [...allQuestions];
+
+                // Populate topic filter
+                const topicFilter = document.getElementById('question-list-filter-topic');
+                if (topicFilter) {
+                    const topics = [...new Set(allQuestions.map(q => q.topic))].sort();
+                    topicFilter.innerHTML = '<option value="">All Topics</option>';
+                    topics.forEach(topic => {
+                        const option = document.createElement('option');
+                        option.value = topic;
+                        option.textContent = topic;
+                        topicFilter.appendChild(option);
+                    });
+                }
+
+                // Render questions
+                renderQuestionList();
+
+            } catch (e) {
+                console.error("Error loading question list:", e);
+                container.innerHTML = '<div class="placeholder-content"><p style="font-size: 1.2rem; color: #dc3545;">Error loading questions. Please try again.</p></div>';
+            }
+        };
+
+        // Render the question list
+        function renderQuestionList() {
+            const container = document.getElementById('question-list-container');
+            if (!container) return;
+
+            if (window.filteredQuestionsList.length === 0) {
+                container.innerHTML = '<div class="placeholder-content"><p style="font-size: 1.2rem; color: #666;">No questions found.</p></div>';
+                return;
+            }
+
+            let html = `<div style="display: grid; grid-template-columns: repeat(auto-fill, minmax(350px, 1fr)); gap: 1.5rem;">`;
+
+            window.filteredQuestionsList.forEach((question, index) => {
+                const date = question.createdAt ? new Date(question.createdAt).toLocaleDateString() : 'N/A';
+                const ratingColor = question.rating >= 1500 ? '#4CAF50' : question.rating >= 1200 ? '#FF9800' : '#9E9E9E';
+                const categoryIcon = question.category === 'mcq' ? '📝' : '✍️';
+                const sourceBadge = question.fromFirestore ? '<span style="font-size: 0.7rem; background: #e3f2fd; color: #1976d2; padding: 2px 8px; border-radius: 4px; margin-left: 8px;">Custom</span>' : '';
+
+                html += `
+                    <div class="question-list-card" style="background: white; border-radius: 12px; padding: 1.5rem; box-shadow: 0 2px 8px rgba(0,0,0,0.1); transition: transform 0.2s, box-shadow 0.2s; cursor: pointer;" 
+                         onclick="showQuestionPopup('${question.id.replace(/'/g, "\\'")}', ${index})"
+                         onmouseover="this.style.transform='translateY(-2px)'; this.style.boxShadow='0 4px 12px rgba(0,0,0,0.15)'"
+                         onmouseout="this.style.transform='translateY(0)'; this.style.boxShadow='0 2px 8px rgba(0,0,0,0.1)'">
+                        <div style="display: flex; justify-content: space-between; align-items: start; margin-bottom: 1rem;">
+                            <h3 style="margin: 0; font-size: 1.1rem; color: #333; flex: 1;">${categoryIcon} ${question.title.length > 50 ? question.title.substring(0, 50) + '...' : question.title}${sourceBadge}</h3>
+                        </div>
+                        <div style="display: flex; flex-wrap: wrap; gap: 0.8rem; margin-bottom: 1rem;">
+                            <span style="background: #f5f5f5; padding: 4px 10px; border-radius: 6px; font-size: 0.85rem; color: #666;">
+                                📚 ${question.topic}
+                            </span>
+                            <span style="background: #e3f2fd; padding: 4px 10px; border-radius: 6px; font-size: 0.85rem; color: #1976d2;">
+                                🎓 ${question.level}
+                            </span>
+                            <span style="background: ${ratingColor}15; padding: 4px 10px; border-radius: 6px; font-size: 0.85rem; color: ${ratingColor}; font-weight: 600;">
+                                ⭐ ${question.rating}
+                            </span>
+                        </div>
+                        <div style="font-size: 0.8rem; color: #999; border-top: 1px solid #eee; padding-top: 0.8rem;">
+                            ${question.fromFirestore ? `📅 Added: ${date}` : '📄 Built-in Question'}
+                        </div>
+                    </div>
+                `;
+            });
+
+            html += `</div>`;
+            container.innerHTML = html;
+        }
+
+        // Sort question list
+        window.sortQuestionList = function() {
+            const sortSelect = document.getElementById('question-list-sort');
+            if (!sortSelect || !window.filteredQuestionsList) return;
+
+            const sortValue = sortSelect.value;
+            const [sortBy, order] = sortValue.split('-');
+
+            window.filteredQuestionsList.sort((a, b) => {
+                let aVal, bVal;
+
+                switch (sortBy) {
+                    case 'rating':
+                        aVal = a.rating;
+                        bVal = b.rating;
+                        break;
+                    case 'topic':
+                        aVal = a.topic.toLowerCase();
+                        bVal = b.topic.toLowerCase();
+                        break;
+                    case 'date':
+                        aVal = new Date(a.createdAt || 0).getTime();
+                        bVal = new Date(b.createdAt || 0).getTime();
+                        break;
+                    case 'level':
+                        const levelOrder = { 'P3': 1, 'P4': 2, 'P5': 3, 'P6': 4 };
+                        aVal = levelOrder[a.level] || 5;
+                        bVal = levelOrder[b.level] || 5;
+                        break;
+                    default:
+                        return 0;
+                }
+
+                if (order === 'desc') {
+                    return bVal > aVal ? 1 : bVal < aVal ? -1 : 0;
+                } else {
+                    return aVal > bVal ? 1 : aVal < bVal ? -1 : 0;
+                }
+            });
+
+            renderQuestionList();
+        };
+
+        // Filter question list
+        window.filterQuestionList = function() {
+            if (!window.allQuestionsList) return;
+
+            const topicFilter = document.getElementById('question-list-filter-topic')?.value || '';
+            const levelFilter = document.getElementById('question-list-filter-level')?.value || '';
+            const searchInput = document.getElementById('question-list-search')?.value.toLowerCase() || '';
+
+            window.filteredQuestionsList = window.allQuestionsList.filter(question => {
+                const matchesTopic = !topicFilter || question.topic === topicFilter;
+                const matchesLevel = !levelFilter || question.level === levelFilter;
+                const matchesSearch = !searchInput || 
+                    question.title.toLowerCase().includes(searchInput) ||
+                    question.topic.toLowerCase().includes(searchInput);
+
+                return matchesTopic && matchesLevel && matchesSearch;
+            });
+
+            // Apply current sort
+            const sortSelect = document.getElementById('question-list-sort');
+            if (sortSelect && sortSelect.value) {
+                sortQuestionList();
+            } else {
+                renderQuestionList();
+            }
+        };
+
+        // Show question popup
+        window.showQuestionPopup = function(questionId, listIndex) {
+            let question = window.filteredQuestionsList[listIndex];
+            if (!question) {
+                // Try to find by ID
+                const found = window.allQuestionsList.find(q => q.id === questionId);
+                if (!found) {
+                    alert('Question not found');
+                    return;
+                }
+                question = found;
+            }
+
+            // Create modal
+            const modal = document.createElement('div');
+            modal.className = 'modal-overlay visible';
+            modal.style.zIndex = '10000';
+            modal.innerHTML = `
+                <div class="modal-box" style="max-width: 900px; max-height: 90vh; overflow-y: auto;">
+                    <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 1.5rem; border-bottom: 2px solid #667eea; padding-bottom: 1rem;">
+                        <h3 style="margin: 0; color: #667eea;">${question.title}</h3>
+                        <button class="btn" style="background: #666; color: white;" onclick="this.closest('.modal-overlay').remove()">✕ Close</button>
+                    </div>
+                    <div style="margin-bottom: 1rem; display: flex; gap: 1rem; flex-wrap: wrap;">
+                        <span style="background: #f5f5f5; padding: 6px 12px; border-radius: 6px; font-size: 0.9rem; color: #666;">
+                            📚 ${question.topic}
+                        </span>
+                        <span style="background: #e3f2fd; padding: 6px 12px; border-radius: 6px; font-size: 0.9rem; color: #1976d2;">
+                            🎓 ${question.level}
+                        </span>
+                        <span style="background: #fff3e0; padding: 6px 12px; border-radius: 6px; font-size: 0.9rem; color: #e65100; font-weight: 600;">
+                            ⭐ Rating: ${question.rating}
+                        </span>
+                        <span style="background: #f3e5f5; padding: 6px 12px; border-radius: 6px; font-size: 0.9rem; color: #7b1fa2;">
+                            ${question.category === 'mcq' ? '📝 MCQ' : '✍️ OEQ'}
+                        </span>
+                    </div>
+                    <div class="question-body" style="background: #f9f9f9; padding: 1.5rem; border-radius: 8px; margin-top: 1rem;">
+                        ${question.html || '<p style="color: #999;">Question content not available.</p>'}
+                    </div>
+                </div>
+            `;
+            document.body.appendChild(modal);
+
+            // Setup question functionality if needed
+            if (window.setupQuestionFormGlobal && question.id) {
+                setTimeout(() => {
+                    const bodyDiv = modal.querySelector('.question-body');
+                    if (bodyDiv) {
+                        // Create a temporary ID for the question body
+                        bodyDiv.id = question.id + '-popup-body';
+                        window.setupQuestionFormGlobal(bodyDiv.id);
+                    }
+                }, 100);
+            }
+
+            // Close on overlay click
+            modal.addEventListener('click', (e) => {
+                if (e.target === modal) {
+                    modal.remove();
+                }
+            });
+        };
+
         // Load wrong answers that are due for review
         window.loadWrongAnswersForReview = async function() {
             try {
@@ -12273,7 +12652,7 @@
             });
             
             // List of special tabs (admin, worksheet, etc) - these need topic containers hidden
-            const specialTabs = ['admin', 'worksheet', 'saved-worksheets', 'practice', 'inbox', 'lessons', 'lesson-detail', 'student-progress', 'my-progress', 'flagged', 'leaderboard'];
+            const specialTabs = ['admin', 'worksheet', 'saved-worksheets', 'practice', 'inbox', 'lessons', 'lesson-detail', 'student-progress', 'my-progress', 'flagged', 'leaderboard', 'question-list'];
             
             // Hide all topic containers for special tabs (practice mode should be a full-page view)
             if (specialTabs.includes(type)) {
@@ -12362,6 +12741,11 @@
             // Load my progress when switching to my-progress tab
             if (type === 'my-progress') {
                 loadMyProgress();
+            }
+            
+            // Load question list when switching to question-list tab
+            if (type === 'question-list') {
+                loadQuestionList();
             }
             
             // Update version display when switching to admin tab
