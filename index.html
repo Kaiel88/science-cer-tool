@@ -82,12 +82,6 @@
             margin-bottom: 1.5rem;
         }
 
-        /* Ensure all buttons are clickable */
-        button {
-            pointer-events: auto !important;
-            cursor: pointer !important;
-        }
-        
         .sidebar-nav button {
             display: flex;
             justify-content: space-between;
@@ -2743,6 +2737,38 @@
         .lesson-questions-section h3 {
             margin: 0 0 1.5rem;
             color: #333;
+        }
+
+        .scroll-buttons-container {
+            display: flex;
+            gap: 0.5rem;
+            margin-bottom: 1rem;
+            justify-content: flex-end;
+        }
+
+        .scroll-btn {
+            background: #f57c00;
+            color: white;
+            border: none;
+            padding: 0.5rem 1rem;
+            border-radius: 6px;
+            cursor: pointer;
+            font-size: 0.9rem;
+            font-weight: 500;
+            transition: all 0.2s ease;
+            display: flex;
+            align-items: center;
+            gap: 0.3rem;
+        }
+
+        .scroll-btn:hover {
+            background: #e65100;
+            transform: translateY(-1px);
+            box-shadow: 0 2px 6px rgba(245, 124, 0, 0.3);
+        }
+
+        .scroll-btn:active {
+            transform: translateY(0);
         }
 
         /* Student Entry Styles */
@@ -7414,6 +7440,14 @@
                     
                     <div class="lesson-questions-section">
                         <h3>📝 Practice Questions (${lesson.questionCount})</h3>
+                        <div class="scroll-buttons-container">
+                            <button class="scroll-btn" onclick="scrollToTop('lesson-questions-section')">
+                                ⬆️ Go to Top
+                            </button>
+                            <button class="scroll-btn" onclick="scrollToBottom('lesson-questions-section')">
+                                ⬇️ Go to Bottom
+                            </button>
+                        </div>
                         <div id="lesson-questions-list"></div>
                     </div>
                 `;
@@ -16029,6 +16063,46 @@
                 overlay.style.display = 'flex';
             }
         });
+
+        // Scroll to top function for questions interface
+        function scrollToTop(sectionId) {
+            const section = document.querySelector('.' + sectionId);
+            if (section) {
+                // Scroll the section header into view
+                const header = section.querySelector('h3');
+                if (header) {
+                    header.scrollIntoView({ behavior: 'smooth', block: 'start' });
+                } else {
+                    section.scrollIntoView({ behavior: 'smooth', block: 'start' });
+                }
+            } else {
+                // Fallback: scroll to top of page
+                window.scrollTo({ top: 0, behavior: 'smooth' });
+            }
+        }
+
+        // Scroll to bottom function for questions interface
+        function scrollToBottom(sectionId) {
+            const section = document.querySelector('.' + sectionId);
+            if (section) {
+                const questionsList = section.querySelector('#lesson-questions-list');
+                if (questionsList) {
+                    // Scroll to the last question in the list
+                    const lastQuestion = questionsList.lastElementChild;
+                    if (lastQuestion) {
+                        lastQuestion.scrollIntoView({ behavior: 'smooth', block: 'end' });
+                    } else {
+                        // If no questions yet, scroll to bottom of section
+                        section.scrollIntoView({ behavior: 'smooth', block: 'end' });
+                    }
+                } else {
+                    section.scrollIntoView({ behavior: 'smooth', block: 'end' });
+                }
+            } else {
+                // Fallback: scroll to bottom of page
+                window.scrollTo({ top: document.body.scrollHeight, behavior: 'smooth' });
+            }
+        }
     </script>
 
     <!-- PowerPoint-style Table Grid Selector (positioned fixed, outside all containers) -->
