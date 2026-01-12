@@ -4324,6 +4324,10 @@
                         🏆 Leaderboard
                     </button>
 
+                    <button id="btn-sidebar-my-progress" class="sidebar-nav-btn" style="background: linear-gradient(135deg, #667eea, #764ba2); color: white;" onclick="switchTab('my-progress', this)">
+                        📈 My Progress
+                    </button>
+
                     <button id="btn-sidebar-worksheet" class="sidebar-nav-btn worksheet-btn" onclick="switchTab('worksheet', this)">
                         📝 My Worksheet <span id="worksheet-count" class="worksheet-badge">0</span>
                     </button>
@@ -5223,6 +5227,29 @@
                     </div>
                 </div>
 
+                <!-- MY PROGRESS VIEW (Student) -->
+                <div id="view-my-progress" class="view-content hidden" style="flex: 1;">
+                    <div style="max-width: 1200px; margin: 0 auto; padding: 2rem;">
+                        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 2rem; flex-wrap: wrap; gap: 1rem;">
+                            <h2 style="margin: 0; background: linear-gradient(135deg, #667eea, #764ba2); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;">📈 My Progress</h2>
+                            <button class="btn" style="background: #1976d2; color: white;" onclick="loadMyProgress()">🔄 Refresh</button>
+                        </div>
+
+                        <!-- Student Selector (if multiple students) -->
+                        <div id="my-progress-student-selector" style="margin-bottom: 2rem; display: none;">
+                            <label style="display: block; margin-bottom: 0.5rem; font-weight: 600; color: #333;">Select Student:</label>
+                            <select id="my-progress-student-select" style="padding: 10px 15px; border: 2px solid #ddd; border-radius: 8px; font-size: 1rem; width: 100%; max-width: 300px;" onchange="loadMyProgress()">
+                            </select>
+                        </div>
+
+                        <div id="my-progress-container">
+                            <div class="placeholder-content" id="my-progress-loading-msg">
+                                <p style="font-size: 1.2rem; color: #666;">Loading your progress...</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
                 <!-- STUDENT PROGRESS VIEW (Admin Only) -->
                 <div id="view-student-progress" class="view-content hidden" style="flex: 1;">
                     <div style="max-width: 1100px; margin: 0 auto; padding: 2rem;">
@@ -5856,6 +5883,7 @@
             'flagged': '#fff3e0',
             'leaderboard': '#FFD700',
             'student-progress': '#e3f2fd',
+            'my-progress': '#667eea',
             // MCQ level colors
             'mcq-P3': '#FFB3BA',
             'mcq-P4': '#BAFFC9',
@@ -7986,13 +8014,16 @@
                         rowStyle += ' border-left: 4px solid #4CAF50;';
                     }
 
+                    const clickableStyle = window.isAdminUser ? 'cursor: pointer; transition: background 0.2s;' : '';
+                    const onClickHandler = window.isAdminUser ? `onclick="viewStudentProgress('${student.userId}', ${student.studentIndex}, '${student.name}')" onmouseover="this.style.background='rgba(102, 126, 234, 0.1)'" onmouseout="this.style.background='${rowStyle}'"` : '';
+                    
                     leaderboardHTML += `
-                        <tr style="${rowStyle}">
+                        <tr style="${rowStyle} ${clickableStyle}" ${onClickHandler}>
                             <td style="padding: 12px; text-align: center; font-weight: bold;">
                                 ${medalIcon || rank}
                             </td>
                             <td style="padding: 12px; text-align: left;">
-                                <div style="font-weight: 600;">${student.name}</div>
+                                <div style="font-weight: 600;">${student.name} ${window.isAdminUser ? '👆' : ''}</div>
                                 ${isBiggestImprovement ? '<div style="font-size: 0.75rem; color: #4CAF50; margin-top: 2px;">📈 Biggest Improvement</div>' : ''}
                             </td>
                             <td style="padding: 12px; text-align: center;">${student.level}</td>
@@ -8018,6 +8049,457 @@
             } catch (e) {
                 console.error("Error loading leaderboard:", e);
                 container.innerHTML = '<div class="placeholder-content"><p style="font-size: 1.2rem; color: #dc3545;">Error loading leaderboard. Please try again.</p></div>';
+            }
+        };
+
+        // Load and display student's own progress
+        window.loadMyProgress = async function() {
+            const container = document.getElementById('my-progress-container');
+            if (!container) return;
+
+            container.innerHTML = '<div class="placeholder-content" id="my-progress-loading-msg"><p style="font-size: 1.2rem; color: #666;">Loading your progress...</p></div>';
+
+            try {
+                const user = window.auth?.currentUser;
+                if (!user || !window.db_fs) {
+                    container.innerHTML = '<div class="placeholder-content"><p style="font-size: 1.2rem; color: #dc3545;">Please log in to view your progress.</p></div>';
+                    return;
+                }
+
+                const { doc, getDoc, collection, getDocs } = await import("https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js");
+                
+                // Get user data
+                const userDoc = await getDoc(doc(window.db_fs, "users", user.uid));
+                if (!userDoc.exists()) {
+                    container.innerHTML = '<div class="placeholder-content"><p style="font-size: 1.2rem; color: #666;">No progress data found.</p></div>';
+                    return;
+                }
+
+                const userData = userDoc.data();
+                const students = userData.students || [];
+                const questionAttempts = userData.questionAttempts || {};
+
+                // Handle student selection
+                let selectedStudentIndex = 0;
+                const studentSelect = document.getElementById('my-progress-student-select');
+                const studentSelector = document.getElementById('my-progress-student-selector');
+                
+                if (students.length > 1) {
+                    studentSelector.style.display = 'block';
+                    if (studentSelect.value) {
+                        selectedStudentIndex = parseInt(studentSelect.value);
+                    }
+                    // Populate selector if empty
+                    if (studentSelect.options.length <= 1) {
+                        studentSelect.innerHTML = '<option value="">-- Select Student --</option>';
+                        students.forEach((student, idx) => {
+                            const option = document.createElement('option');
+                            option.value = idx;
+                            option.textContent = `${student.name} (${student.level})`;
+                            if (idx === 0) option.selected = true;
+                            studentSelect.appendChild(option);
+                        });
+                    }
+                } else {
+                    studentSelector.style.display = 'none';
+                }
+
+                if (students.length === 0) {
+                    container.innerHTML = '<div class="placeholder-content"><p style="font-size: 1.2rem; color: #666;">No student data found.</p></div>';
+                    return;
+                }
+
+                const currentStudent = students[selectedStudentIndex];
+                if (!currentStudent) {
+                    container.innerHTML = '<div class="placeholder-content"><p style="font-size: 1.2rem; color: #666;">Student not found.</p></div>';
+                    return;
+                }
+
+                const studentKey = `student_${selectedStudentIndex}`;
+                const studentQuestionAttempts = questionAttempts[studentKey] || {};
+
+                // Get all questions from Firestore to determine topics
+                const questionsSnapshot = await getDocs(collection(window.db_fs, "custom_questions"));
+                const allQuestions = {};
+                questionsSnapshot.forEach(doc => {
+                    const data = doc.data();
+                    const qId = `q-${doc.id}`;
+                    allQuestions[qId] = {
+                        id: qId,
+                        title: data.title || 'Question',
+                        topic: data.topic || 'General',
+                        level: data.level || 'P6',
+                        category: data.category || 'mcq'
+                    };
+                });
+
+                // Also get questions from DOM
+                document.querySelectorAll('.question-container[id]').forEach(container => {
+                    const qId = container.id;
+                    if (!allQuestions[qId]) {
+                        // Try to determine topic from DOM
+                        let topic = 'General';
+                        const mcqParent = container.closest('[id^="topic-mcq-"]');
+                        if (mcqParent) {
+                            const topicId = mcqParent.id.replace('topic-mcq-', '');
+                            if (window.mcqCurriculum) {
+                                for (const [lvl, topics] of Object.entries(window.mcqCurriculum)) {
+                                    const matchingTopic = topics.find(t => t.toLowerCase().replace(/\s+/g, '-') === topicId);
+                                    if (matchingTopic) {
+                                        topic = matchingTopic;
+                                        break;
+                                    }
+                                }
+                            }
+                        } else {
+                            const topicParent = container.closest('[id^="topic-"]');
+                            if (topicParent) {
+                                const topicId = topicParent.id.replace('topic-', '').replace(/^(mcq|oeq|cer)-/, '');
+                                topic = topicId.charAt(0).toUpperCase() + topicId.slice(1).replace(/-/g, ' ');
+                            }
+                        }
+                        
+                        allQuestions[qId] = {
+                            id: qId,
+                            title: container.querySelector('h3')?.textContent || 'Question',
+                            topic: topic,
+                            level: currentStudent.level || 'P6',
+                            category: 'mcq'
+                        };
+                    }
+                });
+
+                // Calculate topic mastery
+                const topicStats = {};
+                Object.keys(allQuestions).forEach(qId => {
+                    const question = allQuestions[qId];
+                    const topic = question.topic;
+                    if (!topicStats[topic]) {
+                        topicStats[topic] = { total: 0, attempted: 0, correct: 0, questions: [] };
+                    }
+                    topicStats[topic].total++;
+                    
+                    const attempt = studentQuestionAttempts[qId];
+                    if (attempt) {
+                        topicStats[topic].attempted += attempt.attempts;
+                        topicStats[topic].correct += attempt.correct;
+                        topicStats[topic].questions.push({
+                            id: qId,
+                            title: question.title,
+                            attempts: attempt.attempts,
+                            correct: attempt.correct,
+                            successRate: attempt.attempts > 0 ? (attempt.correct / attempt.attempts) * 100 : 0
+                        });
+                    }
+                });
+
+                // Find weak questions (success rate < 50% and attempted at least once)
+                const weakQuestions = [];
+                Object.values(topicStats).forEach(topic => {
+                    topic.questions.forEach(q => {
+                        if (q.attempts > 0 && q.successRate < 50) {
+                            weakQuestions.push(q);
+                        }
+                    });
+                });
+                weakQuestions.sort((a, b) => a.successRate - b.successRate);
+
+                // Build progress HTML
+                let progressHTML = `
+                    <div style="margin-bottom: 2rem;">
+                        <div style="background: linear-gradient(135deg, #667eea, #764ba2); padding: 1.5rem; border-radius: 12px; color: white; margin-bottom: 2rem;">
+                            <h3 style="margin: 0 0 0.5rem 0; font-size: 1.5rem;">${currentStudent.name}</h3>
+                            <div style="display: flex; gap: 2rem; flex-wrap: wrap; margin-top: 1rem;">
+                                <div>
+                                    <div style="font-size: 0.85rem; opacity: 0.9;">Level</div>
+                                    <div style="font-size: 1.2rem; font-weight: bold;">${currentStudent.level || 'N/A'}</div>
+                                </div>
+                                <div>
+                                    <div style="font-size: 0.85rem; opacity: 0.9;">Rating</div>
+                                    <div style="font-size: 1.2rem; font-weight: bold;">${currentStudent.rating || RATING_CONFIG.DEFAULT_STUDENT_RATING}</div>
+                                </div>
+                                <div>
+                                    <div style="font-size: 0.85rem; opacity: 0.9;">Total Attempts</div>
+                                    <div style="font-size: 1.2rem; font-weight: bold;">${currentStudent.totalAttempts || 0}</div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <h3 style="color: #333; margin-bottom: 1rem;">📊 Topic Mastery</h3>
+                        <div style="display: grid; grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); gap: 1rem; margin-bottom: 2rem;">
+                `;
+
+                // Sort topics by mastery percentage
+                const sortedTopics = Object.entries(topicStats).sort((a, b) => {
+                    const masteryA = a[1].attempted > 0 ? (a[1].correct / a[1].attempted) * 100 : 0;
+                    const masteryB = b[1].attempted > 0 ? (b[1].correct / b[1].attempted) * 100 : 0;
+                    return masteryB - masteryA;
+                });
+
+                sortedTopics.forEach(([topic, stats]) => {
+                    const mastery = stats.attempted > 0 ? (stats.correct / stats.attempted) * 100 : 0;
+                    const masteryColor = mastery >= 80 ? '#4CAF50' : mastery >= 50 ? '#FF9800' : '#dc3545';
+                    const masteryIcon = mastery >= 80 ? '✅' : mastery >= 50 ? '⚠️' : '❌';
+
+                    progressHTML += `
+                        <div style="background: white; padding: 1.5rem; border-radius: 12px; box-shadow: 0 2px 8px rgba(0,0,0,0.1);">
+                            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 1rem;">
+                                <h4 style="margin: 0; font-size: 1.1rem; color: #333;">${topic}</h4>
+                                <span style="font-size: 1.5rem;">${masteryIcon}</span>
+                            </div>
+                            <div style="margin-bottom: 0.5rem;">
+                                <div style="display: flex; justify-content: space-between; margin-bottom: 0.5rem;">
+                                    <span style="font-size: 0.9rem; color: #666;">Mastery</span>
+                                    <span style="font-weight: bold; color: ${masteryColor}; font-size: 1.1rem;">${mastery.toFixed(1)}%</span>
+                                </div>
+                                <div style="background: #e0e0e0; height: 20px; border-radius: 10px; overflow: hidden;">
+                                    <div style="background: linear-gradient(90deg, ${masteryColor}, ${masteryColor}dd); height: 100%; width: ${mastery}%; transition: width 0.5s ease; border-radius: 10px;"></div>
+                                </div>
+                            </div>
+                            <div style="font-size: 0.85rem; color: #666; margin-top: 0.5rem;">
+                                ${stats.correct} / ${stats.attempted} correct • ${stats.total} questions available
+                            </div>
+                        </div>
+                    `;
+                });
+
+                progressHTML += `</div>`;
+
+                // Weak Questions Section
+                if (weakQuestions.length > 0) {
+                    progressHTML += `
+                        <h3 style="color: #333; margin-bottom: 1rem;">⚠️ Weak Questions (Need Practice)</h3>
+                        <div style="background: white; border-radius: 12px; box-shadow: 0 2px 8px rgba(0,0,0,0.1); overflow: hidden;">
+                            <table style="width: 100%; border-collapse: collapse;">
+                                <thead>
+                                    <tr style="background: linear-gradient(135deg, #dc3545, #c82333); color: white;">
+                                        <th style="padding: 12px; text-align: left; font-weight: 600;">Question</th>
+                                        <th style="padding: 12px; text-align: center; font-weight: 600;">Attempts</th>
+                                        <th style="padding: 12px; text-align: center; font-weight: 600;">Success Rate</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                    `;
+
+                    weakQuestions.slice(0, 10).forEach(q => {
+                        progressHTML += `
+                            <tr style="border-bottom: 1px solid #eee;">
+                                <td style="padding: 12px;">
+                                    <div style="font-weight: 500;">${q.title}</div>
+                                </td>
+                                <td style="padding: 12px; text-align: center;">${q.attempts}</td>
+                                <td style="padding: 12px; text-align: center;">
+                                    <span style="color: #dc3545; font-weight: bold;">${q.successRate.toFixed(1)}%</span>
+                                </td>
+                            </tr>
+                        `;
+                    });
+
+                    progressHTML += `
+                                </tbody>
+                            </table>
+                        </div>
+                    `;
+                } else {
+                    progressHTML += `
+                        <div style="background: #d4edda; padding: 1.5rem; border-radius: 12px; text-align: center; color: #155724;">
+                            <p style="margin: 0; font-size: 1.1rem;">🎉 Great job! No weak questions found. Keep up the excellent work!</p>
+                        </div>
+                    `;
+                }
+
+                container.innerHTML = progressHTML;
+
+            } catch (e) {
+                console.error("Error loading my progress:", e);
+                container.innerHTML = '<div class="placeholder-content"><p style="font-size: 1.2rem; color: #dc3545;">Error loading progress. Please try again.</p></div>';
+            }
+        };
+
+        // View student progress (Admin only)
+        window.viewStudentProgress = async function(userId, studentIndex, studentName) {
+            if (!window.isAdminUser) return;
+            
+            try {
+                const { doc, getDoc, collection, getDocs } = await import("https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js");
+                
+                // Get user data
+                const userDoc = await getDoc(doc(window.db_fs, "users", userId));
+                if (!userDoc.exists()) {
+                    alert("Student data not found.");
+                    return;
+                }
+
+                const userData = userDoc.data();
+                const students = userData.students || [];
+                const questionAttempts = userData.questionAttempts || {};
+
+                if (!students[studentIndex]) {
+                    alert("Student not found.");
+                    return;
+                }
+
+                const currentStudent = students[studentIndex];
+                const studentKey = `student_${studentIndex}`;
+                const studentQuestionAttempts = questionAttempts[studentKey] || {};
+
+                // Get all questions
+                const questionsSnapshot = await getDocs(collection(window.db_fs, "custom_questions"));
+                const allQuestions = {};
+                questionsSnapshot.forEach(doc => {
+                    const data = doc.data();
+                    const qId = `q-${doc.id}`;
+                    allQuestions[qId] = {
+                        id: qId,
+                        title: data.title || 'Question',
+                        topic: data.topic || 'General',
+                        level: data.level || 'P6',
+                        category: data.category || 'mcq'
+                    };
+                });
+
+                // Calculate topic mastery
+                const topicStats = {};
+                Object.keys(allQuestions).forEach(qId => {
+                    const question = allQuestions[qId];
+                    const topic = question.topic;
+                    if (!topicStats[topic]) {
+                        topicStats[topic] = { total: 0, attempted: 0, correct: 0, questions: [] };
+                    }
+                    topicStats[topic].total++;
+                    
+                    const attempt = studentQuestionAttempts[qId];
+                    if (attempt) {
+                        topicStats[topic].attempted += attempt.attempts;
+                        topicStats[topic].correct += attempt.correct;
+                        topicStats[topic].questions.push({
+                            id: qId,
+                            title: question.title,
+                            attempts: attempt.attempts,
+                            correct: attempt.correct,
+                            successRate: attempt.attempts > 0 ? (attempt.correct / attempt.attempts) * 100 : 0
+                        });
+                    }
+                });
+
+                // Find weak questions
+                const weakQuestions = [];
+                Object.values(topicStats).forEach(topic => {
+                    topic.questions.forEach(q => {
+                        if (q.attempts > 0 && q.successRate < 50) {
+                            weakQuestions.push(q);
+                        }
+                    });
+                });
+                weakQuestions.sort((a, b) => a.successRate - b.successRate);
+
+                // Create modal to display progress
+                const modal = document.createElement('div');
+                modal.className = 'modal-overlay visible';
+                modal.style.zIndex = '10000';
+                modal.innerHTML = `
+                    <div class="modal-box" style="max-width: 900px; max-height: 90vh; overflow-y: auto;">
+                        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 1.5rem; border-bottom: 2px solid #667eea; padding-bottom: 1rem;">
+                            <h3 style="margin: 0; color: #667eea;">📊 Progress: ${studentName}</h3>
+                            <button class="btn" style="background: #666; color: white;" onclick="this.closest('.modal-overlay').remove()">✕ Close</button>
+                        </div>
+                        <div id="admin-student-progress-content"></div>
+                    </div>
+                `;
+                document.body.appendChild(modal);
+
+                const content = document.getElementById('admin-student-progress-content');
+                
+                let progressHTML = `
+                    <div style="background: linear-gradient(135deg, #667eea, #764ba2); padding: 1.5rem; border-radius: 12px; color: white; margin-bottom: 2rem;">
+                        <div style="display: flex; gap: 2rem; flex-wrap: wrap;">
+                            <div>
+                                <div style="font-size: 0.85rem; opacity: 0.9;">Level</div>
+                                <div style="font-size: 1.2rem; font-weight: bold;">${currentStudent.level || 'N/A'}</div>
+                            </div>
+                            <div>
+                                <div style="font-size: 0.85rem; opacity: 0.9;">Rating</div>
+                                <div style="font-size: 1.2rem; font-weight: bold;">${currentStudent.rating || RATING_CONFIG.DEFAULT_STUDENT_RATING}</div>
+                            </div>
+                            <div>
+                                <div style="font-size: 0.85rem; opacity: 0.9;">Total Attempts</div>
+                                <div style="font-size: 1.2rem; font-weight: bold;">${currentStudent.totalAttempts || 0}</div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <h3 style="color: #333; margin-bottom: 1rem;">📊 Topic Mastery</h3>
+                    <div style="display: grid; grid-template-columns: repeat(auto-fill, minmax(250px, 1fr)); gap: 1rem; margin-bottom: 2rem;">
+                `;
+
+                const sortedTopics = Object.entries(topicStats).sort((a, b) => {
+                    const masteryA = a[1].attempted > 0 ? (a[1].correct / a[1].attempted) * 100 : 0;
+                    const masteryB = b[1].attempted > 0 ? (b[1].correct / b[1].attempted) * 100 : 0;
+                    return masteryB - masteryA;
+                });
+
+                sortedTopics.forEach(([topic, stats]) => {
+                    const mastery = stats.attempted > 0 ? (stats.correct / stats.attempted) * 100 : 0;
+                    const masteryColor = mastery >= 80 ? '#4CAF50' : mastery >= 50 ? '#FF9800' : '#dc3545';
+                    const masteryIcon = mastery >= 80 ? '✅' : mastery >= 50 ? '⚠️' : '❌';
+
+                    progressHTML += `
+                        <div style="background: white; padding: 1.5rem; border-radius: 12px; box-shadow: 0 2px 8px rgba(0,0,0,0.1);">
+                            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 1rem;">
+                                <h4 style="margin: 0; font-size: 1rem; color: #333;">${topic}</h4>
+                                <span style="font-size: 1.5rem;">${masteryIcon}</span>
+                            </div>
+                            <div style="margin-bottom: 0.5rem;">
+                                <div style="display: flex; justify-content: space-between; margin-bottom: 0.5rem;">
+                                    <span style="font-size: 0.85rem; color: #666;">Mastery</span>
+                                    <span style="font-weight: bold; color: ${masteryColor}; font-size: 1rem;">${mastery.toFixed(1)}%</span>
+                                </div>
+                                <div style="background: #e0e0e0; height: 18px; border-radius: 9px; overflow: hidden;">
+                                    <div style="background: linear-gradient(90deg, ${masteryColor}, ${masteryColor}dd); height: 100%; width: ${mastery}%; transition: width 0.5s ease; border-radius: 9px;"></div>
+                                </div>
+                            </div>
+                            <div style="font-size: 0.8rem; color: #666; margin-top: 0.5rem;">
+                                ${stats.correct} / ${stats.attempted} correct • ${stats.total} questions
+                            </div>
+                        </div>
+                    `;
+                });
+
+                progressHTML += `</div>`;
+
+                if (weakQuestions.length > 0) {
+                    progressHTML += `
+                        <h3 style="color: #333; margin-bottom: 1rem;">⚠️ Weak Questions</h3>
+                        <div style="background: white; border-radius: 12px; box-shadow: 0 2px 8px rgba(0,0,0,0.1); overflow: hidden;">
+                            <table style="width: 100%; border-collapse: collapse; font-size: 0.9rem;">
+                                <thead>
+                                    <tr style="background: linear-gradient(135deg, #dc3545, #c82333); color: white;">
+                                        <th style="padding: 10px; text-align: left;">Question</th>
+                                        <th style="padding: 10px; text-align: center;">Attempts</th>
+                                        <th style="padding: 10px; text-align: center;">Success Rate</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                    `;
+
+                    weakQuestions.slice(0, 10).forEach(q => {
+                        progressHTML += `
+                            <tr style="border-bottom: 1px solid #eee;">
+                                <td style="padding: 10px;">${q.title}</td>
+                                <td style="padding: 10px; text-align: center;">${q.attempts}</td>
+                                <td style="padding: 10px; text-align: center; color: #dc3545; font-weight: bold;">${q.successRate.toFixed(1)}%</td>
+                            </tr>
+                        `;
+                    });
+
+                    progressHTML += `</tbody></table></div>`;
+                }
+
+                content.innerHTML = progressHTML;
+
+            } catch (e) {
+                console.error("Error loading student progress:", e);
+                alert("Error loading student progress: " + e.message);
             }
         };
 
@@ -8879,6 +9361,9 @@
                 const now = new Date();
                 const today = now.toISOString().split('T')[0]; // YYYY-MM-DD
                 
+                // Get current student index
+                const studentIndex = window.practiceState?.currentStudent?.index ?? 0;
+                
                 if (userDoc.exists()) {
                     const data = userDoc.data();
                     
@@ -8897,6 +9382,19 @@
                     if (isCorrect) dailyActivity[today].correct++;
                     activityStats.dailyActivity = dailyActivity;
                     
+                    // Track per-question attempts per student
+                    const questionAttempts = data.questionAttempts || {};
+                    const studentKey = `student_${studentIndex}`;
+                    if (!questionAttempts[studentKey]) {
+                        questionAttempts[studentKey] = {};
+                    }
+                    if (!questionAttempts[studentKey][questionId]) {
+                        questionAttempts[studentKey][questionId] = { attempts: 0, correct: 0, lastAttempt: null };
+                    }
+                    questionAttempts[studentKey][questionId].attempts++;
+                    if (isCorrect) questionAttempts[studentKey][questionId].correct++;
+                    questionAttempts[studentKey][questionId].lastAttempt = now;
+                    
                     // Keep only last 30 days of daily activity
                     const thirtyDaysAgo = new Date(now);
                     thirtyDaysAgo.setDate(thirtyDaysAgo.getDate() - 30);
@@ -8907,12 +9405,18 @@
                     
                     await updateDoc(userRef, { 
                         activityStats: activityStats,
+                        questionAttempts: questionAttempts,
                         lastActivity: now
                     });
                     
                     console.log("Activity tracked - Total attempts:", activityStats.totalQuestionsAttempted);
                 } else {
                     // Create new user document with activity
+                    const questionAttempts = {};
+                    const studentKey = `student_${studentIndex}`;
+                    questionAttempts[studentKey] = {};
+                    questionAttempts[studentKey][questionId] = { attempts: 1, correct: isCorrect ? 1 : 0, lastAttempt: now };
+                    
                     await setDoc(userRef, {
                         email: user.email,
                         activityStats: {
@@ -8923,6 +9427,7 @@
                                 [today]: { attempts: 1, correct: isCorrect ? 1 : 0 }
                             }
                         },
+                        questionAttempts: questionAttempts,
                         lastActivity: now,
                         createdAt: now
                     }, { merge: true });
@@ -11398,7 +11903,7 @@
             }
 
             // Update button states
-            const allBtns = document.querySelectorAll('.tab-btn, #btn-sidebar-admin, #btn-sidebar-worksheet, #btn-sidebar-saved-worksheets, #btn-sidebar-practice, #btn-sidebar-lessons, #btn-sidebar-progress, #btn-sidebar-leaderboard, #header-inbox-btn, #header-flagged-btn');
+            const allBtns = document.querySelectorAll('.tab-btn, #btn-sidebar-admin, #btn-sidebar-worksheet, #btn-sidebar-saved-worksheets, #btn-sidebar-practice, #btn-sidebar-lessons, #btn-sidebar-progress, #btn-sidebar-leaderboard, #btn-sidebar-my-progress, #header-inbox-btn, #header-flagged-btn');
             allBtns.forEach(b => b.classList.remove('active'));
             if (btn) btn.classList.add('active');
 
@@ -11409,7 +11914,7 @@
             });
             
             // List of special tabs (admin, worksheet, etc) - these need topic containers hidden
-            const specialTabs = ['admin', 'worksheet', 'saved-worksheets', 'practice', 'inbox', 'lessons', 'lesson-detail', 'student-progress', 'flagged', 'leaderboard'];
+            const specialTabs = ['admin', 'worksheet', 'saved-worksheets', 'practice', 'inbox', 'lessons', 'lesson-detail', 'student-progress', 'my-progress', 'flagged', 'leaderboard'];
             
             // Hide all topic containers for special tabs (practice mode should be a full-page view)
             if (specialTabs.includes(type)) {
@@ -11493,6 +11998,11 @@
             // Load leaderboard when switching to leaderboard tab
             if (type === 'leaderboard') {
                 loadLeaderboard();
+            }
+            
+            // Load my progress when switching to my-progress tab
+            if (type === 'my-progress') {
+                loadMyProgress();
             }
             
             // Update version display when switching to admin tab
