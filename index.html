@@ -18,19 +18,29 @@
     <title>CER Interactive Questions</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
     <style>
         :root {
-            --bg-color: #f8f9fa;
-            --main-text: #333;
-            --light-text: #555;
+            /* Apple Design System Colors */
+            --apple-blue: #0071e3;
+            --apple-blue-hover: #0077ed;
+            --text-primary: #1d1d1f;
+            --text-secondary: #86868b;
+            --background-light: #fbfbfd;
+            --background-gray: #f5f5f7;
+            --border-color: #d2d2d7;
+            --white: #ffffff;
+            
+            /* Legacy colors for compatibility */
+            --bg-color: var(--background-light);
+            --main-text: var(--text-primary);
+            --light-text: var(--text-secondary);
             --peach: #fcece3;
             --teal: #d7eded;
             --blue-light: #e7f5ff;
-            --border-color: #dee2e6;
-            --correct-color: #28a745;
-            --incorrect-color: #dc3545;
-            --primary-blue: #007bff;
+            --correct-color: #34c759;
+            --incorrect-color: #ff3b30;
+            --primary-blue: var(--apple-blue);
             --secondary-blue: #6c757d;
             --disabled-grey: #b0b8c0;
             --label-color: #aab5c0;
@@ -47,34 +57,65 @@
         }
 
         body {
-            font-family: 'Poppins', sans-serif;
-            background-color: var(--bg-color);
-            color: var(--main-text);
-            display: flex;
-            justify-content: center;
-            align-items: flex-start;
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'SF Pro Display', 'Segoe UI', sans-serif;
+            background-color: var(--background-light);
+            color: var(--text-primary);
+            -webkit-font-smoothing: antialiased;
+            -moz-osx-font-smoothing: grayscale;
+            margin: 0;
+            padding: 0;
             min-height: 100vh;
-            padding: 2rem;
         }
 
         .app-container {
             display: flex;
             flex-direction: column;
             width: 100%;
-            max-width: 1200px;
-            background: transparent;
-            border-radius: 16px;
-            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.15);
-            overflow: hidden;
-            padding: 0;
+            max-width: 100%;
+            background: var(--background-light);
+            min-height: calc(100vh - 48px);
+        }
+
+        /* Apple-style Tab Groups */
+        .tab-groups-container {
+            position: relative;
+        }
+
+        .tab-group {
+            position: relative;
+        }
+
+        .tab-group-header {
+            transition: color 0.2s;
+        }
+
+        .tab-group-header:hover {
+            color: var(--apple-blue);
+        }
+
+        .tab-group-content {
+            z-index: 1001;
+        }
+
+        .sub-tab-btn:hover {
+            background: var(--background-gray) !important;
+        }
+
+        .sub-tab-btn.active {
+            background: var(--apple-blue) !important;
+            color: white !important;
         }
 
         .sidebar {
-            width: 250px;
-            padding: 2rem;
-            background-color: #fdfdfd;
+            width: 220px;
+            padding: 1.5rem;
+            background-color: var(--white);
             border-right: 1px solid var(--border-color);
             flex-shrink: 0;
+            position: sticky;
+            top: 48px;
+            height: calc(100vh - 48px);
+            overflow-y: auto;
         }
 
         .sidebar h2 {
@@ -142,7 +183,15 @@
         .view-content,
         .topic-content {
             flex-grow: 1;
-            padding: 2.5rem 3rem;
+            padding: 2rem;
+            max-width: 1400px;
+            margin: 0 auto;
+            width: 100%;
+        }
+        
+        #main-content-area {
+            background: var(--background-light);
+            min-height: calc(100vh - 48px);
         }
 
         .question-container {
@@ -4255,51 +4304,86 @@
         </div>
     </div>
 
-    <div class="app-container">
-        <header class="app-header">
-            <div style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 0.3rem;">
-                <div style="display: flex; align-items: center; gap: 0.8rem;">
+    <!-- Apple-style Top Navigation -->
+    <nav class="apple-nav" style="position: fixed; top: 0; left: 0; right: 0; z-index: 1000; background: rgba(251, 251, 253, 0.8); backdrop-filter: saturate(180%) blur(20px); -webkit-backdrop-filter: saturate(180%) blur(20px); border-bottom: 1px solid rgba(0, 0, 0, 0.1);">
+        <div style="max-width: 100%; margin: 0 auto; padding: 0 22px; height: 48px; display: flex; align-items: center; justify-content: space-between;">
+            <div style="display: flex; align-items: center; gap: 16px;">
                     <img src="https://www.dropbox.com/scl/fi/h40yjlyg8ldefwfaa3dib/polymath-logo-sticker.png?rlkey=o1ra4taqy79gt9t8u096v82zj&raw=1"
-                        alt="Polymath Logo" class="app-logo">
-                    <button class="print-btn" onclick="printAll()">🖨️ Print All</button>
-                </div>
-                <div class="header-icons">
-                    <button class="header-icon-btn hidden" onclick="switchTab('flagged', this)" title="Flagged Questions" id="header-flagged-btn">
-                        🚩
-                        <span id="header-flagged-badge" class="header-icon-badge" style="display: none;">0</span>
-                    </button>
-                    <button class="header-icon-btn" onclick="switchTab('inbox', this)" title="Inbox" id="header-inbox-btn">
-                        📬
-                        <span id="header-inbox-badge" class="header-icon-badge" style="display: none;">0</span>
-                    </button>
-                    <button class="header-icon-btn" onclick="showAccountSettings()" title="Account Settings" id="header-settings-btn">
-                        ⚙️
-                    </button>
-                </div>
-            </div>
-            <div class="header-tabs-row">
-                <div class="level-selector-container" id="header-level-selector">
-                    <select id="header-level-select" class="level-select" onchange="changeLevel(this.value)">
+                    alt="Polymath Logo" style="height: 32px;">
+                <div style="display: flex; align-items: center; gap: 8px;">
+                    <select id="header-level-select" style="padding: 6px 12px; border: 1px solid var(--border-color); border-radius: 8px; font-size: 13px; background: white; cursor: pointer;" onchange="changeLevel(this.value)">
                         <option value="P3">P3</option>
                         <option value="P4">P4</option>
                         <option value="P5">P5</option>
                         <option value="P6" selected>P6</option>
                     </select>
-                </div>
-                <div id="header-tabs-container">
-                    <button class="tab-btn active" data-type="cer" onclick="switchTab('cer', this)">CER</button><button class="tab-btn" data-type="definition"
-                        onclick="switchTab('definition', this)">Definition</button><button class="tab-btn" data-type="single-relationship"
-                        onclick="switchTab('single-relationship', this)">Single Relationship</button><button class="tab-btn" data-type="double-relationship"
-                        onclick="switchTab('double-relationship', this)">Double Relationship</button><button class="tab-btn" data-type="fairness" onclick="switchTab('fairness', this)">Fairness</button><button class="tab-btn" data-type="reliability"
-                        onclick="switchTab('reliability', this)">Reliability</button><button class="tab-btn" data-type="accuracy" onclick="switchTab('accuracy', this)">Accuracy</button><button class="tab-btn" data-type="constant-variable"
-                        onclick="switchTab('constant-variable', this)">Constant Variable</button><button class="tab-btn" data-type="explanation"
-                        onclick="switchTab('explanation', this)">Explanation</button><button class="tab-btn" data-type="control-setup" onclick="switchTab('control-setup', this)">Control Set-up</button>
+                    <select id="topic-selector" style="padding: 6px 12px; border: 1px solid var(--border-color); border-radius: 8px; font-size: 13px; background: white; cursor: pointer; min-width: 180px;" onchange="selectTopic(this.value)">
+                        <option value="">Select Topic...</option>
+                    </select>
                 </div>
             </div>
-        </header>
+            <div style="display: flex; align-items: center; gap: 12px;">
+                <button class="header-icon-btn hidden" onclick="switchTab('flagged', this)" title="Flagged Questions" id="header-flagged-btn" style="background: none; border: none; font-size: 18px; cursor: pointer; padding: 8px;">
+                        🚩
+                        <span id="header-flagged-badge" class="header-icon-badge" style="display: none;">0</span>
+                    </button>
+                <button class="header-icon-btn" onclick="switchTab('inbox', this)" title="Inbox" id="header-inbox-btn" style="background: none; border: none; font-size: 18px; cursor: pointer; padding: 8px;">
+                        📬
+                        <span id="header-inbox-badge" class="header-icon-badge" style="display: none;">0</span>
+                    </button>
+                <button class="header-icon-btn" onclick="showAccountSettings()" title="Account Settings" id="header-settings-btn" style="background: none; border: none; font-size: 18px; cursor: pointer; padding: 8px;">
+                        ⚙️
+                    </button>
+                </div>
+            </div>
+    </nav>
+
+    <div class="app-container" style="margin-top: 48px;">
+        <!-- Horizontal Tab Groups - Apple Style -->
+        <div class="tab-groups-container" style="background: white; border-bottom: 1px solid var(--border-color); padding: 0 22px; position: sticky; top: 48px; z-index: 999;">
+            <div style="display: flex; gap: 32px; overflow-x: auto; -webkit-overflow-scrolling: touch;">
+                <!-- Practice Group -->
+                <div class="tab-group" data-group="practice">
+                    <button class="tab-group-header" onclick="toggleTabGroup('practice')" style="padding: 12px 0; background: none; border: none; font-size: 14px; font-weight: 600; color: var(--text-primary); cursor: pointer; display: flex; align-items: center; gap: 6px;">
+                        Practice
+                        <span style="font-size: 10px;">▼</span>
+                    </button>
+                    <div class="tab-group-content" id="practice-tabs" style="display: none; position: absolute; top: 100%; left: 0; background: white; border: 1px solid var(--border-color); border-radius: 8px; box-shadow: 0 4px 12px rgba(0,0,0,0.1); padding: 8px; min-width: 200px; margin-top: 4px;">
+                        <button class="sub-tab-btn" onclick="switchTab('practice', this); toggleTabGroup('practice')" style="width: 100%; padding: 10px 16px; text-align: left; background: none; border: none; border-radius: 6px; cursor: pointer; font-size: 14px;">🎯 Practice Mode</button>
+                        <button class="sub-tab-btn" onclick="switchTab('worksheet', this); toggleTabGroup('practice')" style="width: 100%; padding: 10px 16px; text-align: left; background: none; border: none; border-radius: 6px; cursor: pointer; font-size: 14px;">📝 My Worksheet <span id="worksheet-count-header" style="float: right; background: var(--apple-blue); color: white; padding: 2px 8px; border-radius: 10px; font-size: 11px;">0</span></button>
+                        <button class="sub-tab-btn" onclick="switchTab('saved-worksheets', this); toggleTabGroup('practice')" style="width: 100%; padding: 10px 16px; text-align: left; background: none; border: none; border-radius: 6px; cursor: pointer; font-size: 14px;">📚 Saved Worksheets</button>
+                        <button class="sub-tab-btn" onclick="switchTab('question-list', this); toggleTabGroup('practice')" style="width: 100%; padding: 10px 16px; text-align: left; background: none; border: none; border-radius: 6px; cursor: pointer; font-size: 14px;">📚 Question Library</button>
+                </div>
+                </div>
+                
+                <!-- Progress Group -->
+                <div class="tab-group" data-group="progress">
+                    <button class="tab-group-header" onclick="toggleTabGroup('progress')" style="padding: 12px 0; background: none; border: none; font-size: 14px; font-weight: 600; color: var(--text-primary); cursor: pointer; display: flex; align-items: center; gap: 6px;">
+                        Progress
+                        <span style="font-size: 10px;">▼</span>
+                    </button>
+                    <div class="tab-group-content" id="progress-tabs" style="display: none; position: absolute; top: 100%; left: 0; background: white; border: 1px solid var(--border-color); border-radius: 8px; box-shadow: 0 4px 12px rgba(0,0,0,0.1); padding: 8px; min-width: 200px; margin-top: 4px;">
+                        <button class="sub-tab-btn" onclick="switchTab('my-progress', this); toggleTabGroup('progress')" style="width: 100%; padding: 10px 16px; text-align: left; background: none; border: none; border-radius: 6px; cursor: pointer; font-size: 14px;">📈 My Progress</button>
+                        <button class="sub-tab-btn" onclick="switchTab('leaderboard', this); toggleTabGroup('progress')" style="width: 100%; padding: 10px 16px; text-align: left; background: none; border: none; border-radius: 6px; cursor: pointer; font-size: 14px;">🏆 Leaderboard</button>
+            </div>
+                </div>
+                
+                <!-- Learn Group -->
+                <div class="tab-group" data-group="learn">
+                    <button class="tab-group-header" onclick="toggleTabGroup('learn')" style="padding: 12px 0; background: none; border: none; font-size: 14px; font-weight: 600; color: var(--text-primary); cursor: pointer; display: flex; align-items: center; gap: 6px;">
+                        Learn
+                        <span style="font-size: 10px;">▼</span>
+                    </button>
+                    <div class="tab-group-content" id="learn-tabs" style="display: none; position: absolute; top: 100%; left: 0; background: white; border: 1px solid var(--border-color); border-radius: 8px; box-shadow: 0 4px 12px rgba(0,0,0,0.1); padding: 8px; min-width: 200px; margin-top: 4px;">
+                        <button class="sub-tab-btn" onclick="switchTab('lessons', this); toggleTabGroup('learn')" style="width: 100%; padding: 10px 16px; text-align: left; background: none; border: none; border-radius: 6px; cursor: pointer; font-size: 14px;">🎓 Lessons</button>
+                        <button class="sub-tab-btn" onclick="startTutorial(); toggleTabGroup('learn')" style="width: 100%; padding: 10px 16px; text-align: left; background: none; border: none; border-radius: 6px; cursor: pointer; font-size: 14px;">🎓 Tutorial</button>
+                    </div>
+                </div>
+            </div>
+        </div>
         
         <!-- Colored line that changes based on active tab -->
-        <div class="header-color-line" id="header-color-line" style="background: linear-gradient(90deg, #AEC6CF 0%, #c4d6dd 50%, #AEC6CF 100%);"></div>
+        <div class="header-color-line" id="header-color-line" style="height: 2px; background: linear-gradient(90deg, #AEC6CF 0%, #c4d6dd 50%, #AEC6CF 100%);"></div>
 
         <!-- Save Worksheet Modal -->
         <div id="save-worksheet-modal" class="modal-overlay">
@@ -4374,68 +4458,15 @@
                 <!-- DIVIDER -->
                 <div class="sidebar-divider"></div>
                 
-                <!-- BOTTOM SECTION: Navigation Buttons -->
+                <!-- Admin & Logout (if admin) -->
                 <div class="sidebar-nav-section">
                     <button id="btn-sidebar-admin" class="hidden sidebar-nav-btn admin-btn" onclick="switchTab('admin', this)">
                         🛠️ Admin Mode
                     </button>
-
                     <button id="btn-sidebar-progress" class="hidden sidebar-nav-btn progress-btn" onclick="switchTab('student-progress', this)">
                         📊 Student Progress
                     </button>
-
-                    <button id="btn-sidebar-leaderboard" class="sidebar-nav-btn" style="background: linear-gradient(135deg, #FFD700, #FFA500); color: white;" onclick="switchTab('leaderboard', this)">
-                        🏆 Leaderboard
-                    </button>
-
-                    <button id="btn-sidebar-my-progress" class="sidebar-nav-btn" style="background: linear-gradient(135deg, #667eea, #764ba2); color: white;" onclick="switchTab('my-progress', this)">
-                        📈 My Progress
-                    </button>
-
-                    <button id="btn-sidebar-worksheet" class="sidebar-nav-btn worksheet-btn" onclick="switchTab('worksheet', this)">
-                        📝 My Worksheet <span id="worksheet-count" class="worksheet-badge">0</span>
-                    </button>
-
-                    <button id="btn-sidebar-saved-worksheets" class="sidebar-nav-btn saved-btn" onclick="switchTab('saved-worksheets', this)">
-                        📚 Saved Worksheets
-                    </button>
-
-                    <button id="btn-sidebar-lessons" class="sidebar-nav-btn lessons-btn" onclick="switchTab('lessons', this)">
-                        🎓 Lessons
-                    </button>
-
-                    <button id="btn-sidebar-question-list" class="sidebar-nav-btn" style="background: linear-gradient(135deg, #9c27b0, #673ab7); color: white;" onclick="switchTab('question-list', this)">
-                        📚 Question Library
-                    </button>
-                    
-                    <button id="btn-sidebar-tutorial" class="sidebar-nav-btn" style="background: linear-gradient(135deg, #00bcd4, #0097a7); color: white;" onclick="startTutorial()">
-                        🎓 Tutorial
-                    </button>
-                    
                     <button onclick="handleLogout()" class="logout-btn">🚪 Logout</button>
-                </div>
-
-                <div id="oeq-sidebar-content">
-                    <h2 id="oeq-title">OEQ Questions</h2>
-                    <nav id="oeq-topic-nav" class="sidebar-nav">
-                        <!-- Dynamic topic buttons will be populated here -->
-                    </nav>
-                </div>
-
-                <div id="mcq-sidebar-content" class="hidden">
-                    <h2 style="margin-bottom: 0.5rem;">MCQ Level</h2>
-                    <select id="mcq-level-select" onchange="window.currentMcqLevel = this.value; renderMcqHeaders();"
-                        class="auth-input"
-                        style="height: 40px; margin-bottom: 1rem; border-radius: 8px; padding: 5px 10px; font-size: 0.9rem;">
-                        <option value="P3">Primary 3</option>
-                        <option value="P4">Primary 4</option>
-                        <option value="P5">Primary 5</option>
-                        <option value="P6">Primary 6</option>
-                    </select>
-                    <h2 id="mcq-topic-label" style="font-size: 1rem; color: #666; margin-bottom: 1rem;">Questions</h2>
-                    <nav id="mcq-question-nav" class="sidebar-nav">
-                        <!-- Dynamic Question Buttons (Q1, Q2...) -->
-                    </nav>
                 </div>
             </aside>
 
@@ -6139,6 +6170,9 @@
                 return `<button id="btn-${topic.id}" class="${activeClass}" onclick="selectOeqTopic('${tabType}', '${topic.id}', this)">${topic.name}${countBadge}</button>`;
             }).join('');
 
+            // Update topic selector dropdown
+            populateTopicSelector();
+
             // Select first topic by default
             if (topics.length > 0) {
                 selectOeqTopic(tabType, topics[0].id, nav.querySelector('button'));
@@ -6281,6 +6315,8 @@
             if (countBadge) {
                 countBadge.textContent = count;
             }
+            // Update header badge
+            updateWorksheetCountHeader();
 
             // Clear existing question cards (keep empty message)
             const existingCards = container.querySelectorAll('.worksheet-question-card');
@@ -8744,7 +8780,7 @@
                 const totalAttempted = Object.values(studentQuestionAttempts).reduce((sum, a) => sum + (a.attempts || 0), 0);
                 const totalCorrect = Object.values(studentQuestionAttempts).reduce((sum, a) => sum + (a.correct || 0), 0);
                 const overallSuccess = totalAttempted > 0 ? (totalCorrect / totalAttempted * 100).toFixed(1) : 0;
-
+                
                 let progressHTML = `
                     <div style="margin-bottom: 2rem;">
                         <div style="background: linear-gradient(135deg, #a8e6cf, #dcedc8); padding: 2rem; border-radius: 16px; color: #2d5016; margin-bottom: 2rem; box-shadow: 0 4px 12px rgba(0,0,0,0.1);">
@@ -8756,11 +8792,11 @@
                                 <div style="background: rgba(255,255,255,0.7); padding: 1rem; border-radius: 12px;">
                                     <div style="font-size: 0.9rem; opacity: 0.8; margin-bottom: 0.5rem;">📚 Level</div>
                                     <div style="font-size: 1.5rem; font-weight: bold; color: #2d5016;">${currentStudent.level || 'N/A'}</div>
-                                </div>
+                            </div>
                                 <div style="background: rgba(255,255,255,0.7); padding: 1rem; border-radius: 12px;">
                                     <div style="font-size: 0.9rem; opacity: 0.8; margin-bottom: 0.5rem;">⭐ Rating</div>
                                     <div style="font-size: 1.5rem; font-weight: bold; color: #2d5016;">${currentStudent.rating || RATING_CONFIG.DEFAULT_STUDENT_RATING}</div>
-                                </div>
+                            </div>
                                 <div style="background: rgba(255,255,255,0.7); padding: 1rem; border-radius: 12px;">
                                     <div style="font-size: 0.9rem; opacity: 0.8; margin-bottom: 0.5rem;">📝 Total Attempts</div>
                                     <div style="font-size: 1.5rem; font-weight: bold; color: #2d5016;">${currentStudent.totalAttempts || 0}</div>
@@ -8769,8 +8805,8 @@
                                     <div style="font-size: 0.9rem; opacity: 0.8; margin-bottom: 0.5rem;">🎯 Overall Success</div>
                                     <div style="font-size: 1.5rem; font-weight: bold; color: #2d5016;">${overallSuccess}%</div>
                                 </div>
-                            </div>
                         </div>
+                    </div>
 
                         <div style="display: flex; align-items: center; gap: 0.5rem; margin-bottom: 1.5rem;">
                             <span style="font-size: 2rem;">📊</span>
@@ -8829,9 +8865,9 @@
                                 <div style="display: flex; align-items: center; gap: 0.5rem;">
                                     <span style="font-size: 1.8rem;">${colors.icon}</span>
                                     <h4 style="margin: 0; font-size: 1.1rem; color: ${colors.text}; font-weight: 600;">${topic}</h4>
-                                </div>
-                                <span style="font-size: 1.8rem;">${masteryIcon}</span>
                             </div>
+                                <span style="font-size: 1.8rem;">${masteryIcon}</span>
+                                </div>
                             <div style="margin-bottom: 0.8rem;">
                                 <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 0.6rem;">
                                     <span style="font-size: 0.9rem; color: ${colors.text}; font-weight: 500;">${masteryEmoji} Mastery</span>
@@ -8839,7 +8875,7 @@
                                 </div>
                                 <div style="background: rgba(255,255,255,0.6); height: 24px; border-radius: 12px; overflow: hidden; box-shadow: inset 0 2px 4px rgba(0,0,0,0.1);">
                                     <div style="background: linear-gradient(90deg, ${progressColor}, ${progressColor}cc); height: 100%; width: ${Math.max(mastery, 2)}%; transition: width 0.8s ease; border-radius: 12px; box-shadow: 0 2px 4px rgba(0,0,0,0.2);"></div>
-                                </div>
+                            </div>
                             </div>
                             <div style="font-size: 0.85rem; color: ${colors.text}; margin-top: 0.8rem; padding-top: 0.8rem; border-top: 1px solid ${colors.border};">
                                 <div style="display: flex; justify-content: space-between;">
@@ -12984,6 +13020,8 @@
                     mcqSidebarContent.classList.add('hidden');
                     window.currentOeqTab = type;
                     updateOeqSidebar(type);
+                    // Populate topic selector
+                    setTimeout(() => populateTopicSelector(), 100);
                 } else if (specialTabs.includes(type)) {
                     // Hide both sidebars for special tabs
                     oeqSidebarContent.classList.add('hidden');
@@ -13153,6 +13191,8 @@
                 // Sync header level selector with MCQ level
                 if (headerLevelSelect) headerLevelSelect.value = window.currentMcqLevel;
                 renderMcqHeaders();
+                // Populate topic selector
+                setTimeout(() => populateTopicSelector(), 100);
             } else {
                 oeqSidebar.classList.remove('hidden');
                 mcqSidebar.classList.add('hidden');
@@ -13160,6 +13200,8 @@
                 if (headerLevelSelect) headerLevelSelect.value = window.currentOeqLevel;
                 renderOeqHeaderTabs('cer');
                 switchTab('cer', document.querySelector('.tab-btn[data-type="cer"]'));
+                // Populate topic selector
+                setTimeout(() => populateTopicSelector(), 100);
                 if (window.isAdminUser) document.getElementById('btn-sidebar-admin').classList.remove('hidden');
             }
         };
@@ -13195,6 +13237,9 @@
                 const lighterColor = adjustColorBrightness(firstColor, 20);
                 headerLine.style.background = `linear-gradient(90deg, ${firstColor} 0%, ${lighterColor} 50%, ${firstColor} 100%)`;
             }
+            
+            // Update topic selector dropdown
+            populateTopicSelector();
 
             renderMcqQuestionList();
         };
@@ -16926,6 +16971,119 @@
                 overlay.style.display = 'flex';
             }
         });
+
+        // =====================================================
+        // APPLE-STYLE TAB GROUPS
+        // =====================================================
+
+        // Toggle tab group dropdown
+        window.toggleTabGroup = function(groupName) {
+            const allGroups = document.querySelectorAll('.tab-group-content');
+            const targetGroup = document.getElementById(groupName + '-tabs');
+            
+            allGroups.forEach(group => {
+                if (group !== targetGroup) {
+                    group.style.display = 'none';
+                }
+            });
+            
+            if (targetGroup) {
+                targetGroup.style.display = targetGroup.style.display === 'none' ? 'block' : 'none';
+            }
+        };
+
+        // Close tab groups when clicking outside
+        document.addEventListener('click', (e) => {
+            if (!e.target.closest('.tab-group')) {
+                document.querySelectorAll('.tab-group-content').forEach(group => {
+                    group.style.display = 'none';
+                });
+            }
+        });
+
+        // Populate topic selector dropdown
+        window.populateTopicSelector = function() {
+            const topicSelector = document.getElementById('topic-selector');
+            if (!topicSelector) return;
+
+            // Clear existing options except the first one
+            topicSelector.innerHTML = '<option value="">Select Topic...</option>';
+
+            // Get OEQ topics from oeqTopics object
+            if (window.oeqTopics && window.currentOeqTab) {
+                const topics = window.oeqTopics[window.currentOeqTab] || [];
+                topics.forEach(topic => {
+                    const option = document.createElement('option');
+                    option.value = topic.id;
+                    option.textContent = topic.name + ' (OEQ)';
+                    topicSelector.appendChild(option);
+                });
+            }
+
+            // Add MCQ topics if in MCQ mode or if available
+            if (window.mcqCurriculum && (window.currentMode === 'mcq' || window.currentMode === 'oeq')) {
+                const currentLevel = window.currentMcqLevel || 'P6';
+                const topics = window.mcqCurriculum[currentLevel] || [];
+                topics.forEach(topic => {
+                    const topicId = topic.toLowerCase().replace(/\s+/g, '-');
+                    const option = document.createElement('option');
+                    option.value = 'mcq-' + topicId;
+                    option.textContent = topic + ' (MCQ)';
+                    topicSelector.appendChild(option);
+                });
+            }
+        };
+
+        // Handle topic selection from dropdown
+        window.selectTopic = function(topicValue) {
+            if (!topicValue) {
+                // Clear selection - show all topics or default view
+                return;
+            }
+            
+            if (topicValue.startsWith('mcq-')) {
+                // Switch to MCQ mode and select topic
+                if (window.currentMode !== 'mcq') {
+                    window.switchMode('mcq');
+                }
+                const topicId = topicValue.replace('mcq-', '');
+                // Use switchMcqTopicAndTab function if available
+                if (window.switchMcqTopicAndTab) {
+                    window.switchMcqTopicAndTab(topicId);
+                } else {
+                    // Fallback: find and click the MCQ topic button
+                    const topicButton = document.querySelector(`[onclick*="${topicId}"]`);
+                    if (topicButton) {
+                        topicButton.click();
+                    }
+                }
+            } else {
+                // Switch to OEQ mode and select topic
+                if (window.currentMode !== 'oeq') {
+                    window.switchMode('oeq');
+                }
+                // Use selectOeqTopic function
+                if (window.selectOeqTopic && window.currentOeqTab) {
+                    window.selectOeqTopic(window.currentOeqTab, topicValue);
+                } else {
+                    // Fallback: find topic button
+                    const topicButton = document.querySelector(`[onclick*="'${topicValue}'"]`);
+                    if (topicButton) {
+                        topicButton.click();
+                    }
+                }
+            }
+        };
+
+        // Update worksheet count in header
+        function updateWorksheetCountHeader() {
+            const count = window.worksheetItems ? window.worksheetItems.length : 0;
+            const headerBadge = document.getElementById('worksheet-count-header');
+            if (headerBadge) {
+                headerBadge.textContent = count;
+                headerBadge.style.display = count > 0 ? 'inline-block' : 'none';
+            }
+        }
 
         // Scroll to top function for questions interface
         function scrollToTop(sectionId) {
