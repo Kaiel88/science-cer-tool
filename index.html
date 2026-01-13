@@ -22192,6 +22192,336 @@
         .floating-report-parent-btn:hover {
             transform: scale(1.1);
         }
+
+        /* ========== Batch 56: Timed Challenge, Learning Reminders, Science News ========== */
+
+        /* Timed Challenge Styles */
+        .challenge-modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.85);
+            z-index: 10000;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .challenge-content {
+            background: linear-gradient(145deg, #1a1a2e 0%, #16213e 100%);
+            border-radius: 20px;
+            padding: 25px;
+            max-width: 550px;
+            width: 95%;
+            max-height: 90vh;
+            overflow-y: auto;
+            box-shadow: 0 25px 80px rgba(0, 0, 0, 0.5);
+            border: 1px solid rgba(255, 64, 129, 0.3);
+        }
+
+        .challenge-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+        }
+
+        .challenge-header h2 {
+            color: #ff4081;
+            font-size: 1.5rem;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .challenge-timer-display {
+            font-size: 3rem;
+            font-weight: bold;
+            color: #ff4081;
+            text-align: center;
+            margin-bottom: 20px;
+        }
+
+        .challenge-timer-display.warning {
+            color: #ff9800;
+            animation: timer-blink 0.5s ease-in-out infinite;
+        }
+
+        .challenge-timer-display.danger {
+            color: #f44336;
+            animation: timer-blink 0.3s ease-in-out infinite;
+        }
+
+        @keyframes timer-blink {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.5; }
+        }
+
+        .challenge-score {
+            display: flex;
+            justify-content: center;
+            gap: 30px;
+            margin-bottom: 20px;
+        }
+
+        .challenge-score-item {
+            text-align: center;
+        }
+
+        .challenge-score-value {
+            font-size: 2rem;
+            font-weight: bold;
+            color: #fff;
+        }
+
+        .challenge-score-label {
+            font-size: 0.85rem;
+            color: #888;
+        }
+
+        .challenge-question-area {
+            background: rgba(255, 64, 129, 0.1);
+            border-radius: 15px;
+            padding: 20px;
+            margin-bottom: 15px;
+        }
+
+        .challenge-start-btn {
+            width: 100%;
+            padding: 15px;
+            background: linear-gradient(135deg, #ff4081 0%, #ff80ab 100%);
+            color: white;
+            border: none;
+            border-radius: 10px;
+            font-size: 1.2rem;
+            font-weight: bold;
+            cursor: pointer;
+        }
+
+        /* Learning Reminders Styles */
+        .reminder-modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.85);
+            z-index: 10000;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .reminder-content {
+            background: linear-gradient(145deg, #1a1a2e 0%, #16213e 100%);
+            border-radius: 20px;
+            padding: 25px;
+            max-width: 450px;
+            width: 95%;
+            box-shadow: 0 25px 80px rgba(0, 0, 0, 0.5);
+            border: 1px solid rgba(255, 152, 0, 0.3);
+        }
+
+        .reminder-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+        }
+
+        .reminder-header h2 {
+            color: #ffb74d;
+            font-size: 1.5rem;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .reminder-option {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 15px;
+            background: rgba(255, 152, 0, 0.1);
+            border-radius: 10px;
+            margin-bottom: 10px;
+        }
+
+        .reminder-option-label {
+            color: #fff;
+            font-weight: 500;
+        }
+
+        .reminder-option-desc {
+            color: #888;
+            font-size: 0.8rem;
+        }
+
+        .reminder-time-select {
+            padding: 8px 15px;
+            border: 1px solid rgba(255, 152, 0, 0.3);
+            border-radius: 8px;
+            background: rgba(0, 0, 0, 0.3);
+            color: #fff;
+            font-size: 0.9rem;
+        }
+
+        .enable-reminder-btn {
+            width: 100%;
+            padding: 12px;
+            background: linear-gradient(135deg, #ff9800 0%, #ffb74d 100%);
+            color: white;
+            border: none;
+            border-radius: 10px;
+            font-size: 1rem;
+            font-weight: bold;
+            cursor: pointer;
+            margin-top: 15px;
+        }
+
+        /* Science News Styles */
+        .news-modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.85);
+            z-index: 10000;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .news-content {
+            background: linear-gradient(145deg, #1a1a2e 0%, #16213e 100%);
+            border-radius: 20px;
+            padding: 25px;
+            max-width: 500px;
+            width: 95%;
+            max-height: 90vh;
+            overflow-y: auto;
+            box-shadow: 0 25px 80px rgba(0, 0, 0, 0.5);
+            border: 1px solid rgba(76, 175, 80, 0.3);
+        }
+
+        .news-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+        }
+
+        .news-header h2 {
+            color: #81c784;
+            font-size: 1.5rem;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .news-item {
+            background: rgba(76, 175, 80, 0.1);
+            border: 1px solid rgba(76, 175, 80, 0.2);
+            border-radius: 15px;
+            padding: 20px;
+            margin-bottom: 15px;
+        }
+
+        .news-category {
+            display: inline-block;
+            background: rgba(76, 175, 80, 0.3);
+            color: #a5d6a7;
+            padding: 4px 12px;
+            border-radius: 12px;
+            font-size: 0.75rem;
+            margin-bottom: 10px;
+        }
+
+        .news-title {
+            color: #81c784;
+            font-size: 1.1rem;
+            font-weight: bold;
+            margin-bottom: 10px;
+        }
+
+        .news-text {
+            color: #ddd;
+            font-size: 0.95rem;
+            line-height: 1.6;
+        }
+
+        .news-source {
+            color: #888;
+            font-size: 0.8rem;
+            margin-top: 10px;
+        }
+
+        /* Floating Buttons for Batch 56 */
+        .floating-challenge-btn {
+            position: fixed;
+            bottom: 5620px;
+            right: 20px;
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, #ff4081 0%, #ff80ab 100%);
+            color: white;
+            border: none;
+            font-size: 1.3rem;
+            cursor: pointer;
+            box-shadow: 0 5px 20px rgba(255, 64, 129, 0.4);
+            z-index: 999;
+            transition: all 0.3s ease;
+        }
+
+        .floating-challenge-btn:hover {
+            transform: scale(1.1);
+        }
+
+        .floating-reminder-btn {
+            position: fixed;
+            bottom: 5680px;
+            right: 20px;
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, #ff9800 0%, #ffb74d 100%);
+            color: white;
+            border: none;
+            font-size: 1.3rem;
+            cursor: pointer;
+            box-shadow: 0 5px 20px rgba(255, 152, 0, 0.4);
+            z-index: 999;
+            transition: all 0.3s ease;
+        }
+
+        .floating-reminder-btn:hover {
+            transform: scale(1.1);
+        }
+
+        .floating-news-btn {
+            position: fixed;
+            bottom: 5740px;
+            right: 20px;
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, #4caf50 0%, #81c784 100%);
+            color: white;
+            border: none;
+            font-size: 1.3rem;
+            cursor: pointer;
+            box-shadow: 0 5px 20px rgba(76, 175, 80, 0.4);
+            z-index: 999;
+            transition: all 0.3s ease;
+        }
+
+        .floating-news-btn:hover {
+            transform: scale(1.1);
+        }
     </style>
 </head>
 
@@ -59387,6 +59717,735 @@ This report was generated from the Science CER Practice App.
         }
 
         console.log('⚡ Quick Review, Answer Explanation, and Parent Report loaded!');
+    </script>
+
+    <!-- Batch 56: Timed Challenge, Learning Reminders, Science News -->
+    <div id="timed-challenge-btn" class="timed-challenge-btn" onclick="openTimedChallenge()" title="Timed Challenge">
+        ⏱️
+    </div>
+
+    <div id="learning-reminder-btn" class="learning-reminder-btn" onclick="openLearningReminders()" title="Learning Reminders">
+        🔔
+    </div>
+
+    <div id="science-news-btn" class="science-news-btn" onclick="openScienceNews()" title="Science News">
+        📰
+    </div>
+
+    <!-- Timed Challenge Modal -->
+    <div id="timed-challenge-modal" class="timed-challenge-modal">
+        <div class="timed-challenge-content">
+            <div class="timed-challenge-header">
+                <h2>⏱️ Timed Challenge</h2>
+                <button class="close-timed-challenge" onclick="closeTimedChallenge()">×</button>
+            </div>
+            <div id="challenge-setup" class="challenge-setup">
+                <h3>Choose Your Challenge</h3>
+                <div class="challenge-options">
+                    <div class="challenge-option" onclick="startChallenge(5, 60)">
+                        <div class="challenge-icon">🌟</div>
+                        <div class="challenge-label">Quick Sprint</div>
+                        <div class="challenge-desc">5 questions in 60 seconds</div>
+                        <div class="challenge-reward">+50 XP</div>
+                    </div>
+                    <div class="challenge-option" onclick="startChallenge(10, 90)">
+                        <div class="challenge-icon">🔥</div>
+                        <div class="challenge-label">Power Run</div>
+                        <div class="challenge-desc">10 questions in 90 seconds</div>
+                        <div class="challenge-reward">+100 XP</div>
+                    </div>
+                    <div class="challenge-option" onclick="startChallenge(15, 120)">
+                        <div class="challenge-icon">💪</div>
+                        <div class="challenge-label">Marathon</div>
+                        <div class="challenge-desc">15 questions in 120 seconds</div>
+                        <div class="challenge-reward">+200 XP</div>
+                    </div>
+                </div>
+                <div class="challenge-stats">
+                    <h4>Your Best Times</h4>
+                    <div id="challenge-best-times"></div>
+                </div>
+            </div>
+            <div id="challenge-active" class="challenge-active" style="display: none;">
+                <div class="challenge-timer-bar">
+                    <div id="challenge-timer-fill" class="challenge-timer-fill"></div>
+                </div>
+                <div class="challenge-timer-display">
+                    <span id="challenge-time-left">60</span>s remaining
+                </div>
+                <div class="challenge-progress">
+                    Question <span id="challenge-current">1</span> of <span id="challenge-total">5</span>
+                </div>
+                <div id="challenge-question" class="challenge-question"></div>
+                <div id="challenge-options" class="challenge-options-grid"></div>
+            </div>
+            <div id="challenge-results" class="challenge-results" style="display: none;">
+                <div class="results-icon">🏆</div>
+                <h3 id="results-title">Challenge Complete!</h3>
+                <div class="results-stats">
+                    <div class="result-stat">
+                        <span class="stat-value" id="result-correct">0</span>
+                        <span class="stat-label">Correct</span>
+                    </div>
+                    <div class="result-stat">
+                        <span class="stat-value" id="result-time">0s</span>
+                        <span class="stat-label">Time Used</span>
+                    </div>
+                    <div class="result-stat">
+                        <span class="stat-value" id="result-xp">+0 XP</span>
+                        <span class="stat-label">Earned</span>
+                    </div>
+                </div>
+                <button class="challenge-retry-btn" onclick="showChallengeSetup()">Try Again</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Learning Reminders Modal -->
+    <div id="learning-reminders-modal" class="learning-reminders-modal">
+        <div class="learning-reminders-content">
+            <div class="learning-reminders-header">
+                <h2>🔔 Learning Reminders</h2>
+                <button class="close-learning-reminders" onclick="closeLearningReminders()">×</button>
+            </div>
+            <div class="reminders-body">
+                <div class="reminder-toggle">
+                    <label class="toggle-label">
+                        <span>Enable Daily Reminders</span>
+                        <input type="checkbox" id="reminder-enabled" onchange="toggleReminders()">
+                        <span class="toggle-slider"></span>
+                    </label>
+                </div>
+                <div class="reminder-settings" id="reminder-settings">
+                    <div class="reminder-time-setting">
+                        <label>Reminder Time</label>
+                        <input type="time" id="reminder-time" value="16:00" onchange="saveReminderSettings()">
+                    </div>
+                    <div class="reminder-days-setting">
+                        <label>Reminder Days</label>
+                        <div class="reminder-days">
+                            <label class="day-checkbox"><input type="checkbox" data-day="0" checked><span>Sun</span></label>
+                            <label class="day-checkbox"><input type="checkbox" data-day="1" checked><span>Mon</span></label>
+                            <label class="day-checkbox"><input type="checkbox" data-day="2" checked><span>Tue</span></label>
+                            <label class="day-checkbox"><input type="checkbox" data-day="3" checked><span>Wed</span></label>
+                            <label class="day-checkbox"><input type="checkbox" data-day="4" checked><span>Thu</span></label>
+                            <label class="day-checkbox"><input type="checkbox" data-day="5" checked><span>Fri</span></label>
+                            <label class="day-checkbox"><input type="checkbox" data-day="6" checked><span>Sat</span></label>
+                        </div>
+                    </div>
+                    <div class="reminder-message-setting">
+                        <label>Reminder Message</label>
+                        <select id="reminder-message" onchange="saveReminderSettings()">
+                            <option value="study">Time to study science! 📚</option>
+                            <option value="practice">Practice makes perfect! 🌟</option>
+                            <option value="challenge">Ready for a challenge? ⏱️</option>
+                            <option value="review">Time to review your notes! 📝</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="reminder-preview">
+                    <h4>Next Reminder</h4>
+                    <div id="next-reminder-display">Not scheduled</div>
+                </div>
+                <div class="reminder-history">
+                    <h4>Recent Notifications</h4>
+                    <div id="reminder-history-list"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Science News Modal -->
+    <div id="science-news-modal" class="science-news-modal">
+        <div class="science-news-content">
+            <div class="science-news-header">
+                <h2>📰 Science News & Facts</h2>
+                <button class="close-science-news" onclick="closeScienceNews()">×</button>
+            </div>
+            <div class="news-body">
+                <div class="news-tabs">
+                    <button class="news-tab active" onclick="showNewsTab('daily')">Daily Fact</button>
+                    <button class="news-tab" onclick="showNewsTab('explore')">Explore</button>
+                    <button class="news-tab" onclick="showNewsTab('saved')">Saved</button>
+                </div>
+                <div id="news-daily" class="news-section">
+                    <div class="daily-fact-card">
+                        <div class="fact-category" id="daily-fact-category">Loading...</div>
+                        <div class="fact-content" id="daily-fact-content"></div>
+                        <div class="fact-actions">
+                            <button class="fact-action" onclick="saveFact()">💾 Save</button>
+                            <button class="fact-action" onclick="shareFact()">📤 Share</button>
+                            <button class="fact-action" onclick="getNewFact()">🔄 New Fact</button>
+                        </div>
+                    </div>
+                    <div class="fact-streak">
+                        <span class="streak-icon">🔥</span>
+                        <span id="fact-streak-count">0</span> day reading streak
+                    </div>
+                </div>
+                <div id="news-explore" class="news-section" style="display: none;">
+                    <div class="explore-categories">
+                        <button class="explore-cat" onclick="exploreFacts('matter')">🧊 Matter</button>
+                        <button class="explore-cat" onclick="exploreFacts('energy')">⚡ Energy</button>
+                        <button class="explore-cat" onclick="exploreFacts('life')">🌱 Life Science</button>
+                        <button class="explore-cat" onclick="exploreFacts('space')">🚀 Space</button>
+                        <button class="explore-cat" onclick="exploreFacts('earth')">🌍 Earth</button>
+                    </div>
+                    <div id="explore-facts-list" class="explore-facts-list"></div>
+                </div>
+                <div id="news-saved" class="news-section" style="display: none;">
+                    <div id="saved-facts-list" class="saved-facts-list"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // ===== BATCH 56: Timed Challenge, Learning Reminders, Science News =====
+
+        // Timed Challenge Data
+        const challengeQuestions = [
+            { q: "What is the boiling point of water?", options: ["100°C", "0°C", "50°C", "200°C"], answer: 0 },
+            { q: "What state is ice?", options: ["Gas", "Liquid", "Solid", "Plasma"], answer: 2 },
+            { q: "Light travels in...", options: ["Curves", "Zigzags", "Straight lines", "Circles"], answer: 2 },
+            { q: "What do plants need for photosynthesis?", options: ["Only water", "Sunlight, water, CO2", "Only air", "Darkness"], answer: 1 },
+            { q: "Sound cannot travel through...", options: ["Air", "Water", "Vacuum", "Metal"], answer: 2 },
+            { q: "What force pulls objects down?", options: ["Magnetism", "Friction", "Gravity", "Electricity"], answer: 2 },
+            { q: "Which is a conductor?", options: ["Plastic", "Wood", "Copper", "Rubber"], answer: 2 },
+            { q: "Evaporation changes liquid to...", options: ["Solid", "Gas", "Plasma", "Liquid"], answer: 1 },
+            { q: "The Sun is a...", options: ["Planet", "Moon", "Star", "Asteroid"], answer: 2 },
+            { q: "What organ pumps blood?", options: ["Brain", "Lungs", "Heart", "Liver"], answer: 2 },
+            { q: "Melting point of ice is...", options: ["100°C", "0°C", "-10°C", "50°C"], answer: 1 },
+            { q: "Which is transparent?", options: ["Wood", "Glass", "Metal", "Brick"], answer: 1 },
+            { q: "Plants make their own...", options: ["Water", "Soil", "Food", "Air"], answer: 2 },
+            { q: "What reflects light best?", options: ["Black paper", "Mirror", "Carpet", "Cloth"], answer: 1 },
+            { q: "Condensation forms...", options: ["Ice", "Steam", "Water droplets", "Fog only"], answer: 2 },
+            { q: "Friction creates...", options: ["Cold", "Heat", "Light", "Sound only"], answer: 1 },
+            { q: "Which material is magnetic?", options: ["Aluminum", "Iron", "Gold", "Silver"], answer: 1 },
+            { q: "Water vapor is...", options: ["Solid", "Liquid", "Gas", "Plasma"], answer: 2 },
+            { q: "Which needs batteries?", options: ["Candle", "Torch", "Sun", "Fire"], answer: 1 },
+            { q: "Roots absorb...", options: ["Light", "Water", "Air", "Heat"], answer: 1 }
+        ];
+
+        let challengeState = {
+            active: false,
+            questions: [],
+            currentIndex: 0,
+            totalQuestions: 0,
+            timeLimit: 0,
+            timeLeft: 0,
+            startTime: 0,
+            correct: 0,
+            timer: null,
+            xpReward: 0
+        };
+
+        // Science Facts Database
+        const scienceFacts = {
+            matter: [
+                { fact: "Water is the only substance on Earth that naturally exists in all three states: solid (ice), liquid (water), and gas (steam).", icon: "💧" },
+                { fact: "A diamond is the hardest natural substance on Earth, made entirely of carbon atoms.", icon: "💎" },
+                { fact: "Glass is actually a liquid that flows very, very slowly - so slowly you can't see it!", icon: "🪟" },
+                { fact: "Honey never spoils! Archaeologists have found 3,000-year-old honey in Egyptian tombs that was still edible.", icon: "🍯" },
+                { fact: "Gold is so soft that a single gram can be beaten into a sheet covering one square meter.", icon: "🥇" }
+            ],
+            energy: [
+                { fact: "Lightning is five times hotter than the surface of the Sun!", icon: "⚡" },
+                { fact: "A single bolt of lightning contains enough energy to toast 100,000 slices of bread.", icon: "🍞" },
+                { fact: "The Sun produces more energy in one second than humanity has used in all of history.", icon: "☀️" },
+                { fact: "Sound travels about 4 times faster in water than in air.", icon: "🔊" },
+                { fact: "Light from the Sun takes about 8 minutes to reach Earth.", icon: "💡" }
+            ],
+            life: [
+                { fact: "A human body contains enough iron to make a 3-inch nail.", icon: "🧲" },
+                { fact: "Octopuses have three hearts and blue blood!", icon: "🐙" },
+                { fact: "A single tree can absorb about 48 pounds of carbon dioxide per year.", icon: "🌳" },
+                { fact: "Your brain uses about 20% of your body's total energy.", icon: "🧠" },
+                { fact: "Butterflies taste with their feet!", icon: "🦋" }
+            ],
+            space: [
+                { fact: "A day on Venus is longer than its year! It takes 243 Earth days to rotate but only 225 to orbit the Sun.", icon: "🪐" },
+                { fact: "There are more stars in the universe than grains of sand on all of Earth's beaches.", icon: "⭐" },
+                { fact: "Footprints on the Moon will last for millions of years because there's no wind to blow them away.", icon: "👣" },
+                { fact: "Jupiter is so big that all other planets could fit inside it!", icon: "🌍" },
+                { fact: "Neutron stars are so dense that a teaspoon would weigh about 6 billion tons.", icon: "✨" }
+            ],
+            earth: [
+                { fact: "Earth's core is as hot as the surface of the Sun - about 5,500°C!", icon: "🌋" },
+                { fact: "The deepest part of the ocean (Mariana Trench) is deeper than Mount Everest is tall.", icon: "🌊" },
+                { fact: "Rainbows are actually full circles, but we usually only see half from the ground.", icon: "🌈" },
+                { fact: "Antarctica contains about 70% of Earth's fresh water, frozen in ice.", icon: "🧊" },
+                { fact: "Earthquakes can make the Earth ring like a bell!", icon: "🔔" }
+            ]
+        };
+
+        const reminderMessages = {
+            study: "Time to study science! 📚",
+            practice: "Practice makes perfect! 🌟",
+            challenge: "Ready for a challenge? ⏱️",
+            review: "Time to review your notes! 📝"
+        };
+
+        // Timed Challenge Functions
+        function openTimedChallenge() {
+            document.getElementById('timed-challenge-modal').classList.add('active');
+            showChallengeSetup();
+            loadBestTimes();
+        }
+
+        function closeTimedChallenge() {
+            document.getElementById('timed-challenge-modal').classList.remove('active');
+            if (challengeState.timer) {
+                clearInterval(challengeState.timer);
+                challengeState.timer = null;
+            }
+            challengeState.active = false;
+        }
+
+        function showChallengeSetup() {
+            document.getElementById('challenge-setup').style.display = 'block';
+            document.getElementById('challenge-active').style.display = 'none';
+            document.getElementById('challenge-results').style.display = 'none';
+        }
+
+        function loadBestTimes() {
+            const bestTimes = JSON.parse(localStorage.getItem('challengeBestTimes') || '{}');
+            const container = document.getElementById('challenge-best-times');
+
+            const challenges = [
+                { key: '5-60', label: 'Quick Sprint', icon: '🌟' },
+                { key: '10-90', label: 'Power Run', icon: '🔥' },
+                { key: '15-120', label: 'Marathon', icon: '💪' }
+            ];
+
+            container.innerHTML = challenges.map(c => {
+                const best = bestTimes[c.key];
+                return `<div class="best-time-item">
+                    <span>${c.icon} ${c.label}</span>
+                    <span>${best ? best.correct + '/' + best.total + ' in ' + best.time + 's' : 'Not attempted'}</span>
+                </div>`;
+            }).join('');
+        }
+
+        function startChallenge(numQuestions, timeLimit) {
+            // Shuffle and select questions
+            const shuffled = [...challengeQuestions].sort(() => Math.random() - 0.5);
+            challengeState.questions = shuffled.slice(0, numQuestions);
+            challengeState.totalQuestions = numQuestions;
+            challengeState.timeLimit = timeLimit;
+            challengeState.timeLeft = timeLimit;
+            challengeState.currentIndex = 0;
+            challengeState.correct = 0;
+            challengeState.startTime = Date.now();
+            challengeState.active = true;
+            challengeState.xpReward = numQuestions === 5 ? 50 : numQuestions === 10 ? 100 : 200;
+
+            document.getElementById('challenge-setup').style.display = 'none';
+            document.getElementById('challenge-active').style.display = 'block';
+            document.getElementById('challenge-results').style.display = 'none';
+
+            document.getElementById('challenge-total').textContent = numQuestions;
+            document.getElementById('challenge-time-left').textContent = timeLimit;
+
+            showChallengeQuestion();
+            startChallengeTimer();
+        }
+
+        function startChallengeTimer() {
+            const timerFill = document.getElementById('challenge-timer-fill');
+            timerFill.style.width = '100%';
+
+            challengeState.timer = setInterval(() => {
+                challengeState.timeLeft--;
+                document.getElementById('challenge-time-left').textContent = challengeState.timeLeft;
+
+                const percent = (challengeState.timeLeft / challengeState.timeLimit) * 100;
+                timerFill.style.width = percent + '%';
+
+                if (percent < 25) {
+                    timerFill.style.background = 'linear-gradient(90deg, #e53935, #ff5252)';
+                } else if (percent < 50) {
+                    timerFill.style.background = 'linear-gradient(90deg, #fb8c00, #ffa726)';
+                }
+
+                if (challengeState.timeLeft <= 0) {
+                    endChallenge();
+                }
+            }, 1000);
+        }
+
+        function showChallengeQuestion() {
+            const q = challengeState.questions[challengeState.currentIndex];
+            document.getElementById('challenge-current').textContent = challengeState.currentIndex + 1;
+            document.getElementById('challenge-question').textContent = q.q;
+
+            const optionsContainer = document.getElementById('challenge-options');
+            optionsContainer.innerHTML = q.options.map((opt, i) =>
+                `<button class="challenge-opt-btn" onclick="submitChallengeAnswer(${i})">${opt}</button>`
+            ).join('');
+        }
+
+        function submitChallengeAnswer(answerIndex) {
+            if (!challengeState.active) return;
+
+            const q = challengeState.questions[challengeState.currentIndex];
+            if (answerIndex === q.answer) {
+                challengeState.correct++;
+            }
+
+            challengeState.currentIndex++;
+
+            if (challengeState.currentIndex >= challengeState.totalQuestions) {
+                endChallenge();
+            } else {
+                showChallengeQuestion();
+            }
+        }
+
+        function endChallenge() {
+            clearInterval(challengeState.timer);
+            challengeState.timer = null;
+            challengeState.active = false;
+
+            const timeUsed = Math.round((Date.now() - challengeState.startTime) / 1000);
+            const perfectBonus = challengeState.correct === challengeState.totalQuestions ? 50 : 0;
+            const xpEarned = Math.round((challengeState.correct / challengeState.totalQuestions) * challengeState.xpReward) + perfectBonus;
+
+            // Save best time
+            const key = challengeState.totalQuestions + '-' + challengeState.timeLimit;
+            const bestTimes = JSON.parse(localStorage.getItem('challengeBestTimes') || '{}');
+            if (!bestTimes[key] || challengeState.correct > bestTimes[key].correct ||
+                (challengeState.correct === bestTimes[key].correct && timeUsed < bestTimes[key].time)) {
+                bestTimes[key] = {
+                    correct: challengeState.correct,
+                    total: challengeState.totalQuestions,
+                    time: timeUsed
+                };
+                localStorage.setItem('challengeBestTimes', JSON.stringify(bestTimes));
+            }
+
+            // Update XP
+            let totalXP = parseInt(localStorage.getItem('scienceXP') || '0');
+            totalXP += xpEarned;
+            localStorage.setItem('scienceXP', totalXP);
+
+            // Show results
+            document.getElementById('challenge-active').style.display = 'none';
+            document.getElementById('challenge-results').style.display = 'block';
+
+            document.getElementById('result-correct').textContent = challengeState.correct + '/' + challengeState.totalQuestions;
+            document.getElementById('result-time').textContent = timeUsed + 's';
+            document.getElementById('result-xp').textContent = '+' + xpEarned + ' XP';
+
+            if (challengeState.correct === challengeState.totalQuestions) {
+                document.getElementById('results-title').textContent = 'Perfect Score! 🎉';
+            } else if (challengeState.correct >= challengeState.totalQuestions * 0.8) {
+                document.getElementById('results-title').textContent = 'Excellent Work! ⭐';
+            } else if (challengeState.correct >= challengeState.totalQuestions * 0.5) {
+                document.getElementById('results-title').textContent = 'Good Effort! 👍';
+            } else {
+                document.getElementById('results-title').textContent = 'Keep Practicing! 💪';
+            }
+        }
+
+        // Learning Reminders Functions
+        function openLearningReminders() {
+            document.getElementById('learning-reminders-modal').classList.add('active');
+            loadReminderSettings();
+            updateNextReminderDisplay();
+            loadReminderHistory();
+        }
+
+        function closeLearningReminders() {
+            document.getElementById('learning-reminders-modal').classList.remove('active');
+        }
+
+        function loadReminderSettings() {
+            const settings = JSON.parse(localStorage.getItem('reminderSettings') || '{}');
+            document.getElementById('reminder-enabled').checked = settings.enabled || false;
+            document.getElementById('reminder-time').value = settings.time || '16:00';
+            document.getElementById('reminder-message').value = settings.message || 'study';
+
+            const days = settings.days || [0, 1, 2, 3, 4, 5, 6];
+            document.querySelectorAll('.day-checkbox input').forEach(cb => {
+                cb.checked = days.includes(parseInt(cb.dataset.day));
+                cb.onchange = saveReminderSettings;
+            });
+
+            document.getElementById('reminder-settings').style.opacity = settings.enabled ? '1' : '0.5';
+        }
+
+        function toggleReminders() {
+            const enabled = document.getElementById('reminder-enabled').checked;
+            document.getElementById('reminder-settings').style.opacity = enabled ? '1' : '0.5';
+            saveReminderSettings();
+
+            if (enabled && 'Notification' in window) {
+                Notification.requestPermission();
+            }
+        }
+
+        function saveReminderSettings() {
+            const days = [];
+            document.querySelectorAll('.day-checkbox input:checked').forEach(cb => {
+                days.push(parseInt(cb.dataset.day));
+            });
+
+            const settings = {
+                enabled: document.getElementById('reminder-enabled').checked,
+                time: document.getElementById('reminder-time').value,
+                message: document.getElementById('reminder-message').value,
+                days: days
+            };
+
+            localStorage.setItem('reminderSettings', JSON.stringify(settings));
+            updateNextReminderDisplay();
+            scheduleReminder();
+        }
+
+        function updateNextReminderDisplay() {
+            const settings = JSON.parse(localStorage.getItem('reminderSettings') || '{}');
+            const display = document.getElementById('next-reminder-display');
+
+            if (!settings.enabled || !settings.days || settings.days.length === 0) {
+                display.textContent = 'Not scheduled';
+                display.className = '';
+                return;
+            }
+
+            const now = new Date();
+            const [hours, minutes] = settings.time.split(':').map(Number);
+
+            for (let i = 0; i <= 7; i++) {
+                const checkDate = new Date(now);
+                checkDate.setDate(checkDate.getDate() + i);
+                checkDate.setHours(hours, minutes, 0, 0);
+
+                if (settings.days.includes(checkDate.getDay()) && checkDate > now) {
+                    const dayNames = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'];
+                    const dayName = i === 0 ? 'Today' : i === 1 ? 'Tomorrow' : dayNames[checkDate.getDay()];
+                    display.textContent = dayName + ' at ' + settings.time;
+                    display.className = 'scheduled';
+                    return;
+                }
+            }
+
+            display.textContent = 'Not scheduled';
+        }
+
+        function loadReminderHistory() {
+            const history = JSON.parse(localStorage.getItem('reminderHistory') || '[]');
+            const container = document.getElementById('reminder-history-list');
+
+            if (history.length === 0) {
+                container.innerHTML = '<div class="no-history">No reminders sent yet</div>';
+                return;
+            }
+
+            container.innerHTML = history.slice(0, 5).map(item => `
+                <div class="history-item">
+                    <span class="history-time">${new Date(item.time).toLocaleDateString()}</span>
+                    <span class="history-msg">${item.message}</span>
+                </div>
+            `).join('');
+        }
+
+        function scheduleReminder() {
+            // Check reminders every minute
+            if (window.reminderInterval) clearInterval(window.reminderInterval);
+
+            window.reminderInterval = setInterval(() => {
+                const settings = JSON.parse(localStorage.getItem('reminderSettings') || '{}');
+                if (!settings.enabled) return;
+
+                const now = new Date();
+                const currentTime = now.getHours().toString().padStart(2, '0') + ':' +
+                                   now.getMinutes().toString().padStart(2, '0');
+
+                if (currentTime === settings.time && settings.days.includes(now.getDay())) {
+                    const lastReminder = localStorage.getItem('lastReminderDate');
+                    const today = now.toDateString();
+
+                    if (lastReminder !== today) {
+                        showReminder(settings.message);
+                        localStorage.setItem('lastReminderDate', today);
+                    }
+                }
+            }, 60000);
+        }
+
+        function showReminder(messageKey) {
+            const message = reminderMessages[messageKey] || reminderMessages.study;
+
+            if ('Notification' in window && Notification.permission === 'granted') {
+                new Notification('Science Learning Reminder', {
+                    body: message,
+                    icon: '📚'
+                });
+            }
+
+            // Save to history
+            const history = JSON.parse(localStorage.getItem('reminderHistory') || '[]');
+            history.unshift({ time: Date.now(), message: message });
+            localStorage.setItem('reminderHistory', JSON.stringify(history.slice(0, 20)));
+        }
+
+        // Science News Functions
+        let currentFact = null;
+
+        function openScienceNews() {
+            document.getElementById('science-news-modal').classList.add('active');
+            loadDailyFact();
+            loadSavedFacts();
+            updateFactStreak();
+        }
+
+        function closeScienceNews() {
+            document.getElementById('science-news-modal').classList.remove('active');
+        }
+
+        function showNewsTab(tab) {
+            document.querySelectorAll('.news-tab').forEach(t => t.classList.remove('active'));
+            document.querySelectorAll('.news-section').forEach(s => s.style.display = 'none');
+
+            event.target.classList.add('active');
+            document.getElementById('news-' + tab).style.display = 'block';
+        }
+
+        function loadDailyFact() {
+            const today = new Date().toDateString();
+            const savedDaily = JSON.parse(localStorage.getItem('dailyFact') || '{}');
+
+            if (savedDaily.date === today && savedDaily.fact) {
+                currentFact = savedDaily;
+                displayFact(savedDaily.category, savedDaily.fact);
+            } else {
+                getNewFact();
+            }
+
+            // Update streak
+            const lastVisit = localStorage.getItem('lastFactVisit');
+            if (lastVisit !== today) {
+                localStorage.setItem('lastFactVisit', today);
+
+                const yesterday = new Date();
+                yesterday.setDate(yesterday.getDate() - 1);
+
+                if (lastVisit === yesterday.toDateString()) {
+                    let streak = parseInt(localStorage.getItem('factStreak') || '0');
+                    streak++;
+                    localStorage.setItem('factStreak', streak);
+                } else if (lastVisit !== today) {
+                    localStorage.setItem('factStreak', '1');
+                }
+            }
+            updateFactStreak();
+        }
+
+        function getNewFact() {
+            const categories = Object.keys(scienceFacts);
+            const randomCat = categories[Math.floor(Math.random() * categories.length)];
+            const facts = scienceFacts[randomCat];
+            const randomFact = facts[Math.floor(Math.random() * facts.length)];
+
+            currentFact = {
+                category: randomCat,
+                fact: randomFact.fact,
+                icon: randomFact.icon,
+                date: new Date().toDateString()
+            };
+
+            localStorage.setItem('dailyFact', JSON.stringify(currentFact));
+            displayFact(randomCat, randomFact.fact, randomFact.icon);
+        }
+
+        function displayFact(category, fact, icon) {
+            const catNames = { matter: '🧊 Matter', energy: '⚡ Energy', life: '🌱 Life Science', space: '🚀 Space', earth: '🌍 Earth Science' };
+            document.getElementById('daily-fact-category').textContent = catNames[category] || category;
+            document.getElementById('daily-fact-content').textContent = (icon || '') + ' ' + fact;
+        }
+
+        function updateFactStreak() {
+            const streak = localStorage.getItem('factStreak') || '0';
+            document.getElementById('fact-streak-count').textContent = streak;
+        }
+
+        function saveFact() {
+            if (!currentFact) return;
+
+            const saved = JSON.parse(localStorage.getItem('savedFacts') || '[]');
+            const exists = saved.some(f => f.fact === currentFact.fact);
+
+            if (!exists) {
+                saved.unshift({
+                    ...currentFact,
+                    savedDate: Date.now()
+                });
+                localStorage.setItem('savedFacts', JSON.stringify(saved.slice(0, 50)));
+                alert('Fact saved! ✨');
+                loadSavedFacts();
+            } else {
+                alert('This fact is already saved!');
+            }
+        }
+
+        function shareFact() {
+            if (!currentFact) return;
+
+            if (navigator.share) {
+                navigator.share({
+                    title: 'Science Fact',
+                    text: currentFact.fact
+                });
+            } else {
+                navigator.clipboard.writeText(currentFact.fact);
+                alert('Fact copied to clipboard! 📋');
+            }
+        }
+
+        function exploreFacts(category) {
+            const facts = scienceFacts[category] || [];
+            const container = document.getElementById('explore-facts-list');
+
+            container.innerHTML = facts.map(f => `
+                <div class="explore-fact-card">
+                    <span class="explore-fact-icon">${f.icon}</span>
+                    <p>${f.fact}</p>
+                </div>
+            `).join('');
+        }
+
+        function loadSavedFacts() {
+            const saved = JSON.parse(localStorage.getItem('savedFacts') || '[]');
+            const container = document.getElementById('saved-facts-list');
+
+            if (saved.length === 0) {
+                container.innerHTML = '<div class="no-saved">No saved facts yet. Save interesting facts to review later!</div>';
+                return;
+            }
+
+            container.innerHTML = saved.map((f, i) => `
+                <div class="saved-fact-card">
+                    <p>${f.fact}</p>
+                    <div class="saved-fact-actions">
+                        <span class="saved-date">${new Date(f.savedDate).toLocaleDateString()}</span>
+                        <button onclick="removeSavedFact(${i})">🗑️</button>
+                    </div>
+                </div>
+            `).join('');
+        }
+
+        function removeSavedFact(index) {
+            const saved = JSON.parse(localStorage.getItem('savedFacts') || '[]');
+            saved.splice(index, 1);
+            localStorage.setItem('savedFacts', JSON.stringify(saved));
+            loadSavedFacts();
+        }
+
+        // Initialize on load
+        scheduleReminder();
+
+        console.log('🎯 Timed Challenge, Learning Reminders, and Science News loaded!');
     </script>
 
     <!-- PowerPoint-style Table Grid Selector (positioned fixed, outside all containers) -->
