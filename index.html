@@ -14026,6 +14026,558 @@
         .floating-report-btn:hover {
             transform: scale(1.1);
         }
+
+        /* ========== BATCH 35: Note-Taking, Bookmarks, Challenge Mode ========== */
+
+        /* Note-Taking System */
+        .notes-modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.7);
+            z-index: 10000;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .notes-container {
+            background: white;
+            border-radius: 20px;
+            width: 90%;
+            max-width: 800px;
+            max-height: 85vh;
+            overflow: hidden;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+        }
+
+        .notes-header {
+            background: linear-gradient(135deg, #ff9800 0%, #f57c00 100%);
+            color: white;
+            padding: 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .notes-header h2 {
+            margin: 0;
+            font-size: 1.5rem;
+        }
+
+        .notes-body {
+            padding: 20px;
+            max-height: 60vh;
+            overflow-y: auto;
+        }
+
+        .note-item {
+            background: linear-gradient(135deg, #fff8e1 0%, #ffecb3 100%);
+            border-radius: 12px;
+            padding: 15px;
+            margin-bottom: 15px;
+            border-left: 4px solid #ff9800;
+            position: relative;
+        }
+
+        .note-item .note-title {
+            font-weight: bold;
+            color: #e65100;
+            margin-bottom: 8px;
+            font-size: 1rem;
+        }
+
+        .note-item .note-content {
+            color: #5d4037;
+            font-size: 0.95rem;
+            white-space: pre-wrap;
+        }
+
+        .note-item .note-date {
+            font-size: 0.75rem;
+            color: #8d6e63;
+            margin-top: 8px;
+        }
+
+        .note-item .note-delete {
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            background: #f44336;
+            color: white;
+            border: none;
+            border-radius: 50%;
+            width: 25px;
+            height: 25px;
+            cursor: pointer;
+            font-size: 0.9rem;
+        }
+
+        .new-note-form {
+            background: #f5f5f5;
+            border-radius: 12px;
+            padding: 20px;
+            margin-bottom: 20px;
+        }
+
+        .new-note-form input {
+            width: 100%;
+            padding: 12px;
+            border: 2px solid #ddd;
+            border-radius: 8px;
+            font-size: 1rem;
+            margin-bottom: 10px;
+            box-sizing: border-box;
+        }
+
+        .new-note-form textarea {
+            width: 100%;
+            padding: 12px;
+            border: 2px solid #ddd;
+            border-radius: 8px;
+            font-size: 1rem;
+            min-height: 100px;
+            resize: vertical;
+            margin-bottom: 10px;
+            box-sizing: border-box;
+        }
+
+        .new-note-form button {
+            background: linear-gradient(135deg, #ff9800 0%, #f57c00 100%);
+            color: white;
+            border: none;
+            padding: 12px 30px;
+            border-radius: 8px;
+            font-size: 1rem;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .new-note-form button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(255, 152, 0, 0.4);
+        }
+
+        /* Bookmarks System */
+        .bookmarks-modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.7);
+            z-index: 10000;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .bookmarks-container {
+            background: white;
+            border-radius: 20px;
+            width: 90%;
+            max-width: 700px;
+            max-height: 85vh;
+            overflow: hidden;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+        }
+
+        .bookmarks-header {
+            background: linear-gradient(135deg, #e91e63 0%, #c2185b 100%);
+            color: white;
+            padding: 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .bookmarks-header h2 {
+            margin: 0;
+            font-size: 1.5rem;
+        }
+
+        .bookmarks-body {
+            padding: 20px;
+            max-height: 60vh;
+            overflow-y: auto;
+        }
+
+        .bookmark-item {
+            background: linear-gradient(135deg, #fce4ec 0%, #f8bbd9 100%);
+            border-radius: 12px;
+            padding: 15px;
+            margin-bottom: 12px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-left: 4px solid #e91e63;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .bookmark-item:hover {
+            transform: translateX(5px);
+            box-shadow: 0 5px 15px rgba(233, 30, 99, 0.2);
+        }
+
+        .bookmark-info {
+            flex: 1;
+        }
+
+        .bookmark-info .bookmark-title {
+            font-weight: bold;
+            color: #880e4f;
+            margin-bottom: 5px;
+        }
+
+        .bookmark-info .bookmark-topic {
+            font-size: 0.85rem;
+            color: #ad1457;
+        }
+
+        .bookmark-actions button {
+            background: #f44336;
+            color: white;
+            border: none;
+            padding: 8px 15px;
+            border-radius: 6px;
+            cursor: pointer;
+            font-size: 0.85rem;
+        }
+
+        .bookmark-btn {
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            background: transparent;
+            border: 2px solid #e91e63;
+            color: #e91e63;
+            width: 35px;
+            height: 35px;
+            border-radius: 50%;
+            cursor: pointer;
+            font-size: 1.2rem;
+            transition: all 0.3s ease;
+        }
+
+        .bookmark-btn.bookmarked {
+            background: #e91e63;
+            color: white;
+        }
+
+        .bookmark-btn:hover {
+            transform: scale(1.1);
+        }
+
+        /* Challenge Mode */
+        .challenge-modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.85);
+            z-index: 10000;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .challenge-container {
+            background: linear-gradient(135deg, #1a237e 0%, #283593 100%);
+            border-radius: 20px;
+            width: 95%;
+            max-width: 600px;
+            max-height: 90vh;
+            overflow: hidden;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.5);
+            border: 3px solid #ffd700;
+        }
+
+        .challenge-header {
+            background: linear-gradient(135deg, #ffd700 0%, #ffb300 100%);
+            color: #1a237e;
+            padding: 20px;
+            text-align: center;
+        }
+
+        .challenge-header h2 {
+            margin: 0;
+            font-size: 1.8rem;
+            font-weight: bold;
+        }
+
+        .challenge-timer {
+            font-size: 3rem;
+            color: #ffd700;
+            text-align: center;
+            font-family: 'Courier New', monospace;
+            padding: 20px;
+            text-shadow: 0 0 20px rgba(255, 215, 0, 0.5);
+        }
+
+        .challenge-timer.warning {
+            color: #ff5722;
+            animation: pulse 0.5s infinite;
+        }
+
+        .challenge-score {
+            display: flex;
+            justify-content: space-around;
+            padding: 15px;
+            color: white;
+        }
+
+        .challenge-score-item {
+            text-align: center;
+        }
+
+        .challenge-score-item .label {
+            font-size: 0.9rem;
+            opacity: 0.8;
+        }
+
+        .challenge-score-item .value {
+            font-size: 2rem;
+            font-weight: bold;
+            color: #ffd700;
+        }
+
+        .challenge-question {
+            background: rgba(255, 255, 255, 0.1);
+            margin: 0 20px;
+            padding: 20px;
+            border-radius: 15px;
+            color: white;
+        }
+
+        .challenge-question p {
+            font-size: 1.1rem;
+            margin-bottom: 15px;
+        }
+
+        .challenge-options {
+            display: grid;
+            gap: 10px;
+        }
+
+        .challenge-option {
+            background: rgba(255, 255, 255, 0.15);
+            border: 2px solid rgba(255, 255, 255, 0.3);
+            color: white;
+            padding: 15px;
+            border-radius: 10px;
+            cursor: pointer;
+            font-size: 1rem;
+            transition: all 0.2s ease;
+            text-align: left;
+        }
+
+        .challenge-option:hover {
+            background: rgba(255, 215, 0, 0.3);
+            border-color: #ffd700;
+            transform: scale(1.02);
+        }
+
+        .challenge-option.correct {
+            background: #4CAF50;
+            border-color: #4CAF50;
+        }
+
+        .challenge-option.incorrect {
+            background: #f44336;
+            border-color: #f44336;
+        }
+
+        .challenge-controls {
+            padding: 20px;
+            display: flex;
+            justify-content: center;
+            gap: 15px;
+        }
+
+        .challenge-start-btn {
+            background: linear-gradient(135deg, #ffd700 0%, #ffb300 100%);
+            color: #1a237e;
+            border: none;
+            padding: 15px 40px;
+            border-radius: 30px;
+            font-size: 1.2rem;
+            font-weight: bold;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .challenge-start-btn:hover {
+            transform: scale(1.05);
+            box-shadow: 0 10px 30px rgba(255, 215, 0, 0.5);
+        }
+
+        .challenge-quit-btn {
+            background: rgba(255, 255, 255, 0.2);
+            color: white;
+            border: 2px solid white;
+            padding: 12px 30px;
+            border-radius: 30px;
+            font-size: 1rem;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .challenge-quit-btn:hover {
+            background: rgba(255, 255, 255, 0.3);
+        }
+
+        .challenge-result {
+            text-align: center;
+            padding: 30px;
+            color: white;
+        }
+
+        .challenge-result h3 {
+            font-size: 2rem;
+            color: #ffd700;
+            margin-bottom: 20px;
+        }
+
+        .challenge-result .final-score {
+            font-size: 4rem;
+            font-weight: bold;
+            color: #ffd700;
+            text-shadow: 0 0 30px rgba(255, 215, 0, 0.5);
+        }
+
+        .challenge-result .reward {
+            background: linear-gradient(135deg, #4CAF50 0%, #8BC34A 100%);
+            display: inline-block;
+            padding: 15px 30px;
+            border-radius: 30px;
+            margin-top: 20px;
+            font-size: 1.2rem;
+            font-weight: bold;
+        }
+
+        .challenge-setup {
+            padding: 20px;
+            color: white;
+        }
+
+        .challenge-setup h3 {
+            text-align: center;
+            color: #ffd700;
+            margin-bottom: 20px;
+        }
+
+        .challenge-difficulty {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 15px;
+            margin-bottom: 20px;
+        }
+
+        .difficulty-btn {
+            background: rgba(255, 255, 255, 0.1);
+            border: 2px solid rgba(255, 255, 255, 0.3);
+            color: white;
+            padding: 20px 10px;
+            border-radius: 12px;
+            cursor: pointer;
+            text-align: center;
+            transition: all 0.3s ease;
+        }
+
+        .difficulty-btn:hover, .difficulty-btn.selected {
+            border-color: #ffd700;
+            background: rgba(255, 215, 0, 0.2);
+        }
+
+        .difficulty-btn .diff-name {
+            font-size: 1.2rem;
+            font-weight: bold;
+            margin-bottom: 5px;
+        }
+
+        .difficulty-btn .diff-desc {
+            font-size: 0.8rem;
+            opacity: 0.8;
+        }
+
+        /* Floating buttons for new features */
+        .floating-notes-btn {
+            position: fixed;
+            bottom: 2380px;
+            right: 20px;
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, #ff9800 0%, #f57c00 100%);
+            color: white;
+            border: none;
+            font-size: 1.3rem;
+            cursor: pointer;
+            box-shadow: 0 5px 20px rgba(255, 152, 0, 0.4);
+            z-index: 999;
+            transition: all 0.3s ease;
+        }
+
+        .floating-notes-btn:hover {
+            transform: scale(1.1);
+        }
+
+        .floating-bookmarks-btn {
+            position: fixed;
+            bottom: 2440px;
+            right: 20px;
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, #e91e63 0%, #c2185b 100%);
+            color: white;
+            border: none;
+            font-size: 1.3rem;
+            cursor: pointer;
+            box-shadow: 0 5px 20px rgba(233, 30, 99, 0.4);
+            z-index: 999;
+            transition: all 0.3s ease;
+        }
+
+        .floating-bookmarks-btn:hover {
+            transform: scale(1.1);
+        }
+
+        .floating-challenge-btn {
+            position: fixed;
+            bottom: 2500px;
+            right: 20px;
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, #1a237e 0%, #283593 100%);
+            color: #ffd700;
+            border: 2px solid #ffd700;
+            font-size: 1.3rem;
+            cursor: pointer;
+            box-shadow: 0 5px 20px rgba(26, 35, 126, 0.4);
+            z-index: 999;
+            transition: all 0.3s ease;
+        }
+
+        .floating-challenge-btn:hover {
+            transform: scale(1.1);
+        }
+
+        .no-bookmarks, .no-notes {
+            text-align: center;
+            padding: 40px;
+            color: #999;
+        }
+
+        .no-bookmarks p, .no-notes p {
+            font-size: 1.2rem;
+            margin-bottom: 10px;
+        }
     </style>
 </head>
 
@@ -44020,6 +44572,493 @@ Science Made Fun!
         resetDailyHints();
 
         console.log('💡 Hint System, Stats Dashboard, and Weekly Report loaded!');
+    </script>
+
+    <!-- ========== BATCH 35: Note-Taking, Bookmarks, Challenge Mode ========== -->
+
+    <!-- Notes Modal -->
+    <div class="notes-modal" id="notes-modal">
+        <div class="notes-container">
+            <div class="notes-header">
+                <h2>📝 My Study Notes</h2>
+                <button onclick="closeNotes()" style="background: none; border: none; color: white; font-size: 1.5rem; cursor: pointer;">✕</button>
+            </div>
+            <div class="notes-body">
+                <div class="new-note-form">
+                    <input type="text" id="note-title-input" placeholder="Note title (e.g., Heat Transfer Summary)">
+                    <textarea id="note-content-input" placeholder="Write your notes here..."></textarea>
+                    <button onclick="addNewNote()">Save Note</button>
+                </div>
+                <h3 style="color: #e65100; margin-bottom: 15px;">Your Notes</h3>
+                <div id="notes-list"></div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Bookmarks Modal -->
+    <div class="bookmarks-modal" id="bookmarks-modal">
+        <div class="bookmarks-container">
+            <div class="bookmarks-header">
+                <h2>🔖 Saved Questions</h2>
+                <button onclick="closeBookmarks()" style="background: none; border: none; color: white; font-size: 1.5rem; cursor: pointer;">✕</button>
+            </div>
+            <div class="bookmarks-body" id="bookmarks-list">
+            </div>
+        </div>
+    </div>
+
+    <!-- Challenge Mode Modal -->
+    <div class="challenge-modal" id="challenge-modal">
+        <div class="challenge-container">
+            <div class="challenge-header">
+                <h2>⚔️ CHALLENGE MODE</h2>
+            </div>
+
+            <!-- Setup Screen -->
+            <div id="challenge-setup" class="challenge-setup">
+                <h3>Select Difficulty</h3>
+                <div class="challenge-difficulty">
+                    <button class="difficulty-btn selected" onclick="selectDifficulty('easy', this)">
+                        <div class="diff-name">Easy</div>
+                        <div class="diff-desc">60 seconds<br>5 questions</div>
+                    </button>
+                    <button class="difficulty-btn" onclick="selectDifficulty('medium', this)">
+                        <div class="diff-name">Medium</div>
+                        <div class="diff-desc">45 seconds<br>8 questions</div>
+                    </button>
+                    <button class="difficulty-btn" onclick="selectDifficulty('hard', this)">
+                        <div class="diff-name">Hard</div>
+                        <div class="diff-desc">30 seconds<br>10 questions</div>
+                    </button>
+                </div>
+                <div class="challenge-controls">
+                    <button class="challenge-start-btn" onclick="startChallenge()">START CHALLENGE</button>
+                    <button class="challenge-quit-btn" onclick="closeChallenge()">Cancel</button>
+                </div>
+            </div>
+
+            <!-- Game Screen -->
+            <div id="challenge-game" style="display: none;">
+                <div class="challenge-timer" id="challenge-timer">60</div>
+                <div class="challenge-score">
+                    <div class="challenge-score-item">
+                        <div class="label">Correct</div>
+                        <div class="value" id="challenge-correct">0</div>
+                    </div>
+                    <div class="challenge-score-item">
+                        <div class="label">Question</div>
+                        <div class="value" id="challenge-current">1/5</div>
+                    </div>
+                    <div class="challenge-score-item">
+                        <div class="label">Score</div>
+                        <div class="value" id="challenge-points">0</div>
+                    </div>
+                </div>
+                <div class="challenge-question" id="challenge-question-area">
+                    <p id="challenge-question-text">Question will appear here...</p>
+                    <div class="challenge-options" id="challenge-options"></div>
+                </div>
+                <div class="challenge-controls">
+                    <button class="challenge-quit-btn" onclick="quitChallenge()">Quit Challenge</button>
+                </div>
+            </div>
+
+            <!-- Result Screen -->
+            <div id="challenge-result" class="challenge-result" style="display: none;">
+                <h3>CHALLENGE COMPLETE!</h3>
+                <div class="final-score" id="challenge-final-score">0</div>
+                <p>Points Earned</p>
+                <div class="reward" id="challenge-reward">+0 XP Bonus!</div>
+                <div class="challenge-controls" style="margin-top: 30px;">
+                    <button class="challenge-start-btn" onclick="resetChallenge()">Play Again</button>
+                    <button class="challenge-quit-btn" onclick="closeChallenge()">Close</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Floating Buttons -->
+    <button class="floating-notes-btn" onclick="openNotes()" title="Study Notes">📝</button>
+    <button class="floating-bookmarks-btn" onclick="openBookmarks()" title="Bookmarks">🔖</button>
+    <button class="floating-challenge-btn" onclick="openChallenge()" title="Challenge Mode">⚔️</button>
+
+    <script>
+        // ========== BATCH 35: Note-Taking, Bookmarks, Challenge Mode ==========
+
+        // Note-Taking System
+        let studyNotes = JSON.parse(localStorage.getItem('scienceStudyNotes')) || [];
+
+        function openNotes() {
+            document.getElementById('notes-modal').style.display = 'flex';
+            renderNotes();
+        }
+
+        function closeNotes() {
+            document.getElementById('notes-modal').style.display = 'none';
+        }
+
+        function addNewNote() {
+            const title = document.getElementById('note-title-input').value.trim();
+            const content = document.getElementById('note-content-input').value.trim();
+
+            if (!title || !content) {
+                alert('Please enter both a title and content for your note.');
+                return;
+            }
+
+            const note = {
+                id: Date.now(),
+                title: title,
+                content: content,
+                date: new Date().toLocaleDateString()
+            };
+
+            studyNotes.unshift(note);
+            localStorage.setItem('scienceStudyNotes', JSON.stringify(studyNotes));
+
+            document.getElementById('note-title-input').value = '';
+            document.getElementById('note-content-input').value = '';
+
+            renderNotes();
+
+            // Award XP for taking notes
+            if (typeof addXP === 'function') {
+                addXP(5);
+            }
+        }
+
+        function deleteNote(noteId) {
+            studyNotes = studyNotes.filter(n => n.id !== noteId);
+            localStorage.setItem('scienceStudyNotes', JSON.stringify(studyNotes));
+            renderNotes();
+        }
+
+        function renderNotes() {
+            const container = document.getElementById('notes-list');
+
+            if (studyNotes.length === 0) {
+                container.innerHTML = `
+                    <div class="no-notes">
+                        <p>📝 No notes yet!</p>
+                        <p style="font-size: 0.9rem;">Start taking notes to help remember key concepts.</p>
+                    </div>
+                `;
+                return;
+            }
+
+            container.innerHTML = studyNotes.map(note => `
+                <div class="note-item">
+                    <button class="note-delete" onclick="deleteNote(${note.id})">✕</button>
+                    <div class="note-title">${note.title}</div>
+                    <div class="note-content">${note.content}</div>
+                    <div class="note-date">Created: ${note.date}</div>
+                </div>
+            `).join('');
+        }
+
+        // Bookmarks System
+        let questionBookmarks = JSON.parse(localStorage.getItem('scienceBookmarks')) || [];
+
+        function openBookmarks() {
+            document.getElementById('bookmarks-modal').style.display = 'flex';
+            renderBookmarks();
+        }
+
+        function closeBookmarks() {
+            document.getElementById('bookmarks-modal').style.display = 'none';
+        }
+
+        function toggleBookmark(questionId, topic, questionNum) {
+            const existingIndex = questionBookmarks.findIndex(b => b.id === questionId);
+
+            if (existingIndex >= 0) {
+                questionBookmarks.splice(existingIndex, 1);
+            } else {
+                questionBookmarks.push({
+                    id: questionId,
+                    topic: topic,
+                    questionNum: questionNum,
+                    date: new Date().toLocaleDateString()
+                });
+            }
+
+            localStorage.setItem('scienceBookmarks', JSON.stringify(questionBookmarks));
+            updateBookmarkButtons();
+        }
+
+        function isBookmarked(questionId) {
+            return questionBookmarks.some(b => b.id === questionId);
+        }
+
+        function updateBookmarkButtons() {
+            document.querySelectorAll('.bookmark-btn').forEach(btn => {
+                const questionId = btn.dataset.questionId;
+                if (isBookmarked(questionId)) {
+                    btn.classList.add('bookmarked');
+                    btn.innerHTML = '★';
+                } else {
+                    btn.classList.remove('bookmarked');
+                    btn.innerHTML = '☆';
+                }
+            });
+        }
+
+        function removeBookmark(questionId) {
+            questionBookmarks = questionBookmarks.filter(b => b.id !== questionId);
+            localStorage.setItem('scienceBookmarks', JSON.stringify(questionBookmarks));
+            renderBookmarks();
+            updateBookmarkButtons();
+        }
+
+        function renderBookmarks() {
+            const container = document.getElementById('bookmarks-list');
+
+            if (questionBookmarks.length === 0) {
+                container.innerHTML = `
+                    <div class="no-bookmarks">
+                        <p>🔖 No bookmarks yet!</p>
+                        <p style="font-size: 0.9rem;">Bookmark questions you want to review later.</p>
+                    </div>
+                `;
+                return;
+            }
+
+            container.innerHTML = questionBookmarks.map(bookmark => `
+                <div class="bookmark-item" onclick="goToBookmark('${bookmark.topic}', ${bookmark.questionNum})">
+                    <div class="bookmark-info">
+                        <div class="bookmark-title">${bookmark.topic} - Question ${bookmark.questionNum}</div>
+                        <div class="bookmark-topic">Saved on ${bookmark.date}</div>
+                    </div>
+                    <div class="bookmark-actions">
+                        <button onclick="event.stopPropagation(); removeBookmark('${bookmark.id}')">Remove</button>
+                    </div>
+                </div>
+            `).join('');
+        }
+
+        function goToBookmark(topic, questionNum) {
+            closeBookmarks();
+            // Navigate to the bookmarked question
+            if (typeof switchTab === 'function') {
+                switchTab('cer');
+            }
+            // Show the topic
+            const topicElement = document.getElementById(`topic-${topic.toLowerCase()}`);
+            if (topicElement) {
+                document.querySelectorAll('.topic-content').forEach(t => t.classList.add('hidden'));
+                topicElement.classList.remove('hidden');
+            }
+        }
+
+        // Challenge Mode System
+        let challengeState = {
+            difficulty: 'easy',
+            timeLimit: 60,
+            totalQuestions: 5,
+            currentQuestion: 0,
+            correct: 0,
+            score: 0,
+            timer: null,
+            timeRemaining: 60,
+            questions: []
+        };
+
+        const challengeQuestions = [
+            { q: "What is the process by which plants make food using sunlight?", options: ["Photosynthesis", "Respiration", "Digestion", "Fermentation"], answer: 0 },
+            { q: "Which organ pumps blood throughout the body?", options: ["Lungs", "Heart", "Liver", "Brain"], answer: 1 },
+            { q: "What is the chemical symbol for water?", options: ["WA", "H2O", "O2", "HO2"], answer: 1 },
+            { q: "Which force pulls objects towards Earth?", options: ["Friction", "Magnetic force", "Gravity", "Tension"], answer: 2 },
+            { q: "What type of energy does a moving car have?", options: ["Potential energy", "Chemical energy", "Kinetic energy", "Sound energy"], answer: 2 },
+            { q: "Which material is a good conductor of heat?", options: ["Wood", "Plastic", "Metal", "Rubber"], answer: 2 },
+            { q: "What do we call the change from liquid to gas?", options: ["Melting", "Evaporation", "Condensation", "Freezing"], answer: 1 },
+            { q: "Which planet is closest to the Sun?", options: ["Venus", "Earth", "Mercury", "Mars"], answer: 2 },
+            { q: "What type of circuit has only one path for electricity?", options: ["Parallel circuit", "Series circuit", "Open circuit", "Closed circuit"], answer: 1 },
+            { q: "Which part of the plant absorbs water from soil?", options: ["Leaves", "Stem", "Roots", "Flowers"], answer: 2 },
+            { q: "What is the hard outer layer of Earth called?", options: ["Core", "Mantle", "Crust", "Magma"], answer: 2 },
+            { q: "Which gas do humans breathe out?", options: ["Oxygen", "Nitrogen", "Carbon dioxide", "Hydrogen"], answer: 2 },
+            { q: "What type of lens is used to correct short-sightedness?", options: ["Convex lens", "Concave lens", "Flat lens", "Prism"], answer: 1 },
+            { q: "Which state of matter has a fixed shape and volume?", options: ["Liquid", "Gas", "Solid", "Plasma"], answer: 2 },
+            { q: "What is the main source of energy for life on Earth?", options: ["Moon", "Wind", "Sun", "Water"], answer: 2 },
+            { q: "Which animal group has feathers?", options: ["Mammals", "Reptiles", "Birds", "Fish"], answer: 2 },
+            { q: "What instrument measures temperature?", options: ["Barometer", "Thermometer", "Ruler", "Scale"], answer: 1 },
+            { q: "Which vitamin do we get from sunlight?", options: ["Vitamin A", "Vitamin B", "Vitamin C", "Vitamin D"], answer: 3 },
+            { q: "What is the boiling point of water in Celsius?", options: ["0°C", "50°C", "100°C", "212°C"], answer: 2 },
+            { q: "Which organ filters waste from blood?", options: ["Heart", "Lungs", "Kidneys", "Stomach"], answer: 2 }
+        ];
+
+        function openChallenge() {
+            document.getElementById('challenge-modal').style.display = 'flex';
+            document.getElementById('challenge-setup').style.display = 'block';
+            document.getElementById('challenge-game').style.display = 'none';
+            document.getElementById('challenge-result').style.display = 'none';
+        }
+
+        function closeChallenge() {
+            document.getElementById('challenge-modal').style.display = 'none';
+            if (challengeState.timer) {
+                clearInterval(challengeState.timer);
+            }
+        }
+
+        function selectDifficulty(difficulty, btn) {
+            document.querySelectorAll('.difficulty-btn').forEach(b => b.classList.remove('selected'));
+            btn.classList.add('selected');
+            challengeState.difficulty = difficulty;
+
+            if (difficulty === 'easy') {
+                challengeState.timeLimit = 60;
+                challengeState.totalQuestions = 5;
+            } else if (difficulty === 'medium') {
+                challengeState.timeLimit = 45;
+                challengeState.totalQuestions = 8;
+            } else {
+                challengeState.timeLimit = 30;
+                challengeState.totalQuestions = 10;
+            }
+        }
+
+        function startChallenge() {
+            // Reset state
+            challengeState.currentQuestion = 0;
+            challengeState.correct = 0;
+            challengeState.score = 0;
+            challengeState.timeRemaining = challengeState.timeLimit;
+
+            // Shuffle and select questions
+            const shuffled = [...challengeQuestions].sort(() => Math.random() - 0.5);
+            challengeState.questions = shuffled.slice(0, challengeState.totalQuestions);
+
+            // Show game screen
+            document.getElementById('challenge-setup').style.display = 'none';
+            document.getElementById('challenge-game').style.display = 'block';
+            document.getElementById('challenge-result').style.display = 'none';
+
+            // Start timer
+            updateTimerDisplay();
+            challengeState.timer = setInterval(() => {
+                challengeState.timeRemaining--;
+                updateTimerDisplay();
+
+                if (challengeState.timeRemaining <= 0) {
+                    endChallenge();
+                }
+            }, 1000);
+
+            // Show first question
+            showChallengeQuestion();
+        }
+
+        function updateTimerDisplay() {
+            const timerEl = document.getElementById('challenge-timer');
+            timerEl.textContent = challengeState.timeRemaining;
+
+            if (challengeState.timeRemaining <= 10) {
+                timerEl.classList.add('warning');
+            } else {
+                timerEl.classList.remove('warning');
+            }
+        }
+
+        function showChallengeQuestion() {
+            const q = challengeState.questions[challengeState.currentQuestion];
+            document.getElementById('challenge-question-text').textContent = q.q;
+            document.getElementById('challenge-current').textContent = `${challengeState.currentQuestion + 1}/${challengeState.totalQuestions}`;
+            document.getElementById('challenge-correct').textContent = challengeState.correct;
+            document.getElementById('challenge-points').textContent = challengeState.score;
+
+            const optionsContainer = document.getElementById('challenge-options');
+            optionsContainer.innerHTML = q.options.map((opt, i) => `
+                <button class="challenge-option" onclick="selectChallengeAnswer(${i})">${opt}</button>
+            `).join('');
+        }
+
+        function selectChallengeAnswer(selectedIndex) {
+            const q = challengeState.questions[challengeState.currentQuestion];
+            const options = document.querySelectorAll('.challenge-option');
+
+            options.forEach((opt, i) => {
+                opt.disabled = true;
+                if (i === q.answer) {
+                    opt.classList.add('correct');
+                } else if (i === selectedIndex && selectedIndex !== q.answer) {
+                    opt.classList.add('incorrect');
+                }
+            });
+
+            if (selectedIndex === q.answer) {
+                challengeState.correct++;
+                // More points for harder difficulty and remaining time
+                let points = 10;
+                if (challengeState.difficulty === 'medium') points = 15;
+                if (challengeState.difficulty === 'hard') points = 25;
+                points += Math.floor(challengeState.timeRemaining / 5); // Bonus for speed
+                challengeState.score += points;
+            }
+
+            // Move to next question after delay
+            setTimeout(() => {
+                challengeState.currentQuestion++;
+                if (challengeState.currentQuestion >= challengeState.totalQuestions) {
+                    endChallenge();
+                } else {
+                    showChallengeQuestion();
+                }
+            }, 1000);
+        }
+
+        function endChallenge() {
+            clearInterval(challengeState.timer);
+
+            document.getElementById('challenge-game').style.display = 'none';
+            document.getElementById('challenge-result').style.display = 'block';
+
+            document.getElementById('challenge-final-score').textContent = challengeState.score;
+
+            // Calculate XP reward
+            let xpReward = challengeState.score;
+            if (challengeState.correct === challengeState.totalQuestions) {
+                xpReward += 50; // Perfect bonus
+            }
+
+            document.getElementById('challenge-reward').textContent = `+${xpReward} XP Bonus!`;
+
+            // Award XP
+            if (typeof addXP === 'function') {
+                addXP(xpReward);
+            }
+
+            // Track stats
+            let challengeStats = JSON.parse(localStorage.getItem('challengeStats')) || { played: 0, won: 0, totalScore: 0 };
+            challengeStats.played++;
+            challengeStats.totalScore += challengeState.score;
+            if (challengeState.correct >= challengeState.totalQuestions / 2) {
+                challengeStats.won++;
+            }
+            localStorage.setItem('challengeStats', JSON.stringify(challengeStats));
+        }
+
+        function quitChallenge() {
+            if (confirm('Are you sure you want to quit? Your progress will be lost.')) {
+                clearInterval(challengeState.timer);
+                closeChallenge();
+            }
+        }
+
+        function resetChallenge() {
+            document.getElementById('challenge-setup').style.display = 'block';
+            document.getElementById('challenge-game').style.display = 'none';
+            document.getElementById('challenge-result').style.display = 'none';
+        }
+
+        // Keyboard shortcut for challenge mode
+        document.addEventListener('keydown', function(e) {
+            if (e.key === 'c' && e.ctrlKey && e.shiftKey) {
+                e.preventDefault();
+                openChallenge();
+            }
+        });
+
+        console.log('📝 Note-Taking, Bookmarks, and Challenge Mode loaded!');
     </script>
 
     <!-- PowerPoint-style Table Grid Selector (positioned fixed, outside all containers) -->
