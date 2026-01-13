@@ -26193,6 +26193,262 @@
             font-size: 0.8rem;
             color: #666;
         }
+
+        /* Batch 67: Hint System */
+        .hint-system-btn {
+            position: fixed;
+            left: 18px;
+            bottom: 1310px;
+            width: 56px;
+            height: 56px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, #00acc1 0%, #00838f 100%);
+            color: white;
+            border: none;
+            font-size: 24px;
+            cursor: pointer;
+            box-shadow: 0 4px 15px rgba(0, 172, 193, 0.4);
+            z-index: 999;
+            transition: all 0.3s ease;
+        }
+
+        .hint-system-btn:hover {
+            transform: scale(1.1);
+        }
+
+        .hint-modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.7);
+            z-index: 10000;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .hint-content {
+            background: white;
+            border-radius: 20px;
+            padding: 30px;
+            max-width: 500px;
+            width: 90%;
+            max-height: 85vh;
+            overflow-y: auto;
+        }
+
+        .hint-question-box {
+            background: #e0f7fa;
+            border-radius: 15px;
+            padding: 20px;
+            margin: 15px 0;
+        }
+
+        .hint-box {
+            background: linear-gradient(135deg, #fff8e1 0%, #ffecb3 100%);
+            border: 2px solid #00acc1;
+            border-radius: 15px;
+            padding: 20px;
+            margin: 15px 0;
+            text-align: center;
+        }
+
+        .hint-icon {
+            font-size: 2rem;
+            margin-bottom: 10px;
+        }
+
+        .hint-text {
+            color: #00838f;
+            font-size: 1.1rem;
+        }
+
+        .hint-option {
+            display: block;
+            width: 100%;
+            padding: 12px;
+            margin: 8px 0;
+            background: white;
+            border: 2px solid #00acc1;
+            border-radius: 10px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .hint-option:hover {
+            background: #e0f7fa;
+        }
+
+        .hint-option.eliminated {
+            background: #ffebee;
+            border-color: #ef9a9a;
+            text-decoration: line-through;
+            opacity: 0.5;
+        }
+
+        /* Revision Notes */
+        .revision-notes-btn {
+            position: fixed;
+            right: 18px;
+            bottom: 830px;
+            width: 56px;
+            height: 56px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, #7cb342 0%, #558b2f 100%);
+            color: white;
+            border: none;
+            font-size: 24px;
+            cursor: pointer;
+            box-shadow: 0 4px 15px rgba(124, 179, 66, 0.4);
+            z-index: 999;
+            transition: all 0.3s ease;
+        }
+
+        .revision-notes-btn:hover {
+            transform: scale(1.1);
+        }
+
+        .revision-modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.7);
+            z-index: 10000;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .revision-content {
+            background: white;
+            border-radius: 20px;
+            padding: 30px;
+            max-width: 600px;
+            width: 90%;
+            max-height: 85vh;
+            overflow-y: auto;
+        }
+
+        .revision-topic-select {
+            width: 100%;
+            padding: 12px;
+            border: 2px solid #7cb342;
+            border-radius: 10px;
+            font-size: 1rem;
+            margin-bottom: 15px;
+        }
+
+        .revision-card {
+            background: #f1f8e9;
+            border-left: 4px solid #7cb342;
+            padding: 15px;
+            margin: 12px 0;
+            border-radius: 0 10px 10px 0;
+        }
+
+        .revision-card-title {
+            font-weight: bold;
+            color: #558b2f;
+            margin-bottom: 8px;
+        }
+
+        .revision-card-content {
+            color: #333;
+            line-height: 1.6;
+        }
+
+        /* Score History */
+        .score-history-btn {
+            position: fixed;
+            left: 18px;
+            bottom: 1350px;
+            width: 56px;
+            height: 56px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, #ab47bc 0%, #8e24aa 100%);
+            color: white;
+            border: none;
+            font-size: 24px;
+            cursor: pointer;
+            box-shadow: 0 4px 15px rgba(171, 71, 188, 0.4);
+            z-index: 999;
+            transition: all 0.3s ease;
+        }
+
+        .score-history-btn:hover {
+            transform: scale(1.1);
+        }
+
+        .history-modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.7);
+            z-index: 10000;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .history-content {
+            background: white;
+            border-radius: 20px;
+            padding: 30px;
+            max-width: 550px;
+            width: 90%;
+            max-height: 85vh;
+            overflow-y: auto;
+        }
+
+        .history-entry {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 15px;
+            background: #f3e5f5;
+            border-radius: 12px;
+            margin: 10px 0;
+        }
+
+        .history-entry-date {
+            font-size: 0.85rem;
+            color: #666;
+        }
+
+        .history-entry-type {
+            font-weight: bold;
+            color: #8e24aa;
+        }
+
+        .history-entry-score {
+            font-size: 1.3rem;
+            font-weight: bold;
+            color: #ab47bc;
+        }
+
+        .history-chart {
+            display: flex;
+            align-items: flex-end;
+            justify-content: space-around;
+            height: 120px;
+            padding: 15px 0;
+            background: #fce4ec;
+            border-radius: 15px;
+            margin-bottom: 20px;
+        }
+
+        .history-bar {
+            width: 20px;
+            background: linear-gradient(to top, #ab47bc 0%, #ce93d8 100%);
+            border-radius: 5px 5px 0 0;
+            transition: height 0.5s ease;
+        }
     </style>
 </head>
 
@@ -67710,6 +67966,266 @@ This report was generated from the Science CER Practice App.
         }
 
         console.log('🔍 Topic Explorer, Question Bank, and Study Streak Calendar loaded!');
+    </script>
+
+    <!-- Batch 67: Hint System Button -->
+    <button class="hint-system-btn" onclick="openHintSystem()" title="Hint Quiz">💡</button>
+
+    <!-- Hint System Modal -->
+    <div class="hint-modal" id="hint-modal">
+        <div class="hint-content">
+            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px;">
+                <h2 style="margin: 0; color: #00acc1;">💡 Hint Quiz</h2>
+                <button onclick="closeHintSystem()" style="background: none; border: none; font-size: 1.5rem; cursor: pointer;">✕</button>
+            </div>
+            <div id="hint-quiz-content"></div>
+        </div>
+    </div>
+
+    <!-- Revision Notes Button -->
+    <button class="revision-notes-btn" onclick="openRevisionNotes()" title="Revision Notes">📖</button>
+
+    <!-- Revision Notes Modal -->
+    <div class="revision-modal" id="revision-modal">
+        <div class="revision-content">
+            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px;">
+                <h2 style="margin: 0; color: #7cb342;">📖 Revision Notes</h2>
+                <button onclick="closeRevisionNotes()" style="background: none; border: none; font-size: 1.5rem; cursor: pointer;">✕</button>
+            </div>
+            <div id="revision-content"></div>
+        </div>
+    </div>
+
+    <!-- Score History Button -->
+    <button class="score-history-btn" onclick="openScoreHistory()" title="Score History">📊</button>
+
+    <!-- Score History Modal -->
+    <div class="history-modal" id="history-modal">
+        <div class="history-content">
+            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px;">
+                <h2 style="margin: 0; color: #ab47bc;">📊 Score History</h2>
+                <button onclick="closeScoreHistory()" style="background: none; border: none; font-size: 1.5rem; cursor: pointer;">✕</button>
+            </div>
+            <div id="history-content"></div>
+        </div>
+    </div>
+
+    <script>
+        // Batch 67: Hint System
+        const hintQuestions = [
+            { q: 'What is the powerhouse of the cell?', opts: ['Nucleus', 'Mitochondria', 'Ribosome', 'Golgi'], a: 1, hint: 'It produces ATP energy' },
+            { q: 'What is the chemical symbol for gold?', opts: ['Go', 'Gd', 'Au', 'Ag'], a: 2, hint: 'It comes from the Latin word "Aurum"' },
+            { q: 'What force keeps planets in orbit?', opts: ['Magnetism', 'Friction', 'Gravity', 'Electricity'], a: 2, hint: 'Isaac Newton discovered this force' },
+            { q: 'What is the pH of neutral water?', opts: ['0', '7', '14', '1'], a: 1, hint: 'It\'s right in the middle of the scale' },
+            { q: 'Which planet is largest?', opts: ['Saturn', 'Neptune', 'Jupiter', 'Uranus'], a: 2, hint: 'It has a famous red spot' }
+        ];
+
+        let hintQIndex = 0;
+        let hintShown = false;
+        let eliminatedOptions = [];
+        let hintsRemaining = 3;
+
+        function openHintSystem() {
+            document.getElementById('hint-modal').style.display = 'flex';
+            hintQIndex = 0;
+            hintsRemaining = 3;
+            showHintQuestion();
+        }
+
+        function closeHintSystem() {
+            document.getElementById('hint-modal').style.display = 'none';
+        }
+
+        function showHintQuestion() {
+            const content = document.getElementById('hint-quiz-content');
+            const q = hintQuestions[hintQIndex];
+            hintShown = false;
+            eliminatedOptions = [];
+
+            content.innerHTML = `
+                <div style="display: flex; justify-content: space-between; margin-bottom: 10px;">
+                    <span style="color: #666;">Question ${hintQIndex + 1} of ${hintQuestions.length}</span>
+                    <span style="color: #00acc1; font-weight: bold;">Hints: ${hintsRemaining}</span>
+                </div>
+                <div class="hint-question-box">
+                    <h3 style="margin: 0; color: #00838f;">${q.q}</h3>
+                </div>
+                <div id="hint-options">
+                    ${q.opts.map((opt, i) => `
+                        <button class="hint-option" id="hint-opt-${i}" onclick="answerHintQuiz(${i}, ${q.a})">${opt}</button>
+                    `).join('')}
+                </div>
+                <div style="display: flex; gap: 10px; margin-top: 15px;">
+                    <button onclick="useHint()" style="flex: 1; padding: 12px; background: ${hintsRemaining > 0 ? '#00acc1' : '#ccc'}; color: white; border: none; border-radius: 10px; cursor: ${hintsRemaining > 0 ? 'pointer' : 'not-allowed'};" ${hintsRemaining <= 0 ? 'disabled' : ''}>💡 Use Hint</button>
+                    <button onclick="eliminate5050()" style="flex: 1; padding: 12px; background: ${hintsRemaining > 0 ? '#ff9800' : '#ccc'}; color: white; border: none; border-radius: 10px; cursor: ${hintsRemaining > 0 ? 'pointer' : 'not-allowed'};" ${hintsRemaining <= 0 ? 'disabled' : ''}>50/50</button>
+                </div>
+                <div id="hint-display" style="display: none;"></div>
+            `;
+        }
+
+        function useHint() {
+            if (hintsRemaining <= 0 || hintShown) return;
+            hintsRemaining--;
+            hintShown = true;
+            const q = hintQuestions[hintQIndex];
+            document.getElementById('hint-display').style.display = 'block';
+            document.getElementById('hint-display').innerHTML = `
+                <div class="hint-box">
+                    <div class="hint-icon">💡</div>
+                    <div class="hint-text">${q.hint}</div>
+                </div>
+            `;
+            showHintQuestion();
+        }
+
+        function eliminate5050() {
+            if (hintsRemaining <= 0 || eliminatedOptions.length > 0) return;
+            hintsRemaining--;
+            const q = hintQuestions[hintQIndex];
+            const wrongOptions = [0, 1, 2, 3].filter(i => i !== q.a);
+            eliminatedOptions = wrongOptions.sort(() => Math.random() - 0.5).slice(0, 2);
+            eliminatedOptions.forEach(i => {
+                document.getElementById(`hint-opt-${i}`).classList.add('eliminated');
+                document.getElementById(`hint-opt-${i}`).disabled = true;
+            });
+            showHintQuestion();
+        }
+
+        function answerHintQuiz(selected, correct) {
+            const isCorrect = selected === correct;
+            hintQIndex++;
+            if (hintQIndex < hintQuestions.length) {
+                setTimeout(showHintQuestion, 500);
+            } else {
+                showHintResults(isCorrect);
+            }
+            if (isCorrect) addXP(10);
+        }
+
+        function showHintResults(lastCorrect) {
+            const content = document.getElementById('hint-quiz-content');
+            content.innerHTML = `
+                <div style="text-align: center; padding: 30px;">
+                    <div style="font-size: 4rem; margin-bottom: 15px;">🎉</div>
+                    <h2 style="color: #00acc1;">Quiz Complete!</h2>
+                    <p>You used ${3 - hintsRemaining} hints</p>
+                    <button onclick="openHintSystem()" style="margin-top: 20px; padding: 12px 30px; background: #00acc1; color: white; border: none; border-radius: 25px; cursor: pointer;">Play Again</button>
+                </div>
+            `;
+        }
+
+        // Revision Notes
+        const revisionNotes = {
+            physics: {
+                name: 'Physics',
+                notes: [
+                    { title: 'Newton\'s Laws', content: '1st: Objects at rest stay at rest. 2nd: F=ma. 3rd: Every action has an equal and opposite reaction.' },
+                    { title: 'Energy Types', content: 'Kinetic (motion), Potential (stored), Thermal (heat), Electrical, Chemical, Nuclear, Sound, Light.' },
+                    { title: 'Waves', content: 'Transverse waves move perpendicular to energy. Longitudinal waves move parallel. Wave speed = frequency × wavelength.' },
+                    { title: 'Electricity', content: 'Current (I) = Charge/Time. Voltage (V) = Energy/Charge. Resistance (R) opposes current. Ohm\'s Law: V=IR.' }
+                ]
+            },
+            chemistry: {
+                name: 'Chemistry',
+                notes: [
+                    { title: 'Atomic Structure', content: 'Atoms have protons (+), neutrons (neutral) in nucleus, and electrons (-) in shells. Atomic number = protons.' },
+                    { title: 'Chemical Bonding', content: 'Ionic: electron transfer. Covalent: electron sharing. Metallic: sea of electrons.' },
+                    { title: 'Acids & Bases', content: 'Acids: pH < 7, donate H+. Bases: pH > 7, accept H+. Neutralization produces salt + water.' },
+                    { title: 'Reactions', content: 'Exothermic releases energy. Endothermic absorbs energy. Catalysts speed up reactions without being consumed.' }
+                ]
+            },
+            biology: {
+                name: 'Biology',
+                notes: [
+                    { title: 'Cell Structure', content: 'Nucleus: DNA storage. Mitochondria: energy. Ribosomes: protein synthesis. Cell membrane: barrier.' },
+                    { title: 'Photosynthesis', content: '6CO₂ + 6H₂O + light → C₆H₁₂O₆ + 6O₂. Occurs in chloroplasts using chlorophyll.' },
+                    { title: 'Respiration', content: 'C₆H₁₂O₆ + 6O₂ → 6CO₂ + 6H₂O + ATP. Occurs in mitochondria. Releases energy for cells.' },
+                    { title: 'DNA & Genetics', content: 'DNA = deoxyribonucleic acid. Double helix structure. A-T, G-C base pairs. Genes code for proteins.' }
+                ]
+            },
+            earth: {
+                name: 'Earth Science',
+                notes: [
+                    { title: 'Rock Cycle', content: 'Igneous: cooled magma. Sedimentary: compressed sediments. Metamorphic: heat/pressure changed.' },
+                    { title: 'Plate Tectonics', content: 'Earth\'s crust is broken into plates. Convergent, divergent, and transform boundaries cause earthquakes/volcanoes.' },
+                    { title: 'Atmosphere', content: '78% nitrogen, 21% oxygen. Layers: troposphere, stratosphere, mesosphere, thermosphere, exosphere.' },
+                    { title: 'Water Cycle', content: 'Evaporation → Condensation → Precipitation → Collection. Drives weather patterns globally.' }
+                ]
+            }
+        };
+
+        function openRevisionNotes() {
+            document.getElementById('revision-modal').style.display = 'flex';
+            renderRevisionNotes('physics');
+        }
+
+        function closeRevisionNotes() {
+            document.getElementById('revision-modal').style.display = 'none';
+        }
+
+        function renderRevisionNotes(topic) {
+            const content = document.getElementById('revision-content');
+            const notes = revisionNotes[topic];
+
+            content.innerHTML = `
+                <select class="revision-topic-select" onchange="renderRevisionNotes(this.value)">
+                    ${Object.entries(revisionNotes).map(([key, val]) => `
+                        <option value="${key}" ${key === topic ? 'selected' : ''}>${val.name}</option>
+                    `).join('')}
+                </select>
+                <h3 style="color: #558b2f; margin-bottom: 15px;">${notes.name} Key Points</h3>
+                ${notes.notes.map(note => `
+                    <div class="revision-card">
+                        <div class="revision-card-title">${note.title}</div>
+                        <div class="revision-card-content">${note.content}</div>
+                    </div>
+                `).join('')}
+            `;
+        }
+
+        // Score History
+        const scoreHistory = [
+            { date: 'Jan 13', type: 'Daily Challenge', score: '100%' },
+            { date: 'Jan 12', type: 'Speed Quiz', score: '85%' },
+            { date: 'Jan 12', type: 'Topic Quiz', score: '4/5' },
+            { date: 'Jan 11', type: 'Practice Mode', score: '90%' },
+            { date: 'Jan 10', type: 'Daily Challenge', score: '100%' },
+            { date: 'Jan 9', type: 'Speed Quiz', score: '70%' },
+            { date: 'Jan 8', type: 'Topic Quiz', score: '3/5' },
+            { date: 'Jan 7', type: 'Practice Mode', score: '95%' }
+        ];
+
+        function openScoreHistory() {
+            document.getElementById('history-modal').style.display = 'flex';
+            renderScoreHistory();
+        }
+
+        function closeScoreHistory() {
+            document.getElementById('history-modal').style.display = 'none';
+        }
+
+        function renderScoreHistory() {
+            const content = document.getElementById('history-content');
+            const scores = [85, 70, 100, 90, 75, 95, 80];
+
+            content.innerHTML = `
+                <div class="history-chart">
+                    ${scores.map(s => `<div class="history-bar" style="height: ${s}%;"></div>`).join('')}
+                </div>
+                <p style="text-align: center; color: #666; margin-bottom: 15px;">Last 7 sessions</p>
+                ${scoreHistory.map(entry => `
+                    <div class="history-entry">
+                        <div>
+                            <div class="history-entry-type">${entry.type}</div>
+                            <div class="history-entry-date">${entry.date}</div>
+                        </div>
+                        <div class="history-entry-score">${entry.score}</div>
+                    </div>
+                `).join('')}
+            `;
+        }
+
+        console.log('💡 Hint System, Revision Notes, and Score History loaded!');
     </script>
 
     <!-- PowerPoint-style Table Grid Selector (positioned fixed, outside all containers) -->
