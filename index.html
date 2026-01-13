@@ -25643,6 +25643,277 @@
             border-radius: 4px;
             transition: width 0.5s ease;
         }
+
+        /* Batch 65: Speed Quiz */
+        .speed-quiz-btn {
+            position: fixed;
+            left: 18px;
+            bottom: 1190px;
+            width: 56px;
+            height: 56px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, #d32f2f 0%, #b71c1c 100%);
+            color: white;
+            border: none;
+            font-size: 24px;
+            cursor: pointer;
+            box-shadow: 0 4px 15px rgba(211, 47, 47, 0.4);
+            z-index: 999;
+            transition: all 0.3s ease;
+        }
+
+        .speed-quiz-btn:hover {
+            transform: scale(1.1);
+        }
+
+        .speed-modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.7);
+            z-index: 10000;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .speed-content {
+            background: white;
+            border-radius: 20px;
+            padding: 30px;
+            max-width: 500px;
+            width: 90%;
+            max-height: 85vh;
+            overflow-y: auto;
+        }
+
+        .speed-timer {
+            font-size: 3rem;
+            font-weight: bold;
+            color: #d32f2f;
+            text-align: center;
+            margin: 15px 0;
+        }
+
+        .speed-timer.warning {
+            animation: pulse 0.5s infinite;
+        }
+
+        @keyframes pulse {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.5; }
+        }
+
+        .speed-question {
+            background: #ffebee;
+            border-radius: 15px;
+            padding: 20px;
+            margin: 15px 0;
+        }
+
+        .speed-option {
+            display: block;
+            width: 100%;
+            padding: 12px;
+            margin: 8px 0;
+            background: white;
+            border: 2px solid #d32f2f;
+            border-radius: 10px;
+            cursor: pointer;
+            font-size: 1rem;
+            transition: all 0.2s ease;
+        }
+
+        .speed-option:hover {
+            background: #ffcdd2;
+        }
+
+        .speed-score-display {
+            display: flex;
+            justify-content: space-around;
+            margin: 15px 0;
+            padding: 15px;
+            background: #f5f5f5;
+            border-radius: 10px;
+        }
+
+        .speed-stat {
+            text-align: center;
+        }
+
+        .speed-stat-value {
+            font-size: 1.5rem;
+            font-weight: bold;
+            color: #d32f2f;
+        }
+
+        /* Review Mistakes */
+        .review-mistakes-btn {
+            position: fixed;
+            right: 18px;
+            bottom: 710px;
+            width: 56px;
+            height: 56px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, #f44336 0%, #c62828 100%);
+            color: white;
+            border: none;
+            font-size: 24px;
+            cursor: pointer;
+            box-shadow: 0 4px 15px rgba(244, 67, 54, 0.4);
+            z-index: 999;
+            transition: all 0.3s ease;
+        }
+
+        .review-mistakes-btn:hover {
+            transform: scale(1.1);
+        }
+
+        .mistakes-modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.7);
+            z-index: 10000;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .mistakes-content {
+            background: white;
+            border-radius: 20px;
+            padding: 30px;
+            max-width: 550px;
+            width: 90%;
+            max-height: 85vh;
+            overflow-y: auto;
+        }
+
+        .mistake-card {
+            background: #ffebee;
+            border-left: 4px solid #f44336;
+            padding: 15px;
+            margin: 12px 0;
+            border-radius: 0 12px 12px 0;
+        }
+
+        .mistake-question {
+            font-weight: bold;
+            color: #333;
+            margin-bottom: 10px;
+        }
+
+        .mistake-answers {
+            display: flex;
+            gap: 10px;
+            flex-wrap: wrap;
+        }
+
+        .your-answer {
+            background: #ffcdd2;
+            padding: 5px 12px;
+            border-radius: 15px;
+            font-size: 0.9rem;
+        }
+
+        .correct-answer {
+            background: #c8e6c9;
+            padding: 5px 12px;
+            border-radius: 15px;
+            font-size: 0.9rem;
+        }
+
+        /* Science Jokes */
+        .jokes-btn {
+            position: fixed;
+            left: 18px;
+            bottom: 1230px;
+            width: 56px;
+            height: 56px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, #ffb300 0%, #ff8f00 100%);
+            color: white;
+            border: none;
+            font-size: 24px;
+            cursor: pointer;
+            box-shadow: 0 4px 15px rgba(255, 179, 0, 0.4);
+            z-index: 999;
+            transition: all 0.3s ease;
+        }
+
+        .jokes-btn:hover {
+            transform: scale(1.1);
+        }
+
+        .jokes-modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.7);
+            z-index: 10000;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .jokes-content {
+            background: white;
+            border-radius: 20px;
+            padding: 30px;
+            max-width: 480px;
+            width: 90%;
+        }
+
+        .joke-card {
+            background: linear-gradient(135deg, #fff8e1 0%, #ffecb3 100%);
+            border-radius: 20px;
+            padding: 30px;
+            text-align: center;
+            min-height: 180px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+        }
+
+        .joke-setup {
+            font-size: 1.2rem;
+            color: #333;
+            margin-bottom: 20px;
+        }
+
+        .joke-punchline {
+            font-size: 1.3rem;
+            color: #ff8f00;
+            font-weight: bold;
+            display: none;
+        }
+
+        .joke-punchline.revealed {
+            display: block;
+        }
+
+        .reveal-joke-btn {
+            margin-top: 20px;
+            padding: 15px 30px;
+            background: linear-gradient(135deg, #ffb300 0%, #ff8f00 100%);
+            color: white;
+            border: none;
+            border-radius: 25px;
+            font-size: 1rem;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .reveal-joke-btn:hover {
+            transform: scale(1.05);
+        }
     </style>
 </head>
 
@@ -66599,6 +66870,302 @@ This report was generated from the Science CER Practice App.
         }
 
         console.log('💡 Science Facts Carousel, Practice Mode, and Badge Collection loaded!');
+    </script>
+
+    <!-- Batch 65: Speed Quiz Button -->
+    <button class="speed-quiz-btn" onclick="openSpeedQuiz()" title="Speed Quiz">⚡</button>
+
+    <!-- Speed Quiz Modal -->
+    <div class="speed-modal" id="speed-modal">
+        <div class="speed-content">
+            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 15px;">
+                <h2 style="margin: 0; color: #d32f2f;">⚡ Speed Quiz</h2>
+                <button onclick="closeSpeedQuiz()" style="background: none; border: none; font-size: 1.5rem; cursor: pointer;">✕</button>
+            </div>
+            <div id="speed-quiz-content"></div>
+        </div>
+    </div>
+
+    <!-- Review Mistakes Button -->
+    <button class="review-mistakes-btn" onclick="openReviewMistakes()" title="Review Mistakes">❌</button>
+
+    <!-- Review Mistakes Modal -->
+    <div class="mistakes-modal" id="mistakes-modal">
+        <div class="mistakes-content">
+            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px;">
+                <h2 style="margin: 0; color: #f44336;">❌ Review Mistakes</h2>
+                <button onclick="closeReviewMistakes()" style="background: none; border: none; font-size: 1.5rem; cursor: pointer;">✕</button>
+            </div>
+            <div id="mistakes-list"></div>
+        </div>
+    </div>
+
+    <!-- Science Jokes Button -->
+    <button class="jokes-btn" onclick="openScienceJokes()" title="Science Jokes">😄</button>
+
+    <!-- Science Jokes Modal -->
+    <div class="jokes-modal" id="jokes-modal">
+        <div class="jokes-content">
+            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px;">
+                <h2 style="margin: 0; color: #ff8f00;">😄 Science Jokes</h2>
+                <button onclick="closeScienceJokes()" style="background: none; border: none; font-size: 1.5rem; cursor: pointer;">✕</button>
+            </div>
+            <div class="joke-card" id="joke-card">
+                <div class="joke-setup" id="joke-setup">Loading...</div>
+                <div class="joke-punchline" id="joke-punchline"></div>
+            </div>
+            <button class="reveal-joke-btn" id="reveal-btn" onclick="revealPunchline()">Reveal Answer!</button>
+            <div style="display: flex; justify-content: center; gap: 15px; margin-top: 15px;">
+                <button onclick="prevJoke()" style="padding: 10px 20px; background: #fff8e1; border: 2px solid #ffb300; border-radius: 20px; cursor: pointer;">← Previous</button>
+                <button onclick="nextJoke()" style="padding: 10px 20px; background: #fff8e1; border: 2px solid #ffb300; border-radius: 20px; cursor: pointer;">Next →</button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Batch 65: Speed Quiz
+        const speedQuizQuestions = [
+            { q: 'H2O is?', opts: ['Water', 'Salt', 'Acid', 'Gas'], a: 0 },
+            { q: 'Largest planet?', opts: ['Earth', 'Jupiter', 'Mars', 'Sun'], a: 1 },
+            { q: 'Plants make?', opts: ['CO2', 'O2', 'N2', 'H2'], a: 1 },
+            { q: 'Force unit?', opts: ['Watt', 'Joule', 'Newton', 'Volt'], a: 2 },
+            { q: 'DNA shape?', opts: ['Helix', 'Circle', 'Square', 'Line'], a: 0 },
+            { q: 'Speed of light?', opts: ['Slow', 'Fast', 'Medium', 'Varies'], a: 1 },
+            { q: 'Cell powerhouse?', opts: ['Nucleus', 'Mitochondria', 'Ribosome', 'Membrane'], a: 1 },
+            { q: 'Freezing point?', opts: ['0°C', '100°C', '50°C', '-50°C'], a: 0 },
+            { q: 'Gravity discoverer?', opts: ['Einstein', 'Newton', 'Galileo', 'Darwin'], a: 1 },
+            { q: 'Periodic table has?', opts: ['50', '100', '118', '200'], a: 2 },
+            { q: 'Sound in vacuum?', opts: ['Fast', 'Slow', 'None', 'Normal'], a: 2 },
+            { q: 'Blood color?', opts: ['Blue', 'Red', 'Green', 'Yellow'], a: 1 },
+            { q: 'Sun is a?', opts: ['Planet', 'Star', 'Moon', 'Comet'], a: 1 },
+            { q: 'Bones in body?', opts: ['106', '206', '306', '406'], a: 1 },
+            { q: 'Photosynthesis needs?', opts: ['Dark', 'Light', 'Cold', 'Heat'], a: 1 }
+        ];
+
+        let speedTimer = null;
+        let speedTimeLeft = 0;
+        let speedQuestions = [];
+        let speedIndex = 0;
+        let speedScore = 0;
+        let speedCorrect = 0;
+
+        function openSpeedQuiz() {
+            document.getElementById('speed-modal').style.display = 'flex';
+            showSpeedStart();
+        }
+
+        function closeSpeedQuiz() {
+            if (speedTimer) clearInterval(speedTimer);
+            document.getElementById('speed-modal').style.display = 'none';
+        }
+
+        function showSpeedStart() {
+            const content = document.getElementById('speed-quiz-content');
+            content.innerHTML = `
+                <div style="text-align: center; padding: 20px;">
+                    <div style="font-size: 4rem; margin-bottom: 15px;">⚡</div>
+                    <h3>Race Against Time!</h3>
+                    <p style="color: #666; margin: 15px 0;">Answer as many questions as you can in 60 seconds!</p>
+                    <div style="background: #ffebee; padding: 15px; border-radius: 10px; margin: 20px 0;">
+                        <p style="margin: 0;">⏱️ 60 seconds</p>
+                        <p style="margin: 5px 0 0 0;">🎯 Quick fire questions</p>
+                    </div>
+                    <button onclick="startSpeedQuiz()" style="padding: 15px 40px; background: linear-gradient(135deg, #d32f2f 0%, #b71c1c 100%); color: white; border: none; border-radius: 25px; font-size: 1.2rem; cursor: pointer;">START!</button>
+                </div>
+            `;
+        }
+
+        function startSpeedQuiz() {
+            speedQuestions = [...speedQuizQuestions].sort(() => Math.random() - 0.5);
+            speedIndex = 0;
+            speedScore = 0;
+            speedCorrect = 0;
+            speedTimeLeft = 60;
+            showSpeedQuestion();
+            speedTimer = setInterval(updateSpeedTimer, 1000);
+        }
+
+        function updateSpeedTimer() {
+            speedTimeLeft--;
+            const timerEl = document.getElementById('speed-timer');
+            if (timerEl) {
+                timerEl.textContent = speedTimeLeft;
+                if (speedTimeLeft <= 10) timerEl.classList.add('warning');
+            }
+            if (speedTimeLeft <= 0) {
+                clearInterval(speedTimer);
+                showSpeedResults();
+            }
+        }
+
+        function showSpeedQuestion() {
+            const content = document.getElementById('speed-quiz-content');
+            const q = speedQuestions[speedIndex % speedQuestions.length];
+            content.innerHTML = `
+                <div class="speed-timer ${speedTimeLeft <= 10 ? 'warning' : ''}" id="speed-timer">${speedTimeLeft}</div>
+                <div class="speed-score-display">
+                    <div class="speed-stat">
+                        <div class="speed-stat-value">${speedCorrect}</div>
+                        <div>Correct</div>
+                    </div>
+                    <div class="speed-stat">
+                        <div class="speed-stat-value">${speedIndex}</div>
+                        <div>Attempted</div>
+                    </div>
+                </div>
+                <div class="speed-question">
+                    <h3 style="margin: 0; color: #b71c1c;">${q.q}</h3>
+                </div>
+                ${q.opts.map((opt, i) => `
+                    <button class="speed-option" onclick="answerSpeedQuiz(${i}, ${q.a})">${opt}</button>
+                `).join('')}
+            `;
+        }
+
+        function answerSpeedQuiz(selected, correct) {
+            if (selected === correct) {
+                speedCorrect++;
+                speedScore += 10;
+            }
+            speedIndex++;
+            if (speedTimeLeft > 0) {
+                showSpeedQuestion();
+            }
+        }
+
+        function showSpeedResults() {
+            const content = document.getElementById('speed-quiz-content');
+            const xpEarned = speedScore;
+            addXP(xpEarned);
+
+            content.innerHTML = `
+                <div style="text-align: center; padding: 20px;">
+                    <div style="font-size: 4rem; margin-bottom: 15px;">🏁</div>
+                    <h2 style="color: #d32f2f;">Time's Up!</h2>
+                    <div class="speed-score-display">
+                        <div class="speed-stat">
+                            <div class="speed-stat-value">${speedCorrect}</div>
+                            <div>Correct</div>
+                        </div>
+                        <div class="speed-stat">
+                            <div class="speed-stat-value">${speedIndex}</div>
+                            <div>Attempted</div>
+                        </div>
+                        <div class="speed-stat">
+                            <div class="speed-stat-value">${speedIndex > 0 ? Math.round((speedCorrect / speedIndex) * 100) : 0}%</div>
+                            <div>Accuracy</div>
+                        </div>
+                    </div>
+                    <p style="color: #4caf50; font-weight: bold; font-size: 1.2rem;">+${xpEarned} XP earned!</p>
+                    <button onclick="startSpeedQuiz()" style="margin-top: 15px; padding: 12px 30px; background: #d32f2f; color: white; border: none; border-radius: 25px; cursor: pointer;">Try Again</button>
+                </div>
+            `;
+        }
+
+        // Review Mistakes
+        let mistakesHistory = JSON.parse(localStorage.getItem('mistakesHistory') || '[]');
+
+        // Sample mistakes if none exist
+        if (mistakesHistory.length === 0) {
+            mistakesHistory = [
+                { q: 'What is the largest planet in our solar system?', yourAnswer: 'Saturn', correctAnswer: 'Jupiter' },
+                { q: 'What gas do plants absorb during photosynthesis?', yourAnswer: 'Oxygen', correctAnswer: 'Carbon dioxide' },
+                { q: 'Which planet is known as the Red Planet?', yourAnswer: 'Venus', correctAnswer: 'Mars' },
+                { q: 'What is the chemical symbol for gold?', yourAnswer: 'Go', correctAnswer: 'Au' },
+                { q: 'How many chromosomes do humans have?', yourAnswer: '48', correctAnswer: '46' }
+            ];
+        }
+
+        function openReviewMistakes() {
+            document.getElementById('mistakes-modal').style.display = 'flex';
+            renderMistakes();
+        }
+
+        function closeReviewMistakes() {
+            document.getElementById('mistakes-modal').style.display = 'none';
+        }
+
+        function renderMistakes() {
+            const list = document.getElementById('mistakes-list');
+            if (mistakesHistory.length === 0) {
+                list.innerHTML = '<div style="text-align: center; padding: 30px; color: #666;"><div style="font-size: 3rem; margin-bottom: 15px;">🎉</div><p>No mistakes to review! Keep up the great work!</p></div>';
+                return;
+            }
+            list.innerHTML = `
+                <p style="color: #666; margin-bottom: 15px;">Learn from your mistakes to improve!</p>
+                ${mistakesHistory.map(m => `
+                    <div class="mistake-card">
+                        <div class="mistake-question">${m.q}</div>
+                        <div class="mistake-answers">
+                            <span class="your-answer">Your: ${m.yourAnswer}</span>
+                            <span class="correct-answer">Correct: ${m.correctAnswer}</span>
+                        </div>
+                    </div>
+                `).join('')}
+                <button onclick="clearMistakes()" style="width: 100%; margin-top: 15px; padding: 12px; background: #f44336; color: white; border: none; border-radius: 10px; cursor: pointer;">Clear All Mistakes</button>
+            `;
+        }
+
+        function clearMistakes() {
+            if (confirm('Clear all mistake history?')) {
+                mistakesHistory = [];
+                localStorage.setItem('mistakesHistory', JSON.stringify(mistakesHistory));
+                renderMistakes();
+            }
+        }
+
+        // Science Jokes
+        const scienceJokes = [
+            { setup: 'Why can you never trust atoms?', punchline: 'Because they make up everything!' },
+            { setup: 'What did the biologist wear on their first date?', punchline: 'Designer genes!' },
+            { setup: 'Why did the physics teacher break up with the biology teacher?', punchline: 'There was no chemistry!' },
+            { setup: 'What do you call an educated tube?', punchline: 'A graduated cylinder!' },
+            { setup: 'Why are chemists great at solving problems?', punchline: 'They have all the solutions!' },
+            { setup: 'What did one ion say to another?', punchline: 'I\'ve got my ion you!' },
+            { setup: 'Why did the photon check into a hotel?', punchline: 'It was traveling light!' },
+            { setup: 'What\'s a physicist\'s favorite food?', punchline: 'Fission chips!' },
+            { setup: 'Why do biologists look forward to casual Fridays?', punchline: 'They\'re allowed to wear genes to work!' },
+            { setup: 'What did the scientist say when he found 2 isotopes of helium?', punchline: 'HeHe!' },
+            { setup: 'Why can\'t you trust an atom?', punchline: 'They literally make up everything!' },
+            { setup: 'What do you call a tooth in a glass of water?', punchline: 'A one molar solution!' }
+        ];
+
+        let currentJokeIndex = 0;
+
+        function openScienceJokes() {
+            document.getElementById('jokes-modal').style.display = 'flex';
+            showJoke();
+        }
+
+        function closeScienceJokes() {
+            document.getElementById('jokes-modal').style.display = 'none';
+        }
+
+        function showJoke() {
+            const joke = scienceJokes[currentJokeIndex];
+            document.getElementById('joke-setup').textContent = joke.setup;
+            document.getElementById('joke-punchline').textContent = joke.punchline;
+            document.getElementById('joke-punchline').classList.remove('revealed');
+            document.getElementById('reveal-btn').style.display = 'block';
+        }
+
+        function revealPunchline() {
+            document.getElementById('joke-punchline').classList.add('revealed');
+            document.getElementById('reveal-btn').style.display = 'none';
+            addXP(1);
+        }
+
+        function nextJoke() {
+            currentJokeIndex = (currentJokeIndex + 1) % scienceJokes.length;
+            showJoke();
+        }
+
+        function prevJoke() {
+            currentJokeIndex = (currentJokeIndex - 1 + scienceJokes.length) % scienceJokes.length;
+            showJoke();
+        }
+
+        console.log('⚡ Speed Quiz, Review Mistakes, and Science Jokes loaded!');
     </script>
 
     <!-- PowerPoint-style Table Grid Selector (positioned fixed, outside all containers) -->
