@@ -12146,6 +12146,505 @@
         .floating-focus-btn:hover {
             transform: scale(1.1);
         }
+
+        /* ========== BATCH 30: Science Dictionary, Quiz Generator, Progress Charts ========== */
+
+        /* Science Dictionary */
+        .dictionary-modal {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0,0,0,0.85);
+            display: none;
+            justify-content: center;
+            align-items: center;
+            z-index: 10001;
+        }
+
+        .dictionary-content {
+            background: white;
+            border-radius: 25px;
+            width: 95%;
+            max-width: 600px;
+            max-height: 90vh;
+            overflow-y: auto;
+            padding: 30px;
+        }
+
+        .dictionary-search {
+            width: 100%;
+            padding: 15px 20px;
+            border: 2px solid #e0e0e0;
+            border-radius: 30px;
+            font-size: 1rem;
+            margin-bottom: 20px;
+            outline: none;
+            transition: border-color 0.3s ease;
+        }
+
+        .dictionary-search:focus {
+            border-color: #667eea;
+        }
+
+        .dictionary-categories {
+            display: flex;
+            gap: 10px;
+            flex-wrap: wrap;
+            margin-bottom: 20px;
+        }
+
+        .dictionary-category-btn {
+            padding: 8px 16px;
+            border: none;
+            border-radius: 20px;
+            background: #f0f0f0;
+            cursor: pointer;
+            font-size: 0.9rem;
+            transition: all 0.3s ease;
+        }
+
+        .dictionary-category-btn.active {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+        }
+
+        .dictionary-results {
+            max-height: 400px;
+            overflow-y: auto;
+        }
+
+        .dictionary-term {
+            padding: 15px;
+            border-radius: 15px;
+            background: #f8f9fa;
+            margin-bottom: 10px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .dictionary-term:hover {
+            background: #e8f4f8;
+            transform: translateX(5px);
+        }
+
+        .dictionary-term-word {
+            font-weight: 700;
+            color: #333;
+            font-size: 1.1rem;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .dictionary-term-category {
+            font-size: 0.75rem;
+            padding: 3px 10px;
+            border-radius: 10px;
+            background: #667eea;
+            color: white;
+        }
+
+        .dictionary-term-definition {
+            color: #666;
+            margin-top: 8px;
+            font-size: 0.95rem;
+            line-height: 1.5;
+        }
+
+        /* Quiz Generator */
+        .quiz-generator-modal {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0,0,0,0.9);
+            display: none;
+            justify-content: center;
+            align-items: center;
+            z-index: 10001;
+        }
+
+        .quiz-generator-content {
+            background: linear-gradient(135deg, #1a1a2e 0%, #16213e 100%);
+            border-radius: 25px;
+            width: 95%;
+            max-width: 700px;
+            max-height: 90vh;
+            overflow-y: auto;
+            padding: 30px;
+            color: white;
+        }
+
+        .quiz-setup {
+            text-align: center;
+        }
+
+        .quiz-topic-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 15px;
+            margin: 25px 0;
+        }
+
+        .quiz-topic-card {
+            padding: 20px;
+            border-radius: 15px;
+            background: rgba(255,255,255,0.1);
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-align: center;
+        }
+
+        .quiz-topic-card:hover {
+            background: rgba(255,255,255,0.2);
+            transform: scale(1.05);
+        }
+
+        .quiz-topic-card.selected {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            transform: scale(1.05);
+        }
+
+        .quiz-topic-icon {
+            font-size: 2rem;
+            display: block;
+            margin-bottom: 8px;
+        }
+
+        .quiz-settings {
+            margin: 25px 0;
+            padding: 20px;
+            background: rgba(255,255,255,0.05);
+            border-radius: 15px;
+        }
+
+        .quiz-setting-row {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 15px;
+        }
+
+        .quiz-setting-label {
+            color: #aaa;
+        }
+
+        .quiz-setting-select {
+            padding: 8px 20px;
+            border: none;
+            border-radius: 20px;
+            background: rgba(255,255,255,0.2);
+            color: white;
+            cursor: pointer;
+        }
+
+        .quiz-start-btn {
+            width: 100%;
+            padding: 18px;
+            border: none;
+            border-radius: 30px;
+            background: linear-gradient(135deg, #11998e 0%, #38ef7d 100%);
+            color: white;
+            font-size: 1.2rem;
+            font-weight: 700;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .quiz-start-btn:hover {
+            transform: scale(1.02);
+            box-shadow: 0 10px 30px rgba(17, 153, 142, 0.4);
+        }
+
+        .quiz-question-container {
+            display: none;
+        }
+
+        .quiz-progress-bar {
+            height: 8px;
+            background: rgba(255,255,255,0.2);
+            border-radius: 4px;
+            margin-bottom: 25px;
+            overflow: hidden;
+        }
+
+        .quiz-progress-fill {
+            height: 100%;
+            background: linear-gradient(90deg, #11998e, #38ef7d);
+            border-radius: 4px;
+            transition: width 0.5s ease;
+        }
+
+        .quiz-question-text {
+            font-size: 1.3rem;
+            margin-bottom: 25px;
+            text-align: center;
+            line-height: 1.6;
+        }
+
+        .quiz-options {
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+        }
+
+        .quiz-option {
+            padding: 18px 25px;
+            border: 2px solid rgba(255,255,255,0.2);
+            border-radius: 15px;
+            background: rgba(255,255,255,0.05);
+            cursor: pointer;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+
+        .quiz-option:hover {
+            border-color: #667eea;
+            background: rgba(102, 126, 234, 0.1);
+        }
+
+        .quiz-option.correct {
+            border-color: #4CAF50;
+            background: rgba(76, 175, 80, 0.3);
+        }
+
+        .quiz-option.incorrect {
+            border-color: #f44336;
+            background: rgba(244, 67, 54, 0.3);
+        }
+
+        .quiz-option-letter {
+            width: 35px;
+            height: 35px;
+            border-radius: 50%;
+            background: rgba(255,255,255,0.2);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 700;
+        }
+
+        .quiz-results {
+            display: none;
+            text-align: center;
+        }
+
+        .quiz-score-circle {
+            width: 150px;
+            height: 150px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            margin: 0 auto 25px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .quiz-score-value {
+            font-size: 3rem;
+            font-weight: 700;
+        }
+
+        .quiz-score-label {
+            font-size: 0.9rem;
+            opacity: 0.9;
+        }
+
+        /* Progress Charts */
+        .charts-modal {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0,0,0,0.85);
+            display: none;
+            justify-content: center;
+            align-items: center;
+            z-index: 10001;
+        }
+
+        .charts-content {
+            background: white;
+            border-radius: 25px;
+            width: 95%;
+            max-width: 800px;
+            max-height: 90vh;
+            overflow-y: auto;
+            padding: 30px;
+        }
+
+        .charts-tabs {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 25px;
+            border-bottom: 2px solid #f0f0f0;
+            padding-bottom: 15px;
+        }
+
+        .chart-tab {
+            padding: 10px 25px;
+            border: none;
+            background: transparent;
+            cursor: pointer;
+            font-weight: 600;
+            color: #666;
+            border-radius: 20px;
+            transition: all 0.3s ease;
+        }
+
+        .chart-tab.active {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+        }
+
+        .chart-container {
+            background: #f8f9fa;
+            border-radius: 20px;
+            padding: 25px;
+            margin-bottom: 20px;
+        }
+
+        .chart-title {
+            font-weight: 600;
+            color: #333;
+            margin-bottom: 20px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .bar-chart {
+            display: flex;
+            align-items: flex-end;
+            gap: 10px;
+            height: 200px;
+            padding: 20px 0;
+        }
+
+        .bar-item {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        .bar {
+            width: 100%;
+            max-width: 50px;
+            background: linear-gradient(180deg, #667eea 0%, #764ba2 100%);
+            border-radius: 8px 8px 0 0;
+            transition: height 0.5s ease;
+            min-height: 5px;
+        }
+
+        .bar-label {
+            margin-top: 10px;
+            font-size: 0.8rem;
+            color: #666;
+            text-align: center;
+        }
+
+        .bar-value {
+            font-size: 0.75rem;
+            color: #333;
+            font-weight: 600;
+            margin-bottom: 5px;
+        }
+
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 15px;
+        }
+
+        .stat-card {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            border-radius: 15px;
+            padding: 20px;
+            color: white;
+            text-align: center;
+        }
+
+        .stat-card-value {
+            font-size: 2rem;
+            font-weight: 700;
+        }
+
+        .stat-card-label {
+            font-size: 0.9rem;
+            opacity: 0.9;
+        }
+
+        /* Floating buttons for Batch 30 */
+        .floating-dictionary-btn {
+            position: fixed;
+            bottom: 1720px;
+            right: 20px;
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, #11998e 0%, #38ef7d 100%);
+            color: white;
+            border: none;
+            font-size: 1.3rem;
+            cursor: pointer;
+            box-shadow: 0 5px 20px rgba(17, 153, 142, 0.4);
+            z-index: 999;
+            transition: all 0.3s ease;
+        }
+
+        .floating-dictionary-btn:hover {
+            transform: scale(1.1);
+        }
+
+        .floating-quiz-btn {
+            position: fixed;
+            bottom: 1780px;
+            right: 20px;
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, #f5af19 0%, #f12711 100%);
+            color: white;
+            border: none;
+            font-size: 1.3rem;
+            cursor: pointer;
+            box-shadow: 0 5px 20px rgba(245, 175, 25, 0.4);
+            z-index: 999;
+            transition: all 0.3s ease;
+        }
+
+        .floating-quiz-btn:hover {
+            transform: scale(1.1);
+        }
+
+        .floating-charts-btn {
+            position: fixed;
+            bottom: 1840px;
+            right: 20px;
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, #ee0979 0%, #ff6a00 100%);
+            color: white;
+            border: none;
+            font-size: 1.3rem;
+            cursor: pointer;
+            box-shadow: 0 5px 20px rgba(238, 9, 121, 0.4);
+            z-index: 999;
+            transition: all 0.3s ease;
+        }
+
+        .floating-charts-btn:hover {
+            transform: scale(1.1);
+        }
     </style>
 </head>
 
@@ -40166,6 +40665,570 @@ Science Made Fun!
         });
 
         console.log('📅 Study Streaks, Flash Cards, and Focus Mode loaded!');
+    </script>
+
+    <!-- ========== BATCH 30: Science Dictionary, Quiz Generator, Progress Charts ========== -->
+
+    <!-- Science Dictionary Modal -->
+    <div class="dictionary-modal" id="dictionary-modal">
+        <div class="dictionary-content">
+            <div style="text-align: center; margin-bottom: 20px;">
+                <h2 style="margin: 0;">📖 Science Dictionary</h2>
+                <p style="color: #666; margin-top: 5px;">Look up science terms and definitions</p>
+            </div>
+            <input type="text" class="dictionary-search" id="dictionary-search" placeholder="🔍 Search for a term..." oninput="searchDictionary()">
+            <div class="dictionary-categories" id="dictionary-categories">
+                <!-- Populated by JavaScript -->
+            </div>
+            <div class="dictionary-results" id="dictionary-results">
+                <!-- Populated by JavaScript -->
+            </div>
+            <div style="text-align: center; margin-top: 20px;">
+                <button onclick="closeDictionary()" style="padding: 12px 40px; border: none; background: linear-gradient(135deg, #11998e 0%, #38ef7d 100%); border-radius: 25px; color: white; font-weight: bold; cursor: pointer;">Close</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Quiz Generator Modal -->
+    <div class="quiz-generator-modal" id="quiz-generator-modal">
+        <div class="quiz-generator-content">
+            <div class="quiz-setup" id="quiz-setup">
+                <h2 style="margin: 0 0 10px;">🎮 Quiz Generator</h2>
+                <p style="color: #aaa;">Create a custom quiz to test your knowledge!</p>
+
+                <div class="quiz-topic-grid" id="quiz-topic-grid">
+                    <!-- Populated by JavaScript -->
+                </div>
+
+                <div class="quiz-settings">
+                    <div class="quiz-setting-row">
+                        <span class="quiz-setting-label">Number of Questions</span>
+                        <select class="quiz-setting-select" id="quiz-num-questions">
+                            <option value="5">5 Questions</option>
+                            <option value="10" selected>10 Questions</option>
+                            <option value="15">15 Questions</option>
+                            <option value="20">20 Questions</option>
+                        </select>
+                    </div>
+                    <div class="quiz-setting-row">
+                        <span class="quiz-setting-label">Difficulty</span>
+                        <select class="quiz-setting-select" id="quiz-difficulty">
+                            <option value="easy">Easy</option>
+                            <option value="medium" selected>Medium</option>
+                            <option value="hard">Hard</option>
+                        </select>
+                    </div>
+                </div>
+
+                <button class="quiz-start-btn" onclick="startGeneratedQuiz()">🚀 Start Quiz</button>
+            </div>
+
+            <div class="quiz-question-container" id="quiz-question-container">
+                <div class="quiz-progress-bar">
+                    <div class="quiz-progress-fill" id="quiz-progress-fill" style="width: 0%"></div>
+                </div>
+                <div class="quiz-question-number" id="quiz-question-number" style="text-align: center; color: #aaa; margin-bottom: 10px;">Question 1 of 10</div>
+                <div class="quiz-question-text" id="quiz-question-text">Loading question...</div>
+                <div class="quiz-options" id="quiz-options">
+                    <!-- Populated by JavaScript -->
+                </div>
+            </div>
+
+            <div class="quiz-results" id="quiz-results">
+                <h2>Quiz Complete!</h2>
+                <div class="quiz-score-circle">
+                    <span class="quiz-score-value" id="quiz-score-value">0%</span>
+                    <span class="quiz-score-label">Score</span>
+                </div>
+                <p id="quiz-result-message" style="color: #aaa; margin-bottom: 20px;"></p>
+                <p id="quiz-xp-earned" style="color: #4CAF50; font-weight: 600; margin-bottom: 25px;"></p>
+                <div style="display: flex; gap: 15px; justify-content: center;">
+                    <button onclick="restartQuizGenerator()" style="padding: 12px 30px; border: none; background: rgba(255,255,255,0.2); border-radius: 25px; color: white; cursor: pointer;">Try Again</button>
+                    <button onclick="closeQuizGenerator()" style="padding: 12px 30px; border: none; background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); border-radius: 25px; color: white; cursor: pointer;">Done</button>
+                </div>
+            </div>
+
+            <button onclick="closeQuizGenerator()" style="position: absolute; top: 15px; right: 15px; background: none; border: none; color: white; font-size: 1.5rem; cursor: pointer;">×</button>
+        </div>
+    </div>
+
+    <!-- Progress Charts Modal -->
+    <div class="charts-modal" id="charts-modal">
+        <div class="charts-content">
+            <div style="text-align: center; margin-bottom: 20px;">
+                <h2 style="margin: 0;">📊 Progress Charts</h2>
+                <p style="color: #666; margin-top: 5px;">Track your learning journey!</p>
+            </div>
+
+            <div class="charts-tabs">
+                <button class="chart-tab active" onclick="switchChartTab('xp')">XP Progress</button>
+                <button class="chart-tab" onclick="switchChartTab('questions')">Questions</button>
+                <button class="chart-tab" onclick="switchChartTab('overview')">Overview</button>
+            </div>
+
+            <div id="chart-xp" class="chart-panel">
+                <div class="chart-container">
+                    <div class="chart-title">📈 Weekly XP Progress</div>
+                    <div class="bar-chart" id="xp-bar-chart">
+                        <!-- Populated by JavaScript -->
+                    </div>
+                </div>
+            </div>
+
+            <div id="chart-questions" class="chart-panel" style="display: none;">
+                <div class="chart-container">
+                    <div class="chart-title">📝 Questions Answered Per Day</div>
+                    <div class="bar-chart" id="questions-bar-chart">
+                        <!-- Populated by JavaScript -->
+                    </div>
+                </div>
+            </div>
+
+            <div id="chart-overview" class="chart-panel" style="display: none;">
+                <div class="stats-grid">
+                    <div class="stat-card">
+                        <div class="stat-card-value" id="overview-total-xp">0</div>
+                        <div class="stat-card-label">Total XP</div>
+                    </div>
+                    <div class="stat-card" style="background: linear-gradient(135deg, #11998e 0%, #38ef7d 100%);">
+                        <div class="stat-card-value" id="overview-level">1</div>
+                        <div class="stat-card-label">Current Level</div>
+                    </div>
+                    <div class="stat-card" style="background: linear-gradient(135deg, #f5af19 0%, #f12711 100%);">
+                        <div class="stat-card-value" id="overview-questions">0</div>
+                        <div class="stat-card-label">Total Questions</div>
+                    </div>
+                    <div class="stat-card" style="background: linear-gradient(135deg, #ee0979 0%, #ff6a00 100%);">
+                        <div class="stat-card-value" id="overview-streak">0</div>
+                        <div class="stat-card-label">Best Streak</div>
+                    </div>
+                </div>
+            </div>
+
+            <div style="text-align: center; margin-top: 25px;">
+                <button onclick="closeCharts()" style="padding: 12px 40px; border: none; background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); border-radius: 25px; color: white; font-weight: bold; cursor: pointer;">Close</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Floating Buttons for Batch 30 -->
+    <button class="floating-dictionary-btn" onclick="openDictionary()" title="Science Dictionary">📖</button>
+    <button class="floating-quiz-btn" onclick="openQuizGenerator()" title="Quiz Generator">🎮</button>
+    <button class="floating-charts-btn" onclick="openCharts()" title="Progress Charts">📊</button>
+
+    <script>
+        // ========== BATCH 30: Science Dictionary, Quiz Generator, Progress Charts ==========
+
+        // Science Dictionary
+        const scienceDictionary = [
+            // Physics
+            { term: 'Force', definition: 'A push or pull that can change the motion of an object. Measured in Newtons (N).', category: 'physics' },
+            { term: 'Energy', definition: 'The ability to do work. It can exist in many forms like kinetic, potential, thermal, etc.', category: 'physics' },
+            { term: 'Gravity', definition: 'The force that attracts objects with mass toward each other. On Earth, it pulls objects toward the center.', category: 'physics' },
+            { term: 'Friction', definition: 'A force that opposes motion between two surfaces in contact.', category: 'physics' },
+            { term: 'Mass', definition: 'The amount of matter in an object. Measured in kilograms (kg).', category: 'physics' },
+            { term: 'Velocity', definition: 'The speed of an object in a specific direction.', category: 'physics' },
+            { term: 'Acceleration', definition: 'The rate of change of velocity over time.', category: 'physics' },
+            // Chemistry
+            { term: 'Atom', definition: 'The smallest unit of matter that retains the properties of an element.', category: 'chemistry' },
+            { term: 'Molecule', definition: 'Two or more atoms bonded together. Example: H₂O (water).', category: 'chemistry' },
+            { term: 'Element', definition: 'A pure substance made of only one type of atom. Examples: Gold, Oxygen.', category: 'chemistry' },
+            { term: 'Compound', definition: 'A substance made of two or more different elements chemically combined.', category: 'chemistry' },
+            { term: 'Chemical Reaction', definition: 'A process where substances change into new substances with different properties.', category: 'chemistry' },
+            { term: 'pH', definition: 'A scale (0-14) measuring how acidic or basic a solution is. 7 is neutral.', category: 'chemistry' },
+            { term: 'Oxidation', definition: 'A chemical reaction involving the loss of electrons or gain of oxygen.', category: 'chemistry' },
+            // Biology
+            { term: 'Cell', definition: 'The basic unit of life. All living things are made of cells.', category: 'biology' },
+            { term: 'Photosynthesis', definition: 'The process plants use to convert sunlight, water, and CO₂ into glucose and oxygen.', category: 'biology' },
+            { term: 'Respiration', definition: 'The process of breaking down glucose to release energy for cells.', category: 'biology' },
+            { term: 'DNA', definition: 'Deoxyribonucleic acid - the molecule that carries genetic information.', category: 'biology' },
+            { term: 'Mitochondria', definition: 'The powerhouse of the cell - produces energy (ATP) through cellular respiration.', category: 'biology' },
+            { term: 'Nucleus', definition: 'The control center of a cell containing DNA.', category: 'biology' },
+            { term: 'Chloroplast', definition: 'Organelle in plant cells where photosynthesis takes place.', category: 'biology' },
+            // Earth Science
+            { term: 'Tectonic Plates', definition: 'Large pieces of Earth\'s crust that float on the mantle and cause earthquakes.', category: 'earth' },
+            { term: 'Rock Cycle', definition: 'The continuous process of rocks changing from one type to another.', category: 'earth' },
+            { term: 'Erosion', definition: 'The wearing away and movement of rock and soil by water, wind, or ice.', category: 'earth' },
+            { term: 'Atmosphere', definition: 'The layer of gases surrounding Earth, held by gravity.', category: 'earth' },
+            { term: 'Water Cycle', definition: 'The continuous movement of water between Earth\'s surface and atmosphere.', category: 'earth' },
+            { term: 'Magma', definition: 'Molten rock found beneath Earth\'s surface.', category: 'earth' }
+        ];
+
+        let dictionaryCategory = 'all';
+
+        function openDictionary() {
+            renderDictionaryCategories();
+            renderDictionaryTerms();
+            document.getElementById('dictionary-modal').style.display = 'flex';
+            document.getElementById('dictionary-search').value = '';
+        }
+
+        function closeDictionary() {
+            document.getElementById('dictionary-modal').style.display = 'none';
+        }
+
+        function renderDictionaryCategories() {
+            const categories = [
+                { id: 'all', name: 'All', icon: '📚' },
+                { id: 'physics', name: 'Physics', icon: '⚛️' },
+                { id: 'chemistry', name: 'Chemistry', icon: '🧪' },
+                { id: 'biology', name: 'Biology', icon: '🧬' },
+                { id: 'earth', name: 'Earth', icon: '🌍' }
+            ];
+
+            document.getElementById('dictionary-categories').innerHTML = categories.map(cat => `
+                <button class="dictionary-category-btn ${dictionaryCategory === cat.id ? 'active' : ''}"
+                        onclick="filterDictionaryCategory('${cat.id}')">${cat.icon} ${cat.name}</button>
+            `).join('');
+        }
+
+        function filterDictionaryCategory(category) {
+            dictionaryCategory = category;
+            renderDictionaryCategories();
+            renderDictionaryTerms();
+        }
+
+        function searchDictionary() {
+            renderDictionaryTerms();
+        }
+
+        function renderDictionaryTerms() {
+            const searchTerm = document.getElementById('dictionary-search').value.toLowerCase();
+            const categoryIcons = { physics: '⚛️', chemistry: '🧪', biology: '🧬', earth: '🌍' };
+
+            let filtered = scienceDictionary;
+
+            if (dictionaryCategory !== 'all') {
+                filtered = filtered.filter(t => t.category === dictionaryCategory);
+            }
+
+            if (searchTerm) {
+                filtered = filtered.filter(t =>
+                    t.term.toLowerCase().includes(searchTerm) ||
+                    t.definition.toLowerCase().includes(searchTerm)
+                );
+            }
+
+            if (filtered.length === 0) {
+                document.getElementById('dictionary-results').innerHTML = `
+                    <div style="text-align: center; padding: 40px; color: #666;">
+                        <div style="font-size: 3rem; margin-bottom: 15px;">🔍</div>
+                        <p>No terms found. Try a different search!</p>
+                    </div>
+                `;
+                return;
+            }
+
+            document.getElementById('dictionary-results').innerHTML = filtered.map(term => `
+                <div class="dictionary-term">
+                    <div class="dictionary-term-word">
+                        ${term.term}
+                        <span class="dictionary-term-category">${categoryIcons[term.category]} ${term.category}</span>
+                    </div>
+                    <div class="dictionary-term-definition">${term.definition}</div>
+                </div>
+            `).join('');
+        }
+
+        // Quiz Generator
+        const quizQuestionBank = {
+            physics: [
+                { q: 'What is the SI unit of force?', o: ['Newton', 'Joule', 'Watt', 'Pascal'], a: 0 },
+                { q: 'What type of energy does a moving car have?', o: ['Potential', 'Kinetic', 'Thermal', 'Chemical'], a: 1 },
+                { q: 'What force keeps planets in orbit around the Sun?', o: ['Friction', 'Magnetism', 'Gravity', 'Tension'], a: 2 },
+                { q: 'Speed with direction is called...', o: ['Acceleration', 'Velocity', 'Force', 'Momentum'], a: 1 },
+                { q: 'What is the formula for calculating speed?', o: ['Force × Time', 'Distance ÷ Time', 'Mass × Acceleration', 'Energy ÷ Power'], a: 1 },
+                { q: 'Which surface has the most friction?', o: ['Ice', 'Sandpaper', 'Glass', 'Metal'], a: 1 },
+                { q: 'What happens to speed when you apply more force?', o: ['Decreases', 'Stays same', 'Increases', 'Becomes zero'], a: 2 }
+            ],
+            chemistry: [
+                { q: 'What is the chemical formula for water?', o: ['H2O', 'CO2', 'NaCl', 'O2'], a: 0 },
+                { q: 'Which gas do we breathe in?', o: ['Carbon Dioxide', 'Nitrogen', 'Oxygen', 'Hydrogen'], a: 2 },
+                { q: 'What pH value is neutral?', o: ['0', '7', '14', '10'], a: 1 },
+                { q: 'What is the atomic number of Carbon?', o: ['4', '6', '8', '12'], a: 1 },
+                { q: 'Which of these is a compound?', o: ['Oxygen', 'Gold', 'Water', 'Iron'], a: 2 },
+                { q: 'Rusting is an example of...', o: ['Physical change', 'Chemical change', 'No change', 'State change'], a: 1 },
+                { q: 'What type of reaction releases heat?', o: ['Endothermic', 'Exothermic', 'Neutral', 'Catalytic'], a: 1 }
+            ],
+            biology: [
+                { q: 'What is the powerhouse of the cell?', o: ['Nucleus', 'Ribosome', 'Mitochondria', 'Golgi Body'], a: 2 },
+                { q: 'Which organ pumps blood?', o: ['Lungs', 'Liver', 'Heart', 'Kidney'], a: 2 },
+                { q: 'What gas do plants release during photosynthesis?', o: ['CO2', 'Nitrogen', 'Oxygen', 'Hydrogen'], a: 2 },
+                { q: 'What carries genetic information?', o: ['RNA', 'DNA', 'Proteins', 'Lipids'], a: 1 },
+                { q: 'Where does photosynthesis occur in plants?', o: ['Mitochondria', 'Nucleus', 'Chloroplast', 'Vacuole'], a: 2 },
+                { q: 'What is the largest organ in the human body?', o: ['Heart', 'Brain', 'Liver', 'Skin'], a: 3 },
+                { q: 'What do red blood cells carry?', o: ['Nutrients', 'Oxygen', 'Water', 'Hormones'], a: 1 }
+            ],
+            earth: [
+                { q: 'What causes earthquakes?', o: ['Wind', 'Tectonic plates', 'Waves', 'Gravity'], a: 1 },
+                { q: 'What percentage of Earth is water?', o: ['50%', '60%', '71%', '80%'], a: 2 },
+                { q: 'Which layer of Earth is molten?', o: ['Crust', 'Inner Core', 'Outer Core', 'Mantle'], a: 2 },
+                { q: 'What type of rock is formed from lava?', o: ['Sedimentary', 'Metamorphic', 'Igneous', 'Limestone'], a: 2 },
+                { q: 'What layer of atmosphere do we live in?', o: ['Stratosphere', 'Troposphere', 'Mesosphere', 'Thermosphere'], a: 1 },
+                { q: 'What is magma called when it reaches the surface?', o: ['Rock', 'Lava', 'Stone', 'Mineral'], a: 1 },
+                { q: 'What drives the water cycle?', o: ['Moon', 'Wind', 'Sun', 'Gravity'], a: 2 }
+            ],
+            mixed: []
+        };
+
+        // Combine all for mixed quizzes
+        quizQuestionBank.mixed = [
+            ...quizQuestionBank.physics,
+            ...quizQuestionBank.chemistry,
+            ...quizQuestionBank.biology,
+            ...quizQuestionBank.earth
+        ];
+
+        let selectedQuizTopic = 'mixed';
+        let quizQuestions = [];
+        let currentQuizQuestion = 0;
+        let quizScore = 0;
+
+        function openQuizGenerator() {
+            renderQuizTopics();
+            document.getElementById('quiz-setup').style.display = 'block';
+            document.getElementById('quiz-question-container').style.display = 'none';
+            document.getElementById('quiz-results').style.display = 'none';
+            document.getElementById('quiz-generator-modal').style.display = 'flex';
+        }
+
+        function closeQuizGenerator() {
+            document.getElementById('quiz-generator-modal').style.display = 'none';
+        }
+
+        function renderQuizTopics() {
+            const topics = [
+                { id: 'mixed', name: 'Mixed', icon: '🎲' },
+                { id: 'physics', name: 'Physics', icon: '⚛️' },
+                { id: 'chemistry', name: 'Chemistry', icon: '🧪' },
+                { id: 'biology', name: 'Biology', icon: '🧬' },
+                { id: 'earth', name: 'Earth', icon: '🌍' }
+            ];
+
+            document.getElementById('quiz-topic-grid').innerHTML = topics.map(topic => `
+                <div class="quiz-topic-card ${selectedQuizTopic === topic.id ? 'selected' : ''}"
+                     onclick="selectQuizTopic('${topic.id}')">
+                    <span class="quiz-topic-icon">${topic.icon}</span>
+                    <span>${topic.name}</span>
+                </div>
+            `).join('');
+        }
+
+        function selectQuizTopic(topic) {
+            selectedQuizTopic = topic;
+            renderQuizTopics();
+        }
+
+        function startGeneratedQuiz() {
+            const numQuestions = parseInt(document.getElementById('quiz-num-questions').value);
+            const allQuestions = [...quizQuestionBank[selectedQuizTopic]];
+
+            // Shuffle and select questions
+            quizQuestions = allQuestions
+                .sort(() => Math.random() - 0.5)
+                .slice(0, Math.min(numQuestions, allQuestions.length));
+
+            currentQuizQuestion = 0;
+            quizScore = 0;
+
+            document.getElementById('quiz-setup').style.display = 'none';
+            document.getElementById('quiz-question-container').style.display = 'block';
+            document.getElementById('quiz-results').style.display = 'none';
+
+            showQuizQuestion();
+        }
+
+        function showQuizQuestion() {
+            if (currentQuizQuestion >= quizQuestions.length) {
+                showQuizResults();
+                return;
+            }
+
+            const question = quizQuestions[currentQuizQuestion];
+            const progress = ((currentQuizQuestion) / quizQuestions.length) * 100;
+
+            document.getElementById('quiz-progress-fill').style.width = progress + '%';
+            document.getElementById('quiz-question-number').textContent = `Question ${currentQuizQuestion + 1} of ${quizQuestions.length}`;
+            document.getElementById('quiz-question-text').textContent = question.q;
+
+            const letters = ['A', 'B', 'C', 'D'];
+            document.getElementById('quiz-options').innerHTML = question.o.map((opt, i) => `
+                <div class="quiz-option" onclick="answerQuizQuestion(${i}, ${question.a})">
+                    <span class="quiz-option-letter">${letters[i]}</span>
+                    <span>${opt}</span>
+                </div>
+            `).join('');
+        }
+
+        function answerQuizQuestion(selected, correct) {
+            const options = document.querySelectorAll('.quiz-option');
+            options.forEach((opt, i) => {
+                opt.onclick = null;
+                if (i === correct) {
+                    opt.classList.add('correct');
+                } else if (i === selected && selected !== correct) {
+                    opt.classList.add('incorrect');
+                }
+            });
+
+            if (selected === correct) {
+                quizScore++;
+            }
+
+            setTimeout(() => {
+                currentQuizQuestion++;
+                showQuizQuestion();
+            }, 1000);
+        }
+
+        function showQuizResults() {
+            const percentage = Math.round((quizScore / quizQuestions.length) * 100);
+            const xpEarned = quizScore * 10;
+
+            document.getElementById('quiz-question-container').style.display = 'none';
+            document.getElementById('quiz-results').style.display = 'block';
+
+            document.getElementById('quiz-score-value').textContent = percentage + '%';
+
+            let message = '';
+            if (percentage === 100) message = 'Perfect! You\'re a science genius!';
+            else if (percentage >= 80) message = 'Excellent work! Keep it up!';
+            else if (percentage >= 60) message = 'Good job! Room for improvement!';
+            else if (percentage >= 40) message = 'Nice try! Keep practicing!';
+            else message = 'Keep studying! You\'ll get better!';
+
+            document.getElementById('quiz-result-message').textContent = message;
+            document.getElementById('quiz-xp-earned').textContent = `+${xpEarned} XP earned!`;
+
+            // Award XP
+            const currentXP = parseInt(localStorage.getItem('scienceXP')) || 0;
+            localStorage.setItem('scienceXP', currentXP + xpEarned);
+
+            // Track questions answered
+            const totalQuestions = (parseInt(localStorage.getItem('totalQuestionsAnswered')) || 0) + quizQuestions.length;
+            localStorage.setItem('totalQuestionsAnswered', totalQuestions);
+        }
+
+        function restartQuizGenerator() {
+            document.getElementById('quiz-setup').style.display = 'block';
+            document.getElementById('quiz-question-container').style.display = 'none';
+            document.getElementById('quiz-results').style.display = 'none';
+        }
+
+        // Progress Charts
+        function openCharts() {
+            renderCharts();
+            document.getElementById('charts-modal').style.display = 'flex';
+        }
+
+        function closeCharts() {
+            document.getElementById('charts-modal').style.display = 'none';
+        }
+
+        function switchChartTab(tab) {
+            document.querySelectorAll('.chart-tab').forEach(t => t.classList.remove('active'));
+            document.querySelectorAll('.chart-panel').forEach(p => p.style.display = 'none');
+
+            event.target.classList.add('active');
+            document.getElementById('chart-' + tab).style.display = 'block';
+        }
+
+        function renderCharts() {
+            renderXPChart();
+            renderQuestionsChart();
+            renderOverview();
+        }
+
+        function renderXPChart() {
+            const days = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'];
+            const today = new Date().getDay();
+            const xpHistory = JSON.parse(localStorage.getItem('xpHistory')) || {};
+
+            // Generate last 7 days data
+            const data = [];
+            for (let i = 6; i >= 0; i--) {
+                const date = new Date();
+                date.setDate(date.getDate() - i);
+                const dateStr = date.toDateString();
+                const dayName = days[date.getDay()];
+                data.push({
+                    label: dayName,
+                    value: xpHistory[dateStr] || 0
+                });
+            }
+
+            const maxValue = Math.max(...data.map(d => d.value), 100);
+
+            document.getElementById('xp-bar-chart').innerHTML = data.map(d => {
+                const height = maxValue > 0 ? (d.value / maxValue) * 150 : 0;
+                return `
+                    <div class="bar-item">
+                        <div class="bar-value">${d.value}</div>
+                        <div class="bar" style="height: ${height}px;"></div>
+                        <div class="bar-label">${d.label}</div>
+                    </div>
+                `;
+            }).join('');
+        }
+
+        function renderQuestionsChart() {
+            const days = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'];
+            const questionsHistory = JSON.parse(localStorage.getItem('questionsHistory')) || {};
+
+            const data = [];
+            for (let i = 6; i >= 0; i--) {
+                const date = new Date();
+                date.setDate(date.getDate() - i);
+                const dateStr = date.toDateString();
+                const dayName = days[date.getDay()];
+                data.push({
+                    label: dayName,
+                    value: questionsHistory[dateStr] || 0
+                });
+            }
+
+            const maxValue = Math.max(...data.map(d => d.value), 10);
+
+            document.getElementById('questions-bar-chart').innerHTML = data.map(d => {
+                const height = maxValue > 0 ? (d.value / maxValue) * 150 : 0;
+                return `
+                    <div class="bar-item">
+                        <div class="bar-value">${d.value}</div>
+                        <div class="bar" style="height: ${height}px; background: linear-gradient(180deg, #11998e 0%, #38ef7d 100%);"></div>
+                        <div class="bar-label">${d.label}</div>
+                    </div>
+                `;
+            }).join('');
+        }
+
+        function renderOverview() {
+            const totalXP = parseInt(localStorage.getItem('scienceXP')) || 0;
+            const level = Math.floor(totalXP / 100) + 1;
+            const totalQuestions = parseInt(localStorage.getItem('totalQuestionsAnswered')) || 0;
+            const bestStreak = parseInt(localStorage.getItem('bestStreak')) || 0;
+
+            document.getElementById('overview-total-xp').textContent = totalXP;
+            document.getElementById('overview-level').textContent = level;
+            document.getElementById('overview-questions').textContent = totalQuestions;
+            document.getElementById('overview-streak').textContent = bestStreak;
+        }
+
+        // Record XP and questions for charts
+        function recordDailyXP(amount) {
+            const today = new Date().toDateString();
+            const xpHistory = JSON.parse(localStorage.getItem('xpHistory')) || {};
+            xpHistory[today] = (xpHistory[today] || 0) + amount;
+            localStorage.setItem('xpHistory', JSON.stringify(xpHistory));
+        }
+
+        function recordDailyQuestion() {
+            const today = new Date().toDateString();
+            const questionsHistory = JSON.parse(localStorage.getItem('questionsHistory')) || {};
+            questionsHistory[today] = (questionsHistory[today] || 0) + 1;
+            localStorage.setItem('questionsHistory', JSON.stringify(questionsHistory));
+        }
+
+        console.log('📖 Science Dictionary, Quiz Generator, and Progress Charts loaded!');
     </script>
 
     <!-- PowerPoint-style Table Grid Selector (positioned fixed, outside all containers) -->
