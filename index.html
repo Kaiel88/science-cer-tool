@@ -32536,6 +32536,274 @@
             color: #666;
             margin-top: 4px;
         }
+
+        /* Batch 89: Science Dictionary */
+        .dict-btn {
+            position: fixed;
+            left: 18px;
+            bottom: 2890px;
+            width: 52px;
+            height: 52px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, #455a64, #78909c);
+            color: white;
+            border: none;
+            cursor: pointer;
+            box-shadow: 0 4px 15px rgba(69, 90, 100, 0.4);
+            z-index: 999;
+            font-size: 1.4rem;
+            transition: all 0.3s ease;
+        }
+
+        .dict-btn:hover {
+            transform: scale(1.1);
+            box-shadow: 0 6px 20px rgba(69, 90, 100, 0.5);
+        }
+
+        .dict-modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.5);
+            z-index: 10000;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .dict-content {
+            background: white;
+            border-radius: 20px;
+            padding: 25px;
+            max-width: 450px;
+            width: 90%;
+            max-height: 80vh;
+            overflow-y: auto;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+        }
+
+        .dict-search {
+            width: 100%;
+            padding: 12px 15px;
+            border: 2px solid #78909c;
+            border-radius: 25px;
+            font-size: 1rem;
+            margin-bottom: 15px;
+            box-sizing: border-box;
+        }
+
+        .dict-result {
+            background: linear-gradient(135deg, #eceff1, #cfd8dc);
+            padding: 20px;
+            border-radius: 15px;
+        }
+
+        .dict-term {
+            font-size: 1.4rem;
+            font-weight: bold;
+            color: #37474f;
+            margin-bottom: 10px;
+        }
+
+        .dict-definition {
+            color: #546e7a;
+            line-height: 1.6;
+            margin-bottom: 10px;
+        }
+
+        .dict-category {
+            display: inline-block;
+            background: #455a64;
+            color: white;
+            padding: 4px 12px;
+            border-radius: 15px;
+            font-size: 0.8rem;
+        }
+
+        /* Study Streak Tracker */
+        .streak-btn {
+            position: fixed;
+            right: 18px;
+            bottom: 2590px;
+            width: 52px;
+            height: 52px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, #ff5722, #ff8a65);
+            color: white;
+            border: none;
+            cursor: pointer;
+            box-shadow: 0 4px 15px rgba(255, 87, 34, 0.4);
+            z-index: 999;
+            font-size: 1.4rem;
+            transition: all 0.3s ease;
+        }
+
+        .streak-btn:hover {
+            transform: scale(1.1);
+            box-shadow: 0 6px 20px rgba(255, 87, 34, 0.5);
+        }
+
+        .streak-modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.5);
+            z-index: 10000;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .streak-content {
+            background: white;
+            border-radius: 20px;
+            padding: 25px;
+            max-width: 380px;
+            width: 90%;
+            text-align: center;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+        }
+
+        .streak-number {
+            font-size: 5rem;
+            font-weight: bold;
+            color: #ff5722;
+            line-height: 1;
+        }
+
+        .streak-label {
+            font-size: 1.2rem;
+            color: #666;
+            margin-bottom: 20px;
+        }
+
+        .streak-calendar {
+            display: grid;
+            grid-template-columns: repeat(7, 1fr);
+            gap: 5px;
+            margin-bottom: 20px;
+        }
+
+        .streak-day {
+            width: 35px;
+            height: 35px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 0.8rem;
+            margin: 0 auto;
+        }
+
+        .streak-day.active {
+            background: linear-gradient(135deg, #ff5722, #ff8a65);
+            color: white;
+        }
+
+        .streak-day.inactive {
+            background: #f5f5f5;
+            color: #bbb;
+        }
+
+        .streak-day.today {
+            border: 2px solid #ff5722;
+        }
+
+        /* Quick Notes */
+        .quick-notes-btn {
+            position: fixed;
+            right: 18px;
+            bottom: 2650px;
+            width: 52px;
+            height: 52px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, #9c27b0, #ce93d8);
+            color: white;
+            border: none;
+            cursor: pointer;
+            box-shadow: 0 4px 15px rgba(156, 39, 176, 0.4);
+            z-index: 999;
+            font-size: 1.4rem;
+            transition: all 0.3s ease;
+        }
+
+        .quick-notes-btn:hover {
+            transform: scale(1.1);
+            box-shadow: 0 6px 20px rgba(156, 39, 176, 0.5);
+        }
+
+        .quick-notes-modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.5);
+            z-index: 10000;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .quick-notes-content {
+            background: white;
+            border-radius: 20px;
+            padding: 25px;
+            max-width: 420px;
+            width: 90%;
+            max-height: 80vh;
+            overflow-y: auto;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+        }
+
+        .sticky-note {
+            background: linear-gradient(135deg, #fff59d, #fff176);
+            padding: 15px;
+            border-radius: 8px;
+            margin-bottom: 10px;
+            box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.1);
+            position: relative;
+        }
+
+        .sticky-note-text {
+            color: #5d4037;
+            font-size: 0.95rem;
+            white-space: pre-wrap;
+        }
+
+        .sticky-note-date {
+            font-size: 0.75rem;
+            color: #8d6e63;
+            margin-top: 8px;
+        }
+
+        .sticky-note-delete {
+            position: absolute;
+            top: 8px;
+            right: 8px;
+            background: none;
+            border: none;
+            color: #d32f2f;
+            cursor: pointer;
+            font-size: 1rem;
+        }
+
+        .add-note-area {
+            margin-top: 15px;
+        }
+
+        .add-note-area textarea {
+            width: 100%;
+            padding: 12px;
+            border: 2px solid #ce93d8;
+            border-radius: 10px;
+            resize: none;
+            box-sizing: border-box;
+        }
     </style>
 </head>
 
@@ -79584,6 +79852,277 @@ This report was generated from the Science CER Practice App.
         setTimeout(checkBadges, 2000);
 
         console.log('🎯 Study Goals, Science News, and Achievement Badges loaded!');
+
+        // ========== BATCH 89: Science Dictionary, Study Streak, Quick Notes ==========
+
+        // Science Dictionary Button
+        const dictBtn = document.createElement('button');
+        dictBtn.className = 'dict-btn';
+        dictBtn.innerHTML = '📖';
+        dictBtn.title = 'Science Dictionary';
+        dictBtn.onclick = () => openDictModal();
+        document.body.appendChild(dictBtn);
+
+        // Science Dictionary Modal
+        const dictModal = document.createElement('div');
+        dictModal.className = 'dict-modal';
+        dictModal.id = 'dictModal';
+        dictModal.innerHTML = `
+            <div class="dict-content">
+                <h3 style="color: #455a64; margin-bottom: 15px;">📖 Science Dictionary</h3>
+                <input type="text" class="dict-search" id="dictSearch" placeholder="Search for a term..." oninput="searchDictionary()">
+                <div id="dictResults"></div>
+                <button onclick="closeDictModal()" style="margin-top: 15px; padding: 10px 25px; background: #455a64; color: white; border: none; border-radius: 20px; cursor: pointer; width: 100%;">Close</button>
+            </div>
+        `;
+        document.body.appendChild(dictModal);
+
+        const scienceDictionary = [
+            { term: 'Acceleration', def: 'The rate of change of velocity over time. Measured in m/s².', cat: 'Physics' },
+            { term: 'Atom', def: 'The smallest unit of matter that retains the properties of an element.', cat: 'Chemistry' },
+            { term: 'Cell', def: 'The basic structural and functional unit of all living organisms.', cat: 'Biology' },
+            { term: 'Density', def: 'Mass per unit volume. Calculated as mass divided by volume.', cat: 'Physics' },
+            { term: 'Electron', def: 'A negatively charged subatomic particle that orbits the nucleus.', cat: 'Chemistry' },
+            { term: 'Force', def: 'A push or pull that can change an object\'s motion. Measured in Newtons.', cat: 'Physics' },
+            { term: 'Gene', def: 'A unit of heredity that contains instructions for making proteins.', cat: 'Biology' },
+            { term: 'Hypothesis', def: 'A testable prediction or proposed explanation for an observation.', cat: 'General' },
+            { term: 'Ion', def: 'An atom or molecule with a net electric charge due to electron loss/gain.', cat: 'Chemistry' },
+            { term: 'Kinetic Energy', def: 'Energy possessed by an object due to its motion. KE = ½mv².', cat: 'Physics' },
+            { term: 'Light Year', def: 'The distance light travels in one year (about 9.46 trillion km).', cat: 'Astronomy' },
+            { term: 'Mitosis', def: 'Cell division that produces two identical daughter cells.', cat: 'Biology' },
+            { term: 'Neutron', def: 'A neutral subatomic particle found in the nucleus of an atom.', cat: 'Chemistry' },
+            { term: 'Osmosis', def: 'Movement of water across a membrane from low to high solute concentration.', cat: 'Biology' },
+            { term: 'Photosynthesis', def: 'Process by which plants convert light energy into chemical energy.', cat: 'Biology' },
+            { term: 'Quantum', def: 'The minimum amount of any physical entity involved in an interaction.', cat: 'Physics' },
+            { term: 'Radiation', def: 'Energy emitted as waves or particles, including light and heat.', cat: 'Physics' },
+            { term: 'Solution', def: 'A homogeneous mixture of two or more substances.', cat: 'Chemistry' },
+            { term: 'Temperature', def: 'A measure of the average kinetic energy of particles in a substance.', cat: 'Physics' },
+            { term: 'Velocity', def: 'Speed in a given direction. A vector quantity measured in m/s.', cat: 'Physics' },
+            { term: 'Wavelength', def: 'The distance between consecutive peaks of a wave.', cat: 'Physics' },
+            { term: 'Enzyme', def: 'A biological catalyst that speeds up chemical reactions in cells.', cat: 'Biology' },
+            { term: 'Proton', def: 'A positively charged subatomic particle found in the nucleus.', cat: 'Chemistry' },
+            { term: 'Gravity', def: 'The force of attraction between objects with mass.', cat: 'Physics' }
+        ];
+
+        function openDictModal() {
+            document.getElementById('dictModal').style.display = 'flex';
+            document.getElementById('dictSearch').value = '';
+            showRandomTerms();
+        }
+
+        function closeDictModal() {
+            document.getElementById('dictModal').style.display = 'none';
+        }
+
+        function showRandomTerms() {
+            const random = [...scienceDictionary].sort(() => Math.random() - 0.5).slice(0, 3);
+            document.getElementById('dictResults').innerHTML = random.map(item => `
+                <div class="dict-result" style="margin-bottom: 10px;">
+                    <div class="dict-term">${item.term}</div>
+                    <div class="dict-definition">${item.def}</div>
+                    <span class="dict-category">${item.cat}</span>
+                </div>
+            `).join('');
+        }
+
+        function searchDictionary() {
+            const query = document.getElementById('dictSearch').value.toLowerCase();
+            if (query.length < 2) {
+                showRandomTerms();
+                return;
+            }
+            const results = scienceDictionary.filter(item =>
+                item.term.toLowerCase().includes(query) || item.def.toLowerCase().includes(query)
+            );
+            if (results.length === 0) {
+                document.getElementById('dictResults').innerHTML = '<p style="text-align: center; color: #999;">No terms found. Try a different search.</p>';
+            } else {
+                document.getElementById('dictResults').innerHTML = results.slice(0, 5).map(item => `
+                    <div class="dict-result" style="margin-bottom: 10px;">
+                        <div class="dict-term">${item.term}</div>
+                        <div class="dict-definition">${item.def}</div>
+                        <span class="dict-category">${item.cat}</span>
+                    </div>
+                `).join('');
+            }
+        }
+
+        // Study Streak Button
+        const streakBtn = document.createElement('button');
+        streakBtn.className = 'streak-btn';
+        streakBtn.innerHTML = '🔥';
+        streakBtn.title = 'Study Streak';
+        streakBtn.onclick = () => openStreakModal();
+        document.body.appendChild(streakBtn);
+
+        // Study Streak Modal
+        const streakModal = document.createElement('div');
+        streakModal.className = 'streak-modal';
+        streakModal.id = 'streakModal';
+        streakModal.innerHTML = `
+            <div class="streak-content">
+                <h3 style="color: #ff5722; margin-bottom: 10px;">🔥 Study Streak</h3>
+                <div class="streak-number" id="streakNumber">0</div>
+                <div class="streak-label">day streak</div>
+                <div class="streak-calendar" id="streakCalendar"></div>
+                <p style="color: #666; font-size: 0.9rem;">Keep learning every day to maintain your streak!</p>
+                <button onclick="closeStreakModal()" style="margin-top: 15px; padding: 10px 25px; background: #ff5722; color: white; border: none; border-radius: 20px; cursor: pointer; width: 100%;">Close</button>
+            </div>
+        `;
+        document.body.appendChild(streakModal);
+
+        function getStreakData() {
+            return JSON.parse(localStorage.getItem('studyStreak') || '{"dates": [], "currentStreak": 0}');
+        }
+
+        function saveStreakData(data) {
+            localStorage.setItem('studyStreak', JSON.stringify(data));
+        }
+
+        function updateStreak() {
+            const data = getStreakData();
+            const today = new Date().toDateString();
+
+            if (!data.dates.includes(today)) {
+                data.dates.push(today);
+
+                // Check if yesterday was recorded
+                const yesterday = new Date();
+                yesterday.setDate(yesterday.getDate() - 1);
+                const yesterdayStr = yesterday.toDateString();
+
+                if (data.dates.includes(yesterdayStr) || data.dates.length === 1) {
+                    data.currentStreak++;
+                } else {
+                    data.currentStreak = 1;
+                }
+
+                saveStreakData(data);
+
+                // Award XP for maintaining streak
+                if (data.currentStreak > 1) {
+                    addXP(10 * data.currentStreak);
+                }
+            }
+        }
+
+        function openStreakModal() {
+            document.getElementById('streakModal').style.display = 'flex';
+            updateStreak();
+            renderStreakCalendar();
+        }
+
+        function closeStreakModal() {
+            document.getElementById('streakModal').style.display = 'none';
+        }
+
+        function renderStreakCalendar() {
+            const data = getStreakData();
+            document.getElementById('streakNumber').textContent = data.currentStreak;
+
+            const today = new Date();
+            const calendar = document.getElementById('streakCalendar');
+            let html = '';
+
+            // Show last 14 days
+            for (let i = 13; i >= 0; i--) {
+                const date = new Date();
+                date.setDate(today.getDate() - i);
+                const dateStr = date.toDateString();
+                const isActive = data.dates.includes(dateStr);
+                const isToday = i === 0;
+
+                html += `<div class="streak-day ${isActive ? 'active' : 'inactive'} ${isToday ? 'today' : ''}">${date.getDate()}</div>`;
+            }
+
+            calendar.innerHTML = html;
+        }
+
+        // Update streak on page load
+        setTimeout(updateStreak, 1000);
+
+        // Quick Notes Button
+        const quickNotesBtn = document.createElement('button');
+        quickNotesBtn.className = 'quick-notes-btn';
+        quickNotesBtn.innerHTML = '📝';
+        quickNotesBtn.title = 'Quick Notes';
+        quickNotesBtn.onclick = () => openQuickNotesModal();
+        document.body.appendChild(quickNotesBtn);
+
+        // Quick Notes Modal
+        const quickNotesModal = document.createElement('div');
+        quickNotesModal.className = 'quick-notes-modal';
+        quickNotesModal.id = 'quickNotesModal';
+        quickNotesModal.innerHTML = `
+            <div class="quick-notes-content">
+                <h3 style="color: #9c27b0; margin-bottom: 15px;">📝 Quick Notes</h3>
+                <div id="notesContainer"></div>
+                <div class="add-note-area">
+                    <textarea id="newNoteText" rows="3" placeholder="Jot down a quick note..."></textarea>
+                    <button onclick="addQuickNote()" style="width: 100%; padding: 12px; background: #9c27b0; color: white; border: none; border-radius: 8px; cursor: pointer; font-weight: bold; margin-top: 10px;">Add Note +5 XP</button>
+                </div>
+                <button onclick="closeQuickNotesModal()" style="margin-top: 15px; padding: 10px 25px; background: #9c27b0; color: white; border: none; border-radius: 20px; cursor: pointer; width: 100%;">Close</button>
+            </div>
+        `;
+        document.body.appendChild(quickNotesModal);
+
+        function getQuickNotes() {
+            return JSON.parse(localStorage.getItem('quickNotes') || '[]');
+        }
+
+        function saveQuickNotes(notes) {
+            localStorage.setItem('quickNotes', JSON.stringify(notes));
+        }
+
+        function openQuickNotesModal() {
+            document.getElementById('quickNotesModal').style.display = 'flex';
+            renderQuickNotes();
+        }
+
+        function closeQuickNotesModal() {
+            document.getElementById('quickNotesModal').style.display = 'none';
+        }
+
+        function renderQuickNotes() {
+            const notes = getQuickNotes();
+            const container = document.getElementById('notesContainer');
+
+            if (notes.length === 0) {
+                container.innerHTML = '<p style="text-align: center; color: #999; padding: 20px;">No notes yet! Add one below.</p>';
+            } else {
+                container.innerHTML = notes.map((note, i) => `
+                    <div class="sticky-note">
+                        <button class="sticky-note-delete" onclick="deleteQuickNote(${i})">×</button>
+                        <div class="sticky-note-text">${note.text}</div>
+                        <div class="sticky-note-date">${note.date}</div>
+                    </div>
+                `).join('');
+            }
+        }
+
+        function addQuickNote() {
+            const text = document.getElementById('newNoteText').value.trim();
+            if (!text) return;
+
+            const notes = getQuickNotes();
+            notes.unshift({
+                text: text,
+                date: new Date().toLocaleString()
+            });
+            saveQuickNotes(notes.slice(0, 20)); // Keep max 20 notes
+            document.getElementById('newNoteText').value = '';
+            addXP(5);
+            renderQuickNotes();
+        }
+
+        function deleteQuickNote(index) {
+            const notes = getQuickNotes();
+            notes.splice(index, 1);
+            saveQuickNotes(notes);
+            renderQuickNotes();
+        }
+
+        console.log('📖 Science Dictionary, Study Streak, and Quick Notes loaded!');
     </script>
 
     <!-- PowerPoint-style Table Grid Selector (positioned fixed, outside all containers) -->
