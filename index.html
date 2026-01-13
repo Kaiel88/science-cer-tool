@@ -3624,6 +3624,29 @@
             animation: shimmer 2s infinite;
         }
 
+        /* Study Timer */
+        .study-timer {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            color: white;
+            padding: 8px 16px;
+            border-radius: 20px;
+            font-weight: 600;
+            font-size: 0.95rem;
+            box-shadow: 0 2px 10px rgba(102, 126, 234, 0.3);
+        }
+
+        .study-timer-icon {
+            font-size: 1.1rem;
+        }
+
+        .study-timer-time {
+            font-family: 'Courier New', monospace;
+            min-width: 60px;
+        }
+
         /* Practice Mode Styles */
         #practice-question-content .question-container {
             margin-bottom: 0;
@@ -6585,7 +6608,13 @@
                         <div id="practice-progress" class="hidden practice-progress-container">
                             <div class="practice-progress-header">
                                 <span class="practice-progress-label">Session Progress</span>
-                                <span class="practice-progress-count" id="practice-progress-count">0 / 0 questions</span>
+                                <div style="display: flex; align-items: center; gap: 15px;">
+                                    <div class="study-timer" id="study-timer">
+                                        <span class="study-timer-icon">⏱️</span>
+                                        <span class="study-timer-time" id="study-timer-display">00:00</span>
+                                    </div>
+                                    <span class="practice-progress-count" id="practice-progress-count">0 / 0 questions</span>
+                                </div>
                             </div>
                             <div class="practice-progress-bar">
                                 <div class="practice-progress-fill" id="practice-progress-fill" style="width: 0%;"></div>
@@ -7274,6 +7303,68 @@
                 }
 
                 showSuccessToast('Item restored to worksheet', 'Undo Successful');
+            }
+        };
+
+        // =====================================================
+        // STUDY TIMER
+        // =====================================================
+
+        window.studyTimer = {
+            startTime: null,
+            intervalId: null,
+            elapsedSeconds: 0
+        };
+
+        window.startStudyTimer = function() {
+            // Reset timer
+            window.studyTimer.startTime = Date.now();
+            window.studyTimer.elapsedSeconds = 0;
+
+            // Clear any existing interval
+            if (window.studyTimer.intervalId) {
+                clearInterval(window.studyTimer.intervalId);
+            }
+
+            // Update display every second
+            window.studyTimer.intervalId = setInterval(() => {
+                window.studyTimer.elapsedSeconds = Math.floor((Date.now() - window.studyTimer.startTime) / 1000);
+                updateStudyTimerDisplay();
+            }, 1000);
+
+            updateStudyTimerDisplay();
+        };
+
+        window.stopStudyTimer = function() {
+            if (window.studyTimer.intervalId) {
+                clearInterval(window.studyTimer.intervalId);
+                window.studyTimer.intervalId = null;
+            }
+            return window.studyTimer.elapsedSeconds;
+        };
+
+        window.updateStudyTimerDisplay = function() {
+            const display = document.getElementById('study-timer-display');
+            if (!display) return;
+
+            const seconds = window.studyTimer.elapsedSeconds;
+            const mins = Math.floor(seconds / 60);
+            const secs = seconds % 60;
+
+            display.textContent = `${mins.toString().padStart(2, '0')}:${secs.toString().padStart(2, '0')}`;
+        };
+
+        window.formatStudyTime = function(totalSeconds) {
+            const hours = Math.floor(totalSeconds / 3600);
+            const mins = Math.floor((totalSeconds % 3600) / 60);
+            const secs = totalSeconds % 60;
+
+            if (hours > 0) {
+                return `${hours}h ${mins}m ${secs}s`;
+            } else if (mins > 0) {
+                return `${mins}m ${secs}s`;
+            } else {
+                return `${secs}s`;
             }
         };
 
@@ -11730,6 +11821,9 @@
             document.getElementById('practice-question-container').classList.remove('hidden');
             document.getElementById('practice-complete').classList.add('hidden');
 
+            // Start the study timer
+            startStudyTimer();
+
             updatePracticeStats();
             showCurrentPracticeQuestion();
         };
@@ -12050,12 +12144,20 @@
             const state = window.practiceState;
             const student = state.currentStudent;
 
+            // Stop the study timer
+            const studyTimeSeconds = stopStudyTimer();
+            const studyTimeFormatted = formatStudyTime(studyTimeSeconds);
+
             document.getElementById('practice-question-container').classList.add('hidden');
             document.getElementById('practice-progress').classList.add('hidden');
             document.getElementById('practice-complete').classList.remove('hidden');
 
             const total = state.correct + state.wrong;
             const percentage = total > 0 ? Math.round((state.correct / total) * 100) : 0;
+
+            // Store study time for display
+            state.studyTime = studyTimeSeconds;
+            state.studyTimeFormatted = studyTimeFormatted;
 
             // Celebrate with confetti for good performance
             if (total >= 3 && percentage >= 70) {
@@ -12073,6 +12175,9 @@
                 <div style="text-align: center;">
                     <div style="font-size: 1.2rem; margin-bottom: 1rem;">
                         You got <strong>${state.correct}</strong> out of <strong>${total}</strong> correct (<strong>${percentage}%</strong>)!
+                    </div>
+                    <div style="background: linear-gradient(135deg, #667eea15, #764ba215); padding: 10px 20px; border-radius: 20px; display: inline-block; margin-bottom: 1rem;">
+                        <span style="font-size: 1.1rem;">⏱️ Study Time: <strong>${studyTimeFormatted}</strong></span>
                     </div>
                     <div style="background: linear-gradient(135deg, #f5f5f5, #e8e8e8); padding: 15px; border-radius: 12px; margin-top: 1rem;">
                         <div style="font-size: 1.1rem; font-weight: 600; margin-bottom: 10px;">📊 Rating Summary</div>
