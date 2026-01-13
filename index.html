@@ -27887,6 +27887,308 @@
             border-radius: 5px;
             transition: width 0.5s ease;
         }
+
+        /* Batch 73: Quiz Race */
+        .race-btn {
+            position: fixed;
+            right: 18px;
+            bottom: 1190px;
+            width: 52px;
+            height: 52px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, #ff5722, #ffccbc);
+            color: white;
+            border: none;
+            font-size: 1.4rem;
+            cursor: pointer;
+            box-shadow: 0 4px 15px rgba(255, 87, 34, 0.4);
+            z-index: 1000;
+            transition: all 0.3s ease;
+        }
+
+        .race-btn:hover {
+            transform: scale(1.1);
+        }
+
+        .race-modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0,0,0,0.6);
+            z-index: 10001;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .race-modal.active {
+            display: flex;
+        }
+
+        .race-modal-content {
+            background: white;
+            border-radius: 16px;
+            width: 90%;
+            max-width: 450px;
+            overflow: hidden;
+        }
+
+        .race-modal-header {
+            background: linear-gradient(135deg, #ff5722, #ffccbc);
+            color: white;
+            padding: 15px 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .race-modal-body {
+            padding: 20px;
+        }
+
+        .race-timer-bar {
+            height: 8px;
+            background: #eee;
+            border-radius: 4px;
+            margin-bottom: 20px;
+            overflow: hidden;
+        }
+
+        .race-timer-fill {
+            height: 100%;
+            background: linear-gradient(90deg, #4caf50, #8bc34a);
+            border-radius: 4px;
+            transition: width 0.1s linear;
+        }
+
+        .race-question {
+            font-size: 1.1rem;
+            text-align: center;
+            padding: 15px;
+            background: #fff3e0;
+            border-radius: 12px;
+            margin-bottom: 15px;
+        }
+
+        .race-options {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 10px;
+        }
+
+        .race-option {
+            padding: 12px;
+            border: 2px solid #ff5722;
+            border-radius: 10px;
+            background: white;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .race-option:hover {
+            background: #fff3e0;
+        }
+
+        .race-score {
+            text-align: center;
+            margin-top: 15px;
+            font-weight: bold;
+            color: #ff5722;
+        }
+
+        /* Study Buddy */
+        .buddy-btn {
+            position: fixed;
+            left: 18px;
+            bottom: 1670px;
+            width: 52px;
+            height: 52px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, #e91e63, #f8bbd9);
+            color: white;
+            border: none;
+            font-size: 1.4rem;
+            cursor: pointer;
+            box-shadow: 0 4px 15px rgba(233, 30, 99, 0.4);
+            z-index: 1000;
+            transition: all 0.3s ease;
+        }
+
+        .buddy-btn:hover {
+            transform: scale(1.1);
+        }
+
+        .buddy-modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0,0,0,0.6);
+            z-index: 10001;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .buddy-modal.active {
+            display: flex;
+        }
+
+        .buddy-modal-content {
+            background: white;
+            border-radius: 16px;
+            width: 90%;
+            max-width: 400px;
+            overflow: hidden;
+        }
+
+        .buddy-modal-header {
+            background: linear-gradient(135deg, #e91e63, #f8bbd9);
+            color: white;
+            padding: 15px 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .buddy-modal-body {
+            padding: 25px;
+            text-align: center;
+        }
+
+        .buddy-avatar {
+            font-size: 4rem;
+            margin-bottom: 15px;
+        }
+
+        .buddy-message {
+            font-size: 1.1rem;
+            color: #333;
+            background: #fce4ec;
+            padding: 20px;
+            border-radius: 15px;
+            margin-bottom: 15px;
+        }
+
+        .buddy-actions {
+            display: flex;
+            gap: 10px;
+            justify-content: center;
+        }
+
+        .buddy-action-btn {
+            padding: 10px 20px;
+            border: none;
+            border-radius: 20px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        /* Quick Facts Cards */
+        .facts-cards-btn {
+            position: fixed;
+            right: 18px;
+            bottom: 1230px;
+            width: 52px;
+            height: 52px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, #9c27b0, #ce93d8);
+            color: white;
+            border: none;
+            font-size: 1.4rem;
+            cursor: pointer;
+            box-shadow: 0 4px 15px rgba(156, 39, 176, 0.4);
+            z-index: 1000;
+            transition: all 0.3s ease;
+        }
+
+        .facts-cards-btn:hover {
+            transform: scale(1.1);
+        }
+
+        .facts-modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0,0,0,0.6);
+            z-index: 10001;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .facts-modal.active {
+            display: flex;
+        }
+
+        .facts-modal-content {
+            background: white;
+            border-radius: 16px;
+            width: 90%;
+            max-width: 400px;
+            overflow: hidden;
+        }
+
+        .facts-modal-header {
+            background: linear-gradient(135deg, #9c27b0, #ce93d8);
+            color: white;
+            padding: 15px 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .facts-modal-body {
+            padding: 20px;
+        }
+
+        .facts-card {
+            background: linear-gradient(135deg, #f3e5f5, #e1bee7);
+            padding: 30px 20px;
+            border-radius: 16px;
+            text-align: center;
+            min-height: 150px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+        }
+
+        .facts-card-icon {
+            font-size: 2.5rem;
+            margin-bottom: 15px;
+        }
+
+        .facts-card-text {
+            font-size: 1.1rem;
+            color: #333;
+            line-height: 1.5;
+        }
+
+        .facts-nav {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-top: 20px;
+        }
+
+        .facts-nav-btn {
+            padding: 10px 20px;
+            background: #9c27b0;
+            color: white;
+            border: none;
+            border-radius: 20px;
+            cursor: pointer;
+        }
+
+        .facts-counter {
+            color: #9c27b0;
+            font-weight: bold;
+        }
     </style>
 </head>
 
@@ -70943,6 +71245,253 @@ This report was generated from the Science CER Practice App.
         }
 
         console.log('📝 Fill in the Blanks, Experiment Ideas, and Topic Progress loaded!');
+    </script>
+
+    <!-- Batch 73: Quiz Race Button -->
+    <button class="race-btn" onclick="openQuizRace()" title="Quiz Race">
+        🏎️
+    </button>
+
+    <!-- Quiz Race Modal -->
+    <div class="race-modal" id="raceModal">
+        <div class="race-modal-content">
+            <div class="race-modal-header">
+                <h3>🏎️ Quiz Race</h3>
+                <button onclick="closeQuizRace()" style="background:none;border:none;color:white;font-size:1.5rem;cursor:pointer;">✕</button>
+            </div>
+            <div class="race-modal-body">
+                <div class="race-timer-bar">
+                    <div class="race-timer-fill" id="raceTimerFill" style="width:100%"></div>
+                </div>
+                <div class="race-question" id="raceQuestion">Click Start to begin!</div>
+                <div class="race-options" id="raceOptions"></div>
+                <div class="race-score" id="raceScore">Score: 0 | Time: 30s</div>
+                <button onclick="startQuizRace()" id="raceStartBtn" style="width:100%;margin-top:15px;padding:12px;background:#4caf50;color:white;border:none;border-radius:10px;cursor:pointer;">🏁 Start Race!</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Study Buddy Button -->
+    <button class="buddy-btn" onclick="openStudyBuddy()" title="Study Buddy">
+        🤖
+    </button>
+
+    <!-- Study Buddy Modal -->
+    <div class="buddy-modal" id="buddyModal">
+        <div class="buddy-modal-content">
+            <div class="buddy-modal-header">
+                <h3>🤖 Study Buddy</h3>
+                <button onclick="closeStudyBuddy()" style="background:none;border:none;color:white;font-size:1.5rem;cursor:pointer;">✕</button>
+            </div>
+            <div class="buddy-modal-body">
+                <div class="buddy-avatar">🤖</div>
+                <div class="buddy-message" id="buddyMessage">Hi there! Ready to learn some science?</div>
+                <div class="buddy-actions">
+                    <button class="buddy-action-btn" style="background:#e91e63;color:white;" onclick="getBuddyTip()">💡 Get Tip</button>
+                    <button class="buddy-action-btn" style="background:#9c27b0;color:white;" onclick="getBuddyMotivation()">💪 Motivate Me</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Quick Facts Cards Button -->
+    <button class="facts-cards-btn" onclick="openFactsCards()" title="Quick Facts">
+        🎴
+    </button>
+
+    <!-- Quick Facts Cards Modal -->
+    <div class="facts-modal" id="factsCardsModal">
+        <div class="facts-modal-content">
+            <div class="facts-modal-header">
+                <h3>🎴 Quick Facts</h3>
+                <button onclick="closeFactsCards()" style="background:none;border:none;color:white;font-size:1.5rem;cursor:pointer;">✕</button>
+            </div>
+            <div class="facts-modal-body">
+                <div class="facts-card" id="factsCard">
+                    <div class="facts-card-icon" id="factsIcon">🔬</div>
+                    <div class="facts-card-text" id="factsText">Loading fact...</div>
+                </div>
+                <div class="facts-nav">
+                    <button class="facts-nav-btn" onclick="prevFact()">◀ Prev</button>
+                    <span class="facts-counter" id="factsCounter">1/15</span>
+                    <button class="facts-nav-btn" onclick="nextFact()">Next ▶</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Batch 73: Quiz Race, Study Buddy, Quick Facts Cards
+
+        // Quiz Race
+        const raceQuestions = [
+            { q: 'Unit of force?', opts: ['Newton', 'Joule', 'Watt', 'Volt'], answer: 0 },
+            { q: 'Powerhouse of cell?', opts: ['Nucleus', 'Mitochondria', 'Ribosome', 'Golgi'], answer: 1 },
+            { q: 'Symbol for Gold?', opts: ['Go', 'Gd', 'Au', 'Ag'], answer: 2 },
+            { q: 'Planet closest to Sun?', opts: ['Venus', 'Mercury', 'Mars', 'Earth'], answer: 1 },
+            { q: 'What gives plants green color?', opts: ['Chlorophyll', 'Melanin', 'Hemoglobin', 'Keratin'], answer: 0 },
+            { q: 'Speed of light medium?', opts: ['Water', 'Air', 'Glass', 'Vacuum'], answer: 3 },
+            { q: 'H2O is?', opts: ['Salt', 'Water', 'Sugar', 'Acid'], answer: 1 },
+            { q: 'Electrons are?', opts: ['Positive', 'Negative', 'Neutral', 'Variable'], answer: 1 },
+            { q: 'Largest organ?', opts: ['Heart', 'Liver', 'Skin', 'Brain'], answer: 2 },
+            { q: 'Diamond is made of?', opts: ['Silicon', 'Carbon', 'Iron', 'Gold'], answer: 1 }
+        ];
+
+        let raceState = { score: 0, timeLeft: 30, interval: null, current: null, active: false };
+
+        function openQuizRace() {
+            document.getElementById('raceModal').classList.add('active');
+            resetQuizRace();
+        }
+
+        function closeQuizRace() {
+            document.getElementById('raceModal').classList.remove('active');
+            if (raceState.interval) clearInterval(raceState.interval);
+        }
+
+        function resetQuizRace() {
+            raceState.score = 0;
+            raceState.timeLeft = 30;
+            raceState.active = false;
+            if (raceState.interval) clearInterval(raceState.interval);
+            document.getElementById('raceTimerFill').style.width = '100%';
+            document.getElementById('raceQuestion').textContent = 'Click Start to begin!';
+            document.getElementById('raceOptions').innerHTML = '';
+            document.getElementById('raceScore').textContent = 'Score: 0 | Time: 30s';
+            document.getElementById('raceStartBtn').style.display = 'block';
+        }
+
+        function startQuizRace() {
+            raceState.active = true;
+            document.getElementById('raceStartBtn').style.display = 'none';
+            nextRaceQuestion();
+
+            raceState.interval = setInterval(() => {
+                raceState.timeLeft--;
+                const pct = (raceState.timeLeft / 30) * 100;
+                document.getElementById('raceTimerFill').style.width = pct + '%';
+                document.getElementById('raceScore').textContent = `Score: ${raceState.score} | Time: ${raceState.timeLeft}s`;
+
+                if (raceState.timeLeft <= 0) {
+                    clearInterval(raceState.interval);
+                    raceState.active = false;
+                    const xp = raceState.score * 5;
+                    addXP(xp);
+                    document.getElementById('raceQuestion').textContent = `🏁 Race Over! Final Score: ${raceState.score}`;
+                    document.getElementById('raceOptions').innerHTML = `<p style="text-align:center;grid-column:span 2;">+${xp} XP earned!</p>`;
+                    document.getElementById('raceStartBtn').style.display = 'block';
+                    document.getElementById('raceStartBtn').textContent = '🔄 Play Again';
+                }
+            }, 1000);
+        }
+
+        function nextRaceQuestion() {
+            raceState.current = raceQuestions[Math.floor(Math.random() * raceQuestions.length)];
+            document.getElementById('raceQuestion').textContent = raceState.current.q;
+            document.getElementById('raceOptions').innerHTML = raceState.current.opts.map((opt, i) => `
+                <button class="race-option" onclick="answerRace(${i})">${opt}</button>
+            `).join('');
+        }
+
+        function answerRace(idx) {
+            if (!raceState.active) return;
+            if (idx === raceState.current.answer) {
+                raceState.score++;
+                document.getElementById('raceScore').textContent = `Score: ${raceState.score} | Time: ${raceState.timeLeft}s`;
+            }
+            nextRaceQuestion();
+        }
+
+        // Study Buddy
+        const buddyTips = [
+            "Break big topics into smaller chunks. It's easier to digest!",
+            "Use mnemonics to remember lists and sequences.",
+            "Draw diagrams! Visual learning sticks better.",
+            "Teach what you learn to someone else - it reinforces memory.",
+            "Take short breaks every 25 minutes using the Pomodoro technique.",
+            "Connect new concepts to things you already know.",
+            "Practice with past exam questions regularly.",
+            "Get enough sleep - your brain consolidates learning during rest!"
+        ];
+
+        const buddyMotivations = [
+            "You're doing amazing! Every question brings you closer to success! 🌟",
+            "Scientists never give up - and neither should you! 💪",
+            "Your brain is growing stronger with every problem you solve! 🧠",
+            "Remember: Einstein failed before he succeeded. Keep going! 🚀",
+            "You've got this! One step at a time leads to great discoveries! 🔬",
+            "Learning is a journey, not a race. Enjoy the process! 🎯",
+            "Every expert was once a beginner. You're on your way! ⭐"
+        ];
+
+        function openStudyBuddy() {
+            document.getElementById('buddyModal').classList.add('active');
+            document.getElementById('buddyMessage').textContent = "Hi there! Ready to learn some science? 🤖";
+        }
+
+        function closeStudyBuddy() {
+            document.getElementById('buddyModal').classList.remove('active');
+        }
+
+        function getBuddyTip() {
+            const tip = buddyTips[Math.floor(Math.random() * buddyTips.length)];
+            document.getElementById('buddyMessage').textContent = "💡 " + tip;
+        }
+
+        function getBuddyMotivation() {
+            const mot = buddyMotivations[Math.floor(Math.random() * buddyMotivations.length)];
+            document.getElementById('buddyMessage').textContent = mot;
+        }
+
+        // Quick Facts Cards
+        const quickFacts = [
+            { icon: '⚡', fact: 'Lightning is 5 times hotter than the surface of the sun!' },
+            { icon: '🧬', fact: 'Human DNA stretched out would reach the sun and back 600 times!' },
+            { icon: '🌍', fact: 'Earth is the only planet not named after a Greek or Roman god.' },
+            { icon: '💧', fact: 'Hot water freezes faster than cold water - the Mpemba effect!' },
+            { icon: '🦴', fact: 'Babies have about 300 bones, adults have only 206.' },
+            { icon: '🔬', fact: 'A teaspoon of neutron star weighs about 6 billion tons!' },
+            { icon: '🌊', fact: 'The ocean produces over 50% of the world\'s oxygen.' },
+            { icon: '🦋', fact: 'A butterfly tastes with its feet!' },
+            { icon: '☀️', fact: 'Sunlight takes about 8 minutes to reach Earth.' },
+            { icon: '🧠', fact: 'Your brain uses about 20% of your body\'s energy.' },
+            { icon: '💎', fact: 'It rains diamonds on Saturn and Jupiter!' },
+            { icon: '🦷', fact: 'Tooth enamel is the hardest substance in your body.' },
+            { icon: '🌙', fact: 'The Moon is slowly moving away from Earth - about 3.8 cm per year.' },
+            { icon: '🔥', fact: 'Fire needs oxygen. In space, flames are round, not teardrop-shaped!' },
+            { icon: '🐙', fact: 'Octopuses have three hearts and blue blood!' }
+        ];
+
+        let currentFactIdx = 0;
+
+        function openFactsCards() {
+            document.getElementById('factsCardsModal').classList.add('active');
+            showFact(0);
+        }
+
+        function closeFactsCards() {
+            document.getElementById('factsCardsModal').classList.remove('active');
+        }
+
+        function showFact(idx) {
+            currentFactIdx = idx;
+            const fact = quickFacts[idx];
+            document.getElementById('factsIcon').textContent = fact.icon;
+            document.getElementById('factsText').textContent = fact.fact;
+            document.getElementById('factsCounter').textContent = `${idx + 1}/${quickFacts.length}`;
+        }
+
+        function prevFact() {
+            const newIdx = currentFactIdx > 0 ? currentFactIdx - 1 : quickFacts.length - 1;
+            showFact(newIdx);
+        }
+
+        function nextFact() {
+            const newIdx = currentFactIdx < quickFacts.length - 1 ? currentFactIdx + 1 : 0;
+            showFact(newIdx);
+        }
+
+        console.log('🏎️ Quiz Race, Study Buddy, and Quick Facts Cards loaded!');
     </script>
 
     <!-- PowerPoint-style Table Grid Selector (positioned fixed, outside all containers) -->
