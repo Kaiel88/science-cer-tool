@@ -24004,6 +24004,413 @@
         .start-battle-btn:hover {
             transform: scale(1.05);
         }
+
+        /* ===== BATCH 60: Leaderboard, Achievements, Sound Effects ===== */
+
+        /* Leaderboard Button */
+        .leaderboard-btn {
+            position: fixed;
+            bottom: 310px;
+            right: 20px;
+            width: 50px;
+            height: 50px;
+            background: linear-gradient(135deg, #f9a825, #fbc02d);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.3rem;
+            cursor: pointer;
+            box-shadow: 0 5px 20px rgba(251, 192, 45, 0.4);
+            z-index: 999;
+            transition: all 0.3s ease;
+        }
+
+        .leaderboard-btn:hover {
+            transform: scale(1.1);
+        }
+
+        /* Achievements Button */
+        .achievements-btn {
+            position: fixed;
+            bottom: 370px;
+            right: 20px;
+            width: 50px;
+            height: 50px;
+            background: linear-gradient(135deg, #6d4c41, #8d6e63);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.3rem;
+            cursor: pointer;
+            box-shadow: 0 5px 20px rgba(141, 110, 99, 0.4);
+            z-index: 999;
+            transition: all 0.3s ease;
+        }
+
+        .achievements-btn:hover {
+            transform: scale(1.1);
+        }
+
+        /* Sound FX Button */
+        .sound-fx-btn {
+            position: fixed;
+            bottom: 430px;
+            right: 20px;
+            width: 50px;
+            height: 50px;
+            background: linear-gradient(135deg, #00838f, #00acc1);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.3rem;
+            cursor: pointer;
+            box-shadow: 0 5px 20px rgba(0, 172, 193, 0.4);
+            z-index: 999;
+            transition: all 0.3s ease;
+        }
+
+        .sound-fx-btn:hover {
+            transform: scale(1.1);
+        }
+
+        /* Leaderboard Modal */
+        .leaderboard-modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.5);
+            z-index: 10000;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .leaderboard-modal.active {
+            display: flex;
+        }
+
+        .leaderboard-content {
+            background: white;
+            border-radius: 20px;
+            width: 95%;
+            max-width: 500px;
+            max-height: 85vh;
+            overflow-y: auto;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+        }
+
+        .leaderboard-header {
+            background: linear-gradient(135deg, #f9a825, #fbc02d);
+            color: white;
+            padding: 20px;
+            border-radius: 20px 20px 0 0;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .leaderboard-header h2 {
+            margin: 0;
+            font-size: 1.4rem;
+        }
+
+        .close-leaderboard {
+            background: rgba(255, 255, 255, 0.2);
+            border: none;
+            color: white;
+            width: 35px;
+            height: 35px;
+            border-radius: 50%;
+            font-size: 1.3rem;
+            cursor: pointer;
+        }
+
+        .leaderboard-body {
+            padding: 20px;
+        }
+
+        .leaderboard-entry {
+            display: flex;
+            align-items: center;
+            padding: 15px;
+            background: #fffde7;
+            border-radius: 10px;
+            margin-bottom: 10px;
+        }
+
+        .leaderboard-entry.you {
+            background: linear-gradient(135deg, #fff9c4, #fff59d);
+            border: 2px solid #fbc02d;
+        }
+
+        .leaderboard-rank {
+            font-size: 1.5rem;
+            font-weight: bold;
+            width: 50px;
+            text-align: center;
+        }
+
+        .leaderboard-rank.gold { color: #f9a825; }
+        .leaderboard-rank.silver { color: #9e9e9e; }
+        .leaderboard-rank.bronze { color: #8d6e63; }
+
+        .leaderboard-info {
+            flex: 1;
+            margin-left: 15px;
+        }
+
+        .leaderboard-name {
+            font-weight: bold;
+        }
+
+        .leaderboard-xp {
+            color: #f9a825;
+            font-weight: bold;
+        }
+
+        /* Achievements Modal */
+        .achievements-modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.5);
+            z-index: 10000;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .achievements-modal.active {
+            display: flex;
+        }
+
+        .achievements-content {
+            background: white;
+            border-radius: 20px;
+            width: 95%;
+            max-width: 600px;
+            max-height: 85vh;
+            overflow-y: auto;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+        }
+
+        .achievements-header {
+            background: linear-gradient(135deg, #6d4c41, #8d6e63);
+            color: white;
+            padding: 20px;
+            border-radius: 20px 20px 0 0;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .achievements-header h2 {
+            margin: 0;
+            font-size: 1.4rem;
+        }
+
+        .close-achievements {
+            background: rgba(255, 255, 255, 0.2);
+            border: none;
+            color: white;
+            width: 35px;
+            height: 35px;
+            border-radius: 50%;
+            font-size: 1.3rem;
+            cursor: pointer;
+        }
+
+        .achievements-body {
+            padding: 20px;
+        }
+
+        .achievement-card {
+            display: flex;
+            align-items: center;
+            padding: 15px;
+            background: #efebe9;
+            border-radius: 15px;
+            margin-bottom: 10px;
+            opacity: 0.5;
+        }
+
+        .achievement-card.unlocked {
+            opacity: 1;
+            background: linear-gradient(135deg, #efebe9, #d7ccc8);
+        }
+
+        .achievement-icon {
+            font-size: 2.5rem;
+            margin-right: 15px;
+        }
+
+        .achievement-info h4 {
+            margin: 0 0 5px 0;
+            color: #5d4037;
+        }
+
+        .achievement-info p {
+            margin: 0;
+            color: #8d6e63;
+            font-size: 0.9rem;
+        }
+
+        .achievement-status {
+            margin-left: auto;
+            padding: 5px 15px;
+            border-radius: 15px;
+            font-size: 0.8rem;
+            font-weight: bold;
+        }
+
+        .achievement-status.locked {
+            background: #bdbdbd;
+            color: white;
+        }
+
+        .achievement-status.unlocked {
+            background: #4caf50;
+            color: white;
+        }
+
+        /* Sound FX Modal */
+        .sound-fx-modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.5);
+            z-index: 10000;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .sound-fx-modal.active {
+            display: flex;
+        }
+
+        .sound-fx-content {
+            background: white;
+            border-radius: 20px;
+            width: 95%;
+            max-width: 400px;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+        }
+
+        .sound-fx-header {
+            background: linear-gradient(135deg, #00838f, #00acc1);
+            color: white;
+            padding: 20px;
+            border-radius: 20px 20px 0 0;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .sound-fx-header h2 {
+            margin: 0;
+            font-size: 1.4rem;
+        }
+
+        .close-sound-fx {
+            background: rgba(255, 255, 255, 0.2);
+            border: none;
+            color: white;
+            width: 35px;
+            height: 35px;
+            border-radius: 50%;
+            font-size: 1.3rem;
+            cursor: pointer;
+        }
+
+        .sound-fx-body {
+            padding: 20px;
+        }
+
+        .sound-option {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 15px;
+            background: #e0f7fa;
+            border-radius: 10px;
+            margin-bottom: 10px;
+        }
+
+        .sound-option-info {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .sound-option-icon {
+            font-size: 1.5rem;
+        }
+
+        .sound-toggle {
+            position: relative;
+            width: 50px;
+            height: 26px;
+        }
+
+        .sound-toggle input {
+            opacity: 0;
+            width: 0;
+            height: 0;
+        }
+
+        .sound-slider {
+            position: absolute;
+            cursor: pointer;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: #bdbdbd;
+            border-radius: 26px;
+            transition: 0.3s;
+        }
+
+        .sound-slider:before {
+            position: absolute;
+            content: "";
+            height: 20px;
+            width: 20px;
+            left: 3px;
+            bottom: 3px;
+            background: white;
+            border-radius: 50%;
+            transition: 0.3s;
+        }
+
+        .sound-toggle input:checked + .sound-slider {
+            background: #00acc1;
+        }
+
+        .sound-toggle input:checked + .sound-slider:before {
+            transform: translateX(24px);
+        }
+
+        .volume-control {
+            margin-top: 20px;
+            padding: 15px;
+            background: #e0f7fa;
+            border-radius: 10px;
+        }
+
+        .volume-slider {
+            width: 100%;
+            margin-top: 10px;
+        }
     </style>
 </head>
 
@@ -63399,6 +63806,357 @@ This report was generated from the Science CER Practice App.
         }
 
         console.log('🎮 Memory Game, Experiment Lab, and Quiz Battle loaded!');
+    </script>
+
+    <!-- Batch 60: Leaderboard, Achievements, Sound Effects -->
+    <div id="leaderboard-btn" class="leaderboard-btn" onclick="openLeaderboard()" title="Leaderboard">
+        🏆
+    </div>
+
+    <div id="achievements-btn" class="achievements-btn" onclick="openAchievements()" title="Achievements">
+        🏅
+    </div>
+
+    <div id="sound-fx-btn" class="sound-fx-btn" onclick="openSoundFX()" title="Sound Settings">
+        🔊
+    </div>
+
+    <!-- Leaderboard Modal -->
+    <div id="leaderboard-modal" class="leaderboard-modal">
+        <div class="leaderboard-content">
+            <div class="leaderboard-header">
+                <h2>🏆 Leaderboard</h2>
+                <button class="close-leaderboard" onclick="closeLeaderboard()">×</button>
+            </div>
+            <div class="leaderboard-body" id="leaderboard-body">
+            </div>
+        </div>
+    </div>
+
+    <!-- Achievements Modal -->
+    <div id="achievements-modal" class="achievements-modal">
+        <div class="achievements-content">
+            <div class="achievements-header">
+                <h2>🏅 Achievements</h2>
+                <button class="close-achievements" onclick="closeAchievements()">×</button>
+            </div>
+            <div class="achievements-body" id="achievements-body">
+            </div>
+        </div>
+    </div>
+
+    <!-- Sound FX Modal -->
+    <div id="sound-fx-modal" class="sound-fx-modal">
+        <div class="sound-fx-content">
+            <div class="sound-fx-header">
+                <h2>🔊 Sound Settings</h2>
+                <button class="close-sound-fx" onclick="closeSoundFX()">×</button>
+            </div>
+            <div class="sound-fx-body">
+                <div class="sound-option">
+                    <div class="sound-option-info">
+                        <span class="sound-option-icon">✅</span>
+                        <span>Correct Answer</span>
+                    </div>
+                    <label class="sound-toggle">
+                        <input type="checkbox" id="sound-correct" checked onchange="saveSoundSettings()">
+                        <span class="sound-slider"></span>
+                    </label>
+                </div>
+                <div class="sound-option">
+                    <div class="sound-option-info">
+                        <span class="sound-option-icon">❌</span>
+                        <span>Wrong Answer</span>
+                    </div>
+                    <label class="sound-toggle">
+                        <input type="checkbox" id="sound-wrong" checked onchange="saveSoundSettings()">
+                        <span class="sound-slider"></span>
+                    </label>
+                </div>
+                <div class="sound-option">
+                    <div class="sound-option-info">
+                        <span class="sound-option-icon">🎉</span>
+                        <span>Level Up</span>
+                    </div>
+                    <label class="sound-toggle">
+                        <input type="checkbox" id="sound-levelup" checked onchange="saveSoundSettings()">
+                        <span class="sound-slider"></span>
+                    </label>
+                </div>
+                <div class="sound-option">
+                    <div class="sound-option-info">
+                        <span class="sound-option-icon">🏆</span>
+                        <span>Achievement</span>
+                    </div>
+                    <label class="sound-toggle">
+                        <input type="checkbox" id="sound-achievement" checked onchange="saveSoundSettings()">
+                        <span class="sound-slider"></span>
+                    </label>
+                </div>
+                <div class="volume-control">
+                    <div style="display: flex; justify-content: space-between;">
+                        <span>🔈 Volume</span>
+                        <span id="volume-value">70%</span>
+                    </div>
+                    <input type="range" class="volume-slider" id="volume-slider" min="0" max="100" value="70" oninput="updateVolume()">
+                </div>
+                <button class="start-battle-btn" style="width: 100%; margin-top: 15px; background: linear-gradient(135deg, #00838f, #00acc1);" onclick="testAllSounds()">
+                    🔊 Test All Sounds
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // ===== BATCH 60: Leaderboard, Achievements, Sound Effects =====
+
+        // Simulated leaderboard data (with your actual XP)
+        const samplePlayers = [
+            { name: 'ScienceWhiz', xp: 2500 },
+            { name: 'QuantumKid', xp: 2100 },
+            { name: 'BioExplorer', xp: 1800 },
+            { name: 'ChemMaster', xp: 1500 },
+            { name: 'PhysicsNerd', xp: 1200 },
+            { name: 'NatureLover', xp: 900 },
+            { name: 'SpaceFan', xp: 600 },
+            { name: 'EarthScientist', xp: 400 }
+        ];
+
+        // Achievements definitions
+        const achievements = [
+            { id: 'first_question', name: 'First Steps', desc: 'Answer your first question', icon: '👶', check: () => getAnswerCount() >= 1 },
+            { id: 'ten_questions', name: 'Getting Started', desc: 'Answer 10 questions', icon: '🌱', check: () => getAnswerCount() >= 10 },
+            { id: 'fifty_questions', name: 'Dedicated Learner', desc: 'Answer 50 questions', icon: '📚', check: () => getAnswerCount() >= 50 },
+            { id: 'hundred_xp', name: 'XP Collector', desc: 'Earn 100 XP', icon: '⭐', check: () => getXP() >= 100 },
+            { id: 'five_hundred_xp', name: 'XP Hunter', desc: 'Earn 500 XP', icon: '🌟', check: () => getXP() >= 500 },
+            { id: 'thousand_xp', name: 'XP Master', desc: 'Earn 1000 XP', icon: '💫', check: () => getXP() >= 1000 },
+            { id: 'first_experiment', name: 'Junior Scientist', desc: 'Complete an experiment', icon: '🔬', check: () => getExperimentCount() >= 1 },
+            { id: 'battle_winner', name: 'Battle Champion', desc: 'Win a quiz battle', icon: '⚔️', check: () => getBattleWins() >= 1 },
+            { id: 'memory_master', name: 'Memory Master', desc: 'Complete memory game', icon: '🧠', check: () => getMemoryWins() >= 1 },
+            { id: 'streak_three', name: 'On Fire', desc: 'Get a 3-day streak', icon: '🔥', check: () => getStreak() >= 3 },
+            { id: 'early_bird', name: 'Early Bird', desc: 'Study before 8 AM', icon: '🐦', check: () => checkEarlyBird() },
+            { id: 'night_owl', name: 'Night Owl', desc: 'Study after 9 PM', icon: '🦉', check: () => checkNightOwl() }
+        ];
+
+        // Audio context for sound effects
+        let audioContext = null;
+
+        // Helper functions for achievements
+        function getAnswerCount() {
+            return parseInt(localStorage.getItem('totalAnswers') || '0');
+        }
+
+        function getXP() {
+            return parseInt(localStorage.getItem('scienceXP') || '0');
+        }
+
+        function getExperimentCount() {
+            const completed = JSON.parse(localStorage.getItem('completedExperiments') || '[]');
+            return completed.length;
+        }
+
+        function getBattleWins() {
+            return parseInt(localStorage.getItem('battleWins') || '0');
+        }
+
+        function getMemoryWins() {
+            return parseInt(localStorage.getItem('memoryWins') || '0');
+        }
+
+        function getStreak() {
+            return parseInt(localStorage.getItem('factStreak') || '0');
+        }
+
+        function checkEarlyBird() {
+            const hour = new Date().getHours();
+            if (hour < 8) {
+                localStorage.setItem('earlyBirdAchieved', 'true');
+            }
+            return localStorage.getItem('earlyBirdAchieved') === 'true';
+        }
+
+        function checkNightOwl() {
+            const hour = new Date().getHours();
+            if (hour >= 21) {
+                localStorage.setItem('nightOwlAchieved', 'true');
+            }
+            return localStorage.getItem('nightOwlAchieved') === 'true';
+        }
+
+        // Leaderboard Functions
+        function openLeaderboard() {
+            document.getElementById('leaderboard-modal').classList.add('active');
+            renderLeaderboard();
+        }
+
+        function closeLeaderboard() {
+            document.getElementById('leaderboard-modal').classList.remove('active');
+        }
+
+        function renderLeaderboard() {
+            const yourXP = getXP();
+            const yourName = localStorage.getItem('playerName') || 'You';
+
+            // Create combined list
+            const allPlayers = [...samplePlayers, { name: yourName, xp: yourXP, isYou: true }];
+            allPlayers.sort((a, b) => b.xp - a.xp);
+
+            const body = document.getElementById('leaderboard-body');
+            body.innerHTML = allPlayers.slice(0, 10).map((player, i) => {
+                const rankClass = i === 0 ? 'gold' : i === 1 ? 'silver' : i === 2 ? 'bronze' : '';
+                const rankIcon = i === 0 ? '🥇' : i === 1 ? '🥈' : i === 2 ? '🥉' : (i + 1);
+
+                return `
+                    <div class="leaderboard-entry ${player.isYou ? 'you' : ''}">
+                        <div class="leaderboard-rank ${rankClass}">${rankIcon}</div>
+                        <div class="leaderboard-info">
+                            <div class="leaderboard-name">${player.name} ${player.isYou ? '(You)' : ''}</div>
+                            <div class="leaderboard-xp">${player.xp.toLocaleString()} XP</div>
+                        </div>
+                    </div>
+                `;
+            }).join('');
+        }
+
+        // Achievements Functions
+        function openAchievements() {
+            document.getElementById('achievements-modal').classList.add('active');
+            renderAchievements();
+        }
+
+        function closeAchievements() {
+            document.getElementById('achievements-modal').classList.remove('active');
+        }
+
+        function renderAchievements() {
+            const unlockedIds = JSON.parse(localStorage.getItem('unlockedAchievements') || '[]');
+            const body = document.getElementById('achievements-body');
+
+            // Check for new achievements
+            achievements.forEach(ach => {
+                if (!unlockedIds.includes(ach.id) && ach.check()) {
+                    unlockedIds.push(ach.id);
+                    playSoundEffect('achievement');
+                }
+            });
+
+            localStorage.setItem('unlockedAchievements', JSON.stringify(unlockedIds));
+
+            const unlockedCount = unlockedIds.length;
+            body.innerHTML = `
+                <div style="text-align: center; margin-bottom: 20px; padding: 15px; background: #efebe9; border-radius: 10px;">
+                    <div style="font-size: 1.5rem; font-weight: bold; color: #5d4037;">${unlockedCount}/${achievements.length}</div>
+                    <div style="color: #8d6e63;">Achievements Unlocked</div>
+                </div>
+                ${achievements.map(ach => {
+                    const unlocked = unlockedIds.includes(ach.id);
+                    return `
+                        <div class="achievement-card ${unlocked ? 'unlocked' : ''}">
+                            <div class="achievement-icon">${ach.icon}</div>
+                            <div class="achievement-info">
+                                <h4>${ach.name}</h4>
+                                <p>${ach.desc}</p>
+                            </div>
+                            <div class="achievement-status ${unlocked ? 'unlocked' : 'locked'}">
+                                ${unlocked ? '✓ Unlocked' : '🔒 Locked'}
+                            </div>
+                        </div>
+                    `;
+                }).join('')}
+            `;
+        }
+
+        // Sound Effects Functions
+        function openSoundFX() {
+            document.getElementById('sound-fx-modal').classList.add('active');
+            loadSoundSettings();
+        }
+
+        function closeSoundFX() {
+            document.getElementById('sound-fx-modal').classList.remove('active');
+        }
+
+        function loadSoundSettings() {
+            const settings = JSON.parse(localStorage.getItem('soundSettings') || '{}');
+            document.getElementById('sound-correct').checked = settings.correct !== false;
+            document.getElementById('sound-wrong').checked = settings.wrong !== false;
+            document.getElementById('sound-levelup').checked = settings.levelup !== false;
+            document.getElementById('sound-achievement').checked = settings.achievement !== false;
+            document.getElementById('volume-slider').value = settings.volume || 70;
+            document.getElementById('volume-value').textContent = (settings.volume || 70) + '%';
+        }
+
+        function saveSoundSettings() {
+            const settings = {
+                correct: document.getElementById('sound-correct').checked,
+                wrong: document.getElementById('sound-wrong').checked,
+                levelup: document.getElementById('sound-levelup').checked,
+                achievement: document.getElementById('sound-achievement').checked,
+                volume: parseInt(document.getElementById('volume-slider').value)
+            };
+            localStorage.setItem('soundSettings', JSON.stringify(settings));
+        }
+
+        function updateVolume() {
+            const volume = document.getElementById('volume-slider').value;
+            document.getElementById('volume-value').textContent = volume + '%';
+            saveSoundSettings();
+        }
+
+        function getAudioContext() {
+            if (!audioContext) {
+                audioContext = new (window.AudioContext || window.webkitAudioContext)();
+            }
+            return audioContext;
+        }
+
+        function playSoundEffect(type) {
+            const settings = JSON.parse(localStorage.getItem('soundSettings') || '{}');
+            if (settings[type] === false) return;
+
+            const volume = (settings.volume || 70) / 100;
+            const ctx = getAudioContext();
+            const oscillator = ctx.createOscillator();
+            const gainNode = ctx.createGain();
+
+            oscillator.connect(gainNode);
+            gainNode.connect(ctx.destination);
+            gainNode.gain.value = volume * 0.3;
+
+            if (type === 'correct') {
+                oscillator.frequency.value = 523.25;
+                oscillator.type = 'sine';
+                gainNode.gain.exponentialRampToValueAtTime(0.01, ctx.currentTime + 0.2);
+            } else if (type === 'wrong') {
+                oscillator.frequency.value = 200;
+                oscillator.type = 'sawtooth';
+                gainNode.gain.exponentialRampToValueAtTime(0.01, ctx.currentTime + 0.3);
+            } else if (type === 'levelup') {
+                oscillator.frequency.value = 440;
+                oscillator.type = 'sine';
+                setTimeout(() => oscillator.frequency.value = 554.37, 100);
+                setTimeout(() => oscillator.frequency.value = 659.25, 200);
+                gainNode.gain.exponentialRampToValueAtTime(0.01, ctx.currentTime + 0.5);
+            } else if (type === 'achievement') {
+                oscillator.frequency.value = 392;
+                oscillator.type = 'triangle';
+                setTimeout(() => oscillator.frequency.value = 523.25, 150);
+                setTimeout(() => oscillator.frequency.value = 659.25, 300);
+                gainNode.gain.exponentialRampToValueAtTime(0.01, ctx.currentTime + 0.6);
+            }
+
+            oscillator.start(ctx.currentTime);
+            oscillator.stop(ctx.currentTime + 0.6);
+        }
+
+        function testAllSounds() {
+            playSoundEffect('correct');
+            setTimeout(() => playSoundEffect('wrong'), 700);
+            setTimeout(() => playSoundEffect('levelup'), 1400);
+            setTimeout(() => playSoundEffect('achievement'), 2100);
+        }
+
+        console.log('🏆 Leaderboard, Achievements, and Sound Effects loaded!');
     </script>
 
     <!-- PowerPoint-style Table Grid Selector (positioned fixed, outside all containers) -->
