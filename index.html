@@ -23091,6 +23091,456 @@
             font-size: 0.85rem;
             color: #666;
         }
+
+        /* ===== BATCH 58: Fill-in-Blank, Topic Summary, Study Timer ===== */
+
+        /* Fill-in-Blank Button */
+        .fill-blank-btn {
+            position: fixed;
+            bottom: 670px;
+            left: 20px;
+            width: 50px;
+            height: 50px;
+            background: linear-gradient(135deg, #5d4037, #795548);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.3rem;
+            cursor: pointer;
+            box-shadow: 0 5px 20px rgba(121, 85, 72, 0.4);
+            z-index: 999;
+            transition: all 0.3s ease;
+        }
+
+        .fill-blank-btn:hover {
+            transform: scale(1.1);
+        }
+
+        /* Topic Summary Button */
+        .topic-summary-btn {
+            position: fixed;
+            bottom: 730px;
+            left: 20px;
+            width: 50px;
+            height: 50px;
+            background: linear-gradient(135deg, #0288d1, #03a9f4);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.3rem;
+            cursor: pointer;
+            box-shadow: 0 5px 20px rgba(3, 169, 244, 0.4);
+            z-index: 999;
+            transition: all 0.3s ease;
+        }
+
+        .topic-summary-btn:hover {
+            transform: scale(1.1);
+        }
+
+        /* Study Timer Button */
+        .study-timer-btn {
+            position: fixed;
+            bottom: 790px;
+            left: 20px;
+            width: 50px;
+            height: 50px;
+            background: linear-gradient(135deg, #d32f2f, #f44336);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.3rem;
+            cursor: pointer;
+            box-shadow: 0 5px 20px rgba(244, 67, 54, 0.4);
+            z-index: 999;
+            transition: all 0.3s ease;
+        }
+
+        .study-timer-btn:hover {
+            transform: scale(1.1);
+        }
+
+        /* Fill-in-Blank Modal */
+        .fill-blank-modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.5);
+            z-index: 10000;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .fill-blank-modal.active {
+            display: flex;
+        }
+
+        .fill-blank-content {
+            background: white;
+            border-radius: 20px;
+            width: 95%;
+            max-width: 600px;
+            max-height: 85vh;
+            overflow-y: auto;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+        }
+
+        .fill-blank-header {
+            background: linear-gradient(135deg, #5d4037, #795548);
+            color: white;
+            padding: 20px;
+            border-radius: 20px 20px 0 0;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .fill-blank-header h2 {
+            margin: 0;
+            font-size: 1.4rem;
+        }
+
+        .close-fill-blank {
+            background: rgba(255, 255, 255, 0.2);
+            border: none;
+            color: white;
+            width: 35px;
+            height: 35px;
+            border-radius: 50%;
+            font-size: 1.3rem;
+            cursor: pointer;
+        }
+
+        .fill-blank-body {
+            padding: 20px;
+        }
+
+        .fill-blank-score {
+            display: flex;
+            justify-content: space-around;
+            padding: 15px;
+            background: #efebe9;
+            border-radius: 10px;
+            margin-bottom: 20px;
+        }
+
+        .blank-sentence {
+            font-size: 1.3rem;
+            line-height: 2;
+            padding: 20px;
+            background: linear-gradient(135deg, #efebe9, #d7ccc8);
+            border-radius: 15px;
+            margin-bottom: 20px;
+            text-align: center;
+        }
+
+        .blank-input {
+            border: none;
+            border-bottom: 3px solid #795548;
+            background: transparent;
+            width: 120px;
+            font-size: 1.1rem;
+            text-align: center;
+            padding: 5px;
+            outline: none;
+        }
+
+        .blank-input:focus {
+            border-bottom-color: #5d4037;
+        }
+
+        .fill-blank-actions {
+            text-align: center;
+        }
+
+        .fill-blank-btn-action {
+            padding: 12px 25px;
+            background: linear-gradient(135deg, #5d4037, #795548);
+            color: white;
+            border: none;
+            border-radius: 25px;
+            font-size: 1rem;
+            cursor: pointer;
+            margin: 5px;
+            transition: all 0.3s ease;
+        }
+
+        .fill-blank-btn-action:hover {
+            transform: scale(1.05);
+        }
+
+        .fill-blank-feedback {
+            padding: 15px;
+            border-radius: 10px;
+            margin-top: 15px;
+            text-align: center;
+            font-weight: bold;
+        }
+
+        /* Topic Summary Modal */
+        .topic-summary-modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.5);
+            z-index: 10000;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .topic-summary-modal.active {
+            display: flex;
+        }
+
+        .topic-summary-content {
+            background: white;
+            border-radius: 20px;
+            width: 95%;
+            max-width: 700px;
+            max-height: 85vh;
+            overflow-y: auto;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+        }
+
+        .topic-summary-header {
+            background: linear-gradient(135deg, #0288d1, #03a9f4);
+            color: white;
+            padding: 20px;
+            border-radius: 20px 20px 0 0;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .topic-summary-header h2 {
+            margin: 0;
+            font-size: 1.4rem;
+        }
+
+        .close-topic-summary {
+            background: rgba(255, 255, 255, 0.2);
+            border: none;
+            color: white;
+            width: 35px;
+            height: 35px;
+            border-radius: 50%;
+            font-size: 1.3rem;
+            cursor: pointer;
+        }
+
+        .summary-body {
+            padding: 20px;
+        }
+
+        .summary-tabs {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 20px;
+            flex-wrap: wrap;
+        }
+
+        .summary-tab {
+            padding: 10px 20px;
+            background: #e1f5fe;
+            border: none;
+            border-radius: 20px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .summary-tab.active {
+            background: linear-gradient(135deg, #0288d1, #03a9f4);
+            color: white;
+        }
+
+        .summary-card {
+            background: linear-gradient(135deg, #e1f5fe, #b3e5fc);
+            border-radius: 15px;
+            padding: 20px;
+        }
+
+        .summary-card h3 {
+            margin: 0 0 15px 0;
+            color: #0277bd;
+        }
+
+        .summary-points {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+        }
+
+        .summary-points li {
+            padding: 10px 0;
+            border-bottom: 1px dashed rgba(0, 0, 0, 0.1);
+            display: flex;
+            align-items: flex-start;
+            gap: 10px;
+        }
+
+        .summary-points li:last-child {
+            border-bottom: none;
+        }
+
+        .summary-icon {
+            font-size: 1.2rem;
+        }
+
+        /* Study Timer Modal */
+        .study-timer-modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.5);
+            z-index: 10000;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .study-timer-modal.active {
+            display: flex;
+        }
+
+        .study-timer-content {
+            background: white;
+            border-radius: 20px;
+            width: 95%;
+            max-width: 400px;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+        }
+
+        .study-timer-header {
+            background: linear-gradient(135deg, #d32f2f, #f44336);
+            color: white;
+            padding: 20px;
+            border-radius: 20px 20px 0 0;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .study-timer-header h2 {
+            margin: 0;
+            font-size: 1.4rem;
+        }
+
+        .close-study-timer {
+            background: rgba(255, 255, 255, 0.2);
+            border: none;
+            color: white;
+            width: 35px;
+            height: 35px;
+            border-radius: 50%;
+            font-size: 1.3rem;
+            cursor: pointer;
+        }
+
+        .timer-body {
+            padding: 30px;
+            text-align: center;
+        }
+
+        .timer-display {
+            font-size: 4rem;
+            font-weight: bold;
+            color: #d32f2f;
+            margin-bottom: 20px;
+            font-family: 'Courier New', monospace;
+        }
+
+        .timer-label {
+            font-size: 1rem;
+            color: #666;
+            margin-bottom: 20px;
+        }
+
+        .timer-presets {
+            display: flex;
+            justify-content: center;
+            gap: 10px;
+            margin-bottom: 20px;
+            flex-wrap: wrap;
+        }
+
+        .timer-preset {
+            padding: 10px 20px;
+            background: #ffebee;
+            border: 2px solid #ffcdd2;
+            border-radius: 20px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .timer-preset:hover, .timer-preset.active {
+            background: linear-gradient(135deg, #d32f2f, #f44336);
+            color: white;
+            border-color: transparent;
+        }
+
+        .timer-controls {
+            display: flex;
+            justify-content: center;
+            gap: 15px;
+        }
+
+        .timer-control-btn {
+            width: 60px;
+            height: 60px;
+            border-radius: 50%;
+            border: none;
+            font-size: 1.5rem;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .timer-control-btn.start {
+            background: linear-gradient(135deg, #4caf50, #66bb6a);
+            color: white;
+        }
+
+        .timer-control-btn.pause {
+            background: linear-gradient(135deg, #ff9800, #ffb74d);
+            color: white;
+        }
+
+        .timer-control-btn.reset {
+            background: linear-gradient(135deg, #9e9e9e, #bdbdbd);
+            color: white;
+        }
+
+        .timer-control-btn:hover {
+            transform: scale(1.1);
+        }
+
+        .timer-stats {
+            margin-top: 20px;
+            padding: 15px;
+            background: #ffebee;
+            border-radius: 10px;
+        }
+
+        .timer-stat-item {
+            display: flex;
+            justify-content: space-between;
+            padding: 5px 0;
+        }
+
+        .timer-xp-earned {
+            color: #4caf50;
+            font-weight: bold;
+        }
     </style>
 </head>
 
@@ -61571,6 +62021,459 @@ This report was generated from the Science CER Practice App.
         }
 
         console.log('🎯 Learning Pathways, Word Scramble, and Study Goals loaded!');
+    </script>
+
+    <!-- Batch 58: Fill-in-Blank, Topic Summary, Study Timer -->
+    <div id="fill-blank-btn" class="fill-blank-btn" onclick="openFillBlank()" title="Fill in the Blank">
+        ✏️
+    </div>
+
+    <div id="topic-summary-btn" class="topic-summary-btn" onclick="openTopicSummary()" title="Topic Summary">
+        📋
+    </div>
+
+    <div id="study-timer-btn" class="study-timer-btn" onclick="openStudyTimer()" title="Study Timer">
+        ⏰
+    </div>
+
+    <!-- Fill-in-Blank Modal -->
+    <div id="fill-blank-modal" class="fill-blank-modal">
+        <div class="fill-blank-content">
+            <div class="fill-blank-header">
+                <h2>✏️ Fill in the Blank</h2>
+                <button class="close-fill-blank" onclick="closeFillBlank()">×</button>
+            </div>
+            <div class="fill-blank-body">
+                <div class="fill-blank-score">
+                    <div class="score-item">
+                        <div class="score-value" id="blank-correct">0</div>
+                        <div class="score-label">Correct</div>
+                    </div>
+                    <div class="score-item">
+                        <div class="score-value" id="blank-total">0</div>
+                        <div class="score-label">Attempted</div>
+                    </div>
+                </div>
+                <div class="blank-sentence" id="blank-sentence">Loading...</div>
+                <div class="fill-blank-actions">
+                    <button class="fill-blank-btn-action" onclick="checkBlankAnswer()">✓ Check Answer</button>
+                    <button class="fill-blank-btn-action" onclick="skipBlankQuestion()">⏭️ Skip</button>
+                </div>
+                <div class="fill-blank-feedback" id="blank-feedback" style="display: none;"></div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Topic Summary Modal -->
+    <div id="topic-summary-modal" class="topic-summary-modal">
+        <div class="topic-summary-content">
+            <div class="topic-summary-header">
+                <h2>📋 Topic Summaries</h2>
+                <button class="close-topic-summary" onclick="closeTopicSummary()">×</button>
+            </div>
+            <div class="summary-body">
+                <div class="summary-tabs" id="summary-tabs"></div>
+                <div class="summary-card" id="summary-content"></div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Study Timer Modal -->
+    <div id="study-timer-modal" class="study-timer-modal">
+        <div class="study-timer-content">
+            <div class="study-timer-header">
+                <h2>⏰ Study Timer</h2>
+                <button class="close-study-timer" onclick="closeStudyTimer()">×</button>
+            </div>
+            <div class="timer-body">
+                <div class="timer-display" id="timer-display">25:00</div>
+                <div class="timer-label" id="timer-label">Focus Time</div>
+                <div class="timer-presets">
+                    <button class="timer-preset active" onclick="setTimerPreset(25)">25 min</button>
+                    <button class="timer-preset" onclick="setTimerPreset(15)">15 min</button>
+                    <button class="timer-preset" onclick="setTimerPreset(10)">10 min</button>
+                    <button class="timer-preset" onclick="setTimerPreset(5)">5 min</button>
+                </div>
+                <div class="timer-controls">
+                    <button class="timer-control-btn start" id="timer-start-btn" onclick="toggleTimer()">▶</button>
+                    <button class="timer-control-btn reset" onclick="resetTimer()">↺</button>
+                </div>
+                <div class="timer-stats">
+                    <div class="timer-stat-item">
+                        <span>Sessions Today:</span>
+                        <span id="timer-sessions">0</span>
+                    </div>
+                    <div class="timer-stat-item">
+                        <span>Total Focus Time:</span>
+                        <span id="timer-focus-time">0 min</span>
+                    </div>
+                    <div class="timer-stat-item">
+                        <span>XP Earned:</span>
+                        <span class="timer-xp-earned" id="timer-xp">+0</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // ===== BATCH 58: Fill-in-Blank, Topic Summary, Study Timer =====
+
+        // Fill-in-Blank Questions
+        const fillBlankQuestions = [
+            { sentence: "Water boils at ___ degrees Celsius.", answer: "100", hint: "Temperature" },
+            { sentence: "A ___ has a fixed shape and volume.", answer: "solid", hint: "State of matter" },
+            { sentence: "Plants make food through ___.", answer: "photosynthesis", hint: "Process" },
+            { sentence: "Light travels in ___ lines.", answer: "straight", hint: "Direction" },
+            { sentence: "___ is the force that pulls objects toward Earth.", answer: "gravity", hint: "Force" },
+            { sentence: "Water freezes at ___ degrees Celsius.", answer: "0", hint: "Temperature" },
+            { sentence: "A ___ allows light to pass through completely.", answer: "transparent", hint: "Material property" },
+            { sentence: "Heat transfers through metal by ___.", answer: "conduction", hint: "Heat transfer" },
+            { sentence: "Plants need ___, water, and carbon dioxide for photosynthesis.", answer: "sunlight", hint: "Energy source" },
+            { sentence: "The ___ is the part of a plant that absorbs water.", answer: "root", hint: "Plant part" },
+            { sentence: "___ is when a liquid changes to gas.", answer: "evaporation", hint: "Process" },
+            { sentence: "A shadow is formed when light is ___.", answer: "blocked", hint: "Prevented" },
+            { sentence: "Gas particles move ___ and spread out.", answer: "freely", hint: "Movement" },
+            { sentence: "___ slows down moving objects.", answer: "friction", hint: "Force" },
+            { sentence: "Metals are good ___ of heat and electricity.", answer: "conductors", hint: "Property" }
+        ];
+
+        // Topic Summaries
+        const topicSummaries = {
+            matter: {
+                title: '🧊 Matter',
+                points: [
+                    { icon: '📦', text: 'Matter is anything that has mass and takes up space' },
+                    { icon: '🧊', text: 'Solids have fixed shape and volume' },
+                    { icon: '💧', text: 'Liquids have fixed volume but take the shape of their container' },
+                    { icon: '💨', text: 'Gases have no fixed shape or volume - they spread out' },
+                    { icon: '🔄', text: 'Matter can change states when heated or cooled' }
+                ]
+            },
+            heat: {
+                title: '🔥 Heat',
+                points: [
+                    { icon: '🌡️', text: 'Heat is a form of energy that flows from hot to cold' },
+                    { icon: '🥄', text: 'Conduction: Heat transfers through direct contact' },
+                    { icon: '🌊', text: 'Convection: Heat transfers through fluid movement' },
+                    { icon: '☀️', text: 'Radiation: Heat transfers through waves (like sunlight)' },
+                    { icon: '🧤', text: 'Insulators slow down heat transfer (wood, plastic)' }
+                ]
+            },
+            light: {
+                title: '💡 Light',
+                points: [
+                    { icon: '➡️', text: 'Light travels in straight lines' },
+                    { icon: '🪟', text: 'Transparent materials let all light through' },
+                    { icon: '📄', text: 'Translucent materials let some light through' },
+                    { icon: '🧱', text: 'Opaque materials block all light' },
+                    { icon: '👤', text: 'Shadows form when light is blocked by opaque objects' }
+                ]
+            },
+            plants: {
+                title: '🌱 Plants',
+                points: [
+                    { icon: '🌿', text: 'Plants are living things that make their own food' },
+                    { icon: '☀️', text: 'Photosynthesis: Plants use sunlight, water, and CO2 to make food' },
+                    { icon: '🌳', text: 'Roots absorb water, stems transport, leaves make food' },
+                    { icon: '🌸', text: 'Flowers help plants reproduce through seeds' },
+                    { icon: '🌱', text: 'Seeds germinate when given water, warmth, and air' }
+                ]
+            },
+            forces: {
+                title: '🚀 Forces',
+                points: [
+                    { icon: '👆', text: 'A force is a push or pull that can change motion' },
+                    { icon: '🌍', text: 'Gravity pulls objects toward Earth' },
+                    { icon: '✋', text: 'Friction opposes motion between surfaces' },
+                    { icon: '⚖️', text: 'Balanced forces = no change in motion' },
+                    { icon: '🏃', text: 'Unbalanced forces cause objects to speed up, slow down, or change direction' }
+                ]
+            }
+        };
+
+        let blankState = {
+            currentQuestion: null,
+            correct: 0,
+            total: 0
+        };
+
+        let timerState = {
+            running: false,
+            seconds: 25 * 60,
+            preset: 25,
+            interval: null,
+            sessionsToday: 0,
+            totalMinutes: 0,
+            xpEarned: 0
+        };
+
+        // Fill-in-Blank Functions
+        function openFillBlank() {
+            document.getElementById('fill-blank-modal').classList.add('active');
+            loadBlankStats();
+            newBlankQuestion();
+        }
+
+        function closeFillBlank() {
+            document.getElementById('fill-blank-modal').classList.remove('active');
+        }
+
+        function loadBlankStats() {
+            const stats = JSON.parse(localStorage.getItem('fillBlankStats') || '{}');
+            blankState.correct = stats.correct || 0;
+            blankState.total = stats.total || 0;
+            document.getElementById('blank-correct').textContent = blankState.correct;
+            document.getElementById('blank-total').textContent = blankState.total;
+        }
+
+        function newBlankQuestion() {
+            const q = fillBlankQuestions[Math.floor(Math.random() * fillBlankQuestions.length)];
+            blankState.currentQuestion = q;
+
+            const parts = q.sentence.split('___');
+            const html = parts[0] + '<input type="text" class="blank-input" id="blank-answer" placeholder="?" autocomplete="off">' + parts[1];
+            document.getElementById('blank-sentence').innerHTML = html;
+            document.getElementById('blank-feedback').style.display = 'none';
+
+            setTimeout(() => {
+                const input = document.getElementById('blank-answer');
+                if (input) {
+                    input.focus();
+                    input.addEventListener('keypress', function(e) {
+                        if (e.key === 'Enter') checkBlankAnswer();
+                    });
+                }
+            }, 100);
+        }
+
+        function checkBlankAnswer() {
+            const input = document.getElementById('blank-answer');
+            const answer = input.value.toLowerCase().trim();
+            const correct = blankState.currentQuestion.answer.toLowerCase();
+            const feedback = document.getElementById('blank-feedback');
+
+            blankState.total++;
+
+            if (answer === correct) {
+                blankState.correct++;
+                feedback.textContent = '✅ Correct! +10 XP';
+                feedback.style.background = '#c8e6c9';
+                feedback.style.color = '#2e7d32';
+
+                let xp = parseInt(localStorage.getItem('scienceXP') || '0');
+                xp += 10;
+                localStorage.setItem('scienceXP', xp);
+
+                setTimeout(newBlankQuestion, 1500);
+            } else {
+                feedback.textContent = '❌ The answer was: ' + blankState.currentQuestion.answer;
+                feedback.style.background = '#ffcdd2';
+                feedback.style.color = '#c62828';
+
+                setTimeout(newBlankQuestion, 2500);
+            }
+
+            feedback.style.display = 'block';
+            document.getElementById('blank-correct').textContent = blankState.correct;
+            document.getElementById('blank-total').textContent = blankState.total;
+
+            localStorage.setItem('fillBlankStats', JSON.stringify({
+                correct: blankState.correct,
+                total: blankState.total
+            }));
+        }
+
+        function skipBlankQuestion() {
+            const feedback = document.getElementById('blank-feedback');
+            feedback.textContent = 'Skipped. Answer: ' + blankState.currentQuestion.answer;
+            feedback.style.background = '#fff3e0';
+            feedback.style.color = '#e65100';
+            feedback.style.display = 'block';
+
+            setTimeout(newBlankQuestion, 2000);
+        }
+
+        // Topic Summary Functions
+        function openTopicSummary() {
+            document.getElementById('topic-summary-modal').classList.add('active');
+            renderSummaryTabs();
+            showSummary('matter');
+        }
+
+        function closeTopicSummary() {
+            document.getElementById('topic-summary-modal').classList.remove('active');
+        }
+
+        function renderSummaryTabs() {
+            const tabs = document.getElementById('summary-tabs');
+            tabs.innerHTML = Object.keys(topicSummaries).map(key => {
+                const topic = topicSummaries[key];
+                return `<button class="summary-tab ${key === 'matter' ? 'active' : ''}"
+                                onclick="showSummary('${key}')">${topic.title}</button>`;
+            }).join('');
+        }
+
+        function showSummary(topicKey) {
+            const topic = topicSummaries[topicKey];
+            const content = document.getElementById('summary-content');
+
+            document.querySelectorAll('.summary-tab').forEach(tab => {
+                tab.classList.remove('active');
+                if (tab.textContent.includes(topic.title.substring(2))) {
+                    tab.classList.add('active');
+                }
+            });
+
+            content.innerHTML = `
+                <h3>${topic.title}</h3>
+                <ul class="summary-points">
+                    ${topic.points.map(p => `
+                        <li>
+                            <span class="summary-icon">${p.icon}</span>
+                            <span>${p.text}</span>
+                        </li>
+                    `).join('')}
+                </ul>
+            `;
+        }
+
+        // Study Timer Functions
+        function openStudyTimer() {
+            document.getElementById('study-timer-modal').classList.add('active');
+            loadTimerStats();
+            updateTimerDisplay();
+        }
+
+        function closeStudyTimer() {
+            document.getElementById('study-timer-modal').classList.remove('active');
+        }
+
+        function loadTimerStats() {
+            const today = new Date().toDateString();
+            const stats = JSON.parse(localStorage.getItem('timerStats') || '{}');
+
+            if (stats.date === today) {
+                timerState.sessionsToday = stats.sessions || 0;
+                timerState.totalMinutes = stats.minutes || 0;
+                timerState.xpEarned = stats.xp || 0;
+            } else {
+                timerState.sessionsToday = 0;
+                timerState.totalMinutes = 0;
+                timerState.xpEarned = 0;
+            }
+
+            updateTimerStats();
+        }
+
+        function setTimerPreset(minutes) {
+            if (timerState.running) return;
+
+            timerState.preset = minutes;
+            timerState.seconds = minutes * 60;
+            updateTimerDisplay();
+
+            document.querySelectorAll('.timer-preset').forEach(btn => {
+                btn.classList.remove('active');
+                if (btn.textContent.includes(minutes + ' min')) {
+                    btn.classList.add('active');
+                }
+            });
+        }
+
+        function updateTimerDisplay() {
+            const mins = Math.floor(timerState.seconds / 60);
+            const secs = timerState.seconds % 60;
+            document.getElementById('timer-display').textContent =
+                mins.toString().padStart(2, '0') + ':' + secs.toString().padStart(2, '0');
+        }
+
+        function toggleTimer() {
+            if (timerState.running) {
+                pauseTimer();
+            } else {
+                startTimer();
+            }
+        }
+
+        function startTimer() {
+            timerState.running = true;
+            document.getElementById('timer-start-btn').textContent = '⏸';
+            document.getElementById('timer-start-btn').classList.remove('start');
+            document.getElementById('timer-start-btn').classList.add('pause');
+            document.getElementById('timer-label').textContent = 'Focus Time - Keep Going!';
+
+            timerState.interval = setInterval(() => {
+                timerState.seconds--;
+                updateTimerDisplay();
+
+                if (timerState.seconds <= 0) {
+                    completeSession();
+                }
+            }, 1000);
+        }
+
+        function pauseTimer() {
+            timerState.running = false;
+            clearInterval(timerState.interval);
+            document.getElementById('timer-start-btn').textContent = '▶';
+            document.getElementById('timer-start-btn').classList.remove('pause');
+            document.getElementById('timer-start-btn').classList.add('start');
+            document.getElementById('timer-label').textContent = 'Paused';
+        }
+
+        function resetTimer() {
+            pauseTimer();
+            timerState.seconds = timerState.preset * 60;
+            updateTimerDisplay();
+            document.getElementById('timer-label').textContent = 'Focus Time';
+        }
+
+        function completeSession() {
+            pauseTimer();
+
+            // Award XP based on session length
+            const xpAward = timerState.preset >= 25 ? 50 : timerState.preset >= 15 ? 30 : 20;
+            timerState.sessionsToday++;
+            timerState.totalMinutes += timerState.preset;
+            timerState.xpEarned += xpAward;
+
+            let xp = parseInt(localStorage.getItem('scienceXP') || '0');
+            xp += xpAward;
+            localStorage.setItem('scienceXP', xp);
+
+            saveTimerStats();
+            updateTimerStats();
+
+            document.getElementById('timer-label').textContent = '🎉 Session Complete! +' + xpAward + ' XP';
+            timerState.seconds = timerState.preset * 60;
+            updateTimerDisplay();
+
+            // Notification
+            if ('Notification' in window && Notification.permission === 'granted') {
+                new Notification('Study Session Complete!', {
+                    body: 'Great job! You earned +' + xpAward + ' XP',
+                    icon: '⏰'
+                });
+            }
+        }
+
+        function saveTimerStats() {
+            localStorage.setItem('timerStats', JSON.stringify({
+                date: new Date().toDateString(),
+                sessions: timerState.sessionsToday,
+                minutes: timerState.totalMinutes,
+                xp: timerState.xpEarned
+            }));
+        }
+
+        function updateTimerStats() {
+            document.getElementById('timer-sessions').textContent = timerState.sessionsToday;
+            document.getElementById('timer-focus-time').textContent = timerState.totalMinutes + ' min';
+            document.getElementById('timer-xp').textContent = '+' + timerState.xpEarned;
+        }
+
+        console.log('⏰ Fill-in-Blank, Topic Summary, and Study Timer loaded!');
     </script>
 
     <!-- PowerPoint-style Table Grid Selector (positioned fixed, outside all containers) -->
