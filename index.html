@@ -1896,9 +1896,8 @@
             align-items: center;
             justify-content: center;
             gap: 12px;
-            padding: 12px;
-            background: linear-gradient(135deg, #f5f7fa 0%, #e4e8ec 100%);
-            border-radius: 16px;
+            padding: 8px 0;
+            background: transparent;
             margin-bottom: 5px;
         }
 
@@ -1974,9 +1973,8 @@
             align-items: center;
             justify-content: center;
             gap: 8px;
-            padding: 10px;
-            background: linear-gradient(135deg, #fafafa 0%, #f0f0f0 100%);
-            border-radius: 12px;
+            padding: 8px 0;
+            background: transparent;
             margin-top: 8px;
         }
 
@@ -18456,10 +18454,10 @@
             },
             {
                 title: "Tutorial Complete! 🎉",
-                content: "Congratulations! You've learned about all the main features. Remember: you can always click the '🎓 Tutorial' button in the sidebar to review this tutorial again. Happy learning and good luck with your studies!",
-                highlight: "#btn-sidebar-tutorial",
+                content: "Congratulations! You've learned about all the main features. Remember: you can always click the '?' button in the header to review this tutorial again. Happy learning and good luck with your studies!",
+                highlight: "#header-tutorial-btn",
                 action: () => {
-                    const btn = document.getElementById('btn-sidebar-tutorial');
+                    const btn = document.getElementById('header-tutorial-btn');
                     if (btn) {
                         btn.scrollIntoView({ behavior: 'smooth', block: 'center' });
                     }
