@@ -26680,6 +26680,323 @@
             margin-top: 10px;
             line-height: 1.5;
         }
+
+        /* Batch 69: Memory Card Game */
+        .memory-card-btn {
+            position: fixed;
+            right: 18px;
+            bottom: 950px;
+            width: 52px;
+            height: 52px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, #e91e63, #f48fb1);
+            color: white;
+            border: none;
+            font-size: 1.4rem;
+            cursor: pointer;
+            box-shadow: 0 4px 15px rgba(233, 30, 99, 0.4);
+            z-index: 1000;
+            transition: all 0.3s ease;
+        }
+
+        .memory-card-btn:hover {
+            transform: scale(1.1);
+            box-shadow: 0 6px 20px rgba(233, 30, 99, 0.5);
+        }
+
+        .memory-modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0,0,0,0.6);
+            z-index: 10001;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .memory-modal.active {
+            display: flex;
+        }
+
+        .memory-modal-content {
+            background: white;
+            border-radius: 16px;
+            width: 90%;
+            max-width: 500px;
+            max-height: 85vh;
+            overflow: hidden;
+        }
+
+        .memory-modal-header {
+            background: linear-gradient(135deg, #e91e63, #f48fb1);
+            color: white;
+            padding: 15px 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .memory-modal-body {
+            padding: 20px;
+            max-height: 70vh;
+            overflow-y: auto;
+        }
+
+        .memory-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 10px;
+            margin: 15px 0;
+        }
+
+        .memory-card {
+            aspect-ratio: 1;
+            background: linear-gradient(135deg, #e91e63, #f48fb1);
+            border-radius: 10px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.5rem;
+            color: white;
+            transition: all 0.3s ease;
+            transform-style: preserve-3d;
+        }
+
+        .memory-card.flipped {
+            background: white;
+            border: 2px solid #e91e63;
+            color: #333;
+        }
+
+        .memory-card.matched {
+            background: #4caf50;
+            color: white;
+            cursor: default;
+        }
+
+        .memory-stats {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 15px;
+            font-weight: bold;
+            color: #e91e63;
+        }
+
+        /* Science Glossary */
+        .glossary-btn {
+            position: fixed;
+            left: 18px;
+            bottom: 1430px;
+            width: 52px;
+            height: 52px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, #607d8b, #90a4ae);
+            color: white;
+            border: none;
+            font-size: 1.4rem;
+            cursor: pointer;
+            box-shadow: 0 4px 15px rgba(96, 125, 139, 0.4);
+            z-index: 1000;
+            transition: all 0.3s ease;
+        }
+
+        .glossary-btn:hover {
+            transform: scale(1.1);
+        }
+
+        .glossary-modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0,0,0,0.6);
+            z-index: 10001;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .glossary-modal.active {
+            display: flex;
+        }
+
+        .glossary-modal-content {
+            background: white;
+            border-radius: 16px;
+            width: 90%;
+            max-width: 450px;
+            max-height: 85vh;
+            overflow: hidden;
+        }
+
+        .glossary-modal-header {
+            background: linear-gradient(135deg, #607d8b, #90a4ae);
+            color: white;
+            padding: 15px 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .glossary-modal-body {
+            padding: 20px;
+            max-height: 70vh;
+            overflow-y: auto;
+        }
+
+        .glossary-search {
+            width: 100%;
+            padding: 12px;
+            border: 2px solid #607d8b;
+            border-radius: 10px;
+            font-size: 1rem;
+            margin-bottom: 15px;
+        }
+
+        .glossary-list {
+            max-height: 50vh;
+            overflow-y: auto;
+        }
+
+        .glossary-item {
+            padding: 12px;
+            border-bottom: 1px solid #eee;
+            cursor: pointer;
+            transition: background 0.2s;
+        }
+
+        .glossary-item:hover {
+            background: #f5f5f5;
+        }
+
+        .glossary-term {
+            font-weight: bold;
+            color: #607d8b;
+        }
+
+        .glossary-def {
+            font-size: 0.9rem;
+            color: #666;
+            margin-top: 5px;
+        }
+
+        /* Achievement Progress */
+        .achieve-progress-btn {
+            position: fixed;
+            right: 18px;
+            bottom: 990px;
+            width: 52px;
+            height: 52px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, #ffc107, #ffeb3b);
+            color: #333;
+            border: none;
+            font-size: 1.4rem;
+            cursor: pointer;
+            box-shadow: 0 4px 15px rgba(255, 193, 7, 0.4);
+            z-index: 1000;
+            transition: all 0.3s ease;
+        }
+
+        .achieve-progress-btn:hover {
+            transform: scale(1.1);
+        }
+
+        .achieve-modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0,0,0,0.6);
+            z-index: 10001;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .achieve-modal.active {
+            display: flex;
+        }
+
+        .achieve-modal-content {
+            background: white;
+            border-radius: 16px;
+            width: 90%;
+            max-width: 450px;
+            max-height: 85vh;
+            overflow: hidden;
+        }
+
+        .achieve-modal-header {
+            background: linear-gradient(135deg, #ffc107, #ffeb3b);
+            color: #333;
+            padding: 15px 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .achieve-modal-body {
+            padding: 20px;
+            max-height: 70vh;
+            overflow-y: auto;
+        }
+
+        .achieve-item {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            padding: 15px;
+            background: #fffde7;
+            border-radius: 12px;
+            margin-bottom: 12px;
+        }
+
+        .achieve-icon {
+            font-size: 2rem;
+        }
+
+        .achieve-info {
+            flex: 1;
+        }
+
+        .achieve-title {
+            font-weight: bold;
+            color: #333;
+        }
+
+        .achieve-desc {
+            font-size: 0.85rem;
+            color: #666;
+        }
+
+        .achieve-bar {
+            height: 8px;
+            background: #eee;
+            border-radius: 4px;
+            margin-top: 8px;
+            overflow: hidden;
+        }
+
+        .achieve-fill {
+            height: 100%;
+            background: linear-gradient(90deg, #ffc107, #ff9800);
+            border-radius: 4px;
+            transition: width 0.5s ease;
+        }
+
+        .achieve-pct {
+            font-size: 0.8rem;
+            color: #ff9800;
+            font-weight: bold;
+            margin-top: 4px;
+        }
     </style>
 </head>
 
@@ -68787,6 +69104,267 @@ This report was generated from the Science CER Practice App.
         }
 
         console.log('🔗 Matching Game, Random Question Generator, and Study Tips loaded!');
+    </script>
+
+    <!-- Batch 69: Memory Card Game Button -->
+    <button class="memory-card-btn" onclick="openMemoryGame()" title="Memory Card Game">
+        🃏
+    </button>
+
+    <!-- Memory Card Game Modal -->
+    <div class="memory-modal" id="memoryGameModal">
+        <div class="memory-modal-content">
+            <div class="memory-modal-header">
+                <h3>🃏 Memory Card Game</h3>
+                <button class="memory-close-btn" onclick="closeMemoryGame()" style="background:none;border:none;color:white;font-size:1.5rem;cursor:pointer;">✕</button>
+            </div>
+            <div class="memory-modal-body">
+                <div class="memory-stats">
+                    <span id="memoryMoves">Moves: 0</span>
+                    <span id="memoryPairs">Pairs: 0/8</span>
+                </div>
+                <div class="memory-grid" id="memoryGrid"></div>
+                <button onclick="startMemoryGame()" style="width:100%;padding:12px;background:linear-gradient(135deg,#e91e63,#f48fb1);color:white;border:none;border-radius:10px;font-size:1rem;cursor:pointer;margin-top:10px;">🔄 New Game</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Science Glossary Button -->
+    <button class="glossary-btn" onclick="openGlossary()" title="Science Glossary">
+        📖
+    </button>
+
+    <!-- Glossary Modal -->
+    <div class="glossary-modal" id="glossaryModal">
+        <div class="glossary-modal-content">
+            <div class="glossary-modal-header">
+                <h3>📖 Science Glossary</h3>
+                <button onclick="closeGlossary()" style="background:none;border:none;color:white;font-size:1.5rem;cursor:pointer;">✕</button>
+            </div>
+            <div class="glossary-modal-body">
+                <input type="text" class="glossary-search" id="glossarySearch" placeholder="🔍 Search terms..." oninput="filterGlossary()">
+                <div class="glossary-list" id="glossaryList"></div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Achievement Progress Button -->
+    <button class="achieve-progress-btn" onclick="openAchieveProgress()" title="Achievement Progress">
+        🏆
+    </button>
+
+    <!-- Achievement Progress Modal -->
+    <div class="achieve-modal" id="achieveProgressModal">
+        <div class="achieve-modal-content">
+            <div class="achieve-modal-header">
+                <h3>🏆 Achievement Progress</h3>
+                <button onclick="closeAchieveProgress()" style="background:none;border:none;color:#333;font-size:1.5rem;cursor:pointer;">✕</button>
+            </div>
+            <div class="achieve-modal-body" id="achieveProgressList"></div>
+        </div>
+    </div>
+
+    <script>
+        // Batch 69: Memory Card Game, Science Glossary, Achievement Progress
+
+        // Memory Card Game
+        const memoryEmojis = ['⚡', '🔬', '🧬', '🌡️', '⚛️', '🔭', '🌍', '💧'];
+        let memoryCards = [];
+        let memoryFlipped = [];
+        let memoryMatched = 0;
+        let memoryMoves = 0;
+        let memoryLocked = false;
+
+        function openMemoryGame() {
+            document.getElementById('memoryGameModal').classList.add('active');
+            startMemoryGame();
+        }
+
+        function closeMemoryGame() {
+            document.getElementById('memoryGameModal').classList.remove('active');
+        }
+
+        function startMemoryGame() {
+            memoryMatched = 0;
+            memoryMoves = 0;
+            memoryFlipped = [];
+            memoryLocked = false;
+
+            // Create pairs and shuffle
+            memoryCards = [...memoryEmojis, ...memoryEmojis]
+                .sort(() => Math.random() - 0.5)
+                .map((emoji, idx) => ({ id: idx, emoji, matched: false }));
+
+            document.getElementById('memoryMoves').textContent = 'Moves: 0';
+            document.getElementById('memoryPairs').textContent = 'Pairs: 0/8';
+            renderMemoryGrid();
+        }
+
+        function renderMemoryGrid() {
+            document.getElementById('memoryGrid').innerHTML = memoryCards.map((card, i) => `
+                <div class="memory-card ${card.matched ? 'matched' : ''}"
+                     data-idx="${i}"
+                     onclick="flipMemoryCard(${i})">
+                    ${card.matched ? card.emoji : '?'}
+                </div>
+            `).join('');
+        }
+
+        function flipMemoryCard(idx) {
+            if (memoryLocked || memoryCards[idx].matched || memoryFlipped.includes(idx)) return;
+
+            memoryFlipped.push(idx);
+            const cards = document.querySelectorAll('.memory-card');
+            cards[idx].classList.add('flipped');
+            cards[idx].textContent = memoryCards[idx].emoji;
+
+            if (memoryFlipped.length === 2) {
+                memoryMoves++;
+                document.getElementById('memoryMoves').textContent = `Moves: ${memoryMoves}`;
+                memoryLocked = true;
+
+                const [first, second] = memoryFlipped;
+                if (memoryCards[first].emoji === memoryCards[second].emoji) {
+                    memoryCards[first].matched = true;
+                    memoryCards[second].matched = true;
+                    cards[first].classList.add('matched');
+                    cards[second].classList.add('matched');
+                    memoryMatched++;
+                    document.getElementById('memoryPairs').textContent = `Pairs: ${memoryMatched}/8`;
+
+                    if (memoryMatched === 8) {
+                        const xp = Math.max(10, 50 - memoryMoves);
+                        addXP(xp);
+                        setTimeout(() => alert(`🎉 Amazing! Completed in ${memoryMoves} moves! +${xp} XP`), 300);
+                    }
+                    memoryFlipped = [];
+                    memoryLocked = false;
+                } else {
+                    setTimeout(() => {
+                        cards[first].classList.remove('flipped');
+                        cards[second].classList.remove('flipped');
+                        cards[first].textContent = '?';
+                        cards[second].textContent = '?';
+                        memoryFlipped = [];
+                        memoryLocked = false;
+                    }, 800);
+                }
+            }
+        }
+
+        // Science Glossary
+        const scienceGlossary = [
+            { term: 'Acceleration', def: 'Rate of change of velocity over time' },
+            { term: 'Atom', def: 'Smallest unit of matter that retains element properties' },
+            { term: 'Biodiversity', def: 'Variety of life forms in an ecosystem' },
+            { term: 'Cell', def: 'Basic structural unit of all living organisms' },
+            { term: 'Density', def: 'Mass per unit volume of a substance' },
+            { term: 'Ecosystem', def: 'Community of organisms and their environment' },
+            { term: 'Energy', def: 'Capacity to do work or cause change' },
+            { term: 'Force', def: 'Push or pull that can change motion' },
+            { term: 'Gravity', def: 'Force of attraction between masses' },
+            { term: 'Habitat', def: 'Natural environment where organism lives' },
+            { term: 'Inertia', def: 'Tendency of object to resist change in motion' },
+            { term: 'Kinetic Energy', def: 'Energy of motion' },
+            { term: 'Light', def: 'Electromagnetic radiation visible to eye' },
+            { term: 'Mass', def: 'Amount of matter in an object' },
+            { term: 'Molecule', def: 'Group of atoms bonded together' },
+            { term: 'Nucleus', def: 'Central part of atom or cell' },
+            { term: 'Osmosis', def: 'Movement of water across membrane' },
+            { term: 'Photosynthesis', def: 'Process plants use to make food from sunlight' },
+            { term: 'Potential Energy', def: 'Stored energy due to position' },
+            { term: 'Radiation', def: 'Energy transmitted as waves or particles' },
+            { term: 'Respiration', def: 'Process of releasing energy from food' },
+            { term: 'Species', def: 'Group of organisms that can reproduce together' },
+            { term: 'Velocity', def: 'Speed in a specific direction' },
+            { term: 'Wavelength', def: 'Distance between wave peaks' }
+        ];
+
+        function openGlossary() {
+            document.getElementById('glossaryModal').classList.add('active');
+            document.getElementById('glossarySearch').value = '';
+            renderGlossary(scienceGlossary);
+        }
+
+        function closeGlossary() {
+            document.getElementById('glossaryModal').classList.remove('active');
+        }
+
+        function renderGlossary(terms) {
+            document.getElementById('glossaryList').innerHTML = terms.map(t => `
+                <div class="glossary-item">
+                    <div class="glossary-term">${t.term}</div>
+                    <div class="glossary-def">${t.def}</div>
+                </div>
+            `).join('');
+        }
+
+        function filterGlossary() {
+            const query = document.getElementById('glossarySearch').value.toLowerCase();
+            const filtered = scienceGlossary.filter(t =>
+                t.term.toLowerCase().includes(query) || t.def.toLowerCase().includes(query)
+            );
+            renderGlossary(filtered);
+        }
+
+        // Achievement Progress
+        const achievements = [
+            { icon: '🌟', title: 'First Steps', desc: 'Answer your first question', target: 1, key: 'questionsAnswered' },
+            { icon: '📚', title: 'Scholar', desc: 'Answer 50 questions', target: 50, key: 'questionsAnswered' },
+            { icon: '🏆', title: 'Champion', desc: 'Answer 200 questions', target: 200, key: 'questionsAnswered' },
+            { icon: '🔥', title: 'Streak Master', desc: 'Reach a 7-day streak', target: 7, key: 'maxStreak' },
+            { icon: '⚡', title: 'XP Hunter', desc: 'Earn 500 XP', target: 500, key: 'totalXP' },
+            { icon: '💎', title: 'XP Legend', desc: 'Earn 2000 XP', target: 2000, key: 'totalXP' },
+            { icon: '🎯', title: 'Sharp Shooter', desc: '90% accuracy on 20+ questions', target: 90, key: 'accuracy' },
+            { icon: '🌈', title: 'Explorer', desc: 'Try 5 different features', target: 5, key: 'featuresUsed' }
+        ];
+
+        function openAchieveProgress() {
+            document.getElementById('achieveProgressModal').classList.add('active');
+            renderAchieveProgress();
+        }
+
+        function closeAchieveProgress() {
+            document.getElementById('achieveProgressModal').classList.remove('active');
+        }
+
+        function renderAchieveProgress() {
+            const stats = JSON.parse(localStorage.getItem('achieveStats') || '{"questionsAnswered":0,"maxStreak":0,"totalXP":0,"accuracy":0,"featuresUsed":0}');
+
+            document.getElementById('achieveProgressList').innerHTML = achievements.map(a => {
+                const current = stats[a.key] || 0;
+                const pct = Math.min(100, Math.round((current / a.target) * 100));
+                const complete = pct >= 100;
+
+                return `
+                    <div class="achieve-item" style="${complete ? 'background:#e8f5e9;' : ''}">
+                        <div class="achieve-icon">${a.icon}</div>
+                        <div class="achieve-info">
+                            <div class="achieve-title">${a.title} ${complete ? '✓' : ''}</div>
+                            <div class="achieve-desc">${a.desc}</div>
+                            <div class="achieve-bar">
+                                <div class="achieve-fill" style="width:${pct}%;${complete ? 'background:#4caf50;' : ''}"></div>
+                            </div>
+                            <div class="achieve-pct">${current}/${a.target} (${pct}%)</div>
+                        </div>
+                    </div>
+                `;
+            }).join('');
+        }
+
+        // Track feature usage
+        function trackFeatureUse(feature) {
+            let stats = JSON.parse(localStorage.getItem('achieveStats') || '{"questionsAnswered":0,"maxStreak":0,"totalXP":0,"accuracy":0,"featuresUsed":0}');
+            let usedFeatures = JSON.parse(localStorage.getItem('usedFeatures') || '[]');
+            if (!usedFeatures.includes(feature)) {
+                usedFeatures.push(feature);
+                localStorage.setItem('usedFeatures', JSON.stringify(usedFeatures));
+                stats.featuresUsed = usedFeatures.length;
+                localStorage.setItem('achieveStats', JSON.stringify(stats));
+            }
+        }
+
+        console.log('🃏 Memory Card Game, Science Glossary, and Achievement Progress loaded!');
     </script>
 
     <!-- PowerPoint-style Table Grid Selector (positioned fixed, outside all containers) -->
