@@ -18270,6 +18270,489 @@
         .floating-speedquiz-btn:hover {
             transform: scale(1.1);
         }
+
+        /* ===== Batch 46 Styles: Daily Facts, Quiz Battle, Topic Summaries ===== */
+
+        /* Daily Facts Modal */
+        .daily-facts-modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.8);
+            z-index: 10000;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .daily-facts-content {
+            background: linear-gradient(135deg, #1a1a2e 0%, #16213e 100%);
+            border-radius: 20px;
+            padding: 30px;
+            max-width: 500px;
+            width: 90%;
+            max-height: 85vh;
+            overflow-y: auto;
+            position: relative;
+            border: 2px solid #00acc1;
+        }
+
+        .daily-facts-header {
+            text-align: center;
+            margin-bottom: 25px;
+        }
+
+        .daily-facts-header h2 {
+            color: #00acc1;
+            font-size: 1.8rem;
+            margin-bottom: 10px;
+        }
+
+        .fact-of-day {
+            background: linear-gradient(135deg, rgba(0, 172, 193, 0.2) 0%, rgba(0, 188, 212, 0.2) 100%);
+            border-radius: 15px;
+            padding: 25px;
+            margin-bottom: 20px;
+            text-align: center;
+        }
+
+        .fact-date {
+            color: #00acc1;
+            font-size: 0.9rem;
+            margin-bottom: 10px;
+        }
+
+        .fact-icon {
+            font-size: 3rem;
+            margin-bottom: 15px;
+        }
+
+        .fact-text {
+            color: #fff;
+            font-size: 1.1rem;
+            line-height: 1.6;
+        }
+
+        .fact-category {
+            color: #80deea;
+            font-size: 0.85rem;
+            margin-top: 15px;
+            padding: 5px 15px;
+            background: rgba(0, 172, 193, 0.3);
+            border-radius: 20px;
+            display: inline-block;
+        }
+
+        .fact-streak {
+            display: flex;
+            justify-content: center;
+            gap: 20px;
+            margin-top: 20px;
+        }
+
+        .fact-streak-item {
+            text-align: center;
+        }
+
+        .fact-streak-value {
+            font-size: 1.5rem;
+            font-weight: bold;
+            color: #00acc1;
+        }
+
+        .fact-streak-label {
+            font-size: 0.8rem;
+            color: #aaa;
+        }
+
+        .past-facts {
+            margin-top: 25px;
+        }
+
+        .past-facts-title {
+            color: #00acc1;
+            font-size: 1rem;
+            margin-bottom: 15px;
+        }
+
+        .past-fact-item {
+            background: rgba(0, 0, 0, 0.3);
+            border-radius: 10px;
+            padding: 15px;
+            margin-bottom: 10px;
+        }
+
+        .past-fact-item p {
+            color: #ccc;
+            font-size: 0.9rem;
+            margin: 0;
+        }
+
+        .past-fact-date {
+            color: #888;
+            font-size: 0.8rem;
+            margin-top: 8px;
+        }
+
+        /* Quiz Battle Modal */
+        .quiz-battle-modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.8);
+            z-index: 10000;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .quiz-battle-content {
+            background: linear-gradient(135deg, #1a1a2e 0%, #16213e 100%);
+            border-radius: 20px;
+            padding: 30px;
+            max-width: 550px;
+            width: 90%;
+            position: relative;
+            border: 2px solid #d32f2f;
+        }
+
+        .quiz-battle-header {
+            text-align: center;
+            margin-bottom: 25px;
+        }
+
+        .quiz-battle-header h2 {
+            color: #d32f2f;
+            font-size: 1.8rem;
+            margin-bottom: 10px;
+        }
+
+        .battle-players {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 25px;
+        }
+
+        .battle-player {
+            text-align: center;
+            flex: 1;
+        }
+
+        .battle-avatar {
+            width: 60px;
+            height: 60px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, #d32f2f 0%, #ef5350 100%);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.8rem;
+            margin: 0 auto 10px;
+        }
+
+        .battle-avatar.opponent {
+            background: linear-gradient(135deg, #1976d2 0%, #42a5f5 100%);
+        }
+
+        .battle-name {
+            color: #ddd;
+            font-size: 0.9rem;
+            font-weight: bold;
+        }
+
+        .battle-score {
+            font-size: 2rem;
+            font-weight: bold;
+            color: #d32f2f;
+        }
+
+        .battle-score.opponent {
+            color: #1976d2;
+        }
+
+        .battle-vs {
+            font-size: 1.5rem;
+            color: #ffc107;
+            font-weight: bold;
+        }
+
+        .battle-question {
+            background: rgba(0, 0, 0, 0.3);
+            border-radius: 15px;
+            padding: 20px;
+            margin-bottom: 20px;
+            text-align: center;
+        }
+
+        .battle-question-text {
+            color: #fff;
+            font-size: 1.1rem;
+            line-height: 1.5;
+        }
+
+        .battle-options {
+            display: grid;
+            gap: 12px;
+        }
+
+        .battle-option {
+            padding: 15px;
+            border-radius: 10px;
+            background: rgba(211, 47, 47, 0.1);
+            color: #ef9a9a;
+            border: 2px solid transparent;
+            cursor: pointer;
+            font-size: 1rem;
+            transition: all 0.2s ease;
+            text-align: left;
+        }
+
+        .battle-option:hover {
+            border-color: #d32f2f;
+            background: rgba(211, 47, 47, 0.2);
+        }
+
+        .battle-result {
+            text-align: center;
+            padding: 30px;
+        }
+
+        .battle-result-icon {
+            font-size: 5rem;
+            margin-bottom: 20px;
+        }
+
+        .battle-result-text {
+            font-size: 2rem;
+            font-weight: bold;
+            margin-bottom: 15px;
+        }
+
+        .battle-result-text.win {
+            color: #4caf50;
+        }
+
+        .battle-result-text.lose {
+            color: #f44336;
+        }
+
+        .battle-result-text.draw {
+            color: #ffc107;
+        }
+
+        .battle-start-btn {
+            padding: 15px 40px;
+            border-radius: 12px;
+            background: linear-gradient(135deg, #d32f2f 0%, #ef5350 100%);
+            color: white;
+            border: none;
+            font-size: 1.2rem;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .battle-start-btn:hover {
+            transform: scale(1.05);
+        }
+
+        /* Topic Summaries Modal */
+        .summaries-modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.8);
+            z-index: 10000;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .summaries-content {
+            background: linear-gradient(135deg, #1a1a2e 0%, #16213e 100%);
+            border-radius: 20px;
+            padding: 30px;
+            max-width: 600px;
+            width: 90%;
+            max-height: 85vh;
+            overflow-y: auto;
+            position: relative;
+            border: 2px solid #7b1fa2;
+        }
+
+        .summaries-header {
+            text-align: center;
+            margin-bottom: 25px;
+        }
+
+        .summaries-header h2 {
+            color: #7b1fa2;
+            font-size: 1.8rem;
+            margin-bottom: 10px;
+        }
+
+        .summary-tabs {
+            display: flex;
+            gap: 10px;
+            flex-wrap: wrap;
+            justify-content: center;
+            margin-bottom: 20px;
+        }
+
+        .summary-tab {
+            padding: 8px 16px;
+            border-radius: 20px;
+            background: rgba(123, 31, 162, 0.2);
+            color: #ce93d8;
+            border: 1px solid #7b1fa2;
+            cursor: pointer;
+            font-size: 0.9rem;
+            transition: all 0.3s ease;
+        }
+
+        .summary-tab.active {
+            background: #7b1fa2;
+            color: white;
+        }
+
+        .summary-card {
+            background: rgba(123, 31, 162, 0.1);
+            border-radius: 15px;
+            padding: 25px;
+            border-left: 4px solid #7b1fa2;
+        }
+
+        .summary-title {
+            color: #ce93d8;
+            font-size: 1.3rem;
+            font-weight: bold;
+            margin-bottom: 15px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .summary-description {
+            color: #ddd;
+            line-height: 1.6;
+            margin-bottom: 20px;
+        }
+
+        .summary-key-points {
+            margin-bottom: 20px;
+        }
+
+        .summary-key-points h4 {
+            color: #ba68c8;
+            font-size: 1rem;
+            margin-bottom: 12px;
+        }
+
+        .key-point {
+            display: flex;
+            align-items: flex-start;
+            gap: 10px;
+            padding: 10px;
+            background: rgba(0, 0, 0, 0.2);
+            border-radius: 8px;
+            margin-bottom: 8px;
+        }
+
+        .key-point-icon {
+            color: #ba68c8;
+            font-size: 1rem;
+        }
+
+        .key-point-text {
+            color: #ccc;
+            font-size: 0.9rem;
+            line-height: 1.4;
+        }
+
+        .summary-examples h4 {
+            color: #ba68c8;
+            font-size: 1rem;
+            margin-bottom: 12px;
+        }
+
+        .example-item {
+            background: rgba(186, 104, 200, 0.1);
+            border-radius: 8px;
+            padding: 12px;
+            margin-bottom: 8px;
+            font-size: 0.9rem;
+            color: #ddd;
+        }
+
+        /* Floating Buttons for Batch 46 */
+        .floating-facts-btn {
+            position: fixed;
+            bottom: 4060px;
+            right: 20px;
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, #00acc1 0%, #00bcd4 100%);
+            color: white;
+            border: none;
+            font-size: 1.3rem;
+            cursor: pointer;
+            box-shadow: 0 5px 20px rgba(0, 172, 193, 0.4);
+            z-index: 999;
+            transition: all 0.3s ease;
+        }
+
+        .floating-facts-btn:hover {
+            transform: scale(1.1);
+        }
+
+        .floating-battle-btn {
+            position: fixed;
+            bottom: 4120px;
+            right: 20px;
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, #d32f2f 0%, #ef5350 100%);
+            color: white;
+            border: none;
+            font-size: 1.3rem;
+            cursor: pointer;
+            box-shadow: 0 5px 20px rgba(211, 47, 47, 0.4);
+            z-index: 999;
+            transition: all 0.3s ease;
+        }
+
+        .floating-battle-btn:hover {
+            transform: scale(1.1);
+        }
+
+        .floating-summaries-btn {
+            position: fixed;
+            bottom: 4180px;
+            right: 20px;
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, #7b1fa2 0%, #9c27b0 100%);
+            color: white;
+            border: none;
+            font-size: 1.3rem;
+            cursor: pointer;
+            box-shadow: 0 5px 20px rgba(123, 31, 162, 0.4);
+            z-index: 999;
+            transition: all 0.3s ease;
+        }
+
+        .floating-summaries-btn:hover {
+            transform: scale(1.1);
+        }
     </style>
 </head>
 
@@ -51993,6 +52476,426 @@ Science Made Fun!
         }
 
         console.log('🎴 Flashcards, Learning Paths, and Speed Quiz loaded!');
+    </script>
+
+    <!-- ===== Batch 46: Daily Facts, Quiz Battle, Topic Summaries ===== -->
+    <button class="floating-facts-btn" onclick="openDailyFactsModal()" title="Daily Facts">💡</button>
+    <button class="floating-battle-btn" onclick="openQuizBattleModal()" title="Quiz Battle">⚔️</button>
+    <button class="floating-summaries-btn" onclick="openSummariesModal()" title="Topic Summaries">📖</button>
+
+    <!-- Daily Facts Modal -->
+    <div class="daily-facts-modal" id="daily-facts-modal">
+        <div class="daily-facts-content">
+            <button class="modal-close-btn" onclick="closeDailyFactsModal()">&times;</button>
+            <div class="daily-facts-header">
+                <h2>💡 Daily Science Fact</h2>
+                <p style="color: #aaa;">Learn something new every day!</p>
+            </div>
+            <div id="daily-facts-container"></div>
+        </div>
+    </div>
+
+    <!-- Quiz Battle Modal -->
+    <div class="quiz-battle-modal" id="quiz-battle-modal">
+        <div class="quiz-battle-content">
+            <button class="modal-close-btn" onclick="closeQuizBattleModal()">&times;</button>
+            <div class="quiz-battle-header">
+                <h2>⚔️ Quiz Battle</h2>
+                <p style="color: #aaa;">Challenge an AI opponent!</p>
+            </div>
+            <div id="quiz-battle-area"></div>
+        </div>
+    </div>
+
+    <!-- Topic Summaries Modal -->
+    <div class="summaries-modal" id="summaries-modal">
+        <div class="summaries-content">
+            <button class="modal-close-btn" onclick="closeSummariesModal()">&times;</button>
+            <div class="summaries-header">
+                <h2>📖 Topic Summaries</h2>
+                <p style="color: #aaa;">Quick reference guides for science topics</p>
+            </div>
+            <div class="summary-tabs" id="summary-tabs"></div>
+            <div id="summary-content"></div>
+        </div>
+    </div>
+
+    <script>
+        // ===== Batch 46: Daily Facts, Quiz Battle, Topic Summaries =====
+
+        // Daily Facts Data
+        const dailyFactsData = [
+            { icon: '🌍', fact: 'Earth is the only planet not named after a Greek or Roman god.', category: 'Space' },
+            { icon: '💧', fact: 'Water can exist in three states at the same temperature (triple point): 0.01°C.', category: 'Chemistry' },
+            { icon: '🦋', fact: 'Butterflies taste with their feet to identify plants for laying eggs.', category: 'Biology' },
+            { icon: '⚡', fact: 'Lightning strikes the Earth about 100 times every second.', category: 'Weather' },
+            { icon: '🧠', fact: 'The human brain uses about 20% of the body\'s total energy.', category: 'Biology' },
+            { icon: '🌈', fact: 'A rainbow is actually a full circle, but we only see half from the ground.', category: 'Light' },
+            { icon: '🐙', fact: 'Octopuses have three hearts and blue blood.', category: 'Biology' },
+            { icon: '🌡️', fact: 'The coldest temperature ever recorded on Earth was -89.2°C in Antarctica.', category: 'Weather' },
+            { icon: '🪐', fact: 'Saturn is so light it would float if you could put it in a giant bathtub.', category: 'Space' },
+            { icon: '🔬', fact: 'A teaspoon of neutron star would weigh about 6 billion tons.', category: 'Space' },
+            { icon: '🌊', fact: 'Sound travels 4 times faster in water than in air.', category: 'Physics' },
+            { icon: '🦴', fact: 'Babies are born with about 300 bones, but adults only have 206.', category: 'Biology' },
+            { icon: '🌳', fact: 'Trees release oxygen during the day and carbon dioxide at night.', category: 'Biology' },
+            { icon: '🔥', fact: 'Fire needs oxygen to burn - that\'s why you can smother flames with a blanket.', category: 'Chemistry' },
+            { icon: '🧲', fact: 'The Earth\'s magnetic field protects us from solar radiation.', category: 'Earth Science' }
+        ];
+
+        let factsStreak = parseInt(localStorage.getItem('factsStreak')) || 0;
+        let lastFactDate = localStorage.getItem('lastFactDate') || '';
+        let viewedFacts = JSON.parse(localStorage.getItem('viewedFacts')) || [];
+
+        function openDailyFactsModal() {
+            document.getElementById('daily-facts-modal').style.display = 'flex';
+            displayDailyFact();
+            if (typeof playClickSound === 'function') playClickSound();
+        }
+
+        function closeDailyFactsModal() {
+            document.getElementById('daily-facts-modal').style.display = 'none';
+        }
+
+        function displayDailyFact() {
+            const today = new Date().toDateString();
+            const container = document.getElementById('daily-facts-container');
+
+            // Check streak
+            if (lastFactDate !== today) {
+                const yesterday = new Date();
+                yesterday.setDate(yesterday.getDate() - 1);
+
+                if (lastFactDate === yesterday.toDateString()) {
+                    factsStreak++;
+                } else if (lastFactDate !== '') {
+                    factsStreak = 1;
+                } else {
+                    factsStreak = 1;
+                }
+
+                lastFactDate = today;
+                localStorage.setItem('factsStreak', factsStreak);
+                localStorage.setItem('lastFactDate', lastFactDate);
+
+                // Award XP for checking daily
+                if (typeof addXP === 'function') addXP(5);
+            }
+
+            // Get today's fact based on date
+            const dayOfYear = Math.floor((new Date() - new Date(new Date().getFullYear(), 0, 0)) / (1000 * 60 * 60 * 24));
+            const factIndex = dayOfYear % dailyFactsData.length;
+            const todaysFact = dailyFactsData[factIndex];
+
+            // Store viewed fact
+            if (!viewedFacts.includes(factIndex)) {
+                viewedFacts.push(factIndex);
+                if (viewedFacts.length > 30) viewedFacts = viewedFacts.slice(-30);
+                localStorage.setItem('viewedFacts', JSON.stringify(viewedFacts));
+            }
+
+            container.innerHTML = `
+                <div class="fact-of-day">
+                    <div class="fact-date">Today's Fact - ${new Date().toLocaleDateString('en-US', { weekday: 'long', month: 'long', day: 'numeric' })}</div>
+                    <div class="fact-icon">${todaysFact.icon}</div>
+                    <div class="fact-text">${todaysFact.fact}</div>
+                    <div class="fact-category">${todaysFact.category}</div>
+                </div>
+                <div class="fact-streak">
+                    <div class="fact-streak-item">
+                        <div class="fact-streak-value">🔥 ${factsStreak}</div>
+                        <div class="fact-streak-label">Day Streak</div>
+                    </div>
+                    <div class="fact-streak-item">
+                        <div class="fact-streak-value">${viewedFacts.length}</div>
+                        <div class="fact-streak-label">Facts Learned</div>
+                    </div>
+                </div>
+                <div class="past-facts">
+                    <div class="past-facts-title">Recent Facts</div>
+                    ${viewedFacts.slice(-5).reverse().map((idx, i) => {
+                        if (i === 0) return '';
+                        const fact = dailyFactsData[idx];
+                        return `
+                            <div class="past-fact-item">
+                                <p>${fact.icon} ${fact.fact}</p>
+                            </div>
+                        `;
+                    }).join('')}
+                </div>
+            `;
+        }
+
+        // Quiz Battle System
+        const battleQuestions = [
+            { q: 'What is the chemical formula for water?', options: ['CO2', 'H2O', 'O2', 'NaCl'], answer: 1 },
+            { q: 'How many continents are there?', options: ['5', '6', '7', '8'], answer: 2 },
+            { q: 'What is the largest mammal?', options: ['Elephant', 'Blue Whale', 'Giraffe', 'Hippo'], answer: 1 },
+            { q: 'What planet is known as the Red Planet?', options: ['Venus', 'Jupiter', 'Mars', 'Saturn'], answer: 2 },
+            { q: 'What is the hardest natural substance?', options: ['Gold', 'Iron', 'Diamond', 'Platinum'], answer: 2 },
+            { q: 'What gas do humans exhale?', options: ['Oxygen', 'Nitrogen', 'Carbon Dioxide', 'Helium'], answer: 2 },
+            { q: 'How many teeth does an adult human have?', options: ['28', '30', '32', '34'], answer: 2 },
+            { q: 'What is the speed of light?', options: ['300 km/s', '300,000 km/s', '30,000 km/s', '3,000 km/s'], answer: 1 }
+        ];
+
+        let battleState = {
+            isActive: false,
+            playerScore: 0,
+            opponentScore: 0,
+            currentQuestion: 0,
+            questions: [],
+            opponentNames: ['ScienceBot', 'BrainMaster', 'QuizWiz', 'EinsteinJr', 'NewtonAI'],
+            currentOpponent: ''
+        };
+
+        function openQuizBattleModal() {
+            document.getElementById('quiz-battle-modal').style.display = 'flex';
+            showBattleStartScreen();
+            if (typeof playClickSound === 'function') playClickSound();
+        }
+
+        function closeQuizBattleModal() {
+            document.getElementById('quiz-battle-modal').style.display = 'none';
+            battleState.isActive = false;
+        }
+
+        function showBattleStartScreen() {
+            const area = document.getElementById('quiz-battle-area');
+            area.innerHTML = `
+                <div style="text-align: center; padding: 20px;">
+                    <div style="font-size: 5rem; margin-bottom: 20px;">⚔️</div>
+                    <p style="color: #aaa; font-size: 1.1rem; margin-bottom: 20px;">Challenge an AI opponent in a 5-question battle!</p>
+                    <p style="color: #ef9a9a; font-size: 0.9rem;">Answer faster and more accurately to win!</p>
+                    <button class="battle-start-btn" onclick="startBattle()">Find Opponent</button>
+                </div>
+            `;
+        }
+
+        function startBattle() {
+            battleState.isActive = true;
+            battleState.playerScore = 0;
+            battleState.opponentScore = 0;
+            battleState.currentQuestion = 0;
+            battleState.currentOpponent = battleState.opponentNames[Math.floor(Math.random() * battleState.opponentNames.length)];
+
+            // Shuffle and pick 5 questions
+            const shuffled = [...battleQuestions].sort(() => Math.random() - 0.5);
+            battleState.questions = shuffled.slice(0, 5);
+
+            loadBattleQuestion();
+        }
+
+        function loadBattleQuestion() {
+            if (battleState.currentQuestion >= battleState.questions.length) {
+                endBattle();
+                return;
+            }
+
+            displayBattleQuestion();
+        }
+
+        function displayBattleQuestion() {
+            const area = document.getElementById('quiz-battle-area');
+            const q = battleState.questions[battleState.currentQuestion];
+
+            area.innerHTML = `
+                <div class="battle-players">
+                    <div class="battle-player">
+                        <div class="battle-avatar">🧑</div>
+                        <div class="battle-name">You</div>
+                        <div class="battle-score">${battleState.playerScore}</div>
+                    </div>
+                    <div class="battle-vs">VS</div>
+                    <div class="battle-player">
+                        <div class="battle-avatar opponent">🤖</div>
+                        <div class="battle-name">${battleState.currentOpponent}</div>
+                        <div class="battle-score opponent">${battleState.opponentScore}</div>
+                    </div>
+                </div>
+                <div style="text-align: center; color: #aaa; margin-bottom: 15px;">Question ${battleState.currentQuestion + 1} of ${battleState.questions.length}</div>
+                <div class="battle-question">
+                    <div class="battle-question-text">${q.q}</div>
+                </div>
+                <div class="battle-options">
+                    ${q.options.map((opt, i) => `
+                        <button class="battle-option" onclick="answerBattle(${i})">${opt}</button>
+                    `).join('')}
+                </div>
+            `;
+        }
+
+        function answerBattle(selectedIndex) {
+            if (!battleState.isActive) return;
+
+            const q = battleState.questions[battleState.currentQuestion];
+            const isCorrect = selectedIndex === q.answer;
+
+            // Simulate opponent answer (60-80% accuracy)
+            const opponentCorrect = Math.random() < 0.7;
+
+            if (isCorrect) battleState.playerScore++;
+            if (opponentCorrect) battleState.opponentScore++;
+
+            battleState.currentQuestion++;
+
+            setTimeout(() => loadBattleQuestion(), 800);
+        }
+
+        function endBattle() {
+            battleState.isActive = false;
+            const area = document.getElementById('quiz-battle-area');
+
+            let resultIcon, resultText, resultClass;
+            if (battleState.playerScore > battleState.opponentScore) {
+                resultIcon = '🏆';
+                resultText = 'Victory!';
+                resultClass = 'win';
+                if (typeof addXP === 'function') addXP(50);
+            } else if (battleState.playerScore < battleState.opponentScore) {
+                resultIcon = '😢';
+                resultText = 'Defeat';
+                resultClass = 'lose';
+                if (typeof addXP === 'function') addXP(15);
+            } else {
+                resultIcon = '🤝';
+                resultText = 'Draw!';
+                resultClass = 'draw';
+                if (typeof addXP === 'function') addXP(25);
+            }
+
+            area.innerHTML = `
+                <div class="battle-result">
+                    <div class="battle-result-icon">${resultIcon}</div>
+                    <div class="battle-result-text ${resultClass}">${resultText}</div>
+                    <div style="color: #aaa; margin-bottom: 20px;">
+                        You: ${battleState.playerScore} - ${battleState.currentOpponent}: ${battleState.opponentScore}
+                    </div>
+                    <button class="battle-start-btn" onclick="showBattleStartScreen()">Battle Again</button>
+                </div>
+            `;
+        }
+
+        // Topic Summaries
+        const topicSummaries = {
+            'Matter': {
+                icon: '🧪',
+                title: 'States of Matter',
+                description: 'Matter is anything that has mass and takes up space. It exists in three main states: solid, liquid, and gas.',
+                keyPoints: [
+                    'Solids have a fixed shape and volume. Particles are tightly packed.',
+                    'Liquids have a fixed volume but take the shape of their container.',
+                    'Gases have no fixed shape or volume. Particles move freely.',
+                    'Matter can change states through heating or cooling.'
+                ],
+                examples: ['Ice (solid) → Water (liquid) → Steam (gas)', 'Chocolate melting in the sun']
+            },
+            'Energy': {
+                icon: '⚡',
+                title: 'Forms of Energy',
+                description: 'Energy is the ability to do work or cause change. It cannot be created or destroyed, only transformed.',
+                keyPoints: [
+                    'Kinetic energy is the energy of motion.',
+                    'Potential energy is stored energy that can be released.',
+                    'Energy can change from one form to another.',
+                    'Common forms: light, heat, sound, electrical, chemical.'
+                ],
+                examples: ['A ball rolling down a hill converts potential to kinetic', 'Food converts chemical energy to movement']
+            },
+            'Forces': {
+                icon: '🎯',
+                title: 'Forces and Motion',
+                description: 'A force is a push or pull that can change an object\'s motion, shape, or direction.',
+                keyPoints: [
+                    'Gravity pulls objects toward Earth\'s center.',
+                    'Friction opposes motion between surfaces.',
+                    'Balanced forces result in no change in motion.',
+                    'Unbalanced forces cause acceleration.'
+                ],
+                examples: ['Gravity keeps planets orbiting the Sun', 'Friction allows us to walk without slipping']
+            },
+            'Light': {
+                icon: '💡',
+                title: 'Light and Optics',
+                description: 'Light is a form of energy that travels in waves. It allows us to see the world around us.',
+                keyPoints: [
+                    'Light travels in straight lines.',
+                    'White light is made of all colors of the spectrum.',
+                    'Light can be reflected, refracted, or absorbed.',
+                    'Primary colors of light: red, green, blue.'
+                ],
+                examples: ['Rainbows form when light refracts through water drops', 'Mirrors reflect light to create images']
+            },
+            'Plants': {
+                icon: '🌱',
+                title: 'Plant Life',
+                description: 'Plants are living organisms that make their own food through photosynthesis using sunlight, water, and carbon dioxide.',
+                keyPoints: [
+                    'Photosynthesis converts sunlight into food (glucose).',
+                    'Plants release oxygen as a byproduct.',
+                    'Roots absorb water and minerals from soil.',
+                    'Leaves capture sunlight for photosynthesis.'
+                ],
+                examples: ['Trees produce oxygen we breathe', 'Sunflowers turn toward the sun']
+            }
+        };
+
+        let currentSummaryTopic = 'Matter';
+
+        function openSummariesModal() {
+            document.getElementById('summaries-modal').style.display = 'flex';
+            initSummaryTabs();
+            displaySummary();
+            if (typeof playClickSound === 'function') playClickSound();
+        }
+
+        function closeSummariesModal() {
+            document.getElementById('summaries-modal').style.display = 'none';
+        }
+
+        function initSummaryTabs() {
+            const tabs = document.getElementById('summary-tabs');
+            const topics = Object.keys(topicSummaries);
+
+            tabs.innerHTML = topics.map(topic => `
+                <button class="summary-tab ${topic === currentSummaryTopic ? 'active' : ''}" onclick="selectSummaryTopic('${topic}')">
+                    ${topicSummaries[topic].icon} ${topic}
+                </button>
+            `).join('');
+        }
+
+        function selectSummaryTopic(topic) {
+            currentSummaryTopic = topic;
+            initSummaryTabs();
+            displaySummary();
+        }
+
+        function displaySummary() {
+            const content = document.getElementById('summary-content');
+            const summary = topicSummaries[currentSummaryTopic];
+
+            content.innerHTML = `
+                <div class="summary-card">
+                    <div class="summary-title">${summary.icon} ${summary.title}</div>
+                    <div class="summary-description">${summary.description}</div>
+                    <div class="summary-key-points">
+                        <h4>Key Points</h4>
+                        ${summary.keyPoints.map(point => `
+                            <div class="key-point">
+                                <span class="key-point-icon">✓</span>
+                                <span class="key-point-text">${point}</span>
+                            </div>
+                        `).join('')}
+                    </div>
+                    <div class="summary-examples">
+                        <h4>Examples</h4>
+                        ${summary.examples.map(ex => `
+                            <div class="example-item">📌 ${ex}</div>
+                        `).join('')}
+                    </div>
+                </div>
+            `;
+        }
+
+        console.log('💡 Daily Facts, Quiz Battle, and Topic Summaries loaded!');
     </script>
 
     <!-- PowerPoint-style Table Grid Selector (positioned fixed, outside all containers) -->
