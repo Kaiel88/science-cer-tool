@@ -13712,6 +13712,320 @@
         .floating-shortcuts-btn:hover {
             transform: scale(1.1);
         }
+
+        /* ========== BATCH 34: Hint System, Stats Dashboard, Weekly Report ========== */
+
+        /* Hint System */
+        .hint-bubble {
+            position: fixed;
+            bottom: 150px;
+            left: 50%;
+            transform: translateX(-50%);
+            background: linear-gradient(135deg, #f5af19 0%, #f12711 100%);
+            color: white;
+            padding: 20px 30px;
+            border-radius: 20px;
+            max-width: 400px;
+            text-align: center;
+            box-shadow: 0 10px 40px rgba(245, 175, 25, 0.4);
+            z-index: 10000;
+            display: none;
+            animation: hintBounce 0.5s ease;
+        }
+
+        @keyframes hintBounce {
+            0% { transform: translateX(-50%) scale(0); }
+            50% { transform: translateX(-50%) scale(1.1); }
+            100% { transform: translateX(-50%) scale(1); }
+        }
+
+        .hint-icon {
+            font-size: 2rem;
+            margin-bottom: 10px;
+        }
+
+        .hint-text {
+            font-size: 1rem;
+            line-height: 1.5;
+        }
+
+        .hint-close {
+            position: absolute;
+            top: 5px;
+            right: 10px;
+            background: none;
+            border: none;
+            color: white;
+            font-size: 1.2rem;
+            cursor: pointer;
+            opacity: 0.7;
+        }
+
+        .hint-close:hover {
+            opacity: 1;
+        }
+
+        .hint-remaining {
+            font-size: 0.85rem;
+            opacity: 0.8;
+            margin-top: 10px;
+        }
+
+        /* Stats Dashboard */
+        .stats-dashboard-modal {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0,0,0,0.9);
+            display: none;
+            justify-content: center;
+            align-items: center;
+            z-index: 10001;
+        }
+
+        .stats-dashboard-content {
+            background: linear-gradient(135deg, #1a1a2e 0%, #16213e 100%);
+            border-radius: 25px;
+            width: 95%;
+            max-width: 800px;
+            max-height: 90vh;
+            overflow-y: auto;
+            padding: 30px;
+            color: white;
+        }
+
+        .stats-header-row {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 25px;
+        }
+
+        .stats-main-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 15px;
+            margin-bottom: 25px;
+        }
+
+        .stats-main-card {
+            background: rgba(255,255,255,0.1);
+            border-radius: 15px;
+            padding: 20px;
+            text-align: center;
+        }
+
+        .stats-main-icon {
+            font-size: 2rem;
+            margin-bottom: 8px;
+        }
+
+        .stats-main-value {
+            font-size: 1.8rem;
+            font-weight: 700;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .stats-main-label {
+            font-size: 0.85rem;
+            color: #aaa;
+            margin-top: 5px;
+        }
+
+        .stats-section {
+            background: rgba(255,255,255,0.05);
+            border-radius: 20px;
+            padding: 25px;
+            margin-bottom: 20px;
+        }
+
+        .stats-section-title {
+            font-weight: 700;
+            margin-bottom: 20px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .stats-row {
+            display: flex;
+            justify-content: space-between;
+            padding: 12px 0;
+            border-bottom: 1px solid rgba(255,255,255,0.1);
+        }
+
+        .stats-row:last-child {
+            border-bottom: none;
+        }
+
+        .stats-row-label {
+            color: #aaa;
+        }
+
+        .stats-row-value {
+            font-weight: 600;
+        }
+
+        /* Weekly Report */
+        .weekly-report-modal {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0,0,0,0.85);
+            display: none;
+            justify-content: center;
+            align-items: center;
+            z-index: 10001;
+        }
+
+        .weekly-report-content {
+            background: white;
+            border-radius: 25px;
+            width: 95%;
+            max-width: 600px;
+            max-height: 90vh;
+            overflow-y: auto;
+            padding: 30px;
+        }
+
+        .weekly-report-header {
+            text-align: center;
+            margin-bottom: 25px;
+        }
+
+        .weekly-report-grade {
+            width: 100px;
+            height: 100px;
+            border-radius: 50%;
+            margin: 0 auto 20px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 3rem;
+            font-weight: 700;
+            color: white;
+        }
+
+        .weekly-report-grade.a { background: linear-gradient(135deg, #4CAF50 0%, #8BC34A 100%); }
+        .weekly-report-grade.b { background: linear-gradient(135deg, #2196F3 0%, #03A9F4 100%); }
+        .weekly-report-grade.c { background: linear-gradient(135deg, #FF9800 0%, #FFC107 100%); }
+        .weekly-report-grade.d { background: linear-gradient(135deg, #f44336 0%, #E91E63 100%); }
+
+        .weekly-stats-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 15px;
+            margin-bottom: 25px;
+        }
+
+        .weekly-stat-card {
+            background: #f8f9fa;
+            border-radius: 15px;
+            padding: 20px;
+            text-align: center;
+        }
+
+        .weekly-stat-icon {
+            font-size: 1.5rem;
+            margin-bottom: 8px;
+        }
+
+        .weekly-stat-value {
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: #333;
+        }
+
+        .weekly-stat-label {
+            font-size: 0.85rem;
+            color: #666;
+        }
+
+        .weekly-stat-change {
+            font-size: 0.8rem;
+            margin-top: 5px;
+        }
+
+        .weekly-stat-change.positive { color: #4CAF50; }
+        .weekly-stat-change.negative { color: #f44336; }
+
+        .weekly-comparison {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            border-radius: 15px;
+            padding: 20px;
+            color: white;
+            text-align: center;
+            margin-bottom: 25px;
+        }
+
+        .weekly-comparison-text {
+            font-size: 1.1rem;
+            margin-bottom: 10px;
+        }
+
+        .weekly-comparison-bar {
+            height: 15px;
+            background: rgba(255,255,255,0.3);
+            border-radius: 10px;
+            overflow: hidden;
+        }
+
+        .weekly-comparison-fill {
+            height: 100%;
+            background: white;
+            border-radius: 10px;
+            transition: width 0.5s ease;
+        }
+
+        /* Floating buttons for Batch 34 */
+        .floating-stats-btn {
+            position: fixed;
+            bottom: 2260px;
+            right: 20px;
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, #3f51b5 0%, #2196f3 100%);
+            color: white;
+            border: none;
+            font-size: 1.3rem;
+            cursor: pointer;
+            box-shadow: 0 5px 20px rgba(63, 81, 181, 0.4);
+            z-index: 999;
+            transition: all 0.3s ease;
+        }
+
+        .floating-stats-btn:hover {
+            transform: scale(1.1);
+        }
+
+        .floating-report-btn {
+            position: fixed;
+            bottom: 2320px;
+            right: 20px;
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, #e91e63 0%, #9c27b0 100%);
+            color: white;
+            border: none;
+            font-size: 1.3rem;
+            cursor: pointer;
+            box-shadow: 0 5px 20px rgba(233, 30, 99, 0.4);
+            z-index: 999;
+            transition: all 0.3s ease;
+        }
+
+        .floating-report-btn:hover {
+            transform: scale(1.1);
+        }
     </style>
 </head>
 
@@ -43360,6 +43674,352 @@ Science Made Fun!
         });
 
         console.log('⌨️ Keyboard Shortcuts, Level Rewards, and Celebrations loaded!');
+    </script>
+
+    <!-- ========== BATCH 34: Hint System, Stats Dashboard, Weekly Report ========== -->
+
+    <!-- Hint Bubble -->
+    <div class="hint-bubble" id="hint-bubble">
+        <button class="hint-close" onclick="closeHint()">×</button>
+        <div class="hint-icon">💡</div>
+        <div class="hint-text" id="hint-text">Here's a hint...</div>
+        <div class="hint-remaining" id="hint-remaining">3 hints remaining today</div>
+    </div>
+
+    <!-- Stats Dashboard Modal -->
+    <div class="stats-dashboard-modal" id="stats-dashboard-modal">
+        <div class="stats-dashboard-content">
+            <div class="stats-header-row">
+                <h2 style="margin: 0;">📊 Study Statistics</h2>
+                <button onclick="closeStatsDashboard()" style="background: none; border: none; color: white; font-size: 1.5rem; cursor: pointer;">×</button>
+            </div>
+
+            <div class="stats-main-grid" id="stats-main-grid">
+                <!-- Populated by JavaScript -->
+            </div>
+
+            <div class="stats-section">
+                <div class="stats-section-title">📚 Learning Progress</div>
+                <div id="stats-learning-progress">
+                    <!-- Populated by JavaScript -->
+                </div>
+            </div>
+
+            <div class="stats-section">
+                <div class="stats-section-title">🏆 Achievements</div>
+                <div id="stats-achievements">
+                    <!-- Populated by JavaScript -->
+                </div>
+            </div>
+
+            <div style="text-align: center; margin-top: 20px;">
+                <button onclick="closeStatsDashboard()" style="padding: 12px 40px; border: none; background: linear-gradient(135deg, #3f51b5 0%, #2196f3 100%); border-radius: 25px; color: white; font-weight: bold; cursor: pointer;">Close</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Weekly Report Modal -->
+    <div class="weekly-report-modal" id="weekly-report-modal">
+        <div class="weekly-report-content">
+            <div class="weekly-report-header">
+                <h2 style="margin: 0;">📈 Weekly Progress Report</h2>
+                <p style="color: #666; margin-top: 5px;" id="weekly-date-range">This Week's Summary</p>
+            </div>
+
+            <div class="weekly-report-grade" id="weekly-grade">A</div>
+            <p style="text-align: center; font-weight: 600; margin-bottom: 25px;" id="weekly-message">Outstanding Performance!</p>
+
+            <div class="weekly-stats-grid" id="weekly-stats-grid">
+                <!-- Populated by JavaScript -->
+            </div>
+
+            <div class="weekly-comparison">
+                <div class="weekly-comparison-text" id="weekly-comparison-text">You studied more than last week!</div>
+                <div class="weekly-comparison-bar">
+                    <div class="weekly-comparison-fill" id="weekly-comparison-fill" style="width: 75%"></div>
+                </div>
+            </div>
+
+            <div style="text-align: center;">
+                <button onclick="closeWeeklyReport()" style="padding: 12px 40px; border: none; background: linear-gradient(135deg, #e91e63 0%, #9c27b0 100%); border-radius: 25px; color: white; font-weight: bold; cursor: pointer;">Close</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Floating Buttons for Batch 34 -->
+    <button class="floating-stats-btn" onclick="openStatsDashboard()" title="Study Statistics">📊</button>
+    <button class="floating-report-btn" onclick="openWeeklyReport()" title="Weekly Report">📈</button>
+
+    <script>
+        // ========== BATCH 34: Hint System, Stats Dashboard, Weekly Report ==========
+
+        // Hint System
+        const questionHints = {
+            physics: [
+                "Think about the relationship between force and motion.",
+                "Remember: Energy cannot be created or destroyed!",
+                "Consider the direction of the force.",
+                "Speed has no direction, velocity does!"
+            ],
+            chemistry: [
+                "Check the periodic table for atomic numbers.",
+                "Remember: Acids have pH below 7, bases above 7.",
+                "Think about what happens during chemical reactions.",
+                "Count the atoms on both sides of the equation."
+            ],
+            biology: [
+                "Think about the function of each cell part.",
+                "Remember the steps of photosynthesis.",
+                "Consider how energy flows through ecosystems.",
+                "DNA is the blueprint of life!"
+            ],
+            earth: [
+                "Think about the layers of the Earth.",
+                "Remember the water cycle steps.",
+                "Consider how tectonic plates move.",
+                "Think about rock formation processes."
+            ],
+            general: [
+                "Read the question carefully!",
+                "Eliminate obviously wrong answers first.",
+                "Trust your first instinct.",
+                "Think logically about the options."
+            ]
+        };
+
+        let hintsUsedToday = parseInt(localStorage.getItem('hintsUsedToday')) || 0;
+        const maxHintsPerDay = 5;
+
+        function showHint(category = 'general') {
+            if (hintsUsedToday >= maxHintsPerDay) {
+                alert('You\'ve used all your hints for today! Come back tomorrow for more.');
+                return;
+            }
+
+            const hints = questionHints[category] || questionHints.general;
+            const hint = hints[Math.floor(Math.random() * hints.length)];
+
+            document.getElementById('hint-text').textContent = hint;
+            document.getElementById('hint-remaining').textContent = `${maxHintsPerDay - hintsUsedToday - 1} hints remaining today`;
+            document.getElementById('hint-bubble').style.display = 'block';
+
+            hintsUsedToday++;
+            localStorage.setItem('hintsUsedToday', hintsUsedToday);
+        }
+
+        function closeHint() {
+            document.getElementById('hint-bubble').style.display = 'none';
+        }
+
+        function resetDailyHints() {
+            const lastReset = localStorage.getItem('lastHintReset');
+            const today = new Date().toDateString();
+
+            if (lastReset !== today) {
+                hintsUsedToday = 0;
+                localStorage.setItem('hintsUsedToday', '0');
+                localStorage.setItem('lastHintReset', today);
+            }
+        }
+
+        // Stats Dashboard
+        function openStatsDashboard() {
+            renderStatsDashboard();
+            document.getElementById('stats-dashboard-modal').style.display = 'flex';
+        }
+
+        function closeStatsDashboard() {
+            document.getElementById('stats-dashboard-modal').style.display = 'none';
+        }
+
+        function renderStatsDashboard() {
+            const totalXP = parseInt(localStorage.getItem('scienceXP')) || 0;
+            const level = Math.floor(totalXP / 100) + 1;
+            const totalQuestions = parseInt(localStorage.getItem('totalQuestionsAnswered')) || 0;
+            const bestStreak = parseInt(localStorage.getItem('bestStreak')) || 0;
+            const totalDays = parseInt(localStorage.getItem('totalDaysUsed')) || 1;
+            const focusSessions = parseInt(localStorage.getItem('totalFocusSessions')) || 0;
+            const completedExperiments = (JSON.parse(localStorage.getItem('completedExperiments')) || []).length;
+
+            // Main stats grid
+            document.getElementById('stats-main-grid').innerHTML = `
+                <div class="stats-main-card">
+                    <div class="stats-main-icon">⭐</div>
+                    <div class="stats-main-value">${totalXP}</div>
+                    <div class="stats-main-label">Total XP</div>
+                </div>
+                <div class="stats-main-card">
+                    <div class="stats-main-icon">🎓</div>
+                    <div class="stats-main-value">${level}</div>
+                    <div class="stats-main-label">Level</div>
+                </div>
+                <div class="stats-main-card">
+                    <div class="stats-main-icon">📝</div>
+                    <div class="stats-main-value">${totalQuestions}</div>
+                    <div class="stats-main-label">Questions</div>
+                </div>
+                <div class="stats-main-card">
+                    <div class="stats-main-icon">🔥</div>
+                    <div class="stats-main-value">${bestStreak}</div>
+                    <div class="stats-main-label">Best Streak</div>
+                </div>
+            `;
+
+            // Learning progress
+            document.getElementById('stats-learning-progress').innerHTML = `
+                <div class="stats-row">
+                    <span class="stats-row-label">Days Active</span>
+                    <span class="stats-row-value">${totalDays} days</span>
+                </div>
+                <div class="stats-row">
+                    <span class="stats-row-label">Focus Sessions</span>
+                    <span class="stats-row-value">${focusSessions} sessions</span>
+                </div>
+                <div class="stats-row">
+                    <span class="stats-row-label">Experiments Completed</span>
+                    <span class="stats-row-value">${completedExperiments} / 6</span>
+                </div>
+                <div class="stats-row">
+                    <span class="stats-row-label">Average XP/Day</span>
+                    <span class="stats-row-value">${Math.round(totalXP / totalDays)} XP</span>
+                </div>
+                <div class="stats-row">
+                    <span class="stats-row-label">Questions/Day</span>
+                    <span class="stats-row-value">${(totalQuestions / totalDays).toFixed(1)}</span>
+                </div>
+            `;
+
+            // Achievements
+            const unlockedAchievements = JSON.parse(localStorage.getItem('unlockedAchievements')) || [];
+            const completedMilestones = JSON.parse(localStorage.getItem('completedMilestones')) || [];
+
+            document.getElementById('stats-achievements').innerHTML = `
+                <div class="stats-row">
+                    <span class="stats-row-label">Achievements Unlocked</span>
+                    <span class="stats-row-value">${unlockedAchievements.length} / 15</span>
+                </div>
+                <div class="stats-row">
+                    <span class="stats-row-label">Milestones Completed</span>
+                    <span class="stats-row-value">${completedMilestones.length} / 15</span>
+                </div>
+                <div class="stats-row">
+                    <span class="stats-row-label">Goals Completed</span>
+                    <span class="stats-row-value">${(JSON.parse(localStorage.getItem('completedGoalIds')) || []).length}</span>
+                </div>
+            `;
+        }
+
+        // Weekly Report
+        function openWeeklyReport() {
+            renderWeeklyReport();
+            document.getElementById('weekly-report-modal').style.display = 'flex';
+        }
+
+        function closeWeeklyReport() {
+            document.getElementById('weekly-report-modal').style.display = 'none';
+        }
+
+        function renderWeeklyReport() {
+            const xpHistory = JSON.parse(localStorage.getItem('xpHistory')) || {};
+            const questionsHistory = JSON.parse(localStorage.getItem('questionsHistory')) || {};
+
+            // Calculate this week's stats
+            let weekXP = 0;
+            let weekQuestions = 0;
+            let daysStudied = 0;
+
+            for (let i = 0; i < 7; i++) {
+                const date = new Date();
+                date.setDate(date.getDate() - i);
+                const dateStr = date.toDateString();
+
+                if (xpHistory[dateStr]) {
+                    weekXP += xpHistory[dateStr];
+                    daysStudied++;
+                }
+                if (questionsHistory[dateStr]) {
+                    weekQuestions += questionsHistory[dateStr];
+                }
+            }
+
+            // Calculate grade
+            let grade, gradeClass, message;
+            if (weekXP >= 500) {
+                grade = 'A+';
+                gradeClass = 'a';
+                message = 'Outstanding Performance!';
+            } else if (weekXP >= 300) {
+                grade = 'A';
+                gradeClass = 'a';
+                message = 'Excellent Work!';
+            } else if (weekXP >= 200) {
+                grade = 'B';
+                gradeClass = 'b';
+                message = 'Great Progress!';
+            } else if (weekXP >= 100) {
+                grade = 'C';
+                gradeClass = 'c';
+                message = 'Good Effort!';
+            } else {
+                grade = 'D';
+                gradeClass = 'd';
+                message = 'Keep Practicing!';
+            }
+
+            document.getElementById('weekly-grade').textContent = grade;
+            document.getElementById('weekly-grade').className = `weekly-report-grade ${gradeClass}`;
+            document.getElementById('weekly-message').textContent = message;
+
+            // Date range
+            const endDate = new Date();
+            const startDate = new Date();
+            startDate.setDate(startDate.getDate() - 6);
+            document.getElementById('weekly-date-range').textContent =
+                `${startDate.toLocaleDateString('en-US', { month: 'short', day: 'numeric' })} - ${endDate.toLocaleDateString('en-US', { month: 'short', day: 'numeric' })}`;
+
+            // Stats grid
+            const avgXP = daysStudied > 0 ? Math.round(weekXP / daysStudied) : 0;
+
+            document.getElementById('weekly-stats-grid').innerHTML = `
+                <div class="weekly-stat-card">
+                    <div class="weekly-stat-icon">⭐</div>
+                    <div class="weekly-stat-value">${weekXP}</div>
+                    <div class="weekly-stat-label">XP Earned</div>
+                </div>
+                <div class="weekly-stat-card">
+                    <div class="weekly-stat-icon">📝</div>
+                    <div class="weekly-stat-value">${weekQuestions}</div>
+                    <div class="weekly-stat-label">Questions</div>
+                </div>
+                <div class="weekly-stat-card">
+                    <div class="weekly-stat-icon">📅</div>
+                    <div class="weekly-stat-value">${daysStudied}</div>
+                    <div class="weekly-stat-label">Days Active</div>
+                </div>
+                <div class="weekly-stat-card">
+                    <div class="weekly-stat-icon">📊</div>
+                    <div class="weekly-stat-value">${avgXP}</div>
+                    <div class="weekly-stat-label">Avg XP/Day</div>
+                </div>
+            `;
+
+            // Comparison
+            const comparisonPercent = Math.min((weekXP / 500) * 100, 100);
+            document.getElementById('weekly-comparison-fill').style.width = comparisonPercent + '%';
+
+            if (weekXP >= 300) {
+                document.getElementById('weekly-comparison-text').textContent = 'Amazing! You\'re crushing it this week!';
+            } else if (weekXP >= 150) {
+                document.getElementById('weekly-comparison-text').textContent = 'Great work! Keep up the momentum!';
+            } else {
+                document.getElementById('weekly-comparison-text').textContent = 'You\'re making progress! Aim for 500 XP next week!';
+            }
+        }
+
+        // Initialize
+        resetDailyHints();
+
+        console.log('💡 Hint System, Stats Dashboard, and Weekly Report loaded!');
     </script>
 
     <!-- PowerPoint-style Table Grid Selector (positioned fixed, outside all containers) -->
