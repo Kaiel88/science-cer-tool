@@ -25334,6 +25334,315 @@
         .archive-question-status.unanswered {
             color: #ff9800;
         }
+
+        /* Batch 64: Science Facts Carousel */
+        .facts-carousel-btn {
+            position: fixed;
+            right: 18px;
+            bottom: 630px;
+            width: 56px;
+            height: 56px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, #8e24aa 0%, #6a1b9a 100%);
+            color: white;
+            border: none;
+            font-size: 24px;
+            cursor: pointer;
+            box-shadow: 0 4px 15px rgba(142, 36, 170, 0.4);
+            z-index: 999;
+            transition: all 0.3s ease;
+        }
+
+        .facts-carousel-btn:hover {
+            transform: scale(1.1);
+        }
+
+        .facts-modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.7);
+            z-index: 10000;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .facts-content {
+            background: white;
+            border-radius: 20px;
+            padding: 30px;
+            max-width: 500px;
+            width: 90%;
+        }
+
+        .fact-card {
+            background: linear-gradient(135deg, #e1bee7 0%, #ce93d8 100%);
+            border-radius: 20px;
+            padding: 30px;
+            text-align: center;
+            min-height: 200px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+        }
+
+        .fact-icon {
+            font-size: 3rem;
+            margin-bottom: 15px;
+        }
+
+        .fact-text {
+            font-size: 1.1rem;
+            color: #4a148c;
+            line-height: 1.6;
+        }
+
+        .fact-category {
+            margin-top: 15px;
+            font-size: 0.85rem;
+            color: #7b1fa2;
+            font-weight: bold;
+        }
+
+        .fact-nav {
+            display: flex;
+            justify-content: center;
+            gap: 15px;
+            margin-top: 20px;
+        }
+
+        .fact-nav-btn {
+            background: #8e24aa;
+            color: white;
+            border: none;
+            width: 45px;
+            height: 45px;
+            border-radius: 50%;
+            font-size: 1.2rem;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .fact-nav-btn:hover {
+            background: #6a1b9a;
+            transform: scale(1.1);
+        }
+
+        /* Practice Mode */
+        .practice-mode-btn {
+            position: fixed;
+            left: 18px;
+            bottom: 1150px;
+            width: 56px;
+            height: 56px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, #00897b 0%, #00695c 100%);
+            color: white;
+            border: none;
+            font-size: 24px;
+            cursor: pointer;
+            box-shadow: 0 4px 15px rgba(0, 137, 123, 0.4);
+            z-index: 999;
+            transition: all 0.3s ease;
+        }
+
+        .practice-mode-btn:hover {
+            transform: scale(1.1);
+        }
+
+        .practice-modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.7);
+            z-index: 10000;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .practice-content {
+            background: white;
+            border-radius: 20px;
+            padding: 30px;
+            max-width: 550px;
+            width: 90%;
+            max-height: 85vh;
+            overflow-y: auto;
+        }
+
+        .difficulty-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 15px;
+            margin: 20px 0;
+        }
+
+        .difficulty-card {
+            padding: 20px 15px;
+            border-radius: 15px;
+            text-align: center;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            border: 3px solid transparent;
+        }
+
+        .difficulty-card:hover {
+            transform: translateY(-5px);
+        }
+
+        .difficulty-card.easy {
+            background: linear-gradient(135deg, #c8e6c9 0%, #a5d6a7 100%);
+        }
+
+        .difficulty-card.medium {
+            background: linear-gradient(135deg, #fff9c4 0%, #fff176 100%);
+        }
+
+        .difficulty-card.hard {
+            background: linear-gradient(135deg, #ffcdd2 0%, #ef9a9a 100%);
+        }
+
+        .difficulty-card.selected {
+            border-color: #00897b;
+            box-shadow: 0 4px 15px rgba(0, 137, 123, 0.4);
+        }
+
+        .difficulty-icon {
+            font-size: 2rem;
+            margin-bottom: 8px;
+        }
+
+        .practice-question {
+            background: #e0f2f1;
+            border-radius: 15px;
+            padding: 20px;
+            margin: 15px 0;
+        }
+
+        .practice-option {
+            display: block;
+            width: 100%;
+            padding: 15px;
+            margin: 10px 0;
+            background: white;
+            border: 2px solid #00897b;
+            border-radius: 10px;
+            cursor: pointer;
+            text-align: left;
+            font-size: 1rem;
+            transition: all 0.3s ease;
+        }
+
+        .practice-option:hover {
+            background: #e0f2f1;
+        }
+
+        /* Badge Collection */
+        .badge-collection-btn {
+            position: fixed;
+            right: 18px;
+            bottom: 670px;
+            width: 56px;
+            height: 56px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, #ffc107 0%, #ff8f00 100%);
+            color: white;
+            border: none;
+            font-size: 24px;
+            cursor: pointer;
+            box-shadow: 0 4px 15px rgba(255, 193, 7, 0.4);
+            z-index: 999;
+            transition: all 0.3s ease;
+        }
+
+        .badge-collection-btn:hover {
+            transform: scale(1.1);
+        }
+
+        .badge-modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.7);
+            z-index: 10000;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .badge-content {
+            background: white;
+            border-radius: 20px;
+            padding: 30px;
+            max-width: 600px;
+            width: 90%;
+            max-height: 85vh;
+            overflow-y: auto;
+        }
+
+        .badge-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 15px;
+        }
+
+        .badge-item {
+            text-align: center;
+            padding: 15px 10px;
+            border-radius: 15px;
+            transition: all 0.3s ease;
+        }
+
+        .badge-item.unlocked {
+            background: linear-gradient(135deg, #fff8e1 0%, #ffecb3 100%);
+        }
+
+        .badge-item.locked {
+            background: #f5f5f5;
+            opacity: 0.6;
+        }
+
+        .badge-icon {
+            font-size: 2.5rem;
+            margin-bottom: 8px;
+        }
+
+        .badge-item.locked .badge-icon {
+            filter: grayscale(100%);
+        }
+
+        .badge-name {
+            font-size: 0.75rem;
+            font-weight: bold;
+            color: #333;
+        }
+
+        .badge-item.locked .badge-name {
+            color: #999;
+        }
+
+        .badge-progress {
+            background: #e0e0e0;
+            height: 8px;
+            border-radius: 4px;
+            margin-top: 20px;
+            overflow: hidden;
+        }
+
+        .badge-progress-fill {
+            background: linear-gradient(90deg, #ffc107 0%, #ff8f00 100%);
+            height: 100%;
+            border-radius: 4px;
+            transition: width 0.5s ease;
+        }
     </style>
 </head>
 
@@ -66019,6 +66328,277 @@ This report was generated from the Science CER Practice App.
         }
 
         console.log('📝 Quick Notes, Formula Sheet, and Question Archive loaded!');
+    </script>
+
+    <!-- Batch 64: Science Facts Carousel Button -->
+    <button class="facts-carousel-btn" onclick="openFactsCarousel()" title="Science Facts">💡</button>
+
+    <!-- Science Facts Modal -->
+    <div class="facts-modal" id="facts-modal">
+        <div class="facts-content">
+            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px;">
+                <h2 style="margin: 0; color: #8e24aa;">💡 Did You Know?</h2>
+                <button onclick="closeFactsCarousel()" style="background: none; border: none; font-size: 1.5rem; cursor: pointer;">✕</button>
+            </div>
+            <div class="fact-card" id="fact-card">
+                <div class="fact-icon" id="fact-icon">🔬</div>
+                <div class="fact-text" id="fact-text">Loading...</div>
+                <div class="fact-category" id="fact-category">Science</div>
+            </div>
+            <div class="fact-nav">
+                <button class="fact-nav-btn" onclick="prevFact()">←</button>
+                <button class="fact-nav-btn" onclick="nextFact()">→</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Practice Mode Button -->
+    <button class="practice-mode-btn" onclick="openPracticeMode()" title="Practice Mode">🎓</button>
+
+    <!-- Practice Mode Modal -->
+    <div class="practice-modal" id="practice-modal">
+        <div class="practice-content">
+            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px;">
+                <h2 style="margin: 0; color: #00897b;">🎓 Practice Mode</h2>
+                <button onclick="closePracticeMode()" style="background: none; border: none; font-size: 1.5rem; cursor: pointer;">✕</button>
+            </div>
+            <div id="practice-content"></div>
+        </div>
+    </div>
+
+    <!-- Badge Collection Button -->
+    <button class="badge-collection-btn" onclick="openBadgeCollection()" title="Badge Collection">🏅</button>
+
+    <!-- Badge Collection Modal -->
+    <div class="badge-modal" id="badge-modal">
+        <div class="badge-content">
+            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px;">
+                <h2 style="margin: 0; color: #ff8f00;">🏅 Badge Collection</h2>
+                <button onclick="closeBadgeCollection()" style="background: none; border: none; font-size: 1.5rem; cursor: pointer;">✕</button>
+            </div>
+            <div id="badge-collection-content"></div>
+        </div>
+    </div>
+
+    <script>
+        // Batch 64: Science Facts Carousel
+        const scienceFacts = [
+            { icon: '🧬', text: 'Human DNA is about 99.9% identical to the DNA of every other human.', category: 'Biology' },
+            { icon: '⚡', text: 'Lightning strikes the Earth about 100 times every second.', category: 'Physics' },
+            { icon: '🌊', text: 'The ocean produces over 50% of the world\'s oxygen.', category: 'Earth Science' },
+            { icon: '🧪', text: 'Water is the only substance that exists naturally in three states.', category: 'Chemistry' },
+            { icon: '🦴', text: 'A human skeleton regenerates itself completely every 10 years.', category: 'Biology' },
+            { icon: '☀️', text: 'The Sun is so large that about 1.3 million Earths could fit inside it.', category: 'Astronomy' },
+            { icon: '🦷', text: 'Tooth enamel is the hardest substance in the human body.', category: 'Biology' },
+            { icon: '💨', text: 'Sound travels about 4.3 times faster in water than in air.', category: 'Physics' },
+            { icon: '🌍', text: 'Earth\'s core is as hot as the surface of the Sun, about 5,500°C.', category: 'Earth Science' },
+            { icon: '⚛️', text: 'An atom is 99.9999999% empty space.', category: 'Chemistry' },
+            { icon: '🐙', text: 'Octopuses have three hearts and blue blood.', category: 'Biology' },
+            { icon: '🌙', text: 'A day on Venus is longer than a year on Venus.', category: 'Astronomy' },
+            { icon: '💎', text: 'Diamonds can be made from peanut butter.', category: 'Chemistry' },
+            { icon: '🧲', text: 'The Earth\'s magnetic field flips about every 200,000-300,000 years.', category: 'Earth Science' },
+            { icon: '🔬', text: 'A single human cell contains about 6 feet of DNA.', category: 'Biology' }
+        ];
+
+        let currentFactIndex = 0;
+
+        function openFactsCarousel() {
+            document.getElementById('facts-modal').style.display = 'flex';
+            showFact();
+        }
+
+        function closeFactsCarousel() {
+            document.getElementById('facts-modal').style.display = 'none';
+        }
+
+        function showFact() {
+            const fact = scienceFacts[currentFactIndex];
+            document.getElementById('fact-icon').textContent = fact.icon;
+            document.getElementById('fact-text').textContent = fact.text;
+            document.getElementById('fact-category').textContent = fact.category;
+        }
+
+        function nextFact() {
+            currentFactIndex = (currentFactIndex + 1) % scienceFacts.length;
+            showFact();
+            addXP(1);
+        }
+
+        function prevFact() {
+            currentFactIndex = (currentFactIndex - 1 + scienceFacts.length) % scienceFacts.length;
+            showFact();
+        }
+
+        // Practice Mode
+        const practiceQuestions = {
+            easy: [
+                { q: 'What color is the sky on a clear day?', opts: ['Blue', 'Red', 'Green', 'Yellow'], a: 0 },
+                { q: 'How many legs does a spider have?', opts: ['6', '8', '10', '4'], a: 1 },
+                { q: 'What do plants need to make food?', opts: ['Darkness', 'Sunlight', 'Wind', 'Rain only'], a: 1 },
+                { q: 'What is the largest planet?', opts: ['Earth', 'Mars', 'Jupiter', 'Saturn'], a: 2 },
+                { q: 'What do we breathe?', opts: ['Carbon dioxide', 'Nitrogen', 'Oxygen', 'Hydrogen'], a: 2 }
+            ],
+            medium: [
+                { q: 'What is the chemical formula for water?', opts: ['CO2', 'H2O', 'NaCl', 'O2'], a: 1 },
+                { q: 'Which organelle produces energy?', opts: ['Nucleus', 'Ribosome', 'Mitochondria', 'Golgi'], a: 2 },
+                { q: 'What is Newton\'s first law about?', opts: ['Gravity', 'Inertia', 'Energy', 'Friction'], a: 1 },
+                { q: 'What gas do plants release?', opts: ['Carbon dioxide', 'Nitrogen', 'Oxygen', 'Methane'], a: 2 },
+                { q: 'What is the pH of neutral water?', opts: ['0', '7', '14', '1'], a: 1 }
+            ],
+            hard: [
+                { q: 'What is the powerhouse equation?', opts: ['E=mc²', 'F=ma', 'ATP synthesis', 'PV=nRT'], a: 2 },
+                { q: 'Which subatomic particle has no charge?', opts: ['Proton', 'Electron', 'Neutron', 'Positron'], a: 2 },
+                { q: 'What is the speed of light?', opts: ['300 m/s', '3×10⁶ m/s', '3×10⁸ m/s', '3×10⁴ m/s'], a: 2 },
+                { q: 'What is Avogadro\'s number?', opts: ['6.02×10²³', '6.67×10⁻¹¹', '3.14', '9.8'], a: 0 },
+                { q: 'What type of bond shares electrons?', opts: ['Ionic', 'Covalent', 'Metallic', 'Hydrogen'], a: 1 }
+            ]
+        };
+
+        let selectedDifficulty = null;
+        let practiceIndex = 0;
+        let practiceScore = 0;
+        let currentPracticeSet = [];
+
+        function openPracticeMode() {
+            document.getElementById('practice-modal').style.display = 'flex';
+            showDifficultySelection();
+        }
+
+        function closePracticeMode() {
+            document.getElementById('practice-modal').style.display = 'none';
+        }
+
+        function showDifficultySelection() {
+            const content = document.getElementById('practice-content');
+            content.innerHTML = `
+                <p style="color: #666; margin-bottom: 15px;">Select your difficulty level:</p>
+                <div class="difficulty-grid">
+                    <div class="difficulty-card easy" onclick="selectDifficulty('easy', this)">
+                        <div class="difficulty-icon">🌱</div>
+                        <div>Easy</div>
+                    </div>
+                    <div class="difficulty-card medium" onclick="selectDifficulty('medium', this)">
+                        <div class="difficulty-icon">🌿</div>
+                        <div>Medium</div>
+                    </div>
+                    <div class="difficulty-card hard" onclick="selectDifficulty('hard', this)">
+                        <div class="difficulty-icon">🌳</div>
+                        <div>Hard</div>
+                    </div>
+                </div>
+                <button onclick="startPractice()" style="width: 100%; padding: 15px; background: linear-gradient(135deg, #00897b 0%, #00695c 100%); color: white; border: none; border-radius: 15px; font-size: 1.1rem; cursor: pointer; margin-top: 15px;">Start Practice</button>
+            `;
+        }
+
+        function selectDifficulty(level, element) {
+            selectedDifficulty = level;
+            document.querySelectorAll('.difficulty-card').forEach(c => c.classList.remove('selected'));
+            element.classList.add('selected');
+        }
+
+        function startPractice() {
+            if (!selectedDifficulty) {
+                alert('Please select a difficulty level!');
+                return;
+            }
+            currentPracticeSet = [...practiceQuestions[selectedDifficulty]].sort(() => Math.random() - 0.5);
+            practiceIndex = 0;
+            practiceScore = 0;
+            showPracticeQuestion();
+        }
+
+        function showPracticeQuestion() {
+            const content = document.getElementById('practice-content');
+            const q = currentPracticeSet[practiceIndex];
+            content.innerHTML = `
+                <div style="display: flex; justify-content: space-between; margin-bottom: 15px;">
+                    <span style="color: #666;">Question ${practiceIndex + 1} of ${currentPracticeSet.length}</span>
+                    <span style="color: #00897b; font-weight: bold;">Score: ${practiceScore}</span>
+                </div>
+                <div class="practice-question">
+                    <h3 style="margin: 0; color: #00695c;">${q.q}</h3>
+                </div>
+                ${q.opts.map((opt, i) => `
+                    <button class="practice-option" onclick="answerPractice(${i}, ${q.a})">${opt}</button>
+                `).join('')}
+            `;
+        }
+
+        function answerPractice(selected, correct) {
+            if (selected === correct) practiceScore++;
+            practiceIndex++;
+            if (practiceIndex < currentPracticeSet.length) {
+                setTimeout(showPracticeQuestion, 300);
+            } else {
+                showPracticeResults();
+            }
+        }
+
+        function showPracticeResults() {
+            const content = document.getElementById('practice-content');
+            const percent = Math.round((practiceScore / currentPracticeSet.length) * 100);
+            const xpMultiplier = selectedDifficulty === 'hard' ? 3 : selectedDifficulty === 'medium' ? 2 : 1;
+            const xpEarned = practiceScore * 5 * xpMultiplier;
+            addXP(xpEarned);
+
+            content.innerHTML = `
+                <div style="text-align: center; padding: 30px;">
+                    <div style="font-size: 4rem; margin-bottom: 20px;">${percent >= 80 ? '🏆' : percent >= 50 ? '👍' : '📚'}</div>
+                    <h2 style="color: #00897b;">Practice Complete!</h2>
+                    <p style="font-size: 1.5rem; margin: 20px 0;">${practiceScore} / ${currentPracticeSet.length} correct</p>
+                    <p style="color: #4caf50; font-weight: bold;">+${xpEarned} XP earned! (${xpMultiplier}x ${selectedDifficulty} bonus)</p>
+                    <button onclick="showDifficultySelection()" style="margin-top: 20px; padding: 15px 30px; background: #00897b; color: white; border: none; border-radius: 25px; cursor: pointer; font-size: 1rem;">Practice Again</button>
+                </div>
+            `;
+        }
+
+        // Badge Collection
+        const badges = [
+            { id: 'first_login', name: 'Welcome!', icon: '👋', desc: 'First time login', unlocked: true },
+            { id: 'first_question', name: 'Curious', icon: '❓', desc: 'Answer first question', unlocked: true },
+            { id: 'streak_3', name: '3-Day Streak', icon: '🔥', desc: '3 consecutive days', unlocked: true },
+            { id: 'streak_7', name: 'Week Warrior', icon: '⚡', desc: '7 consecutive days', unlocked: false },
+            { id: 'xp_100', name: 'XP Hunter', icon: '💯', desc: 'Earn 100 XP', unlocked: true },
+            { id: 'xp_500', name: 'XP Master', icon: '🌟', desc: 'Earn 500 XP', unlocked: false },
+            { id: 'perfect_quiz', name: 'Perfect!', icon: '✨', desc: '100% on a quiz', unlocked: true },
+            { id: 'daily_10', name: 'Daily Hero', icon: '📅', desc: '10 daily challenges', unlocked: false },
+            { id: 'notes_5', name: 'Note Taker', icon: '📝', desc: 'Save 5 notes', unlocked: true },
+            { id: 'vocab_20', name: 'Wordsmith', icon: '📚', desc: 'Learn 20 words', unlocked: false },
+            { id: 'hard_mode', name: 'Challenger', icon: '💪', desc: 'Complete hard practice', unlocked: false },
+            { id: 'explorer', name: 'Explorer', icon: '🗺️', desc: 'Try all features', unlocked: false }
+        ];
+
+        function openBadgeCollection() {
+            document.getElementById('badge-modal').style.display = 'flex';
+            renderBadges();
+        }
+
+        function closeBadgeCollection() {
+            document.getElementById('badge-modal').style.display = 'none';
+        }
+
+        function renderBadges() {
+            const content = document.getElementById('badge-collection-content');
+            const unlockedCount = badges.filter(b => b.unlocked).length;
+
+            content.innerHTML = `
+                <p style="color: #666; margin-bottom: 10px;">Collect badges by completing achievements!</p>
+                <p style="color: #ff8f00; font-weight: bold; margin-bottom: 15px;">${unlockedCount} / ${badges.length} badges unlocked</p>
+                <div class="badge-progress">
+                    <div class="badge-progress-fill" style="width: ${(unlockedCount / badges.length) * 100}%;"></div>
+                </div>
+                <div class="badge-grid" style="margin-top: 20px;">
+                    ${badges.map(b => `
+                        <div class="badge-item ${b.unlocked ? 'unlocked' : 'locked'}" title="${b.desc}">
+                            <div class="badge-icon">${b.icon}</div>
+                            <div class="badge-name">${b.name}</div>
+                        </div>
+                    `).join('')}
+                </div>
+            `;
+        }
+
+        console.log('💡 Science Facts Carousel, Practice Mode, and Badge Collection loaded!');
     </script>
 
     <!-- PowerPoint-style Table Grid Selector (positioned fixed, outside all containers) -->
