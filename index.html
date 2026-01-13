@@ -9012,6 +9012,428 @@
         .floating-music-btn:hover {
             transform: scale(1.1);
         }
+
+        /* ========== BATCH 22: Study Notes, Bookmarks, Progress Export ========== */
+
+        /* Study Notes Panel */
+        .notes-panel {
+            position: fixed;
+            left: -420px;
+            top: 0;
+            width: 400px;
+            height: 100%;
+            background: white;
+            box-shadow: 5px 0 30px rgba(0,0,0,0.2);
+            z-index: 9999;
+            transition: left 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+            display: flex;
+            flex-direction: column;
+        }
+
+        .notes-panel.open {
+            left: 0;
+        }
+
+        .notes-header {
+            background: linear-gradient(135deg, #f5af19 0%, #f12711 100%);
+            color: white;
+            padding: 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .notes-header h2 {
+            margin: 0;
+            font-size: 1.3rem;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .notes-close {
+            background: rgba(255,255,255,0.2);
+            border: none;
+            width: 35px;
+            height: 35px;
+            border-radius: 50%;
+            color: white;
+            font-size: 1.2rem;
+            cursor: pointer;
+        }
+
+        .notes-toolbar {
+            display: flex;
+            gap: 5px;
+            padding: 10px 15px;
+            background: #f8f9fa;
+            border-bottom: 1px solid #e0e0e0;
+        }
+
+        .notes-toolbar-btn {
+            padding: 8px 12px;
+            border: none;
+            background: white;
+            border-radius: 6px;
+            cursor: pointer;
+            font-size: 1rem;
+            transition: all 0.2s ease;
+        }
+
+        .notes-toolbar-btn:hover {
+            background: #e0e0e0;
+        }
+
+        .notes-list {
+            flex: 1;
+            overflow-y: auto;
+            padding: 15px;
+        }
+
+        .note-card {
+            background: #fffde7;
+            border-radius: 10px;
+            padding: 15px;
+            margin-bottom: 10px;
+            border-left: 4px solid #f5af19;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .note-card:hover {
+            transform: translateX(5px);
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+        }
+
+        .note-card.selected {
+            background: #fff9c4;
+            border-left-color: #f12711;
+        }
+
+        .note-title {
+            font-weight: 600;
+            font-size: 1rem;
+            margin-bottom: 5px;
+            color: #333;
+        }
+
+        .note-preview {
+            font-size: 0.85rem;
+            color: #666;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            white-space: nowrap;
+        }
+
+        .note-date {
+            font-size: 0.75rem;
+            color: #999;
+            margin-top: 5px;
+        }
+
+        .note-editor {
+            padding: 15px;
+            border-top: 1px solid #e0e0e0;
+            background: #fafafa;
+        }
+
+        .note-editor input {
+            width: 100%;
+            padding: 10px;
+            border: 2px solid #e0e0e0;
+            border-radius: 8px;
+            font-size: 1rem;
+            margin-bottom: 10px;
+        }
+
+        .note-editor textarea {
+            width: 100%;
+            height: 150px;
+            padding: 10px;
+            border: 2px solid #e0e0e0;
+            border-radius: 8px;
+            font-size: 0.9rem;
+            resize: none;
+            font-family: inherit;
+        }
+
+        .note-editor-actions {
+            display: flex;
+            gap: 10px;
+            margin-top: 10px;
+        }
+
+        .note-save-btn {
+            flex: 1;
+            padding: 10px;
+            border: none;
+            background: linear-gradient(135deg, #f5af19 0%, #f12711 100%);
+            color: white;
+            border-radius: 8px;
+            cursor: pointer;
+            font-weight: 600;
+        }
+
+        .note-delete-btn {
+            padding: 10px 15px;
+            border: none;
+            background: #ff5252;
+            color: white;
+            border-radius: 8px;
+            cursor: pointer;
+        }
+
+        /* Bookmarks Panel */
+        .bookmarks-modal {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0,0,0,0.7);
+            display: none;
+            justify-content: center;
+            align-items: center;
+            z-index: 10000;
+        }
+
+        .bookmarks-content {
+            background: white;
+            border-radius: 20px;
+            width: 90%;
+            max-width: 600px;
+            max-height: 80vh;
+            overflow: hidden;
+            animation: modalSlideIn 0.3s ease;
+        }
+
+        .bookmarks-header {
+            background: linear-gradient(135deg, #ee0979 0%, #ff6a00 100%);
+            color: white;
+            padding: 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .bookmarks-header h2 {
+            margin: 0;
+        }
+
+        .bookmarks-list {
+            padding: 20px;
+            max-height: 50vh;
+            overflow-y: auto;
+        }
+
+        .bookmark-item {
+            display: flex;
+            align-items: center;
+            padding: 15px;
+            background: #f8f9fa;
+            border-radius: 12px;
+            margin-bottom: 10px;
+            transition: all 0.3s ease;
+        }
+
+        .bookmark-item:hover {
+            background: #e9ecef;
+        }
+
+        .bookmark-icon {
+            font-size: 1.5rem;
+            margin-right: 15px;
+        }
+
+        .bookmark-info {
+            flex: 1;
+        }
+
+        .bookmark-title {
+            font-weight: 600;
+            color: #333;
+        }
+
+        .bookmark-topic {
+            font-size: 0.85rem;
+            color: #666;
+        }
+
+        .bookmark-actions {
+            display: flex;
+            gap: 5px;
+        }
+
+        .bookmark-action-btn {
+            padding: 8px 12px;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 0.9rem;
+        }
+
+        .bookmark-goto {
+            background: #4CAF50;
+            color: white;
+        }
+
+        .bookmark-remove {
+            background: #ff5252;
+            color: white;
+        }
+
+        /* Progress Export */
+        .export-modal {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0,0,0,0.7);
+            display: none;
+            justify-content: center;
+            align-items: center;
+            z-index: 10000;
+        }
+
+        .export-content {
+            background: white;
+            border-radius: 20px;
+            padding: 30px;
+            max-width: 500px;
+            width: 90%;
+            text-align: center;
+        }
+
+        .export-preview {
+            background: #f8f9fa;
+            border-radius: 15px;
+            padding: 25px;
+            margin: 20px 0;
+            text-align: left;
+        }
+
+        .export-stat {
+            display: flex;
+            justify-content: space-between;
+            padding: 10px 0;
+            border-bottom: 1px solid #e0e0e0;
+        }
+
+        .export-stat:last-child {
+            border-bottom: none;
+        }
+
+        .export-stat-label {
+            color: #666;
+        }
+
+        .export-stat-value {
+            font-weight: 700;
+            color: #333;
+        }
+
+        .export-buttons {
+            display: flex;
+            gap: 10px;
+            justify-content: center;
+            margin-top: 20px;
+        }
+
+        .export-btn {
+            padding: 12px 25px;
+            border: none;
+            border-radius: 25px;
+            cursor: pointer;
+            font-weight: 600;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            transition: all 0.3s ease;
+        }
+
+        .export-btn:hover {
+            transform: translateY(-2px);
+        }
+
+        .export-btn.pdf {
+            background: linear-gradient(135deg, #e53935 0%, #d32f2f 100%);
+            color: white;
+        }
+
+        .export-btn.email {
+            background: linear-gradient(135deg, #1976d2 0%, #1565c0 100%);
+            color: white;
+        }
+
+        .export-btn.print {
+            background: linear-gradient(135deg, #43a047 0%, #388e3c 100%);
+            color: white;
+        }
+
+        /* Floating buttons for Batch 22 */
+        .floating-notes-btn {
+            position: fixed;
+            bottom: 520px;
+            right: 20px;
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, #f5af19 0%, #f12711 100%);
+            color: white;
+            border: none;
+            font-size: 1.3rem;
+            cursor: pointer;
+            box-shadow: 0 5px 20px rgba(245, 175, 25, 0.4);
+            z-index: 999;
+            transition: all 0.3s ease;
+        }
+
+        .floating-notes-btn:hover {
+            transform: scale(1.1);
+        }
+
+        .floating-bookmarks-btn {
+            position: fixed;
+            bottom: 580px;
+            right: 20px;
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, #ee0979 0%, #ff6a00 100%);
+            color: white;
+            border: none;
+            font-size: 1.3rem;
+            cursor: pointer;
+            box-shadow: 0 5px 20px rgba(238, 9, 121, 0.4);
+            z-index: 999;
+            transition: all 0.3s ease;
+        }
+
+        .floating-bookmarks-btn:hover {
+            transform: scale(1.1);
+        }
+
+        .floating-export-btn {
+            position: fixed;
+            bottom: 640px;
+            right: 20px;
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, #2196F3 0%, #1976D2 100%);
+            color: white;
+            border: none;
+            font-size: 1.3rem;
+            cursor: pointer;
+            box-shadow: 0 5px 20px rgba(33, 150, 243, 0.4);
+            z-index: 999;
+            transition: all 0.3s ease;
+        }
+
+        .floating-export-btn:hover {
+            transform: scale(1.1);
+        }
     </style>
 </head>
 
@@ -33892,6 +34314,479 @@
         }
 
         console.log('🎮 Social Sharing, Leaderboard, and Study Music loaded!');
+    </script>
+
+    <!-- ========== BATCH 22: Study Notes, Bookmarks, Progress Export ========== -->
+
+    <!-- Study Notes Panel -->
+    <div class="notes-panel" id="notes-panel">
+        <div class="notes-header">
+            <h2>📝 Study Notes</h2>
+            <button class="notes-close" onclick="closeNotesPanel()">×</button>
+        </div>
+        <div class="notes-toolbar">
+            <button class="notes-toolbar-btn" onclick="createNewNote()" title="New Note">➕ New</button>
+            <button class="notes-toolbar-btn" onclick="exportAllNotes()" title="Export Notes">📥 Export</button>
+            <button class="notes-toolbar-btn" onclick="searchNotes()" title="Search">🔍 Search</button>
+        </div>
+        <div class="notes-list" id="notes-list">
+            <!-- Populated by JavaScript -->
+        </div>
+        <div class="note-editor" id="note-editor" style="display: none;">
+            <input type="text" id="note-title-input" placeholder="Note title...">
+            <textarea id="note-content-input" placeholder="Write your notes here..."></textarea>
+            <div class="note-editor-actions">
+                <button class="note-save-btn" onclick="saveNote()">💾 Save Note</button>
+                <button class="note-delete-btn" onclick="deleteCurrentNote()">🗑️</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Bookmarks Modal -->
+    <div class="bookmarks-modal" id="bookmarks-modal">
+        <div class="bookmarks-content">
+            <div class="bookmarks-header">
+                <h2>🔖 My Bookmarks</h2>
+                <button class="notes-close" onclick="closeBookmarks()">×</button>
+            </div>
+            <div class="bookmarks-list" id="bookmarks-list">
+                <!-- Populated by JavaScript -->
+            </div>
+            <div style="padding: 20px; text-align: center;">
+                <button onclick="closeBookmarks()" style="padding: 10px 30px; border: none; background: #f0f0f0; border-radius: 20px; cursor: pointer;">Close</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Progress Export Modal -->
+    <div class="export-modal" id="export-modal">
+        <div class="export-content">
+            <h2>📊 Export Progress Report</h2>
+            <p style="color: #666;">Share your learning progress with parents or teachers</p>
+            <div class="export-preview" id="export-preview">
+                <!-- Populated by JavaScript -->
+            </div>
+            <div class="export-buttons">
+                <button class="export-btn pdf" onclick="exportToPDF()">
+                    <span>📄</span> Download PDF
+                </button>
+                <button class="export-btn email" onclick="emailProgress()">
+                    <span>📧</span> Email
+                </button>
+                <button class="export-btn print" onclick="printProgress()">
+                    <span>🖨️</span> Print
+                </button>
+            </div>
+            <button onclick="closeExportModal()" style="margin-top: 20px; padding: 10px 30px; border: none; background: #f0f0f0; border-radius: 20px; cursor: pointer;">Close</button>
+        </div>
+    </div>
+
+    <!-- Floating Action Buttons for Batch 22 -->
+    <button class="floating-notes-btn" onclick="toggleNotesPanel()" title="Study Notes">📝</button>
+    <button class="floating-bookmarks-btn" onclick="openBookmarks()" title="Bookmarks">🔖</button>
+    <button class="floating-export-btn" onclick="openExportModal()" title="Export Progress">📊</button>
+
+    <script>
+        // ========== BATCH 22: Study Notes, Bookmarks, Progress Export ==========
+
+        // Study Notes Functions
+        let studyNotes = JSON.parse(localStorage.getItem('studyNotes')) || [];
+        let currentNoteId = null;
+
+        function toggleNotesPanel() {
+            const panel = document.getElementById('notes-panel');
+            panel.classList.toggle('open');
+            if (panel.classList.contains('open')) {
+                renderNotesList();
+            }
+        }
+
+        function closeNotesPanel() {
+            document.getElementById('notes-panel').classList.remove('open');
+            document.getElementById('note-editor').style.display = 'none';
+        }
+
+        function renderNotesList() {
+            const container = document.getElementById('notes-list');
+
+            if (studyNotes.length === 0) {
+                container.innerHTML = `
+                    <div style="text-align: center; padding: 40px 20px; color: #999;">
+                        <div style="font-size: 3rem; margin-bottom: 15px;">📝</div>
+                        <p>No notes yet!</p>
+                        <p style="font-size: 0.85rem;">Click "New" to create your first study note.</p>
+                    </div>
+                `;
+                return;
+            }
+
+            container.innerHTML = studyNotes.map(note => `
+                <div class="note-card ${currentNoteId === note.id ? 'selected' : ''}" onclick="selectNote('${note.id}')">
+                    <div class="note-title">${note.title || 'Untitled Note'}</div>
+                    <div class="note-preview">${note.content.substring(0, 50)}${note.content.length > 50 ? '...' : ''}</div>
+                    <div class="note-date">${formatNoteDate(note.updatedAt)}</div>
+                </div>
+            `).join('');
+        }
+
+        function formatNoteDate(timestamp) {
+            const date = new Date(timestamp);
+            return date.toLocaleDateString('en-US', {
+                month: 'short',
+                day: 'numeric',
+                hour: '2-digit',
+                minute: '2-digit'
+            });
+        }
+
+        function createNewNote() {
+            currentNoteId = 'note_' + Date.now();
+            document.getElementById('note-title-input').value = '';
+            document.getElementById('note-content-input').value = '';
+            document.getElementById('note-editor').style.display = 'block';
+            document.getElementById('note-title-input').focus();
+        }
+
+        function selectNote(id) {
+            const note = studyNotes.find(n => n.id === id);
+            if (note) {
+                currentNoteId = id;
+                document.getElementById('note-title-input').value = note.title;
+                document.getElementById('note-content-input').value = note.content;
+                document.getElementById('note-editor').style.display = 'block';
+                renderNotesList();
+            }
+        }
+
+        function saveNote() {
+            const title = document.getElementById('note-title-input').value.trim();
+            const content = document.getElementById('note-content-input').value.trim();
+
+            if (!content) {
+                alert('Please enter some content for your note.');
+                return;
+            }
+
+            const existingIndex = studyNotes.findIndex(n => n.id === currentNoteId);
+            const noteData = {
+                id: currentNoteId,
+                title: title || 'Untitled Note',
+                content: content,
+                updatedAt: Date.now()
+            };
+
+            if (existingIndex >= 0) {
+                studyNotes[existingIndex] = noteData;
+            } else {
+                noteData.createdAt = Date.now();
+                studyNotes.unshift(noteData);
+            }
+
+            localStorage.setItem('studyNotes', JSON.stringify(studyNotes));
+            renderNotesList();
+
+            // Show save confirmation
+            const btn = document.querySelector('.note-save-btn');
+            const originalText = btn.innerHTML;
+            btn.innerHTML = '✅ Saved!';
+            setTimeout(() => btn.innerHTML = originalText, 1500);
+        }
+
+        function deleteCurrentNote() {
+            if (!currentNoteId) return;
+
+            if (confirm('Are you sure you want to delete this note?')) {
+                studyNotes = studyNotes.filter(n => n.id !== currentNoteId);
+                localStorage.setItem('studyNotes', JSON.stringify(studyNotes));
+                currentNoteId = null;
+                document.getElementById('note-editor').style.display = 'none';
+                renderNotesList();
+            }
+        }
+
+        function exportAllNotes() {
+            if (studyNotes.length === 0) {
+                alert('No notes to export!');
+                return;
+            }
+
+            let exportText = '=== My Science Study Notes ===\n\n';
+            studyNotes.forEach(note => {
+                exportText += `📝 ${note.title}\n`;
+                exportText += `Date: ${formatNoteDate(note.updatedAt)}\n`;
+                exportText += `${note.content}\n\n`;
+                exportText += '---\n\n';
+            });
+
+            const blob = new Blob([exportText], { type: 'text/plain' });
+            const url = URL.createObjectURL(blob);
+            const a = document.createElement('a');
+            a.href = url;
+            a.download = 'study-notes.txt';
+            a.click();
+            URL.revokeObjectURL(url);
+        }
+
+        function searchNotes() {
+            const query = prompt('Search notes:');
+            if (!query) return;
+
+            const results = studyNotes.filter(note =>
+                note.title.toLowerCase().includes(query.toLowerCase()) ||
+                note.content.toLowerCase().includes(query.toLowerCase())
+            );
+
+            if (results.length === 0) {
+                alert('No notes found matching "' + query + '"');
+            } else {
+                studyNotes = [...results, ...studyNotes.filter(n => !results.includes(n))];
+                renderNotesList();
+            }
+        }
+
+        // Bookmarks Functions
+        let bookmarks = JSON.parse(localStorage.getItem('scienceBookmarks')) || [];
+
+        function openBookmarks() {
+            renderBookmarksList();
+            document.getElementById('bookmarks-modal').style.display = 'flex';
+        }
+
+        function closeBookmarks() {
+            document.getElementById('bookmarks-modal').style.display = 'none';
+        }
+
+        function renderBookmarksList() {
+            const container = document.getElementById('bookmarks-list');
+
+            if (bookmarks.length === 0) {
+                container.innerHTML = `
+                    <div style="text-align: center; padding: 40px 20px; color: #999;">
+                        <div style="font-size: 3rem; margin-bottom: 15px;">🔖</div>
+                        <p>No bookmarks yet!</p>
+                        <p style="font-size: 0.85rem;">Bookmark questions and topics as you study.</p>
+                    </div>
+                `;
+                return;
+            }
+
+            container.innerHTML = bookmarks.map((bookmark, index) => `
+                <div class="bookmark-item">
+                    <div class="bookmark-icon">${bookmark.icon || '📌'}</div>
+                    <div class="bookmark-info">
+                        <div class="bookmark-title">${bookmark.title}</div>
+                        <div class="bookmark-topic">${bookmark.topic || 'General'}</div>
+                    </div>
+                    <div class="bookmark-actions">
+                        <button class="bookmark-action-btn bookmark-goto" onclick="goToBookmark(${index})">Go</button>
+                        <button class="bookmark-action-btn bookmark-remove" onclick="removeBookmark(${index})">×</button>
+                    </div>
+                </div>
+            `).join('');
+        }
+
+        function addBookmark(title, topic, icon = '📌', data = {}) {
+            bookmarks.push({
+                id: 'bm_' + Date.now(),
+                title: title,
+                topic: topic,
+                icon: icon,
+                data: data,
+                createdAt: Date.now()
+            });
+            localStorage.setItem('scienceBookmarks', JSON.stringify(bookmarks));
+
+            // Show confirmation toast
+            showBookmarkToast('Bookmark added!');
+        }
+
+        function removeBookmark(index) {
+            bookmarks.splice(index, 1);
+            localStorage.setItem('scienceBookmarks', JSON.stringify(bookmarks));
+            renderBookmarksList();
+        }
+
+        function goToBookmark(index) {
+            const bookmark = bookmarks[index];
+            closeBookmarks();
+            // Implementation depends on app navigation
+            console.log('Navigate to:', bookmark);
+            alert('Navigating to: ' + bookmark.title);
+        }
+
+        function showBookmarkToast(message) {
+            const toast = document.createElement('div');
+            toast.style.cssText = `
+                position: fixed;
+                bottom: 100px;
+                left: 50%;
+                transform: translateX(-50%);
+                background: #333;
+                color: white;
+                padding: 12px 24px;
+                border-radius: 25px;
+                z-index: 99999;
+                animation: fadeInUp 0.3s ease;
+            `;
+            toast.textContent = message;
+            document.body.appendChild(toast);
+            setTimeout(() => toast.remove(), 2000);
+        }
+
+        // Progress Export Functions
+        function openExportModal() {
+            populateExportPreview();
+            document.getElementById('export-modal').style.display = 'flex';
+        }
+
+        function closeExportModal() {
+            document.getElementById('export-modal').style.display = 'none';
+        }
+
+        function populateExportPreview() {
+            const totalXP = parseInt(localStorage.getItem('scienceXP')) || 0;
+            const level = Math.floor(totalXP / 100) + 1;
+            const streak = parseInt(localStorage.getItem('currentStreak')) || 0;
+            const questionsAnswered = parseInt(localStorage.getItem('totalQuestionsAnswered')) || 0;
+            const correctAnswers = parseInt(localStorage.getItem('correctAnswers')) || 0;
+            const accuracy = questionsAnswered > 0 ? Math.round((correctAnswers / questionsAnswered) * 100) : 0;
+            const studyTime = parseInt(localStorage.getItem('totalStudyTime')) || 0;
+
+            const preview = document.getElementById('export-preview');
+            preview.innerHTML = `
+                <h3 style="margin: 0 0 15px 0; color: #333; text-align: center;">📚 Science Learning Progress</h3>
+                <div class="export-stat">
+                    <span class="export-stat-label">Current Level</span>
+                    <span class="export-stat-value">Level ${level}</span>
+                </div>
+                <div class="export-stat">
+                    <span class="export-stat-label">Total XP Earned</span>
+                    <span class="export-stat-value">${totalXP.toLocaleString()} XP</span>
+                </div>
+                <div class="export-stat">
+                    <span class="export-stat-label">Study Streak</span>
+                    <span class="export-stat-value">${streak} days</span>
+                </div>
+                <div class="export-stat">
+                    <span class="export-stat-label">Questions Answered</span>
+                    <span class="export-stat-value">${questionsAnswered}</span>
+                </div>
+                <div class="export-stat">
+                    <span class="export-stat-label">Accuracy Rate</span>
+                    <span class="export-stat-value">${accuracy}%</span>
+                </div>
+                <div class="export-stat">
+                    <span class="export-stat-label">Study Notes</span>
+                    <span class="export-stat-value">${studyNotes.length} notes</span>
+                </div>
+            `;
+        }
+
+        function generateProgressReport() {
+            const totalXP = parseInt(localStorage.getItem('scienceXP')) || 0;
+            const level = Math.floor(totalXP / 100) + 1;
+            const streak = parseInt(localStorage.getItem('currentStreak')) || 0;
+            const questionsAnswered = parseInt(localStorage.getItem('totalQuestionsAnswered')) || 0;
+            const correctAnswers = parseInt(localStorage.getItem('correctAnswers')) || 0;
+            const accuracy = questionsAnswered > 0 ? Math.round((correctAnswers / questionsAnswered) * 100) : 0;
+
+            const date = new Date().toLocaleDateString('en-US', {
+                weekday: 'long',
+                year: 'numeric',
+                month: 'long',
+                day: 'numeric'
+            });
+
+            return `
+=====================================
+   POLYMATH SCIENCE PROGRESS REPORT
+=====================================
+
+Generated: ${date}
+
+LEARNING STATISTICS
+-------------------
+Current Level: Level ${level}
+Total XP Earned: ${totalXP.toLocaleString()} XP
+Study Streak: ${streak} days
+Questions Answered: ${questionsAnswered}
+Correct Answers: ${correctAnswers}
+Accuracy Rate: ${accuracy}%
+Study Notes: ${studyNotes.length} notes
+
+ACHIEVEMENTS
+------------
+${level >= 10 ? '👑 ' : ''}${level >= 5 ? '🏆 ' : ''}${streak >= 7 ? '🔥 ' : ''}${accuracy >= 80 ? '🎯 ' : ''}
+
+Keep up the great work!
+Learning science is an amazing journey.
+
+---
+Polymath Learning Centre
+Science Made Fun!
+            `.trim();
+        }
+
+        function exportToPDF() {
+            const report = generateProgressReport();
+
+            // Create a printable version
+            const printWindow = window.open('', '_blank');
+            printWindow.document.write(`
+                <html>
+                <head>
+                    <title>Science Progress Report</title>
+                    <style>
+                        body { font-family: monospace; padding: 40px; white-space: pre-wrap; }
+                    </style>
+                </head>
+                <body>${report}</body>
+                </html>
+            `);
+            printWindow.document.close();
+            printWindow.print();
+        }
+
+        function emailProgress() {
+            const report = generateProgressReport();
+            const subject = encodeURIComponent('My Polymath Science Progress Report');
+            const body = encodeURIComponent(report);
+            window.open(`mailto:?subject=${subject}&body=${body}`);
+        }
+
+        function printProgress() {
+            const report = generateProgressReport();
+            const printWindow = window.open('', '_blank');
+            printWindow.document.write(`
+                <html>
+                <head>
+                    <title>Science Progress Report</title>
+                    <style>
+                        body { font-family: 'Courier New', monospace; padding: 40px; white-space: pre-wrap; font-size: 12px; }
+                        @media print {
+                            body { padding: 20px; }
+                        }
+                    </style>
+                </head>
+                <body>${report}</body>
+                </html>
+            `);
+            printWindow.document.close();
+            setTimeout(() => {
+                printWindow.print();
+                printWindow.close();
+            }, 250);
+        }
+
+        // Add keyboard shortcut for notes
+        document.addEventListener('keydown', function(e) {
+            if (e.key === 'n' && (e.ctrlKey || e.metaKey) && e.shiftKey) {
+                e.preventDefault();
+                toggleNotesPanel();
+            }
+        });
+
+        console.log('📝 Study Notes, Bookmarks, and Progress Export loaded!');
     </script>
 
     <!-- PowerPoint-style Table Grid Selector (positioned fixed, outside all containers) -->
