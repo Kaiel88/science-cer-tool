@@ -34,6 +34,97 @@
             --secondary-blue: #6c757d;
             --disabled-grey: #b0b8c0;
             --label-color: #aab5c0;
+            --card-bg: #ffffff;
+            --input-bg: #ffffff;
+            --shadow-color: rgba(0, 0, 0, 0.1);
+        }
+
+        /* Dark Mode Theme */
+        [data-theme="dark"] {
+            --bg-color: #1a1a2e;
+            --main-text: #e0e0e0;
+            --light-text: #b0b0b0;
+            --peach: #3d2a2a;
+            --teal: #1a3a3a;
+            --blue-light: #1a2a4a;
+            --border-color: #404060;
+            --correct-color: #4caf50;
+            --incorrect-color: #ef5350;
+            --primary-blue: #5c9eff;
+            --secondary-blue: #8899aa;
+            --disabled-grey: #606080;
+            --label-color: #8899bb;
+            --card-bg: #252540;
+            --input-bg: #2a2a4a;
+            --shadow-color: rgba(0, 0, 0, 0.3);
+        }
+
+        [data-theme="dark"] body {
+            background-color: var(--bg-color);
+            color: var(--main-text);
+        }
+
+        [data-theme="dark"] .sidebar {
+            background: linear-gradient(180deg, #252540 0%, #1a1a2e 100%);
+            border-color: var(--border-color);
+        }
+
+        [data-theme="dark"] .modal-box {
+            background: var(--card-bg);
+            color: var(--main-text);
+        }
+
+        [data-theme="dark"] .auth-box {
+            background: var(--card-bg);
+        }
+
+        [data-theme="dark"] .auth-input,
+        [data-theme="dark"] input[type="text"],
+        [data-theme="dark"] input[type="email"],
+        [data-theme="dark"] input[type="password"],
+        [data-theme="dark"] textarea,
+        [data-theme="dark"] select {
+            background: var(--input-bg);
+            color: var(--main-text);
+            border-color: var(--border-color);
+        }
+
+        [data-theme="dark"] .question-container {
+            background: var(--card-bg);
+            border-color: var(--border-color);
+        }
+
+        [data-theme="dark"] .answer-box {
+            background: var(--blue-light);
+        }
+
+        [data-theme="dark"] .nav-dropdown {
+            background: var(--card-bg);
+            border-color: var(--border-color);
+        }
+
+        [data-theme="dark"] .header-container {
+            background: var(--card-bg);
+        }
+
+        [data-theme="dark"] .loading-overlay {
+            background: rgba(26, 26, 46, 0.95);
+        }
+
+        [data-theme="dark"] .placeholder-content {
+            color: var(--light-text);
+        }
+
+        [data-theme="dark"] table {
+            background: var(--card-bg);
+        }
+
+        [data-theme="dark"] th {
+            background: var(--input-bg);
+        }
+
+        [data-theme="dark"] td {
+            border-color: var(--border-color);
         }
 
         * {
@@ -2992,6 +3083,70 @@
             visibility: visible;
         }
 
+        /* Global Loading Indicator */
+        .loading-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(255, 255, 255, 0.9);
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            z-index: 99999;
+            opacity: 0;
+            visibility: hidden;
+            transition: all 0.2s ease;
+        }
+
+        .loading-overlay.visible {
+            opacity: 1;
+            visibility: visible;
+        }
+
+        .loading-spinner {
+            width: 50px;
+            height: 50px;
+            border: 4px solid #e0e0e0;
+            border-top-color: #667eea;
+            border-radius: 50%;
+            animation: spin 0.8s linear infinite;
+        }
+
+        .loading-message {
+            margin-top: 15px;
+            font-size: 1rem;
+            color: #666;
+            font-weight: 500;
+        }
+
+        @keyframes spin {
+            to { transform: rotate(360deg); }
+        }
+
+        /* Lazy Loading Images */
+        .lazy-image {
+            opacity: 0;
+            transition: opacity 0.3s ease;
+        }
+
+        .lazy-loaded {
+            opacity: 1;
+        }
+
+        img[data-src] {
+            background: linear-gradient(135deg, #f5f5f5 25%, #e0e0e0 50%, #f5f5f5 75%);
+            background-size: 200% 100%;
+            animation: shimmer 1.5s infinite;
+        }
+
+        @keyframes shimmer {
+            0% { background-position: 200% 0; }
+            100% { background-position: -200% 0; }
+        }
+
         .modal-box {
             background: white;
             padding: 2rem;
@@ -4651,11 +4806,11 @@
     </div>
     
     <!-- First-time Google User Student Setup Modal -->
-    <div id="google-setup-modal" class="modal-overlay">
+    <div id="google-setup-modal" class="modal-overlay" role="dialog" aria-modal="true" aria-labelledby="google-setup-title">
         <div class="modal-box" style="max-width: 500px;">
             <div style="text-align: center; margin-bottom: 1.5rem;">
-                <div style="font-size: 3rem; margin-bottom: 0.5rem;">🎉</div>
-                <h3 style="color: #1976d2; margin: 0;">Welcome to Polymath!</h3>
+                <div style="font-size: 3rem; margin-bottom: 0.5rem;" aria-hidden="true">🎉</div>
+                <h3 id="google-setup-title" style="color: #1976d2; margin: 0;">Welcome to Polymath!</h3>
                 <p style="color: #666; margin-top: 0.5rem;">Let's set up your account</p>
             </div>
             
@@ -4809,7 +4964,7 @@
         <div class="header-color-line" id="header-color-line" style="background: linear-gradient(90deg, #AEC6CF 0%, #c4d6dd 50%, #AEC6CF 100%);"></div>
 
         <!-- Save Worksheet Modal -->
-        <div id="save-worksheet-modal" class="modal-overlay">
+        <div id="save-worksheet-modal" class="modal-overlay" role="dialog" aria-modal="true" aria-labelledby="save-worksheet-modal-title">
             <div class="modal-box">
                 <h3 id="save-worksheet-modal-title">💾 Save Worksheet</h3>
                 <div class="form-group">
@@ -4876,8 +5031,19 @@
                         </div>
                         <span class="exam-mode-label">📄 Exam</span>
                     </div>
+
+                    <!-- Dark Mode Toggle -->
+                    <div class="exam-mode-toggle-container" id="dark-mode-toggle-container" title="Toggle between light and dark theme">
+                        <span class="exam-mode-label">☀️ Light</span>
+                        <div class="exam-mode-toggle" id="dark-mode-toggle" onclick="toggleDarkMode()">
+                            <div class="exam-mode-track" style="background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);">
+                                <div class="exam-mode-thumb"></div>
+                            </div>
+                        </div>
+                        <span class="exam-mode-label">🌙 Dark</span>
+                    </div>
                 </div>
-                
+
                 <!-- DIVIDER -->
                 <div class="sidebar-divider"></div>
                 
@@ -6101,11 +6267,11 @@
                 </div>
 
                 <!-- Student Progress Detail Modal -->
-                <div id="progress-detail-modal" class="modal-overlay">
+                <div id="progress-detail-modal" class="modal-overlay" role="dialog" aria-modal="true" aria-labelledby="progress-detail-title">
                     <div class="modal-box" style="max-width: 800px; max-height: 90vh; overflow-y: auto;">
                         <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 1.5rem; border-bottom: 2px solid #e0e0e0; padding-bottom: 1rem;">
-                            <h3 style="margin: 0; color: #1976d2;">📋 Detailed Results</h3>
-                            <button class="btn" style="background: #666; color: white;" onclick="hideProgressDetailModal()">✕ Close</button>
+                            <h3 id="progress-detail-title" style="margin: 0; color: #1976d2;">📋 Detailed Results</h3>
+                            <button class="btn" style="background: #666; color: white;" onclick="hideProgressDetailModal()" aria-label="Close detailed results">✕ Close</button>
                         </div>
                         
                         <!-- Student Info -->
@@ -6281,14 +6447,14 @@
     </div>
 
     <!-- Worksheet Attempt Modal -->
-    <div id="worksheet-attempt-modal" class="modal-overlay">
+    <div id="worksheet-attempt-modal" class="modal-overlay" role="dialog" aria-modal="true" aria-labelledby="attempt-worksheet-title">
         <div class="modal-box" style="max-width: 900px; max-height: 95vh; overflow-y: auto;">
             <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 1.5rem; border-bottom: 2px solid #667eea; padding-bottom: 1rem;">
                 <div>
                     <h3 style="margin: 0; color: #667eea;" id="attempt-worksheet-title">📝 Worksheet</h3>
-                    <div style="font-size: 0.85rem; color: #666; margin-top: 5px;" id="attempt-worksheet-progress">Question 1 of 5</div>
+                    <div style="font-size: 0.85rem; color: #666; margin-top: 5px;" id="attempt-worksheet-progress" aria-live="polite">Question 1 of 5</div>
                 </div>
-                <button class="btn" style="background: #666; color: white;" onclick="cancelWorksheetAttempt()">✕ Exit</button>
+                <button class="btn" style="background: #666; color: white;" onclick="cancelWorksheetAttempt()" aria-label="Exit worksheet">✕ Exit</button>
             </div>
             
             <!-- Progress Bar -->
@@ -6313,9 +6479,9 @@
     </div>
 
     <!-- Consult Mr Chung Modal -->
-    <div id="consult-modal" class="modal-overlay">
+    <div id="consult-modal" class="modal-overlay" role="dialog" aria-modal="true" aria-labelledby="consult-modal-title">
         <div class="modal-box" style="max-width: 600px;">
-            <h3 style="color: #0288d1; margin-bottom: 1rem;">💬 Ask Mr Chung</h3>
+            <h3 id="consult-modal-title" style="color: #0288d1; margin-bottom: 1rem;">💬 Ask Mr Chung</h3>
             <div id="consult-question-preview" style="background: #f5f5f5; padding: 1rem; border-radius: 8px; margin-bottom: 1rem; max-height: 150px; overflow-y: auto; font-size: 0.9rem; border-left: 4px solid #0288d1;">
                 <!-- Question preview will be inserted here -->
             </div>
@@ -6331,9 +6497,9 @@
     </div>
 
     <!-- New Message Modal (for admin to message students) -->
-    <div id="new-message-modal" class="modal-overlay">
+    <div id="new-message-modal" class="modal-overlay" role="dialog" aria-modal="true" aria-labelledby="new-message-modal-title">
         <div class="modal-box" style="max-width: 600px;">
-            <h3 style="color: #0288d1; margin-bottom: 1rem;">✉️ New Message</h3>
+            <h3 id="new-message-modal-title" style="color: #0288d1; margin-bottom: 1rem;">✉️ New Message</h3>
             <div class="form-group" id="recipient-select-group">
                 <label for="message-recipient">To *</label>
                 <select id="message-recipient" style="width: 100%; padding: 12px; border: 2px solid #e0e0e0; border-radius: 8px; font-size: 1rem;">
@@ -6357,9 +6523,9 @@
     </div>
 
     <!-- View Message Modal -->
-    <div id="view-message-modal" class="modal-overlay">
+    <div id="view-message-modal" class="modal-overlay" role="dialog" aria-modal="true" aria-label="View Message">
         <div class="modal-box" style="max-width: 650px;">
-            <div id="view-message-content"></div>
+            <div id="view-message-content" role="article"></div>
             <div class="modal-buttons" style="margin-top: 1.5rem; flex-wrap: wrap;">
                 <button class="btn-cancel" onclick="hideViewMessageModal()">Close</button>
                 <button id="btn-delete-message" class="btn" style="background: #dc3545; color: white;" onclick="deleteCurrentMessage()">🗑️ Delete</button>
@@ -6369,9 +6535,9 @@
     </div>
 
     <!-- Flag Question Modal -->
-    <div id="flag-question-modal" class="modal-overlay">
+    <div id="flag-question-modal" class="modal-overlay" role="dialog" aria-modal="true" aria-labelledby="flag-modal-title">
         <div class="modal-box flag-modal-content">
-            <h3>🚩 Flag Question</h3>
+            <h3 id="flag-modal-title">🚩 Flag Question</h3>
             <div id="flag-question-preview" class="flag-question-preview">
                 <strong>Question:</strong> <span id="flag-question-title"></span>
             </div>
@@ -6387,20 +6553,20 @@
     </div>
 
     <!-- Question Popup Modal -->
-    <div id="question-popup-modal" class="modal-overlay">
+    <div id="question-popup-modal" class="modal-overlay" role="dialog" aria-modal="true" aria-labelledby="question-popup-title">
         <div class="modal-box" style="max-width: 800px; max-height: 85vh; overflow-y: auto;">
             <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 1rem; border-bottom: 2px solid #e0e0e0; padding-bottom: 1rem;">
-                <h3 style="margin: 0; color: #1976d2;">📋 Original Question</h3>
-                <button class="btn" style="background: #666; color: white; padding: 8px 16px;" onclick="hideQuestionPopup()">✕ Close</button>
+                <h3 id="question-popup-title" style="margin: 0; color: #1976d2;">📋 Original Question</h3>
+                <button class="btn" style="background: #666; color: white; padding: 8px 16px;" onclick="hideQuestionPopup()" aria-label="Close question popup">✕ Close</button>
             </div>
             <div id="question-popup-content" style="padding: 1rem 0;"></div>
         </div>
     </div>
 
     <!-- Account Settings Modal -->
-    <div id="account-settings-modal" class="modal-overlay">
+    <div id="account-settings-modal" class="modal-overlay" role="dialog" aria-modal="true" aria-labelledby="account-settings-title">
         <div class="modal-box" style="max-width: 500px;">
-            <h3 style="color: #1976d2; margin-bottom: 1.5rem;">⚙️ Account Settings</h3>
+            <h3 id="account-settings-title" style="color: #1976d2; margin-bottom: 1.5rem;">⚙️ Account Settings</h3>
             
             <!-- Account Info Section -->
             <div style="background: #f5f5f5; padding: 1rem; border-radius: 8px; margin-bottom: 1.5rem;">
@@ -6440,9 +6606,9 @@
     </div>
 
     <!-- Welcome Back / New Questions Modal -->
-    <div id="welcome-back-modal" class="modal-overlay">
+    <div id="welcome-back-modal" class="modal-overlay" role="dialog" aria-modal="true" aria-labelledby="welcome-back-title">
         <div class="modal-box" style="max-width: 450px; text-align: center;">
-            <div style="font-size: 3rem; margin-bottom: 1rem;">🎉</div>
+            <div style="font-size: 3rem; margin-bottom: 1rem;" aria-hidden="true">🎉</div>
             <h3 style="color: #667eea; margin-bottom: 0.5rem;" id="welcome-back-title">Welcome Back!</h3>
             <p style="color: #666; margin-bottom: 1.5rem;" id="welcome-back-subtitle">Good to see you again</p>
             
@@ -6480,7 +6646,41 @@
         </div>
     </div>
 
+    <!-- Global Loading Overlay -->
+    <div id="loading-overlay" class="loading-overlay" role="alert" aria-live="assertive" aria-busy="true">
+        <div class="loading-spinner"></div>
+        <div class="loading-message" id="loading-message">Loading...</div>
+    </div>
+
     <script>
+        // =====================================================
+        // GLOBAL LOADING INDICATOR FUNCTIONS
+        // =====================================================
+
+        window.showLoading = function(message = 'Loading...') {
+            const overlay = document.getElementById('loading-overlay');
+            const msgEl = document.getElementById('loading-message');
+            if (overlay) {
+                if (msgEl) msgEl.textContent = message;
+                overlay.classList.add('visible');
+            }
+        };
+
+        window.hideLoading = function() {
+            const overlay = document.getElementById('loading-overlay');
+            if (overlay) {
+                overlay.classList.remove('visible');
+            }
+        };
+
+        // Auto-hide loading after 30 seconds (safety net)
+        window.showLoadingWithTimeout = function(message = 'Loading...', timeout = 30000) {
+            showLoading(message);
+            setTimeout(() => {
+                hideLoading();
+            }, timeout);
+        };
+
         // =====================================================
         // FORCE FRESH CONTENT - AGGRESSIVE CACHE BUSTING
         // =====================================================
@@ -7525,23 +7725,25 @@
         window.saveWorksheet = async function() {
             const name = document.getElementById('worksheet-name-input').value.trim();
             const description = document.getElementById('worksheet-description-input').value.trim();
-            
+
             if (!name) {
                 alert("Please enter a name for your worksheet.");
                 document.getElementById('worksheet-name-input').focus();
                 return;
             }
-            
+
             const isAdmin = window.isAdminUser;
             const shareAsLesson = isAdmin && document.getElementById('share-as-lesson-checkbox').checked;
             const videoUrl = document.getElementById('lesson-video-input').value.trim();
-            
+
             if (shareAsLesson && !videoUrl) {
                 alert("Please provide a video link for the lesson.");
                 document.getElementById('lesson-video-input').focus();
                 return;
             }
-            
+
+            showLoading(shareAsLesson ? 'Creating lesson...' : 'Saving worksheet...');
+
             try {
                 const { doc, setDoc, collection, serverTimestamp } = await import("https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js");
                 
@@ -7587,17 +7789,19 @@
                     alert("Worksheet saved successfully! 📚");
                 }
                 
+                hideLoading();
                 hideSaveWorksheetModal();
-                
+
                 // Optionally clear the current worksheet
                 if (confirm("Would you like to clear your current worksheet?")) {
                     window.worksheetItems = [];
                     saveWorksheetToStorage();
                     updateWorksheetUI();
                 }
-                
+
             } catch (e) {
                 console.error("Save worksheet error:", e);
+                hideLoading();
                 alert("Error saving worksheet: " + e.message);
             }
         };
@@ -8607,6 +8811,7 @@
             const container = document.getElementById('leaderboard-container');
             if (!container) return;
 
+            showLoading('Loading leaderboard...');
             container.innerHTML = '<div class="placeholder-content" id="leaderboard-loading-msg"><p style="font-size: 1.2rem; color: #666;">Loading leaderboard...</p></div>';
 
             try {
@@ -8653,6 +8858,7 @@
 
                 if (allStudents.length === 0) {
                     container.innerHTML = '<div class="placeholder-content"><p style="font-size: 1.2rem; color: #666;">No students found in the leaderboard.</p></div>';
+                    hideLoading();
                     return;
                 }
 
@@ -8824,10 +9030,12 @@
 
                 // Initialize prize draw section
                 initPrizeDraw();
+                hideLoading();
 
             } catch (e) {
                 console.error("Error loading leaderboard:", e);
                 container.innerHTML = '<div class="placeholder-content"><p style="font-size: 1.2rem; color: #dc3545;">Error loading leaderboard. Please try again.</p></div>';
+                hideLoading();
             }
         };
 
@@ -9047,6 +9255,8 @@
             const container = document.getElementById('my-progress-container');
             if (!container) return;
 
+            showLoading('Loading your progress...');
+
             // Reset header to default
             const progressHeader = document.querySelector('#view-my-progress h2');
             if (progressHeader) {
@@ -9059,6 +9269,7 @@
                 const user = window.auth?.currentUser;
                 if (!user || !window.db_fs) {
                     container.innerHTML = '<div class="placeholder-content"><p style="font-size: 1.2rem; color: #dc3545;">Please log in to view your progress.</p></div>';
+                    hideLoading();
                     return;
                 }
 
@@ -9411,10 +9622,12 @@
                 }
 
                 container.innerHTML = progressHTML;
+                hideLoading();
 
             } catch (e) {
                 console.error("Error loading my progress:", e);
                 container.innerHTML = '<div class="placeholder-content"><p style="font-size: 1.2rem; color: #dc3545;">Error loading progress. Please try again.</p></div>';
+                hideLoading();
             }
         };
 
@@ -14080,6 +14293,65 @@
             }
         };
 
+        // =====================================================
+        // DARK MODE TOGGLE
+        // =====================================================
+
+        window.darkModeEnabled = false;
+
+        // Toggle Dark Mode
+        window.toggleDarkMode = function() {
+            window.darkModeEnabled = !window.darkModeEnabled;
+            const toggleContainer = document.getElementById('dark-mode-toggle-container');
+
+            if (window.darkModeEnabled) {
+                document.documentElement.setAttribute('data-theme', 'dark');
+                if (toggleContainer) toggleContainer.classList.add('exam-active');
+                localStorage.setItem('darkMode', 'true');
+            } else {
+                document.documentElement.removeAttribute('data-theme');
+                if (toggleContainer) toggleContainer.classList.remove('exam-active');
+                localStorage.setItem('darkMode', 'false');
+            }
+        };
+
+        // Initialize dark mode from localStorage or system preference
+        window.initDarkMode = function() {
+            const savedDarkMode = localStorage.getItem('darkMode');
+            const systemPrefersDark = window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches;
+
+            // Use saved preference, or fall back to system preference
+            if (savedDarkMode === 'true' || (savedDarkMode === null && systemPrefersDark)) {
+                window.darkModeEnabled = true;
+                document.documentElement.setAttribute('data-theme', 'dark');
+                const toggleContainer = document.getElementById('dark-mode-toggle-container');
+                if (toggleContainer) toggleContainer.classList.add('exam-active');
+            }
+
+            // Listen for system preference changes
+            if (window.matchMedia) {
+                window.matchMedia('(prefers-color-scheme: dark)').addEventListener('change', (e) => {
+                    // Only auto-switch if user hasn't set a preference
+                    if (localStorage.getItem('darkMode') === null) {
+                        if (e.matches) {
+                            window.darkModeEnabled = true;
+                            document.documentElement.setAttribute('data-theme', 'dark');
+                        } else {
+                            window.darkModeEnabled = false;
+                            document.documentElement.removeAttribute('data-theme');
+                        }
+                        const toggleContainer = document.getElementById('dark-mode-toggle-container');
+                        if (toggleContainer) {
+                            toggleContainer.classList.toggle('exam-active', window.darkModeEnabled);
+                        }
+                    }
+                });
+            }
+        };
+
+        // Initialize dark mode on page load
+        initDarkMode();
+
         window.switchMode = function (mode) {
             window.currentMode = mode;
             const oeqSidebar = document.getElementById('oeq-sidebar-content');
@@ -17351,6 +17623,204 @@
 
             // Update worksheet UI
             updateWorksheetUI();
+
+            // =====================================================
+            // KEYBOARD NAVIGATION SUPPORT
+            // =====================================================
+
+            // Global keyboard event handler
+            document.addEventListener('keydown', (e) => {
+                // Escape key - close modals
+                if (e.key === 'Escape') {
+                    // Close dynamically created modals first
+                    const dynamicModals = document.querySelectorAll('.modal-overlay.visible');
+                    if (dynamicModals.length > 0) {
+                        const lastModal = dynamicModals[dynamicModals.length - 1];
+                        lastModal.classList.remove('visible');
+                        // If it's a dynamically created modal (no ID), remove it
+                        if (!lastModal.id || lastModal.id.includes('-popup-')) {
+                            lastModal.remove();
+                        }
+                        e.preventDefault();
+                        return;
+                    }
+
+                    // Close specific modals
+                    const modalsToClose = [
+                        'google-setup-modal',
+                        'save-worksheet-modal',
+                        'progress-detail-modal',
+                        'worksheet-attempt-modal',
+                        'consult-modal',
+                        'new-message-modal',
+                        'view-message-modal',
+                        'flag-question-modal',
+                        'question-popup-modal',
+                        'account-settings-modal',
+                        'welcome-back-modal'
+                    ];
+
+                    for (const modalId of modalsToClose) {
+                        const modal = document.getElementById(modalId);
+                        if (modal && modal.classList.contains('visible')) {
+                            modal.classList.remove('visible');
+                            e.preventDefault();
+                            return;
+                        }
+                    }
+
+                    // Close mobile sidebar if open
+                    const sidebar = document.querySelector('.sidebar');
+                    if (sidebar && sidebar.classList.contains('mobile-open')) {
+                        sidebar.classList.remove('mobile-open');
+                        const overlay = document.querySelector('.mobile-sidebar-overlay');
+                        if (overlay) overlay.classList.remove('active');
+                        e.preventDefault();
+                    }
+                }
+
+                // Keyboard shortcuts (only when not in input fields)
+                const activeElement = document.activeElement;
+                const isInputFocused = activeElement.tagName === 'INPUT' ||
+                                       activeElement.tagName === 'TEXTAREA' ||
+                                       activeElement.isContentEditable;
+
+                if (!isInputFocused) {
+                    // Ctrl/Cmd + S - Save worksheet
+                    if ((e.ctrlKey || e.metaKey) && e.key === 's') {
+                        e.preventDefault();
+                        if (window.worksheetItems && window.worksheetItems.length > 0) {
+                            window.showSaveWorksheetModal && window.showSaveWorksheetModal();
+                        }
+                    }
+
+                    // Ctrl/Cmd + P - Print current view
+                    if ((e.ctrlKey || e.metaKey) && e.key === 'p') {
+                        // Let default print behavior happen
+                    }
+
+                    // Arrow keys for practice mode navigation
+                    if (document.getElementById('view-practice')?.classList.contains('hidden') === false) {
+                        if (e.key === 'ArrowRight' || e.key === 'Enter') {
+                            const nextBtn = document.querySelector('#practice-question-content .next-btn:not(.hidden)');
+                            if (nextBtn && !nextBtn.disabled) {
+                                nextBtn.click();
+                                e.preventDefault();
+                            }
+                        }
+                    }
+
+                    // Number keys 1-4 for MCQ selection in practice mode
+                    if (e.key >= '1' && e.key <= '4') {
+                        const practiceContent = document.getElementById('practice-question-content');
+                        if (practiceContent && !practiceContent.classList.contains('hidden')) {
+                            const radios = practiceContent.querySelectorAll('input[type="radio"]:not(:disabled)');
+                            const index = parseInt(e.key) - 1;
+                            if (radios[index]) {
+                                radios[index].checked = true;
+                                radios[index].dispatchEvent(new Event('change', { bubbles: true }));
+                            }
+                        }
+                    }
+                }
+            });
+
+            // Add focus trap for modals (accessibility)
+            window.trapFocusInModal = function(modal) {
+                const focusableElements = modal.querySelectorAll(
+                    'button, [href], input, select, textarea, [tabindex]:not([tabindex="-1"])'
+                );
+                const firstElement = focusableElements[0];
+                const lastElement = focusableElements[focusableElements.length - 1];
+
+                modal.addEventListener('keydown', (e) => {
+                    if (e.key === 'Tab') {
+                        if (e.shiftKey) {
+                            if (document.activeElement === firstElement) {
+                                lastElement.focus();
+                                e.preventDefault();
+                            }
+                        } else {
+                            if (document.activeElement === lastElement) {
+                                firstElement.focus();
+                                e.preventDefault();
+                            }
+                        }
+                    }
+                });
+
+                // Focus first element when modal opens
+                if (firstElement) firstElement.focus();
+            };
+
+            // =====================================================
+            // IMAGE LAZY LOADING
+            // =====================================================
+
+            // Lazy loading with Intersection Observer
+            const lazyImageObserver = new IntersectionObserver((entries, observer) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        const img = entry.target;
+                        if (img.dataset.src) {
+                            img.src = img.dataset.src;
+                            img.removeAttribute('data-src');
+                            img.classList.remove('lazy-image');
+                            img.classList.add('lazy-loaded');
+                        }
+                        observer.unobserve(img);
+                    }
+                });
+            }, {
+                rootMargin: '50px 0px',
+                threshold: 0.01
+            });
+
+            // Function to initialize lazy loading for new images
+            window.initLazyLoading = function(container = document) {
+                const images = container.querySelectorAll('img[data-src], img.lazy-image');
+                images.forEach(img => {
+                    if (!img.dataset.observed) {
+                        img.dataset.observed = 'true';
+                        lazyImageObserver.observe(img);
+                    }
+                });
+            };
+
+            // Convert existing images to lazy loading (for dynamically added content)
+            window.convertToLazyImage = function(imgElement) {
+                if (imgElement.src && !imgElement.dataset.src) {
+                    imgElement.dataset.src = imgElement.src;
+                    imgElement.src = 'data:image/svg+xml,%3Csvg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"%3E%3Crect fill="%23f0f0f0" width="100" height="100"/%3E%3C/svg%3E';
+                    imgElement.classList.add('lazy-image');
+                    lazyImageObserver.observe(imgElement);
+                }
+            };
+
+            // Initialize lazy loading on page load
+            initLazyLoading();
+
+            // Observe for dynamically added content
+            const contentObserver = new MutationObserver((mutations) => {
+                mutations.forEach(mutation => {
+                    mutation.addedNodes.forEach(node => {
+                        if (node.nodeType === 1) {
+                            // Check if the node itself is an image
+                            if (node.tagName === 'IMG' && node.dataset.src) {
+                                lazyImageObserver.observe(node);
+                            }
+                            // Check for images within the added node
+                            const images = node.querySelectorAll ? node.querySelectorAll('img[data-src]') : [];
+                            images.forEach(img => lazyImageObserver.observe(img));
+                        }
+                    });
+                });
+            });
+
+            contentObserver.observe(document.body, {
+                childList: true,
+                subtree: true
+            });
         });
     </script>
 
