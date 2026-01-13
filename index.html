@@ -30309,6 +30309,290 @@
             cursor: pointer;
             font-size: 1.2rem;
         }
+
+        /* Batch 81: Science Joke */
+        .joke-btn {
+            position: fixed;
+            left: 18px;
+            bottom: 2290px;
+            width: 52px;
+            height: 52px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, #ff6f00, #ffb74d);
+            color: white;
+            border: none;
+            font-size: 1.4rem;
+            cursor: pointer;
+            box-shadow: 0 4px 15px rgba(255, 111, 0, 0.4);
+            z-index: 1000;
+            transition: all 0.3s ease;
+        }
+
+        .joke-btn:hover {
+            transform: scale(1.1);
+        }
+
+        .joke-modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0,0,0,0.6);
+            z-index: 10001;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .joke-modal.active {
+            display: flex;
+        }
+
+        .joke-content {
+            background: white;
+            border-radius: 16px;
+            width: 90%;
+            max-width: 400px;
+            overflow: hidden;
+        }
+
+        .joke-header {
+            background: linear-gradient(135deg, #ff6f00, #ffb74d);
+            color: white;
+            padding: 15px 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .joke-body {
+            padding: 25px;
+            text-align: center;
+        }
+
+        .joke-text {
+            font-size: 1.2rem;
+            color: #333;
+            margin-bottom: 20px;
+            line-height: 1.6;
+        }
+
+        .joke-punchline {
+            font-size: 1.3rem;
+            font-weight: bold;
+            color: #ff6f00;
+            padding: 15px;
+            background: #fff3e0;
+            border-radius: 10px;
+            margin-bottom: 20px;
+        }
+
+        /* Lab Safety Quiz */
+        .lab-safety-btn {
+            position: fixed;
+            right: 18px;
+            bottom: 1810px;
+            width: 52px;
+            height: 52px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, #c62828, #ef5350);
+            color: white;
+            border: none;
+            font-size: 1.4rem;
+            cursor: pointer;
+            box-shadow: 0 4px 15px rgba(198, 40, 40, 0.4);
+            z-index: 1000;
+            transition: all 0.3s ease;
+        }
+
+        .lab-safety-btn:hover {
+            transform: scale(1.1);
+        }
+
+        .lab-safety-modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0,0,0,0.6);
+            z-index: 10001;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .lab-safety-modal.active {
+            display: flex;
+        }
+
+        .lab-safety-content {
+            background: white;
+            border-radius: 16px;
+            width: 90%;
+            max-width: 450px;
+            overflow: hidden;
+        }
+
+        .lab-safety-header {
+            background: linear-gradient(135deg, #c62828, #ef5350);
+            color: white;
+            padding: 15px 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .lab-safety-body {
+            padding: 20px;
+        }
+
+        .safety-question {
+            padding: 20px;
+            background: #ffebee;
+            border-radius: 12px;
+            margin-bottom: 15px;
+            font-size: 1.05rem;
+        }
+
+        .safety-options {
+            display: grid;
+            gap: 10px;
+        }
+
+        .safety-option {
+            padding: 15px;
+            border: 2px solid #c62828;
+            border-radius: 10px;
+            background: white;
+            cursor: pointer;
+            font-weight: bold;
+            transition: all 0.3s ease;
+        }
+
+        .safety-option:hover {
+            background: #ffebee;
+        }
+
+        .safety-option.correct {
+            background: #c8e6c9;
+            border-color: #4caf50;
+        }
+
+        .safety-option.wrong {
+            background: #ffcdd2;
+            border-color: #f44336;
+        }
+
+        /* Quick Convert */
+        .convert-btn {
+            position: fixed;
+            left: 18px;
+            bottom: 2350px;
+            width: 52px;
+            height: 52px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, #0288d1, #4fc3f7);
+            color: white;
+            border: none;
+            font-size: 1.4rem;
+            cursor: pointer;
+            box-shadow: 0 4px 15px rgba(2, 136, 209, 0.4);
+            z-index: 1000;
+            transition: all 0.3s ease;
+        }
+
+        .convert-btn:hover {
+            transform: scale(1.1);
+        }
+
+        .convert-modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0,0,0,0.6);
+            z-index: 10001;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .convert-modal.active {
+            display: flex;
+        }
+
+        .convert-content {
+            background: white;
+            border-radius: 16px;
+            width: 90%;
+            max-width: 400px;
+            overflow: hidden;
+        }
+
+        .convert-header {
+            background: linear-gradient(135deg, #0288d1, #4fc3f7);
+            color: white;
+            padding: 15px 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .convert-body {
+            padding: 20px;
+        }
+
+        .convert-type-select {
+            width: 100%;
+            padding: 12px;
+            border: 2px solid #0288d1;
+            border-radius: 10px;
+            margin-bottom: 15px;
+            font-size: 1rem;
+        }
+
+        .convert-input-group {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 15px;
+        }
+
+        .convert-input {
+            flex: 1;
+            padding: 12px;
+            border: 2px solid #0288d1;
+            border-radius: 10px;
+            font-size: 1rem;
+        }
+
+        .convert-unit {
+            padding: 12px 15px;
+            background: #e1f5fe;
+            border-radius: 10px;
+            font-weight: bold;
+            color: #0288d1;
+        }
+
+        .convert-result {
+            padding: 20px;
+            background: #e1f5fe;
+            border-radius: 12px;
+            text-align: center;
+        }
+
+        .convert-result-value {
+            font-size: 2rem;
+            font-weight: bold;
+            color: #0288d1;
+        }
+
+        .convert-result-unit {
+            font-size: 1rem;
+            color: #666;
+        }
     </style>
 </head>
 
@@ -75374,6 +75658,217 @@ This report was generated from the Science CER Practice App.
         }
 
         console.log('⏱ Timer Challenge, Keyword Search, and Note Taker loaded!');
+    </script>
+
+    <!-- Batch 81: Science Joke Button -->
+    <button class="joke-btn" onclick="openJoke()" title="Science Joke">😄</button>
+
+    <!-- Science Joke Modal -->
+    <div class="joke-modal" id="jokeModal">
+        <div class="joke-content">
+            <div class="joke-header">
+                <h3 style="margin:0;">😄 Science Joke</h3>
+                <button onclick="closeJoke()" style="background:none;border:none;color:white;font-size:1.5rem;cursor:pointer;">×</button>
+            </div>
+            <div class="joke-body">
+                <div class="joke-text" id="jokeText">Loading...</div>
+                <div class="joke-punchline" id="jokePunchline" style="display:none;"></div>
+                <button onclick="showPunchline()" id="punchlineBtn" style="padding:12px 30px;background:#ff6f00;color:white;border:none;border-radius:8px;font-weight:bold;cursor:pointer;margin-bottom:10px;">Show Answer</button>
+                <button onclick="newJoke()" style="padding:12px 30px;background:#ffb74d;color:white;border:none;border-radius:8px;font-weight:bold;cursor:pointer;">Next Joke</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Lab Safety Button -->
+    <button class="lab-safety-btn" onclick="openLabSafety()" title="Lab Safety">🥽</button>
+
+    <!-- Lab Safety Modal -->
+    <div class="lab-safety-modal" id="labSafetyModal">
+        <div class="lab-safety-content">
+            <div class="lab-safety-header">
+                <h3 style="margin:0;">🥽 Lab Safety Quiz</h3>
+                <button onclick="closeLabSafety()" style="background:none;border:none;color:white;font-size:1.5rem;cursor:pointer;">×</button>
+            </div>
+            <div class="lab-safety-body">
+                <div class="safety-question" id="safetyQuestion">Loading...</div>
+                <div class="safety-options" id="safetyOptions"></div>
+                <p style="text-align:center;margin-top:15px;color:#666;" id="safetyScore">Score: 0 / 0</p>
+            </div>
+        </div>
+    </div>
+
+    <!-- Quick Convert Button -->
+    <button class="convert-btn" onclick="openConvert()" title="Quick Convert">⇄</button>
+
+    <!-- Quick Convert Modal -->
+    <div class="convert-modal" id="convertModal">
+        <div class="convert-content">
+            <div class="convert-header">
+                <h3 style="margin:0;">⇄ Quick Convert</h3>
+                <button onclick="closeConvert()" style="background:none;border:none;color:white;font-size:1.5rem;cursor:pointer;">×</button>
+            </div>
+            <div class="convert-body">
+                <select class="convert-type-select" id="convertType" onchange="updateConvertUnits()">
+                    <option value="length">Length</option>
+                    <option value="mass">Mass</option>
+                    <option value="temperature">Temperature</option>
+                    <option value="time">Time</option>
+                </select>
+                <div class="convert-input-group">
+                    <input type="number" class="convert-input" id="convertInput" placeholder="Enter value" oninput="doConversion()">
+                    <span class="convert-unit" id="convertFromUnit">m</span>
+                </div>
+                <div class="convert-result">
+                    <div class="convert-result-value" id="convertResultValue">0</div>
+                    <div class="convert-result-unit" id="convertResultUnit">cm</div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Science Joke System
+        const scienceJokes = [
+            { setup: 'Why do biologists look forward to casual Fridays?', punchline: 'They\'re allowed to wear genes to work!' },
+            { setup: 'What do you call an acid with an attitude?', punchline: 'A-mean-o acid!' },
+            { setup: 'Why can\'t you trust atoms?', punchline: 'They make up everything!' },
+            { setup: 'What did the scientist say when he found 2 isotopes of helium?', punchline: 'HeHe!' },
+            { setup: 'Why did the physicist break up with the biologist?', punchline: 'There was no chemistry!' },
+            { setup: 'What\'s a physicist\'s favorite food?', punchline: 'Fission chips!' },
+            { setup: 'Why are chemists great for solving problems?', punchline: 'They have all the solutions!' },
+            { setup: 'What do you do with a sick chemist?', punchline: 'If you can\'t helium, and you can\'t curium, then you might as well barium!' },
+            { setup: 'Why did the germ cross the microscope?', punchline: 'To get to the other slide!' },
+            { setup: 'What did one ion say to the other?', punchline: 'I\'ve got my ion you!' }
+        ];
+
+        let currentJoke = null;
+
+        function openJoke() {
+            document.getElementById('jokeModal').classList.add('active');
+            newJoke();
+        }
+
+        function closeJoke() {
+            document.getElementById('jokeModal').classList.remove('active');
+        }
+
+        function newJoke() {
+            currentJoke = scienceJokes[Math.floor(Math.random() * scienceJokes.length)];
+            document.getElementById('jokeText').textContent = currentJoke.setup;
+            document.getElementById('jokePunchline').style.display = 'none';
+            document.getElementById('jokePunchline').textContent = currentJoke.punchline;
+            document.getElementById('punchlineBtn').style.display = 'inline-block';
+        }
+
+        function showPunchline() {
+            document.getElementById('jokePunchline').style.display = 'block';
+            document.getElementById('punchlineBtn').style.display = 'none';
+        }
+
+        // Lab Safety Quiz System
+        const safetyQuestions = [
+            { q: 'What should you always wear when handling chemicals?', a: 'Safety goggles', options: ['Sunglasses', 'Safety goggles', 'Reading glasses', 'Nothing'] },
+            { q: 'What do you do if chemicals splash in your eyes?', a: 'Use the eyewash station', options: ['Rub your eyes', 'Use the eyewash station', 'Ignore it', 'Use soap'] },
+            { q: 'Which direction should you point a test tube when heating it?', a: 'Away from yourself and others', options: ['Towards yourself', 'Towards your partner', 'Away from yourself and others', 'Straight up'] },
+            { q: 'What should you do with long hair in the lab?', a: 'Tie it back', options: ['Leave it loose', 'Tie it back', 'Cut it', 'Cover with hands'] },
+            { q: 'Where should you eat or drink in the science building?', a: 'Only in designated areas', options: ['In the lab', 'Only in designated areas', 'Anywhere', 'At your lab bench'] },
+            { q: 'What should you do before leaving the lab?', a: 'Wash your hands', options: ['Just leave', 'Wash your hands', 'Touch your face', 'Take samples home'] },
+            { q: 'What do you use to pick up broken glass?', a: 'A dustpan and brush', options: ['Your hands', 'A dustpan and brush', 'Paper towels', 'Leave it'] },
+            { q: 'What should you wear on your feet in the lab?', a: 'Closed-toe shoes', options: ['Sandals', 'Flip-flops', 'Closed-toe shoes', 'No shoes'] }
+        ];
+
+        let safetyScore = { correct: 0, total: 0 };
+        let currentSafetyQuestion = null;
+
+        function openLabSafety() {
+            document.getElementById('labSafetyModal').classList.add('active');
+            safetyScore = { correct: 0, total: 0 };
+            nextSafetyQuestion();
+        }
+
+        function closeLabSafety() {
+            document.getElementById('labSafetyModal').classList.remove('active');
+        }
+
+        function nextSafetyQuestion() {
+            currentSafetyQuestion = safetyQuestions[Math.floor(Math.random() * safetyQuestions.length)];
+            document.getElementById('safetyQuestion').textContent = currentSafetyQuestion.q;
+
+            const shuffled = [...currentSafetyQuestion.options].sort(() => Math.random() - 0.5);
+            document.getElementById('safetyOptions').innerHTML = shuffled.map(opt =>
+                `<button class="safety-option" onclick="checkSafetyAnswer('${opt}')">${opt}</button>`
+            ).join('');
+
+            updateSafetyScore();
+        }
+
+        function checkSafetyAnswer(answer) {
+            const buttons = document.querySelectorAll('.safety-option');
+            buttons.forEach(btn => {
+                btn.disabled = true;
+                if (btn.textContent === currentSafetyQuestion.a) {
+                    btn.classList.add('correct');
+                } else if (btn.textContent === answer && answer !== currentSafetyQuestion.a) {
+                    btn.classList.add('wrong');
+                }
+            });
+
+            safetyScore.total++;
+            if (answer === currentSafetyQuestion.a) {
+                safetyScore.correct++;
+                addXP(5);
+            }
+
+            updateSafetyScore();
+            setTimeout(nextSafetyQuestion, 1500);
+        }
+
+        function updateSafetyScore() {
+            document.getElementById('safetyScore').textContent = `Score: ${safetyScore.correct} / ${safetyScore.total}`;
+        }
+
+        // Quick Convert System
+        const conversions = {
+            length: { from: 'm', to: 'cm', factor: 100, toName: 'centimeters' },
+            mass: { from: 'kg', to: 'g', factor: 1000, toName: 'grams' },
+            temperature: { from: '°C', to: '°F', formula: (c) => (c * 9/5) + 32, toName: 'Fahrenheit' },
+            time: { from: 'hr', to: 'min', factor: 60, toName: 'minutes' }
+        };
+
+        function openConvert() {
+            document.getElementById('convertModal').classList.add('active');
+            updateConvertUnits();
+        }
+
+        function closeConvert() {
+            document.getElementById('convertModal').classList.remove('active');
+        }
+
+        function updateConvertUnits() {
+            const type = document.getElementById('convertType').value;
+            const conv = conversions[type];
+            document.getElementById('convertFromUnit').textContent = conv.from;
+            document.getElementById('convertResultUnit').textContent = conv.toName;
+            document.getElementById('convertInput').value = '';
+            document.getElementById('convertResultValue').textContent = '0';
+        }
+
+        function doConversion() {
+            const type = document.getElementById('convertType').value;
+            const conv = conversions[type];
+            const input = parseFloat(document.getElementById('convertInput').value) || 0;
+
+            let result;
+            if (conv.formula) {
+                result = conv.formula(input);
+            } else {
+                result = input * conv.factor;
+            }
+
+            document.getElementById('convertResultValue').textContent = result.toFixed(2);
+        }
+
+        console.log('😄 Science Joke, Lab Safety Quiz, and Quick Convert loaded!');
     </script>
 
     <!-- PowerPoint-style Table Grid Selector (positioned fixed, outside all containers) -->
