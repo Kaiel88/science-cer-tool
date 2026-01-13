@@ -148,10 +148,16 @@
         /* Premium Navigation Group Styles */
         .main-nav-groups {
             position: relative;
+            z-index: 100;
         }
 
         .nav-group {
             position: relative;
+            z-index: 100;
+        }
+
+        .nav-group:hover {
+            z-index: 9999;
         }
 
         .nav-group-btn {
@@ -167,6 +173,7 @@
             opacity: 1 !important;
             transform: translateY(0) !important;
             pointer-events: all !important;
+            z-index: 9999 !important;
         }
 
         .nav-group:hover .nav-arrow {
@@ -182,12 +189,13 @@
             right: -20px;
             height: 12px;
             background: transparent;
-            z-index: 999;
+            z-index: 9998;
         }
 
         .nav-dropdown {
             backdrop-filter: blur(20px);
             -webkit-backdrop-filter: blur(20px);
+            z-index: 9999 !important;
         }
 
         .nav-dropdown-item {
