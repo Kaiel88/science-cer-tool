@@ -28491,6 +28491,325 @@
             border-radius: 10px;
             cursor: pointer;
         }
+
+        /* Batch 75: Concept Connector */
+        .connector-btn {
+            position: fixed;
+            right: 18px;
+            bottom: 1310px;
+            width: 52px;
+            height: 52px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, #00bcd4, #80deea);
+            color: white;
+            border: none;
+            font-size: 1.4rem;
+            cursor: pointer;
+            box-shadow: 0 4px 15px rgba(0, 188, 212, 0.4);
+            z-index: 1000;
+            transition: all 0.3s ease;
+        }
+
+        .connector-btn:hover {
+            transform: scale(1.1);
+        }
+
+        .connector-modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0,0,0,0.6);
+            z-index: 10001;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .connector-modal.active {
+            display: flex;
+        }
+
+        .connector-modal-content {
+            background: white;
+            border-radius: 16px;
+            width: 90%;
+            max-width: 450px;
+            max-height: 85vh;
+            overflow: hidden;
+        }
+
+        .connector-modal-header {
+            background: linear-gradient(135deg, #00bcd4, #80deea);
+            color: white;
+            padding: 15px 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .connector-modal-body {
+            padding: 20px;
+            max-height: 70vh;
+            overflow-y: auto;
+        }
+
+        .concept-main {
+            text-align: center;
+            padding: 20px;
+            background: #e0f7fa;
+            border-radius: 12px;
+            margin-bottom: 15px;
+        }
+
+        .concept-main h4 {
+            color: #00bcd4;
+            margin: 0 0 10px 0;
+            font-size: 1.3rem;
+        }
+
+        .concept-related {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 10px;
+        }
+
+        .concept-link {
+            padding: 12px;
+            background: #b2ebf2;
+            border-radius: 10px;
+            text-align: center;
+            cursor: pointer;
+            transition: all 0.2s ease;
+        }
+
+        .concept-link:hover {
+            background: #80deea;
+        }
+
+        /* Mini Quiz Generator */
+        .miniquiz-btn {
+            position: fixed;
+            left: 18px;
+            bottom: 1790px;
+            width: 52px;
+            height: 52px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, #673ab7, #b39ddb);
+            color: white;
+            border: none;
+            font-size: 1.4rem;
+            cursor: pointer;
+            box-shadow: 0 4px 15px rgba(103, 58, 183, 0.4);
+            z-index: 1000;
+            transition: all 0.3s ease;
+        }
+
+        .miniquiz-btn:hover {
+            transform: scale(1.1);
+        }
+
+        .miniquiz-modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0,0,0,0.6);
+            z-index: 10001;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .miniquiz-modal.active {
+            display: flex;
+        }
+
+        .miniquiz-modal-content {
+            background: white;
+            border-radius: 16px;
+            width: 90%;
+            max-width: 420px;
+            overflow: hidden;
+        }
+
+        .miniquiz-modal-header {
+            background: linear-gradient(135deg, #673ab7, #b39ddb);
+            color: white;
+            padding: 15px 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .miniquiz-modal-body {
+            padding: 20px;
+        }
+
+        .miniquiz-topics {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 8px;
+            margin-bottom: 15px;
+        }
+
+        .miniquiz-topic {
+            padding: 8px 15px;
+            border: 2px solid #673ab7;
+            border-radius: 20px;
+            background: white;
+            cursor: pointer;
+            transition: all 0.2s ease;
+        }
+
+        .miniquiz-topic.active {
+            background: #673ab7;
+            color: white;
+        }
+
+        .miniquiz-question {
+            background: #ede7f6;
+            padding: 20px;
+            border-radius: 12px;
+            margin-bottom: 15px;
+            text-align: center;
+        }
+
+        .miniquiz-options {
+            display: grid;
+            gap: 10px;
+        }
+
+        .miniquiz-option {
+            padding: 12px;
+            border: 2px solid #673ab7;
+            border-radius: 10px;
+            background: white;
+            cursor: pointer;
+            transition: all 0.2s ease;
+        }
+
+        .miniquiz-option:hover {
+            background: #ede7f6;
+        }
+
+        /* Learning Path */
+        .path-btn {
+            position: fixed;
+            right: 18px;
+            bottom: 1350px;
+            width: 52px;
+            height: 52px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, #009688, #80cbc4);
+            color: white;
+            border: none;
+            font-size: 1.4rem;
+            cursor: pointer;
+            box-shadow: 0 4px 15px rgba(0, 150, 136, 0.4);
+            z-index: 1000;
+            transition: all 0.3s ease;
+        }
+
+        .path-btn:hover {
+            transform: scale(1.1);
+        }
+
+        .path-modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0,0,0,0.6);
+            z-index: 10001;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .path-modal.active {
+            display: flex;
+        }
+
+        .path-modal-content {
+            background: white;
+            border-radius: 16px;
+            width: 90%;
+            max-width: 420px;
+            max-height: 85vh;
+            overflow: hidden;
+        }
+
+        .path-modal-header {
+            background: linear-gradient(135deg, #009688, #80cbc4);
+            color: white;
+            padding: 15px 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .path-modal-body {
+            padding: 20px;
+            max-height: 70vh;
+            overflow-y: auto;
+        }
+
+        .path-step {
+            display: flex;
+            gap: 15px;
+            margin-bottom: 15px;
+        }
+
+        .path-indicator {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        .path-dot {
+            width: 24px;
+            height: 24px;
+            border-radius: 50%;
+            background: #e0f2f1;
+            border: 3px solid #009688;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 0.8rem;
+        }
+
+        .path-dot.completed {
+            background: #009688;
+            color: white;
+        }
+
+        .path-line {
+            width: 3px;
+            height: 30px;
+            background: #b2dfdb;
+        }
+
+        .path-content {
+            flex: 1;
+            padding: 10px;
+            background: #e0f2f1;
+            border-radius: 10px;
+        }
+
+        .path-title {
+            font-weight: bold;
+            color: #009688;
+        }
+
+        .path-desc {
+            font-size: 0.85rem;
+            color: #666;
+            margin-top: 5px;
+        }
     </style>
 </head>
 
@@ -72033,6 +72352,206 @@ This report was generated from the Science CER Practice App.
         }
 
         console.log('🔢 Equation Builder, Science Riddles, and Weekly Goals loaded!');
+    </script>
+
+    <!-- Batch 75: Concept Connector Button -->
+    <button class="connector-btn" onclick="openConceptConnector()" title="Concept Connector">
+        🔗
+    </button>
+
+    <!-- Concept Connector Modal -->
+    <div class="connector-modal" id="connectorModal">
+        <div class="connector-modal-content">
+            <div class="connector-modal-header">
+                <h3>🔗 Concept Connector</h3>
+                <button onclick="closeConceptConnector()" style="background:none;border:none;color:white;font-size:1.5rem;cursor:pointer;">✕</button>
+            </div>
+            <div class="connector-modal-body">
+                <div class="concept-main" id="conceptMain">
+                    <h4 id="mainConcept">Energy</h4>
+                    <p id="conceptDesc">The capacity to do work</p>
+                </div>
+                <h5 style="color:#00bcd4;margin-bottom:10px;">Related Concepts:</h5>
+                <div class="concept-related" id="relatedConcepts"></div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Mini Quiz Generator Button -->
+    <button class="miniquiz-btn" onclick="openMiniQuiz()" title="Mini Quiz">
+        📝
+    </button>
+
+    <!-- Mini Quiz Modal -->
+    <div class="miniquiz-modal" id="miniquizModal">
+        <div class="miniquiz-modal-content">
+            <div class="miniquiz-modal-header">
+                <h3>📝 Mini Quiz</h3>
+                <button onclick="closeMiniQuiz()" style="background:none;border:none;color:white;font-size:1.5rem;cursor:pointer;">✕</button>
+            </div>
+            <div class="miniquiz-modal-body">
+                <div class="miniquiz-topics" id="miniquizTopics"></div>
+                <div class="miniquiz-question" id="miniquizQuestion">Select a topic to start!</div>
+                <div class="miniquiz-options" id="miniquizOptions"></div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Learning Path Button -->
+    <button class="path-btn" onclick="openLearningPath()" title="Learning Path">
+        🛤️
+    </button>
+
+    <!-- Learning Path Modal -->
+    <div class="path-modal" id="pathModal">
+        <div class="path-modal-content">
+            <div class="path-modal-header">
+                <h3>🛤️ Learning Path</h3>
+                <button onclick="closeLearningPath()" style="background:none;border:none;color:white;font-size:1.5rem;cursor:pointer;">✕</button>
+            </div>
+            <div class="path-modal-body" id="pathContainer"></div>
+        </div>
+    </div>
+
+    <script>
+        // Batch 75: Concept Connector, Mini Quiz, Learning Path
+
+        // Concept Connector
+        const conceptMap = {
+            'Energy': { desc: 'The capacity to do work', related: ['Force', 'Motion', 'Heat', 'Electricity'] },
+            'Force': { desc: 'Push or pull on an object', related: ['Energy', 'Motion', 'Gravity', 'Friction'] },
+            'Motion': { desc: 'Change in position over time', related: ['Energy', 'Force', 'Velocity', 'Acceleration'] },
+            'Cells': { desc: 'Basic unit of life', related: ['Nucleus', 'Mitochondria', 'DNA', 'Proteins'] },
+            'Atoms': { desc: 'Smallest unit of matter', related: ['Electrons', 'Protons', 'Neutrons', 'Molecules'] },
+            'Gravity': { desc: 'Force of attraction between masses', related: ['Force', 'Mass', 'Weight', 'Planets'] },
+            'Electricity': { desc: 'Flow of electric charge', related: ['Energy', 'Electrons', 'Circuits', 'Voltage'] },
+            'Light': { desc: 'Electromagnetic radiation', related: ['Energy', 'Waves', 'Reflection', 'Refraction'] }
+        };
+
+        let currentConcept = 'Energy';
+
+        function openConceptConnector() {
+            document.getElementById('connectorModal').classList.add('active');
+            showConcept('Energy');
+        }
+
+        function closeConceptConnector() {
+            document.getElementById('connectorModal').classList.remove('active');
+        }
+
+        function showConcept(name) {
+            currentConcept = name;
+            const concept = conceptMap[name];
+            document.getElementById('mainConcept').textContent = name;
+            document.getElementById('conceptDesc').textContent = concept.desc;
+            document.getElementById('relatedConcepts').innerHTML = concept.related.map(r => `
+                <div class="concept-link" onclick="showConcept('${r}')">${r}</div>
+            `).join('');
+        }
+
+        // Mini Quiz Generator
+        const miniQuizData = {
+            'Physics': [
+                { q: 'What is the SI unit of force?', opts: ['Newton', 'Joule', 'Watt', 'Pascal'], ans: 0 },
+                { q: 'What type of energy does a moving object have?', opts: ['Potential', 'Kinetic', 'Thermal', 'Nuclear'], ans: 1 },
+                { q: 'Speed with direction is called?', opts: ['Velocity', 'Acceleration', 'Force', 'Momentum'], ans: 0 }
+            ],
+            'Biology': [
+                { q: 'What organelle produces energy?', opts: ['Nucleus', 'Ribosome', 'Mitochondria', 'Golgi'], ans: 2 },
+                { q: 'What molecule carries genetic info?', opts: ['RNA', 'DNA', 'ATP', 'Protein'], ans: 1 },
+                { q: 'Green pigment in plants?', opts: ['Melanin', 'Chlorophyll', 'Hemoglobin', 'Keratin'], ans: 1 }
+            ],
+            'Chemistry': [
+                { q: 'What is H2O?', opts: ['Salt', 'Water', 'Acid', 'Base'], ans: 1 },
+                { q: 'Symbol for Gold?', opts: ['Go', 'Gd', 'Au', 'Ag'], ans: 2 },
+                { q: 'How many elements in periodic table?', opts: ['92', '108', '118', '126'], ans: 2 }
+            ]
+        };
+
+        let currentMiniTopic = null;
+        let currentMiniQ = null;
+
+        function openMiniQuiz() {
+            document.getElementById('miniquizModal').classList.add('active');
+            renderMiniTopics();
+        }
+
+        function closeMiniQuiz() {
+            document.getElementById('miniquizModal').classList.remove('active');
+        }
+
+        function renderMiniTopics() {
+            document.getElementById('miniquizTopics').innerHTML = Object.keys(miniQuizData).map(t => `
+                <button class="miniquiz-topic" onclick="selectMiniTopic('${t}')">${t}</button>
+            `).join('');
+        }
+
+        function selectMiniTopic(topic) {
+            currentMiniTopic = topic;
+            document.querySelectorAll('.miniquiz-topic').forEach(btn => {
+                btn.classList.toggle('active', btn.textContent === topic);
+            });
+            generateMiniQuestion();
+        }
+
+        function generateMiniQuestion() {
+            const questions = miniQuizData[currentMiniTopic];
+            currentMiniQ = questions[Math.floor(Math.random() * questions.length)];
+            document.getElementById('miniquizQuestion').textContent = currentMiniQ.q;
+            document.getElementById('miniquizOptions').innerHTML = currentMiniQ.opts.map((opt, i) => `
+                <button class="miniquiz-option" onclick="answerMiniQuiz(${i})">${opt}</button>
+            `).join('');
+        }
+
+        function answerMiniQuiz(idx) {
+            const btns = document.querySelectorAll('.miniquiz-option');
+            btns.forEach((btn, i) => {
+                btn.disabled = true;
+                if (i === currentMiniQ.ans) btn.style.background = '#4caf50';
+                if (i === idx && idx !== currentMiniQ.ans) btn.style.background = '#f44336';
+            });
+            if (idx === currentMiniQ.ans) {
+                addXP(10);
+            }
+            setTimeout(generateMiniQuestion, 1500);
+        }
+
+        // Learning Path
+        const learningPath = [
+            { title: 'Start Your Journey', desc: 'Complete your first quiz', completed: true },
+            { title: 'Learn the Basics', desc: 'Study forces and motion', completed: true },
+            { title: 'Explore Cells', desc: 'Understand cell structure', completed: true },
+            { title: 'Discover Atoms', desc: 'Learn atomic structure', completed: false },
+            { title: 'Master Energy', desc: 'Understand energy transfer', completed: false },
+            { title: 'Chemical Reactions', desc: 'Learn about reactions', completed: false },
+            { title: 'Become a Scientist', desc: 'Complete all topics', completed: false }
+        ];
+
+        function openLearningPath() {
+            document.getElementById('pathModal').classList.add('active');
+            renderLearningPath();
+        }
+
+        function closeLearningPath() {
+            document.getElementById('pathModal').classList.remove('active');
+        }
+
+        function renderLearningPath() {
+            document.getElementById('pathContainer').innerHTML = learningPath.map((step, i) => `
+                <div class="path-step">
+                    <div class="path-indicator">
+                        <div class="path-dot ${step.completed ? 'completed' : ''}">${step.completed ? '✓' : i + 1}</div>
+                        ${i < learningPath.length - 1 ? '<div class="path-line"></div>' : ''}
+                    </div>
+                    <div class="path-content" style="${step.completed ? 'opacity:0.7;' : ''}">
+                        <div class="path-title">${step.title}</div>
+                        <div class="path-desc">${step.desc}</div>
+                    </div>
+                </div>
+            `).join('');
+        }
+
+        console.log('🔗 Concept Connector, Mini Quiz, and Learning Path loaded!');
     </script>
 
     <!-- PowerPoint-style Table Grid Selector (positioned fixed, outside all containers) -->
