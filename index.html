@@ -33311,6 +33311,259 @@
             background: #ffcdd2;
             border-color: #f44336;
         }
+
+        /* Batch 92: Science Scoreboard */
+        .scoreboard-btn {
+            position: fixed;
+            left: 18px;
+            bottom: 3070px;
+            width: 52px;
+            height: 52px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, #c62828, #ef5350);
+            color: white;
+            border: none;
+            cursor: pointer;
+            box-shadow: 0 4px 15px rgba(198, 40, 40, 0.4);
+            z-index: 999;
+            font-size: 1.4rem;
+            transition: all 0.3s ease;
+        }
+
+        .scoreboard-btn:hover {
+            transform: scale(1.1);
+            box-shadow: 0 6px 20px rgba(198, 40, 40, 0.5);
+        }
+
+        .scoreboard-modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.5);
+            z-index: 10000;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .scoreboard-content {
+            background: white;
+            border-radius: 20px;
+            padding: 25px;
+            max-width: 400px;
+            width: 90%;
+            text-align: center;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+        }
+
+        .scoreboard-rank {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            padding: 12px 15px;
+            background: linear-gradient(135deg, #ffebee, #ffcdd2);
+            border-radius: 10px;
+            margin-bottom: 10px;
+        }
+
+        .scoreboard-rank.gold {
+            background: linear-gradient(135deg, #fff8e1, #ffecb3);
+            border: 2px solid #ffc107;
+        }
+
+        .scoreboard-rank.silver {
+            background: linear-gradient(135deg, #f5f5f5, #e0e0e0);
+            border: 2px solid #9e9e9e;
+        }
+
+        .scoreboard-rank.bronze {
+            background: linear-gradient(135deg, #fbe9e7, #ffccbc);
+            border: 2px solid #ff8a65;
+        }
+
+        .rank-number {
+            font-size: 1.5rem;
+            font-weight: bold;
+            width: 40px;
+        }
+
+        .rank-xp {
+            font-weight: bold;
+            color: #c62828;
+        }
+
+        /* Random Fact Generator */
+        .random-fact-btn {
+            position: fixed;
+            right: 18px;
+            bottom: 2950px;
+            width: 52px;
+            height: 52px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, #2e7d32, #66bb6a);
+            color: white;
+            border: none;
+            cursor: pointer;
+            box-shadow: 0 4px 15px rgba(46, 125, 50, 0.4);
+            z-index: 999;
+            font-size: 1.4rem;
+            transition: all 0.3s ease;
+        }
+
+        .random-fact-btn:hover {
+            transform: scale(1.1);
+            box-shadow: 0 6px 20px rgba(46, 125, 50, 0.5);
+        }
+
+        .random-fact-modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.5);
+            z-index: 10000;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .random-fact-content {
+            background: white;
+            border-radius: 20px;
+            padding: 30px;
+            max-width: 420px;
+            width: 90%;
+            text-align: center;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+        }
+
+        .fact-display {
+            background: linear-gradient(135deg, #e8f5e9, #c8e6c9);
+            padding: 25px;
+            border-radius: 15px;
+            margin-bottom: 15px;
+        }
+
+        .fact-emoji {
+            font-size: 3rem;
+            margin-bottom: 10px;
+        }
+
+        .fact-text {
+            font-size: 1.1rem;
+            color: #2e7d32;
+            line-height: 1.6;
+        }
+
+        /* Homework Tracker */
+        .homework-btn {
+            position: fixed;
+            right: 18px;
+            bottom: 3010px;
+            width: 52px;
+            height: 52px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, #5e35b1, #9575cd);
+            color: white;
+            border: none;
+            cursor: pointer;
+            box-shadow: 0 4px 15px rgba(94, 53, 177, 0.4);
+            z-index: 999;
+            font-size: 1.4rem;
+            transition: all 0.3s ease;
+        }
+
+        .homework-btn:hover {
+            transform: scale(1.1);
+            box-shadow: 0 6px 20px rgba(94, 53, 177, 0.5);
+        }
+
+        .homework-modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.5);
+            z-index: 10000;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .homework-content {
+            background: white;
+            border-radius: 20px;
+            padding: 25px;
+            max-width: 450px;
+            width: 90%;
+            max-height: 80vh;
+            overflow-y: auto;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+        }
+
+        .homework-item {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            padding: 12px;
+            background: #ede7f6;
+            border-radius: 10px;
+            margin-bottom: 10px;
+        }
+
+        .homework-item.completed {
+            background: #e8f5e9;
+            opacity: 0.7;
+        }
+
+        .homework-checkbox {
+            width: 22px;
+            height: 22px;
+            cursor: pointer;
+        }
+
+        .homework-info {
+            flex: 1;
+        }
+
+        .homework-title {
+            font-weight: 600;
+            color: #5e35b1;
+        }
+
+        .homework-item.completed .homework-title {
+            text-decoration: line-through;
+            color: #4caf50;
+        }
+
+        .homework-due {
+            font-size: 0.8rem;
+            color: #666;
+        }
+
+        .homework-due.overdue {
+            color: #f44336;
+            font-weight: bold;
+        }
+
+        .add-homework {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+            margin-top: 15px;
+            padding-top: 15px;
+            border-top: 1px solid #eee;
+        }
+
+        .add-homework input {
+            padding: 10px;
+            border: 2px solid #9575cd;
+            border-radius: 8px;
+        }
     </style>
 </head>
 
@@ -81194,6 +81447,238 @@ This report was generated from the Science CER Practice App.
         }
 
         console.log('💡 Science Tip, Memory Game, and Quick Quiz loaded!');
+
+        // ========== BATCH 92: Scoreboard, Random Fact, Homework Tracker ==========
+
+        // Scoreboard Button
+        const scoreboardBtn = document.createElement('button');
+        scoreboardBtn.className = 'scoreboard-btn';
+        scoreboardBtn.innerHTML = '🏅';
+        scoreboardBtn.title = 'Scoreboard';
+        scoreboardBtn.onclick = () => openScoreboardModal();
+        document.body.appendChild(scoreboardBtn);
+
+        // Scoreboard Modal
+        const scoreboardModal = document.createElement('div');
+        scoreboardModal.className = 'scoreboard-modal';
+        scoreboardModal.id = 'scoreboardModal';
+        scoreboardModal.innerHTML = `
+            <div class="scoreboard-content">
+                <h3 style="color: #c62828; margin-bottom: 15px;">🏅 Science Scoreboard</h3>
+                <div id="scoreboardList"></div>
+                <div style="margin-top: 15px; padding: 15px; background: linear-gradient(135deg, #ffebee, #ffcdd2); border-radius: 12px;">
+                    <p style="color: #c62828; font-weight: bold;">Your Rank</p>
+                    <p id="yourRank" style="font-size: 1.5rem; font-weight: bold; color: #c62828;">Loading...</p>
+                </div>
+                <button onclick="closeScoreboardModal()" style="margin-top: 15px; padding: 10px 25px; background: #c62828; color: white; border: none; border-radius: 20px; cursor: pointer; width: 100%;">Close</button>
+            </div>
+        `;
+        document.body.appendChild(scoreboardModal);
+
+        // Simulated leaderboard data
+        const leaderboardNames = ['Alex', 'Jordan', 'Sam', 'Taylor', 'Casey', 'Morgan', 'Riley', 'Quinn', 'Avery', 'Skyler'];
+
+        function generateLeaderboard() {
+            const yourXP = parseInt(localStorage.getItem('scienceToolXP') || '0');
+            const leaders = leaderboardNames.map(name => ({
+                name,
+                xp: Math.floor(Math.random() * 2000) + 100
+            }));
+            leaders.push({ name: 'You', xp: yourXP, isYou: true });
+            return leaders.sort((a, b) => b.xp - a.xp);
+        }
+
+        function openScoreboardModal() {
+            document.getElementById('scoreboardModal').style.display = 'flex';
+            renderScoreboard();
+        }
+
+        function closeScoreboardModal() {
+            document.getElementById('scoreboardModal').style.display = 'none';
+        }
+
+        function renderScoreboard() {
+            const leaders = generateLeaderboard();
+            const yourRank = leaders.findIndex(l => l.isYou) + 1;
+
+            document.getElementById('scoreboardList').innerHTML = leaders.slice(0, 5).map((leader, i) => {
+                const rankClass = i === 0 ? 'gold' : i === 1 ? 'silver' : i === 2 ? 'bronze' : '';
+                const medal = i === 0 ? '🥇' : i === 1 ? '🥈' : i === 2 ? '🥉' : (i + 1);
+                return `
+                    <div class="scoreboard-rank ${rankClass}" ${leader.isYou ? 'style="border: 2px solid #c62828;"' : ''}>
+                        <span class="rank-number">${medal}</span>
+                        <span style="flex: 1; font-weight: ${leader.isYou ? 'bold' : 'normal'};">${leader.name}</span>
+                        <span class="rank-xp">${leader.xp} XP</span>
+                    </div>
+                `;
+            }).join('');
+
+            document.getElementById('yourRank').textContent = `#${yourRank} of ${leaders.length}`;
+        }
+
+        // Random Fact Button
+        const randomFactBtn = document.createElement('button');
+        randomFactBtn.className = 'random-fact-btn';
+        randomFactBtn.innerHTML = '🎲';
+        randomFactBtn.title = 'Random Fact';
+        randomFactBtn.onclick = () => openRandomFactModal();
+        document.body.appendChild(randomFactBtn);
+
+        // Random Fact Modal
+        const randomFactModal = document.createElement('div');
+        randomFactModal.className = 'random-fact-modal';
+        randomFactModal.id = 'randomFactModal';
+        randomFactModal.innerHTML = `
+            <div class="random-fact-content">
+                <h3 style="color: #2e7d32; margin-bottom: 15px;">🎲 Random Science Fact</h3>
+                <div class="fact-display">
+                    <div class="fact-emoji" id="factEmoji">🔬</div>
+                    <div class="fact-text" id="factText">Loading...</div>
+                </div>
+                <button onclick="generateRandomFact()" style="padding: 12px 25px; background: #2e7d32; color: white; border: none; border-radius: 25px; cursor: pointer; font-weight: bold;">Another Fact! +3 XP</button>
+                <button onclick="closeRandomFactModal()" style="margin-top: 10px; padding: 10px 20px; background: #9e9e9e; color: white; border: none; border-radius: 20px; cursor: pointer; display: block; margin-left: auto; margin-right: auto;">Close</button>
+            </div>
+        `;
+        document.body.appendChild(randomFactModal);
+
+        const randomFacts = [
+            { emoji: '🧬', fact: 'If you could uncoil all the DNA in your body, it would stretch about 10 billion miles - from Earth to Pluto and back!' },
+            { emoji: '⚡', fact: 'Lightning strikes Earth about 8 million times per day, or about 100 times per second.' },
+            { emoji: '🌊', fact: 'The ocean contains about 20 million tons of gold dissolved in it - but it\'s too diluted to extract profitably.' },
+            { emoji: '🧠', fact: 'Your brain generates about 20 watts of electrical power when you\'re awake - enough to power a dim light bulb.' },
+            { emoji: '☀️', fact: 'The Sun loses about 4 million tons of mass every second through nuclear fusion - and has enough fuel for another 5 billion years.' },
+            { emoji: '🦠', fact: 'There are more bacteria in your mouth than there are people on Earth - about 6 billion!' },
+            { emoji: '🌍', fact: 'Earth is the only planet not named after a god. Its name comes from Old English meaning "ground".' },
+            { emoji: '💨', fact: 'A sneeze can travel up to 100 mph and send 100,000 germs into the air.' },
+            { emoji: '🔥', fact: 'The hottest temperature ever recorded on Earth was 56.7°C (134°F) in Death Valley, California.' },
+            { emoji: '❄️', fact: 'The coldest temperature ever recorded was -89.2°C (-128.6°F) at Antarctica\'s Vostok Station.' },
+            { emoji: '🐙', fact: 'Octopuses have three hearts, blue blood, and can change color in less than a second.' },
+            { emoji: '🌙', fact: 'The Moon is slowly drifting away from Earth at a rate of about 3.8 cm per year.' },
+            { emoji: '💎', fact: 'Diamonds can form from peanut butter under extreme pressure - scientists have done it!' },
+            { emoji: '🦴', fact: 'Babies are born with about 270 bones, but adults only have 206 because some fuse together.' },
+            { emoji: '🌈', fact: 'A rainbow is actually a full circle - we just can\'t see the bottom half from the ground.' }
+        ];
+
+        function openRandomFactModal() {
+            document.getElementById('randomFactModal').style.display = 'flex';
+            generateRandomFact();
+        }
+
+        function closeRandomFactModal() {
+            document.getElementById('randomFactModal').style.display = 'none';
+        }
+
+        function generateRandomFact() {
+            const fact = randomFacts[Math.floor(Math.random() * randomFacts.length)];
+            document.getElementById('factEmoji').textContent = fact.emoji;
+            document.getElementById('factText').textContent = fact.fact;
+            addXP(3);
+        }
+
+        // Homework Tracker Button
+        const homeworkBtn = document.createElement('button');
+        homeworkBtn.className = 'homework-btn';
+        homeworkBtn.innerHTML = '📚';
+        homeworkBtn.title = 'Homework Tracker';
+        homeworkBtn.onclick = () => openHomeworkModal();
+        document.body.appendChild(homeworkBtn);
+
+        // Homework Tracker Modal
+        const homeworkModal = document.createElement('div');
+        homeworkModal.className = 'homework-modal';
+        homeworkModal.id = 'homeworkModal';
+        homeworkModal.innerHTML = `
+            <div class="homework-content">
+                <h3 style="color: #5e35b1; margin-bottom: 15px;">📚 Homework Tracker</h3>
+                <div id="homeworkList"></div>
+                <div class="add-homework">
+                    <input type="text" id="homeworkTitle" placeholder="Assignment name...">
+                    <input type="date" id="homeworkDue">
+                    <button onclick="addHomework()" style="padding: 12px; background: #5e35b1; color: white; border: none; border-radius: 8px; cursor: pointer; font-weight: bold;">Add Assignment</button>
+                </div>
+                <button onclick="closeHomeworkModal()" style="margin-top: 15px; padding: 10px 25px; background: #5e35b1; color: white; border: none; border-radius: 20px; cursor: pointer; width: 100%;">Close</button>
+            </div>
+        `;
+        document.body.appendChild(homeworkModal);
+
+        function getHomework() {
+            return JSON.parse(localStorage.getItem('scienceHomework') || '[]');
+        }
+
+        function saveHomework(hw) {
+            localStorage.setItem('scienceHomework', JSON.stringify(hw));
+        }
+
+        function openHomeworkModal() {
+            document.getElementById('homeworkModal').style.display = 'flex';
+            renderHomework();
+        }
+
+        function closeHomeworkModal() {
+            document.getElementById('homeworkModal').style.display = 'none';
+        }
+
+        function renderHomework() {
+            const homework = getHomework();
+            const container = document.getElementById('homeworkList');
+
+            if (homework.length === 0) {
+                container.innerHTML = '<p style="text-align: center; color: #999; padding: 20px;">No homework yet! Add an assignment below.</p>';
+                return;
+            }
+
+            const today = new Date().toDateString();
+            container.innerHTML = homework.map((hw, i) => {
+                const dueDate = new Date(hw.due);
+                const isOverdue = dueDate < new Date() && !hw.completed;
+                return `
+                    <div class="homework-item ${hw.completed ? 'completed' : ''}">
+                        <input type="checkbox" class="homework-checkbox" ${hw.completed ? 'checked' : ''} onchange="toggleHomework(${i})">
+                        <div class="homework-info">
+                            <div class="homework-title">${hw.title}</div>
+                            <div class="homework-due ${isOverdue ? 'overdue' : ''}">Due: ${hw.due} ${isOverdue ? '(Overdue!)' : ''}</div>
+                        </div>
+                        <button onclick="deleteHomework(${i})" style="background: none; border: none; color: #f44336; cursor: pointer; font-size: 1.2rem;">×</button>
+                    </div>
+                `;
+            }).join('');
+        }
+
+        function addHomework() {
+            const title = document.getElementById('homeworkTitle').value.trim();
+            const due = document.getElementById('homeworkDue').value;
+
+            if (!title || !due) {
+                alert('Please enter both assignment name and due date!');
+                return;
+            }
+
+            const homework = getHomework();
+            homework.push({ title, due, completed: false });
+            saveHomework(homework);
+            document.getElementById('homeworkTitle').value = '';
+            document.getElementById('homeworkDue').value = '';
+            renderHomework();
+        }
+
+        function toggleHomework(index) {
+            const homework = getHomework();
+            homework[index].completed = !homework[index].completed;
+            saveHomework(homework);
+            if (homework[index].completed) {
+                addXP(15);
+            }
+            renderHomework();
+        }
+
+        function deleteHomework(index) {
+            const homework = getHomework();
+            homework.splice(index, 1);
+            saveHomework(homework);
+            renderHomework();
+        }
+
+        console.log('🏅 Scoreboard, Random Fact, and Homework Tracker loaded!');
     </script>
 
     <!-- PowerPoint-style Table Grid Selector (positioned fixed, outside all containers) -->
