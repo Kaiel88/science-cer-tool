@@ -4991,6 +4991,188 @@
         }
 
         /* =====================================================
+           ENHANCED MOBILE RESPONSIVENESS
+           ===================================================== */
+        @media screen and (max-width: 768px) {
+            /* Better modal popups on mobile */
+            .modal-box {
+                max-width: 95vw !important;
+                max-height: 85vh !important;
+                margin: 10px;
+                border-radius: 12px;
+            }
+
+            /* Question popup mobile improvements */
+            .modal-box h3 {
+                font-size: 1rem !important;
+            }
+
+            .modal-box .popup-action-btn {
+                padding: 6px 8px !important;
+                font-size: 0.75rem !important;
+            }
+
+            /* Larger touch targets for buttons */
+            .btn, button {
+                min-height: 44px;
+                min-width: 44px;
+            }
+
+            /* Improve question cards on mobile */
+            .question-container {
+                padding: 12px !important;
+                margin-bottom: 12px !important;
+            }
+
+            .question-container h3 {
+                font-size: 0.95rem !important;
+                line-height: 1.4 !important;
+            }
+
+            /* Horizontal scroll for question list table */
+            .question-list-table-container {
+                overflow-x: auto;
+                -webkit-overflow-scrolling: touch;
+            }
+
+            .question-list-table {
+                min-width: 600px;
+            }
+
+            /* Fix fixed elements positioning */
+            .practice-progress-container {
+                left: 10px !important;
+                right: 10px !important;
+                width: auto !important;
+            }
+
+            /* Study timer mobile positioning */
+            .study-timer-display {
+                font-size: 0.85rem !important;
+                padding: 6px 10px !important;
+            }
+
+            /* MCQ options better touch targets */
+            .mcq-option, .mcq-container label {
+                padding: 12px !important;
+                margin: 10px 0 !important;
+            }
+
+            /* Dark mode toggle mobile */
+            .dark-mode-toggle {
+                padding: 10px !important;
+            }
+
+            /* Better spacing for controls bar */
+            .controls-bar {
+                flex-wrap: wrap !important;
+                gap: 8px !important;
+            }
+
+            .controls-bar button {
+                flex: 1 1 auto;
+                min-width: 100px;
+            }
+
+            /* Improve worksheet cards on mobile */
+            .worksheet-question-card {
+                padding: 12px !important;
+            }
+
+            /* Better stats display */
+            .stats-grid {
+                grid-template-columns: 1fr 1fr !important;
+                gap: 10px !important;
+            }
+
+            /* Full width inputs on mobile */
+            input[type="text"],
+            input[type="email"],
+            input[type="password"],
+            select,
+            textarea {
+                width: 100% !important;
+                box-sizing: border-box;
+            }
+        }
+
+        /* Extra small screens (phones in portrait) */
+        @media screen and (max-width: 480px) {
+            /* Smaller fonts for very small screens */
+            .modal-box h3 {
+                font-size: 0.9rem !important;
+            }
+
+            /* Stack popup buttons vertically */
+            .modal-box > div:first-child > div:last-child {
+                flex-direction: column;
+                gap: 4px !important;
+            }
+
+            .modal-box .popup-action-btn {
+                width: 100%;
+                text-align: center;
+            }
+
+            /* Single column stats on tiny screens */
+            .stats-grid {
+                grid-template-columns: 1fr !important;
+            }
+
+            /* Smaller padding on question containers */
+            .question-container {
+                padding: 10px !important;
+            }
+
+            /* Compact header tabs */
+            .tab-btn {
+                padding: 6px 8px !important;
+            }
+
+            /* Hide less important info on tiny screens */
+            .question-meta .meta-item:nth-child(n+3) {
+                display: none;
+            }
+        }
+
+        /* Touch device optimizations */
+        @media (hover: none) and (pointer: coarse) {
+            /* Larger hit areas for touch */
+            .btn, button, .tab-btn, .header-icon-btn {
+                cursor: pointer;
+                -webkit-tap-highlight-color: rgba(102, 126, 234, 0.2);
+            }
+
+            /* Disable hover effects on touch devices */
+            .btn:hover, button:hover {
+                transform: none;
+            }
+
+            /* Better scroll behavior */
+            .question-body, .modal-box, .sidebar {
+                -webkit-overflow-scrolling: touch;
+                overscroll-behavior: contain;
+            }
+        }
+
+        /* Safe area padding for notched devices */
+        @supports (padding: max(0px)) {
+            @media screen and (max-width: 768px) {
+                .app-header {
+                    padding-top: max(0.5rem, env(safe-area-inset-top));
+                }
+
+                .modal-box {
+                    padding-bottom: max(20px, env(safe-area-inset-bottom));
+                }
+
+                .back-to-top {
+                    bottom: max(20px, calc(env(safe-area-inset-bottom) + 10px));
+                }
+            }
+        }
+
+        /* =====================================================
            PRINT STYLES - HIDE MOBILE ELEMENTS
            ===================================================== */
         @media print {
@@ -11302,7 +11484,15 @@
                 <div class="modal-box" style="max-width: 900px; max-height: 90vh; overflow-y: auto;">
                     <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 1.5rem; border-bottom: 2px solid #667eea; padding-bottom: 1rem;">
                         <h3 style="margin: 0; color: #667eea;">${question.title}</h3>
-                        <button class="btn" style="background: #666; color: white;" onclick="this.closest('.modal-overlay').remove()">✕ Close</button>
+                        <div style="display: flex; gap: 8px;">
+                            <button class="btn popup-action-btn" style="background: #28a745; color: white; padding: 8px 12px;" onclick="addQuestionToWorksheetFromPopup('${question.id}', ${listIndex})" title="Add to Worksheet">
+                                ➕ Worksheet
+                            </button>
+                            <button class="btn popup-action-btn" style="background: #1976d2; color: white; padding: 8px 12px;" onclick="printQuestionFromPopup()" title="Print Question">
+                                🖨️ Print
+                            </button>
+                            <button class="btn" style="background: #666; color: white;" onclick="this.closest('.modal-overlay').remove()">✕ Close</button>
+                        </div>
                     </div>
                     <div style="margin-bottom: 1rem; display: flex; gap: 1rem; flex-wrap: wrap;">
                         <span style="background: #f5f5f5; padding: 6px 12px; border-radius: 6px; font-size: 0.9rem; color: #666;">
@@ -11318,7 +11508,7 @@
                             ${question.category === 'mcq' ? '📝 MCQ' : '✍️ OEQ'}
                         </span>
                     </div>
-                    <div class="question-body" style="background: #f9f9f9; padding: 1.5rem; border-radius: 8px; margin-top: 1rem;">
+                    <div class="question-body" id="popup-question-body" style="background: #f9f9f9; padding: 1.5rem; border-radius: 8px; margin-top: 1rem;">
                         ${question.html || '<p style="color: #999;">Question content not available.</p>'}
                     </div>
                     <div id="popup-submit-area" style="margin-top: 1rem; text-align: center;"></div>
@@ -11445,6 +11635,153 @@
                     modal.remove();
                 }
             });
+        };
+
+        // Add question to worksheet from popup
+        window.addQuestionToWorksheetFromPopup = function(questionId, listIndex) {
+            let question = window.filteredQuestionsList ? window.filteredQuestionsList[listIndex] : null;
+            if (!question) {
+                question = window.allQuestionsList ? window.allQuestionsList.find(q => q.id === questionId) : null;
+            }
+            if (!question) {
+                window.showToast ? window.showToast('Question not found', 'error') : alert('Question not found');
+                return;
+            }
+
+            // Check if already in worksheet
+            if (window.worksheetItems.some(item => item.id === questionId)) {
+                window.showToast ? window.showToast('Question already in worksheet', 'info', 'Already Added') : alert('Question already in worksheet');
+                return;
+            }
+
+            // Process the HTML to clean it up
+            const tempDiv = document.createElement('div');
+            tempDiv.innerHTML = question.html || '';
+
+            // Remove explanation boxes for worksheet
+            tempDiv.querySelectorAll('.explanation-box').forEach(e => e.style.display = 'none');
+
+            // Add to worksheet
+            window.worksheetItems.push({
+                id: questionId,
+                title: question.title,
+                html: tempDiv.innerHTML,
+                topic: question.topic,
+                level: question.level
+            });
+
+            // Save and update UI
+            if (typeof saveWorksheetToStorage === 'function') {
+                saveWorksheetToStorage();
+            } else {
+                try {
+                    localStorage.setItem('worksheetItems', JSON.stringify(window.worksheetItems));
+                } catch (e) {
+                    console.error('Error saving worksheet:', e);
+                }
+            }
+            if (typeof updateWorksheetUI === 'function') {
+                updateWorksheetUI();
+            }
+            if (typeof updateWorksheetCountHeader === 'function') {
+                updateWorksheetCountHeader();
+            }
+
+            window.showToast ? window.showToast(`"${question.title}" added to worksheet`, 'success', 'Added to Worksheet') : alert('Added to worksheet!');
+        };
+
+        // Print question from popup
+        window.printQuestionFromPopup = function() {
+            const popupBody = document.getElementById('popup-question-body') || document.querySelector('.modal-overlay.visible .question-body');
+            if (!popupBody) {
+                window.showToast ? window.showToast('No question content found', 'error') : alert('No question content found');
+                return;
+            }
+
+            const modalBox = popupBody.closest('.modal-box');
+            const questionTitle = modalBox ? (modalBox.querySelector('h3')?.textContent || 'Question') : 'Question';
+            const metaInfo = modalBox ? modalBox.querySelector('div[style*="flex-wrap"]') : null;
+
+            // Create print window
+            const printWindow = window.open('', '_blank', 'width=800,height=600');
+            if (!printWindow) {
+                window.showToast ? window.showToast('Please allow popups to print', 'error') : alert('Please allow popups to print');
+                return;
+            }
+
+            printWindow.document.write(`
+                <!DOCTYPE html>
+                <html>
+                <head>
+                    <title>${questionTitle}</title>
+                    <style>
+                        body {
+                            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+                            padding: 20px;
+                            max-width: 800px;
+                            margin: 0 auto;
+                            color: #333;
+                        }
+                        h1 {
+                            color: #667eea;
+                            border-bottom: 2px solid #667eea;
+                            padding-bottom: 10px;
+                            font-size: 1.5rem;
+                        }
+                        .meta-info {
+                            display: flex;
+                            gap: 10px;
+                            flex-wrap: wrap;
+                            margin-bottom: 20px;
+                        }
+                        .meta-tag {
+                            background: #f5f5f5;
+                            padding: 6px 12px;
+                            border-radius: 6px;
+                            font-size: 0.9rem;
+                        }
+                        .question-content {
+                            background: #f9f9f9;
+                            padding: 20px;
+                            border-radius: 8px;
+                            line-height: 1.6;
+                        }
+                        .question-content img {
+                            max-width: 100%;
+                            height: auto;
+                        }
+                        .mcq-option, label {
+                            display: block;
+                            padding: 10px;
+                            margin: 8px 0;
+                            background: white;
+                            border: 1px solid #ddd;
+                            border-radius: 6px;
+                        }
+                        .explanation-box {
+                            display: none !important;
+                        }
+                        @media print {
+                            body { padding: 0; }
+                            .question-content { background: white; }
+                        }
+                    </style>
+                </head>
+                <body>
+                    <h1>${questionTitle}</h1>
+                    ${metaInfo ? `<div class="meta-info">${metaInfo.innerHTML}</div>` : ''}
+                    <div class="question-content">${popupBody.innerHTML}</div>
+                    <script>
+                        window.onload = function() {
+                            // Hide explanation boxes
+                            document.querySelectorAll('.explanation-box').forEach(e => e.style.display = 'none');
+                            window.print();
+                        };
+                    </script>
+                </body>
+                </html>
+            `);
+            printWindow.document.close();
         };
 
         // Load wrong answers that are due for review
