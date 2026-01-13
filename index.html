@@ -6181,6 +6181,259 @@
             50% { transform: scale(1.02); }
             100% { transform: scale(1); }
         }
+
+        /* Lucky Wheel Styles */
+        .lucky-wheel-container {
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            background: white;
+            border-radius: 24px;
+            padding: 30px;
+            z-index: 10010;
+            box-shadow: 0 25px 80px rgba(0, 0, 0, 0.4);
+            text-align: center;
+            animation: modalPop 0.4s ease;
+        }
+
+        .wheel-wrapper {
+            position: relative;
+            width: 280px;
+            height: 280px;
+            margin: 20px auto;
+        }
+
+        .wheel {
+            width: 100%;
+            height: 100%;
+            border-radius: 50%;
+            border: 8px solid #667eea;
+            position: relative;
+            overflow: hidden;
+            transition: transform 4s cubic-bezier(0.17, 0.67, 0.12, 0.99);
+        }
+
+        .wheel-segment {
+            position: absolute;
+            width: 50%;
+            height: 50%;
+            transform-origin: 100% 100%;
+            left: 0;
+            top: 0;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 700;
+            font-size: 0.9rem;
+            color: white;
+        }
+
+        .wheel-pointer {
+            position: absolute;
+            top: -15px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 0;
+            height: 0;
+            border-left: 15px solid transparent;
+            border-right: 15px solid transparent;
+            border-top: 25px solid #667eea;
+            z-index: 1;
+        }
+
+        .spin-btn {
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            color: white;
+            border: none;
+            padding: 15px 40px;
+            border-radius: 30px;
+            font-size: 1.1rem;
+            font-weight: 700;
+            cursor: pointer;
+            margin-top: 20px;
+            transition: all 0.3s ease;
+        }
+
+        .spin-btn:hover {
+            transform: scale(1.05);
+            box-shadow: 0 8px 25px rgba(102, 126, 234, 0.4);
+        }
+
+        .spin-btn:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+            transform: none;
+        }
+
+        /* Daily Login Rewards */
+        .login-rewards-modal {
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            background: white;
+            border-radius: 24px;
+            padding: 30px;
+            max-width: 500px;
+            width: 90%;
+            z-index: 10009;
+            box-shadow: 0 25px 80px rgba(0, 0, 0, 0.3);
+            animation: modalPop 0.4s ease;
+        }
+
+        .rewards-calendar {
+            display: grid;
+            grid-template-columns: repeat(7, 1fr);
+            gap: 8px;
+            margin: 20px 0;
+        }
+
+        .reward-day {
+            background: #f5f5f5;
+            border-radius: 12px;
+            padding: 12px 8px;
+            text-align: center;
+            transition: all 0.3s ease;
+        }
+
+        .reward-day.claimed {
+            background: linear-gradient(135deg, #4CAF50, #8BC34A);
+            color: white;
+        }
+
+        .reward-day.today {
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            color: white;
+            animation: pulse 2s infinite;
+        }
+
+        .reward-day.locked {
+            opacity: 0.5;
+        }
+
+        .reward-day-num {
+            font-size: 0.75rem;
+            opacity: 0.8;
+            margin-bottom: 4px;
+        }
+
+        .reward-day-prize {
+            font-size: 1.2rem;
+        }
+
+        /* Sound Toggle */
+        .sound-toggle {
+            position: fixed;
+            bottom: 20px;
+            left: 20px;
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            background: white;
+            border: 2px solid #ddd;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.3rem;
+            cursor: pointer;
+            z-index: 9997;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+            transition: all 0.3s ease;
+        }
+
+        .sound-toggle:hover {
+            transform: scale(1.1);
+            border-color: #667eea;
+        }
+
+        .sound-toggle.muted {
+            opacity: 0.6;
+        }
+
+        /* Lazy Loading */
+        .lazy-image {
+            opacity: 0;
+            transition: opacity 0.5s ease;
+        }
+
+        .lazy-image.loaded {
+            opacity: 1;
+        }
+
+        .image-placeholder {
+            background: linear-gradient(90deg, #f0f0f0 25%, #e0e0e0 50%, #f0f0f0 75%);
+            background-size: 200% 100%;
+            animation: shimmer 1.5s infinite;
+            border-radius: 8px;
+        }
+
+        @keyframes shimmer {
+            0% { background-position: 200% 0; }
+            100% { background-position: -200% 0; }
+        }
+
+        /* Contextual Help Tooltip */
+        .help-tooltip {
+            position: absolute;
+            background: linear-gradient(135deg, #2196F3, #03A9F4);
+            color: white;
+            padding: 12px 16px;
+            border-radius: 12px;
+            font-size: 0.85rem;
+            max-width: 250px;
+            z-index: 10013;
+            box-shadow: 0 8px 25px rgba(33, 150, 243, 0.3);
+            animation: tooltipAppear 0.3s ease;
+        }
+
+        .help-tooltip::after {
+            content: '';
+            position: absolute;
+            border: 8px solid transparent;
+        }
+
+        .help-tooltip.top::after {
+            bottom: -16px;
+            left: 50%;
+            transform: translateX(-50%);
+            border-top-color: #2196F3;
+        }
+
+        .help-tooltip.bottom::after {
+            top: -16px;
+            left: 50%;
+            transform: translateX(-50%);
+            border-bottom-color: #03A9F4;
+        }
+
+        @keyframes tooltipAppear {
+            from { opacity: 0; transform: translateY(5px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .help-highlight {
+            position: relative;
+        }
+
+        .help-highlight::before {
+            content: '?';
+            position: absolute;
+            top: -8px;
+            right: -8px;
+            width: 18px;
+            height: 18px;
+            background: #2196F3;
+            color: white;
+            border-radius: 50%;
+            font-size: 0.7rem;
+            font-weight: 700;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: help;
+            z-index: 1;
+        }
     </style>
 </head>
 
@@ -25261,6 +25514,479 @@
         };
 
         console.log('💾 Auto-save, Bookmarks, Pet Companion, and Mini Celebrations loaded!');
+    </script>
+
+    <!-- Lucky Wheel, Daily Rewards, Sound Toggle, Lazy Loading -->
+    <script>
+        // =====================================================
+        // LUCKY WHEEL SPIN SYSTEM
+        // =====================================================
+        window.WHEEL_PRIZES = [
+            { name: '+10 XP', xp: 10, emoji: '⭐', color: '#4CAF50' },
+            { name: '+25 XP', xp: 25, emoji: '🌟', color: '#2196F3' },
+            { name: '+50 XP', xp: 50, emoji: '💫', color: '#9C27B0' },
+            { name: '+5 XP', xp: 5, emoji: '✨', color: '#FF9800' },
+            { name: '+100 XP', xp: 100, emoji: '🏆', color: '#E91E63' },
+            { name: '+15 XP', xp: 15, emoji: '🎯', color: '#00BCD4' },
+            { name: '+75 XP', xp: 75, emoji: '💎', color: '#673AB7' },
+            { name: '+20 XP', xp: 20, emoji: '🔥', color: '#F44336' }
+        ];
+
+        window.luckyWheelState = {
+            lastSpin: null,
+            spinsToday: 0,
+            maxSpinsPerDay: 3
+        };
+
+        window.loadLuckyWheelState = function() {
+            const stored = localStorage.getItem('luckyWheelState');
+            if (stored) {
+                try {
+                    const state = JSON.parse(stored);
+                    const today = new Date().toDateString();
+                    if (state.lastSpin === today) {
+                        window.luckyWheelState = state;
+                    }
+                } catch (e) {}
+            }
+        };
+
+        window.saveLuckyWheelState = function() {
+            window.luckyWheelState.lastSpin = new Date().toDateString();
+            localStorage.setItem('luckyWheelState', JSON.stringify(window.luckyWheelState));
+        };
+
+        window.canSpinWheel = function() {
+            return window.luckyWheelState.spinsToday < window.luckyWheelState.maxSpinsPerDay;
+        };
+
+        window.showLuckyWheel = function() {
+            if (!canSpinWheel()) {
+                if (window.showToast) showToast('No more spins today! Come back tomorrow!', 'info');
+                return;
+            }
+
+            // Remove existing
+            document.querySelectorAll('.lucky-wheel-container, .modal-backdrop').forEach(el => el.remove());
+
+            const backdrop = document.createElement('div');
+            backdrop.className = 'modal-backdrop';
+            backdrop.style.cssText = 'position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.7); z-index: 10009;';
+
+            const container = document.createElement('div');
+            container.className = 'lucky-wheel-container';
+
+            // Create wheel segments with conic gradient
+            const colors = window.WHEEL_PRIZES.map(p => p.color);
+            const segmentAngle = 360 / window.WHEEL_PRIZES.length;
+            let gradientStops = [];
+            colors.forEach((color, i) => {
+                const start = i * segmentAngle;
+                const end = (i + 1) * segmentAngle;
+                gradientStops.push(`${color} ${start}deg ${end}deg`);
+            });
+
+            container.innerHTML = `
+                <h2 style="margin: 0 0 10px 0; font-size: 1.5rem;">🎡 Lucky Wheel!</h2>
+                <p style="color: #666; margin-bottom: 15px;">Spins remaining today: ${window.luckyWheelState.maxSpinsPerDay - window.luckyWheelState.spinsToday}</p>
+                <div class="wheel-wrapper">
+                    <div class="wheel-pointer"></div>
+                    <div class="wheel" id="lucky-wheel" style="background: conic-gradient(${gradientStops.join(', ')});">
+                        ${window.WHEEL_PRIZES.map((prize, i) => {
+                            const angle = i * segmentAngle + segmentAngle / 2;
+                            return `<div style="position: absolute; top: 50%; left: 50%; transform: rotate(${angle}deg) translateY(-60px); transform-origin: 0 0; color: white; font-weight: 700; font-size: 1.2rem; text-shadow: 1px 1px 2px rgba(0,0,0,0.3);">${prize.emoji}</div>`;
+                        }).join('')}
+                    </div>
+                </div>
+                <button class="spin-btn" id="spin-btn" onclick="spinWheel()">🎰 SPIN!</button>
+                <p style="margin-top: 15px;">
+                    <button onclick="document.querySelectorAll('.lucky-wheel-container, .modal-backdrop').forEach(el => el.remove());" style="background: none; border: none; color: #666; cursor: pointer; font-size: 0.9rem;">Close</button>
+                </p>
+            `;
+
+            document.body.appendChild(backdrop);
+            document.body.appendChild(container);
+        };
+
+        window.spinWheel = function() {
+            if (!canSpinWheel()) return;
+
+            const wheel = document.getElementById('lucky-wheel');
+            const spinBtn = document.getElementById('spin-btn');
+            if (!wheel || !spinBtn) return;
+
+            spinBtn.disabled = true;
+
+            // Random prize selection
+            const prizeIndex = Math.floor(Math.random() * window.WHEEL_PRIZES.length);
+            const prize = window.WHEEL_PRIZES[prizeIndex];
+
+            // Calculate spin angle
+            const segmentAngle = 360 / window.WHEEL_PRIZES.length;
+            const targetAngle = 360 - (prizeIndex * segmentAngle + segmentAngle / 2);
+            const spins = 5 + Math.random() * 3; // 5-8 full rotations
+            const finalAngle = spins * 360 + targetAngle;
+
+            wheel.style.transform = `rotate(${finalAngle}deg)`;
+
+            // Update state
+            window.luckyWheelState.spinsToday++;
+            saveLuckyWheelState();
+
+            // Award prize after spin
+            setTimeout(() => {
+                if (window.addXP) addXP(prize.xp, 'Lucky Wheel');
+                if (window.triggerCelebration) triggerCelebration();
+
+                // Show result
+                const result = document.createElement('div');
+                result.style.cssText = `
+                    position: fixed;
+                    top: 50%;
+                    left: 50%;
+                    transform: translate(-50%, -50%);
+                    background: linear-gradient(135deg, ${prize.color}, ${prize.color}dd);
+                    color: white;
+                    padding: 40px;
+                    border-radius: 24px;
+                    text-align: center;
+                    z-index: 10011;
+                    box-shadow: 0 20px 60px rgba(0, 0, 0, 0.4);
+                    animation: modalPop 0.5s ease;
+                `;
+                result.innerHTML = `
+                    <div style="font-size: 4rem; margin-bottom: 15px;">${prize.emoji}</div>
+                    <h2 style="margin: 0 0 10px 0;">You Won!</h2>
+                    <div style="font-size: 2rem; font-weight: 700;">${prize.name}</div>
+                    <button onclick="this.parentElement.remove(); document.querySelectorAll('.lucky-wheel-container, .modal-backdrop').forEach(el => el.remove());"
+                            style="margin-top: 25px; padding: 12px 30px; border-radius: 25px; border: none; background: white; color: ${prize.color}; font-weight: 700; cursor: pointer;">
+                        Awesome! 🎉
+                    </button>
+                `;
+                document.body.appendChild(result);
+            }, 4500);
+        };
+
+        // =====================================================
+        // DAILY LOGIN REWARDS SYSTEM
+        // =====================================================
+        window.DAILY_REWARDS = [
+            { day: 1, prize: '⭐', xp: 10, name: '10 XP' },
+            { day: 2, prize: '🌟', xp: 15, name: '15 XP' },
+            { day: 3, prize: '💫', xp: 20, name: '20 XP' },
+            { day: 4, prize: '✨', xp: 25, name: '25 XP' },
+            { day: 5, prize: '🔥', xp: 30, name: '30 XP' },
+            { day: 6, prize: '💎', xp: 40, name: '40 XP' },
+            { day: 7, prize: '🏆', xp: 100, name: '100 XP + Spin' }
+        ];
+
+        window.loginRewardsState = {
+            lastClaim: null,
+            currentDay: 1,
+            claimedDays: []
+        };
+
+        window.loadLoginRewards = function() {
+            const stored = localStorage.getItem('loginRewardsState');
+            if (stored) {
+                try {
+                    window.loginRewardsState = JSON.parse(stored);
+                } catch (e) {}
+            }
+        };
+
+        window.saveLoginRewards = function() {
+            localStorage.setItem('loginRewardsState', JSON.stringify(window.loginRewardsState));
+        };
+
+        window.checkDailyReward = function() {
+            const today = new Date().toDateString();
+            const lastClaim = window.loginRewardsState.lastClaim;
+
+            if (lastClaim !== today) {
+                // Check if we should reset streak
+                if (lastClaim) {
+                    const lastDate = new Date(lastClaim);
+                    const diff = Math.floor((new Date() - lastDate) / (1000 * 60 * 60 * 24));
+                    if (diff > 1) {
+                        // Reset streak if more than 1 day gap
+                        window.loginRewardsState.currentDay = 1;
+                        window.loginRewardsState.claimedDays = [];
+                    }
+                }
+                showDailyRewardModal();
+            }
+        };
+
+        window.showDailyRewardModal = function() {
+            // Remove existing
+            document.querySelectorAll('.login-rewards-modal, .modal-backdrop').forEach(el => el.remove());
+
+            const backdrop = document.createElement('div');
+            backdrop.className = 'modal-backdrop';
+            backdrop.style.cssText = 'position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.6); z-index: 10008;';
+
+            const currentDay = window.loginRewardsState.currentDay;
+            const todayReward = window.DAILY_REWARDS[currentDay - 1] || window.DAILY_REWARDS[0];
+
+            const modal = document.createElement('div');
+            modal.className = 'login-rewards-modal';
+            modal.innerHTML = `
+                <h2 style="margin: 0 0 10px 0; text-align: center; font-size: 1.5rem;">🎁 Daily Login Reward!</h2>
+                <p style="text-align: center; color: #666; margin-bottom: 20px;">Day ${currentDay} of 7 - Keep coming back for bigger rewards!</p>
+                <div class="rewards-calendar">
+                    ${window.DAILY_REWARDS.map(reward => {
+                        const isClaimed = window.loginRewardsState.claimedDays.includes(reward.day);
+                        const isToday = reward.day === currentDay;
+                        const isLocked = reward.day > currentDay;
+                        return `
+                            <div class="reward-day ${isClaimed ? 'claimed' : ''} ${isToday ? 'today' : ''} ${isLocked ? 'locked' : ''}">
+                                <div class="reward-day-num">Day ${reward.day}</div>
+                                <div class="reward-day-prize">${reward.prize}</div>
+                            </div>
+                        `;
+                    }).join('')}
+                </div>
+                <div style="text-align: center; margin-top: 20px;">
+                    <div style="font-size: 3rem; margin-bottom: 10px;">${todayReward.prize}</div>
+                    <div style="font-size: 1.2rem; font-weight: 600; margin-bottom: 20px;">${todayReward.name}</div>
+                    <button onclick="claimDailyReward()" style="padding: 15px 40px; border-radius: 25px; border: none; background: linear-gradient(135deg, #667eea, #764ba2); color: white; font-weight: 700; font-size: 1.1rem; cursor: pointer;">
+                        Claim Reward! 🎉
+                    </button>
+                </div>
+            `;
+
+            document.body.appendChild(backdrop);
+            document.body.appendChild(modal);
+        };
+
+        window.claimDailyReward = function() {
+            const currentDay = window.loginRewardsState.currentDay;
+            const reward = window.DAILY_REWARDS[currentDay - 1] || window.DAILY_REWARDS[0];
+
+            // Award XP
+            if (window.addXP) addXP(reward.xp, 'Daily Login Reward');
+
+            // Update state
+            window.loginRewardsState.lastClaim = new Date().toDateString();
+            window.loginRewardsState.claimedDays.push(currentDay);
+            window.loginRewardsState.currentDay = currentDay >= 7 ? 1 : currentDay + 1;
+            saveLoginRewards();
+
+            // Close modal
+            document.querySelectorAll('.login-rewards-modal, .modal-backdrop').forEach(el => el.remove());
+
+            // Celebrate
+            if (window.triggerCelebration) triggerCelebration();
+            if (window.showToast) showToast(`${reward.prize} ${reward.name} claimed!`, 'success');
+
+            // Day 7 bonus: free spin
+            if (currentDay === 7) {
+                setTimeout(() => {
+                    window.luckyWheelState.spinsToday = 0;
+                    saveLuckyWheelState();
+                    showLuckyWheel();
+                }, 1000);
+            }
+        };
+
+        // =====================================================
+        // SOUND EFFECTS TOGGLE
+        // =====================================================
+        window.soundSettings = {
+            enabled: true,
+            volume: 0.5
+        };
+
+        window.loadSoundSettings = function() {
+            const stored = localStorage.getItem('soundSettings');
+            if (stored) {
+                try {
+                    window.soundSettings = JSON.parse(stored);
+                } catch (e) {}
+            }
+            initSoundToggle();
+        };
+
+        window.saveSoundSettings = function() {
+            localStorage.setItem('soundSettings', JSON.stringify(window.soundSettings));
+        };
+
+        window.initSoundToggle = function() {
+            // Remove existing toggle
+            document.querySelectorAll('.sound-toggle').forEach(el => el.remove());
+
+            const toggle = document.createElement('div');
+            toggle.className = `sound-toggle ${window.soundSettings.enabled ? '' : 'muted'}`;
+            toggle.id = 'sound-toggle';
+            toggle.textContent = window.soundSettings.enabled ? '🔊' : '🔇';
+            toggle.onclick = toggleSound;
+            toggle.title = 'Toggle sound effects';
+            document.body.appendChild(toggle);
+        };
+
+        window.toggleSound = function() {
+            window.soundSettings.enabled = !window.soundSettings.enabled;
+            saveSoundSettings();
+
+            const toggle = document.getElementById('sound-toggle');
+            if (toggle) {
+                toggle.textContent = window.soundSettings.enabled ? '🔊' : '🔇';
+                toggle.classList.toggle('muted', !window.soundSettings.enabled);
+            }
+
+            if (window.showToast) {
+                showToast(window.soundSettings.enabled ? 'Sound enabled' : 'Sound muted', 'info');
+            }
+        };
+
+        window.playSound = function(type) {
+            if (!window.soundSettings.enabled) return;
+
+            // Use Web Audio API for simple sounds
+            const audioContext = new (window.AudioContext || window.webkitAudioContext)();
+
+            const sounds = {
+                correct: { freq: 880, duration: 0.1, type: 'sine' },
+                incorrect: { freq: 220, duration: 0.2, type: 'sawtooth' },
+                levelUp: { freq: 523.25, duration: 0.3, type: 'sine' },
+                achievement: { freq: 659.25, duration: 0.4, type: 'sine' },
+                click: { freq: 440, duration: 0.05, type: 'square' }
+            };
+
+            const sound = sounds[type] || sounds.click;
+            const oscillator = audioContext.createOscillator();
+            const gainNode = audioContext.createGain();
+
+            oscillator.type = sound.type;
+            oscillator.frequency.setValueAtTime(sound.freq, audioContext.currentTime);
+
+            gainNode.gain.setValueAtTime(window.soundSettings.volume, audioContext.currentTime);
+            gainNode.gain.exponentialRampToValueAtTime(0.01, audioContext.currentTime + sound.duration);
+
+            oscillator.connect(gainNode);
+            gainNode.connect(audioContext.destination);
+
+            oscillator.start(audioContext.currentTime);
+            oscillator.stop(audioContext.currentTime + sound.duration);
+        };
+
+        // =====================================================
+        // LAZY LOADING FOR IMAGES
+        // =====================================================
+        window.initLazyLoading = function() {
+            const images = document.querySelectorAll('img[src]:not(.lazy-loaded)');
+
+            const imageObserver = new IntersectionObserver((entries, observer) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        const img = entry.target;
+                        img.classList.add('lazy-image');
+
+                        // Add loaded class when image loads
+                        img.onload = () => {
+                            img.classList.add('loaded');
+                            img.classList.add('lazy-loaded');
+                        };
+
+                        observer.unobserve(img);
+                    }
+                });
+            }, { rootMargin: '50px' });
+
+            images.forEach(img => imageObserver.observe(img));
+        };
+
+        // =====================================================
+        // CONTEXTUAL HELP TOOLTIPS
+        // =====================================================
+        window.HELP_TOOLTIPS = {
+            'xp-progress-container': 'Earn XP by answering questions. Level up to unlock new titles!',
+            'daily-challenge-card': 'Complete daily challenges for bonus XP rewards!',
+            'active-quest-card': 'Follow the quest storyline to become a Science Master!',
+            'streak-bonus-card': 'Keep practicing daily to maintain your streak and earn bonus XP!',
+            'profile-card': 'Click to customize your avatar and see your profile!',
+            'mode-toggle': 'Switch between open-ended (OEQ) and multiple choice (MCQ) questions.'
+        };
+
+        window.showHelpTooltip = function(elementId, position = 'top') {
+            const element = document.getElementById(elementId);
+            const message = window.HELP_TOOLTIPS[elementId];
+            if (!element || !message) return;
+
+            // Remove existing tooltips
+            document.querySelectorAll('.help-tooltip').forEach(el => el.remove());
+
+            const tooltip = document.createElement('div');
+            tooltip.className = `help-tooltip ${position}`;
+            tooltip.textContent = message;
+
+            // Position tooltip
+            const rect = element.getBoundingClientRect();
+            if (position === 'top') {
+                tooltip.style.bottom = (window.innerHeight - rect.top + 10) + 'px';
+                tooltip.style.left = (rect.left + rect.width / 2) + 'px';
+                tooltip.style.transform = 'translateX(-50%)';
+            } else {
+                tooltip.style.top = (rect.bottom + 10) + 'px';
+                tooltip.style.left = (rect.left + rect.width / 2) + 'px';
+                tooltip.style.transform = 'translateX(-50%)';
+            }
+
+            document.body.appendChild(tooltip);
+
+            // Auto-remove
+            setTimeout(() => {
+                if (tooltip.parentElement) {
+                    tooltip.style.opacity = '0';
+                    tooltip.style.transition = 'opacity 0.3s ease';
+                    setTimeout(() => tooltip.remove(), 300);
+                }
+            }, 4000);
+        };
+
+        // Add hover listeners for help
+        document.addEventListener('mouseenter', (e) => {
+            const helpElement = e.target.closest('[data-help]');
+            if (helpElement) {
+                showHelpTooltip(helpElement.id, helpElement.dataset.helpPosition || 'top');
+            }
+        }, true);
+
+        // =====================================================
+        // INITIALIZATION
+        // =====================================================
+        document.addEventListener('DOMContentLoaded', () => {
+            loadLuckyWheelState();
+            loadLoginRewards();
+            loadSoundSettings();
+            initLazyLoading();
+
+            // Check for daily reward after a short delay
+            setTimeout(checkDailyReward, 2000);
+        });
+
+        // Hook into gamification for sounds
+        const originalAddXP2 = window.addXP;
+        window.addXP = function(amount, reason) {
+            if (originalAddXP2) {
+                originalAddXP2(amount, reason);
+            }
+            if (reason?.includes('Level')) {
+                playSound('levelUp');
+            }
+        };
+
+        // Hook into answer handling for sounds
+        const originalHandleAnswer8 = window.handleQuestionAnswer;
+        window.handleQuestionAnswer = function(isCorrect, questionElement, questionType) {
+            if (originalHandleAnswer8) {
+                originalHandleAnswer8(isCorrect, questionElement, questionType);
+            }
+            playSound(isCorrect ? 'correct' : 'incorrect');
+        };
+
+        console.log('🎡 Lucky Wheel, Daily Rewards, Sound Toggle, and Lazy Loading loaded!');
     </script>
 
     <!-- PowerPoint-style Table Grid Selector (positioned fixed, outside all containers) -->
