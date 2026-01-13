@@ -19185,6 +19185,373 @@
         .floating-topicquiz-btn:hover {
             transform: scale(1.1);
         }
+
+        /* ===== Batch 48 Styles: Science Riddles, Focus Mode, Quick Tips ===== */
+
+        /* Science Riddles Modal */
+        .riddles-modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.8);
+            z-index: 10000;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .riddles-content {
+            background: linear-gradient(135deg, #1a1a2e 0%, #16213e 100%);
+            border-radius: 20px;
+            padding: 30px;
+            max-width: 500px;
+            width: 90%;
+            position: relative;
+            border: 2px solid #ab47bc;
+        }
+
+        .riddles-header {
+            text-align: center;
+            margin-bottom: 25px;
+        }
+
+        .riddles-header h2 {
+            color: #ab47bc;
+            font-size: 1.8rem;
+            margin-bottom: 10px;
+        }
+
+        .riddle-card {
+            background: rgba(171, 71, 188, 0.15);
+            border-radius: 15px;
+            padding: 25px;
+            text-align: center;
+        }
+
+        .riddle-icon {
+            font-size: 3rem;
+            margin-bottom: 15px;
+        }
+
+        .riddle-question {
+            color: #fff;
+            font-size: 1.2rem;
+            line-height: 1.6;
+            margin-bottom: 20px;
+            font-style: italic;
+        }
+
+        .riddle-hint {
+            color: #ce93d8;
+            font-size: 0.9rem;
+            margin-bottom: 20px;
+            display: none;
+        }
+
+        .riddle-hint.show {
+            display: block;
+        }
+
+        .riddle-answer {
+            background: rgba(171, 71, 188, 0.3);
+            border-radius: 10px;
+            padding: 15px;
+            margin-top: 15px;
+            display: none;
+        }
+
+        .riddle-answer.show {
+            display: block;
+        }
+
+        .riddle-answer-label {
+            color: #ce93d8;
+            font-size: 0.85rem;
+            margin-bottom: 5px;
+        }
+
+        .riddle-answer-text {
+            color: #fff;
+            font-size: 1.1rem;
+            font-weight: bold;
+        }
+
+        .riddle-controls {
+            display: flex;
+            gap: 10px;
+            justify-content: center;
+            margin-top: 20px;
+            flex-wrap: wrap;
+        }
+
+        .riddle-btn {
+            padding: 10px 20px;
+            border-radius: 10px;
+            border: none;
+            font-size: 0.95rem;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .riddle-btn.hint {
+            background: rgba(171, 71, 188, 0.3);
+            color: #ce93d8;
+        }
+
+        .riddle-btn.reveal {
+            background: linear-gradient(135deg, #ab47bc 0%, #ce93d8 100%);
+            color: white;
+        }
+
+        .riddle-btn.next {
+            background: rgba(76, 175, 80, 0.3);
+            color: #81c784;
+        }
+
+        .riddle-btn:hover {
+            transform: scale(1.05);
+        }
+
+        .riddle-progress {
+            text-align: center;
+            color: #aaa;
+            font-size: 0.9rem;
+            margin-top: 15px;
+        }
+
+        /* Focus Mode */
+        .focus-mode-overlay {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(135deg, #0d1117 0%, #161b22 100%);
+            z-index: 9998;
+            justify-content: center;
+            align-items: center;
+            flex-direction: column;
+        }
+
+        .focus-mode-overlay.active {
+            display: flex;
+        }
+
+        .focus-mode-content {
+            text-align: center;
+            max-width: 600px;
+            padding: 40px;
+        }
+
+        .focus-timer-display {
+            font-size: 5rem;
+            font-weight: bold;
+            color: #58a6ff;
+            font-family: monospace;
+            margin-bottom: 20px;
+        }
+
+        .focus-message {
+            color: #8b949e;
+            font-size: 1.2rem;
+            margin-bottom: 30px;
+        }
+
+        .focus-stats {
+            display: flex;
+            gap: 30px;
+            justify-content: center;
+            margin-bottom: 30px;
+        }
+
+        .focus-stat {
+            text-align: center;
+        }
+
+        .focus-stat-value {
+            font-size: 2rem;
+            font-weight: bold;
+            color: #58a6ff;
+        }
+
+        .focus-stat-label {
+            font-size: 0.9rem;
+            color: #8b949e;
+        }
+
+        .focus-exit-btn {
+            padding: 12px 30px;
+            border-radius: 10px;
+            background: rgba(88, 166, 255, 0.2);
+            color: #58a6ff;
+            border: 1px solid #58a6ff;
+            font-size: 1rem;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .focus-exit-btn:hover {
+            background: #58a6ff;
+            color: white;
+        }
+
+        .focus-toggle-btn {
+            position: fixed;
+            bottom: 20px;
+            left: 20px;
+            padding: 12px 20px;
+            border-radius: 25px;
+            background: linear-gradient(135deg, #58a6ff 0%, #79c0ff 100%);
+            color: white;
+            border: none;
+            font-size: 0.95rem;
+            cursor: pointer;
+            z-index: 998;
+            box-shadow: 0 5px 20px rgba(88, 166, 255, 0.3);
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .focus-toggle-btn:hover {
+            transform: scale(1.05);
+        }
+
+        /* Quick Tips Modal */
+        .tips-modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.8);
+            z-index: 10000;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .tips-content {
+            background: linear-gradient(135deg, #1a1a2e 0%, #16213e 100%);
+            border-radius: 20px;
+            padding: 30px;
+            max-width: 500px;
+            width: 90%;
+            max-height: 85vh;
+            overflow-y: auto;
+            position: relative;
+            border: 2px solid #ff7043;
+        }
+
+        .tips-header {
+            text-align: center;
+            margin-bottom: 25px;
+        }
+
+        .tips-header h2 {
+            color: #ff7043;
+            font-size: 1.8rem;
+            margin-bottom: 10px;
+        }
+
+        .tip-card {
+            background: rgba(255, 112, 67, 0.15);
+            border-radius: 15px;
+            padding: 20px;
+            margin-bottom: 15px;
+            border-left: 4px solid #ff7043;
+        }
+
+        .tip-category {
+            color: #ffab91;
+            font-size: 0.8rem;
+            text-transform: uppercase;
+            margin-bottom: 8px;
+        }
+
+        .tip-title {
+            color: #ff7043;
+            font-size: 1.1rem;
+            font-weight: bold;
+            margin-bottom: 10px;
+        }
+
+        .tip-text {
+            color: #ddd;
+            font-size: 0.95rem;
+            line-height: 1.5;
+        }
+
+        .tips-category-tabs {
+            display: flex;
+            gap: 10px;
+            flex-wrap: wrap;
+            justify-content: center;
+            margin-bottom: 20px;
+        }
+
+        .tips-tab {
+            padding: 8px 16px;
+            border-radius: 20px;
+            background: rgba(255, 112, 67, 0.2);
+            color: #ff7043;
+            border: 1px solid #ff7043;
+            cursor: pointer;
+            font-size: 0.9rem;
+            transition: all 0.3s ease;
+        }
+
+        .tips-tab.active {
+            background: #ff7043;
+            color: white;
+        }
+
+        /* Floating Buttons for Batch 48 */
+        .floating-riddles-btn {
+            position: fixed;
+            bottom: 4420px;
+            right: 20px;
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, #ab47bc 0%, #ce93d8 100%);
+            color: white;
+            border: none;
+            font-size: 1.3rem;
+            cursor: pointer;
+            box-shadow: 0 5px 20px rgba(171, 71, 188, 0.4);
+            z-index: 999;
+            transition: all 0.3s ease;
+        }
+
+        .floating-riddles-btn:hover {
+            transform: scale(1.1);
+        }
+
+        .floating-tips-btn {
+            position: fixed;
+            bottom: 4480px;
+            right: 20px;
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, #ff7043 0%, #ffab91 100%);
+            color: white;
+            border: none;
+            font-size: 1.3rem;
+            cursor: pointer;
+            box-shadow: 0 5px 20px rgba(255, 112, 67, 0.4);
+            z-index: 999;
+            transition: all 0.3s ease;
+        }
+
+        .floating-tips-btn:hover {
+            transform: scale(1.1);
+        }
     </style>
 </head>
 
@@ -53747,6 +54114,280 @@ Science Made Fun!
         }
 
         console.log('🏅 Achievement Badges, Word Search, and Topic Quizzes loaded!');
+    </script>
+
+    <!-- ===== Batch 48: Science Riddles, Focus Mode, Quick Tips ===== -->
+    <button class="floating-riddles-btn" onclick="openRiddlesModal()" title="Science Riddles">🤔</button>
+    <button class="floating-tips-btn" onclick="openTipsModal()" title="Quick Tips">💡</button>
+    <button class="focus-toggle-btn" onclick="toggleFocusMode()">🎯 Focus Mode</button>
+
+    <!-- Science Riddles Modal -->
+    <div class="riddles-modal" id="riddles-modal">
+        <div class="riddles-content">
+            <button class="modal-close-btn" onclick="closeRiddlesModal()">&times;</button>
+            <div class="riddles-header">
+                <h2>🤔 Science Riddles</h2>
+                <p style="color: #aaa;">Can you solve these brain teasers?</p>
+            </div>
+            <div id="riddle-container"></div>
+        </div>
+    </div>
+
+    <!-- Focus Mode Overlay -->
+    <div class="focus-mode-overlay" id="focus-mode-overlay">
+        <div class="focus-mode-content">
+            <div class="focus-timer-display" id="focus-timer">25:00</div>
+            <div class="focus-message">Stay focused! You're doing great! 🎯</div>
+            <div class="focus-stats">
+                <div class="focus-stat">
+                    <div class="focus-stat-value" id="focus-sessions">0</div>
+                    <div class="focus-stat-label">Sessions Today</div>
+                </div>
+                <div class="focus-stat">
+                    <div class="focus-stat-value" id="focus-total-time">0m</div>
+                    <div class="focus-stat-label">Total Focus Time</div>
+                </div>
+            </div>
+            <button class="focus-exit-btn" onclick="exitFocusMode()">Exit Focus Mode</button>
+        </div>
+    </div>
+
+    <!-- Quick Tips Modal -->
+    <div class="tips-modal" id="tips-modal">
+        <div class="tips-content">
+            <button class="modal-close-btn" onclick="closeTipsModal()">&times;</button>
+            <div class="tips-header">
+                <h2>💡 Quick Tips</h2>
+                <p style="color: #aaa;">Science tips and tricks to help you learn!</p>
+            </div>
+            <div class="tips-category-tabs" id="tips-tabs"></div>
+            <div id="tips-container"></div>
+        </div>
+    </div>
+
+    <script>
+        // ===== Batch 48: Science Riddles, Focus Mode, Quick Tips =====
+
+        // Science Riddles Data
+        const scienceRiddles = [
+            { icon: '🌍', question: 'I am always running but never get tired. I have a bed but never sleep. What am I?', hint: 'You can find me flowing through landscapes.', answer: 'A river' },
+            { icon: '☀️', question: 'I give you light but I am not a lamp. I give you heat but I am not a fire. What am I?', hint: 'Look up during the day!', answer: 'The Sun' },
+            { icon: '🌙', question: 'I change my shape every night but I am always there. Sometimes I am full, sometimes I disappear. What am I?', hint: 'Look up at night.', answer: 'The Moon' },
+            { icon: '💧', question: 'I can fall but I cannot climb. I am not living but I make plants grow. What am I?', hint: 'I come from clouds.', answer: 'Rain' },
+            { icon: '🌬️', question: 'You cannot see me but you can feel me. I can be gentle or very strong. What am I?', hint: 'I move trees and flags.', answer: 'Wind' },
+            { icon: '❄️', question: 'I am water but I am not wet. I can float or I can sink. What am I?', hint: 'I form when it is very cold.', answer: 'Ice' },
+            { icon: '🌈', question: 'I have all the colors but I am not a painting. I appear after the rain. What am I?', hint: 'I need sunlight and water to appear.', answer: 'A rainbow' },
+            { icon: '⚡', question: 'I am bright but I only last a second. I am loud but I make no sound. What am I?', hint: 'I come with thunder.', answer: 'Lightning' },
+            { icon: '🧲', question: 'I can pull things toward me without touching them. Metals are my best friends. What am I?', hint: 'I stick to refrigerators!', answer: 'A magnet' },
+            { icon: '🔥', question: 'I dance and glow but I am not alive. I need air to survive. What am I?', hint: 'I can be warm and dangerous.', answer: 'Fire' }
+        ];
+
+        let currentRiddleIndex = 0;
+        let riddleHintShown = false;
+        let riddleAnswerShown = false;
+
+        function openRiddlesModal() {
+            document.getElementById('riddles-modal').style.display = 'flex';
+            displayRiddle();
+            if (typeof playClickSound === 'function') playClickSound();
+        }
+
+        function closeRiddlesModal() {
+            document.getElementById('riddles-modal').style.display = 'none';
+        }
+
+        function displayRiddle() {
+            const riddle = scienceRiddles[currentRiddleIndex];
+            const container = document.getElementById('riddle-container');
+
+            riddleHintShown = false;
+            riddleAnswerShown = false;
+
+            container.innerHTML = `
+                <div class="riddle-card">
+                    <div class="riddle-icon">${riddle.icon}</div>
+                    <div class="riddle-question">"${riddle.question}"</div>
+                    <div class="riddle-hint" id="riddle-hint">💡 Hint: ${riddle.hint}</div>
+                    <div class="riddle-answer" id="riddle-answer">
+                        <div class="riddle-answer-label">Answer:</div>
+                        <div class="riddle-answer-text">${riddle.answer}</div>
+                    </div>
+                    <div class="riddle-controls">
+                        <button class="riddle-btn hint" onclick="showRiddleHint()">Show Hint</button>
+                        <button class="riddle-btn reveal" onclick="revealRiddleAnswer()">Reveal Answer</button>
+                        <button class="riddle-btn next" onclick="nextRiddle()">Next Riddle →</button>
+                    </div>
+                </div>
+                <div class="riddle-progress">Riddle ${currentRiddleIndex + 1} of ${scienceRiddles.length}</div>
+            `;
+        }
+
+        function showRiddleHint() {
+            if (!riddleHintShown) {
+                document.getElementById('riddle-hint').classList.add('show');
+                riddleHintShown = true;
+            }
+        }
+
+        function revealRiddleAnswer() {
+            if (!riddleAnswerShown) {
+                document.getElementById('riddle-answer').classList.add('show');
+                riddleAnswerShown = true;
+                if (typeof addXP === 'function') addXP(5);
+            }
+        }
+
+        function nextRiddle() {
+            currentRiddleIndex = (currentRiddleIndex + 1) % scienceRiddles.length;
+            displayRiddle();
+        }
+
+        // Focus Mode System
+        let focusState = {
+            isActive: false,
+            timeRemaining: 25 * 60, // 25 minutes default
+            timerInterval: null,
+            sessionsToday: parseInt(localStorage.getItem('focusSessionsToday')) || 0,
+            totalMinutes: parseInt(localStorage.getItem('focusTotalMinutes')) || 0,
+            lastDate: localStorage.getItem('focusLastDate') || ''
+        };
+
+        function toggleFocusMode() {
+            if (focusState.isActive) {
+                exitFocusMode();
+            } else {
+                startFocusMode();
+            }
+        }
+
+        function startFocusMode() {
+            // Check if new day
+            const today = new Date().toDateString();
+            if (focusState.lastDate !== today) {
+                focusState.sessionsToday = 0;
+                focusState.lastDate = today;
+                localStorage.setItem('focusLastDate', today);
+            }
+
+            focusState.isActive = true;
+            focusState.timeRemaining = 25 * 60;
+
+            document.getElementById('focus-mode-overlay').classList.add('active');
+            updateFocusDisplay();
+
+            focusState.timerInterval = setInterval(() => {
+                focusState.timeRemaining--;
+                updateFocusDisplay();
+
+                if (focusState.timeRemaining <= 0) {
+                    completeFocusSession();
+                }
+            }, 1000);
+
+            if (typeof playClickSound === 'function') playClickSound();
+        }
+
+        function updateFocusDisplay() {
+            const minutes = Math.floor(focusState.timeRemaining / 60);
+            const seconds = focusState.timeRemaining % 60;
+            document.getElementById('focus-timer').textContent =
+                `${minutes.toString().padStart(2, '0')}:${seconds.toString().padStart(2, '0')}`;
+
+            document.getElementById('focus-sessions').textContent = focusState.sessionsToday;
+            document.getElementById('focus-total-time').textContent = `${focusState.totalMinutes}m`;
+        }
+
+        function completeFocusSession() {
+            focusState.sessionsToday++;
+            focusState.totalMinutes += 25;
+
+            localStorage.setItem('focusSessionsToday', focusState.sessionsToday);
+            localStorage.setItem('focusTotalMinutes', focusState.totalMinutes);
+
+            if (typeof addXP === 'function') addXP(30);
+            showToast('🎯 Focus session complete! +30 XP', 'success');
+
+            exitFocusMode();
+        }
+
+        function exitFocusMode() {
+            focusState.isActive = false;
+            if (focusState.timerInterval) {
+                clearInterval(focusState.timerInterval);
+                focusState.timerInterval = null;
+            }
+
+            document.getElementById('focus-mode-overlay').classList.remove('active');
+        }
+
+        // Quick Tips Data
+        const quickTipsData = {
+            'Study': [
+                { title: 'Spaced Repetition', text: 'Review material at increasing intervals. Study today, tomorrow, then in a few days. This helps move information to long-term memory!' },
+                { title: 'Active Recall', text: 'Instead of re-reading, test yourself! Try to remember information without looking. This strengthens memory pathways.' },
+                { title: 'Teach Others', text: 'Explain what you learned to someone else. Teaching is one of the best ways to solidify your understanding.' }
+            ],
+            'Science': [
+                { title: 'Make Observations', text: 'Great scientists observe carefully! Pay attention to details around you and ask "why?" about everything.' },
+                { title: 'Experiment at Home', text: 'Try safe experiments at home! Mixing baking soda and vinegar, growing plants, or making a simple circuit are great starts.' },
+                { title: 'Connect Concepts', text: 'Science topics are connected! Energy, matter, and forces all relate to each other. Look for these connections.' }
+            ],
+            'Memory': [
+                { title: 'Use Mnemonics', text: 'Create memory tricks! For example, "My Very Eager Mother Just Served Us Nachos" helps remember planet order.' },
+                { title: 'Visualize', text: 'Create mental pictures of what you\'re learning. Our brains remember images better than text!' },
+                { title: 'Chunk Information', text: 'Break large amounts of information into smaller groups. Like phone numbers: easier to remember in parts!' }
+            ],
+            'Focus': [
+                { title: 'Take Breaks', text: 'Study for 25-30 minutes, then take a 5-minute break. Your brain needs rest to process information!' },
+                { title: 'Remove Distractions', text: 'Put away your phone and find a quiet spot. A focused mind learns much faster!' },
+                { title: 'Set Small Goals', text: 'Instead of "study science," try "learn 3 facts about plants." Small, specific goals are easier to achieve!' }
+            ]
+        };
+
+        let currentTipsCategory = 'Study';
+
+        function openTipsModal() {
+            document.getElementById('tips-modal').style.display = 'flex';
+            initTipsTabs();
+            displayTips();
+            if (typeof playClickSound === 'function') playClickSound();
+        }
+
+        function closeTipsModal() {
+            document.getElementById('tips-modal').style.display = 'none';
+        }
+
+        function initTipsTabs() {
+            const tabs = document.getElementById('tips-tabs');
+            const categories = Object.keys(quickTipsData);
+
+            tabs.innerHTML = categories.map(cat => `
+                <button class="tips-tab ${cat === currentTipsCategory ? 'active' : ''}" onclick="selectTipsCategory('${cat}')">
+                    ${cat}
+                </button>
+            `).join('');
+        }
+
+        function selectTipsCategory(category) {
+            currentTipsCategory = category;
+            initTipsTabs();
+            displayTips();
+        }
+
+        function displayTips() {
+            const container = document.getElementById('tips-container');
+            const tips = quickTipsData[currentTipsCategory] || [];
+
+            container.innerHTML = tips.map(tip => `
+                <div class="tip-card">
+                    <div class="tip-category">${currentTipsCategory}</div>
+                    <div class="tip-title">${tip.title}</div>
+                    <div class="tip-text">${tip.text}</div>
+                </div>
+            `).join('');
+        }
+
+        console.log('🤔 Science Riddles, Focus Mode, and Quick Tips loaded!');
     </script>
 
     <!-- PowerPoint-style Table Grid Selector (positioned fixed, outside all containers) -->
