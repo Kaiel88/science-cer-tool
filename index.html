@@ -30593,6 +30593,312 @@
             font-size: 1rem;
             color: #666;
         }
+
+        /* Batch 82: Science Timeline */
+        .timeline-btn {
+            position: fixed;
+            right: 18px;
+            bottom: 1870px;
+            width: 52px;
+            height: 52px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, #5d4037, #8d6e63);
+            color: white;
+            border: none;
+            font-size: 1.4rem;
+            cursor: pointer;
+            box-shadow: 0 4px 15px rgba(93, 64, 55, 0.4);
+            z-index: 1000;
+            transition: all 0.3s ease;
+        }
+
+        .timeline-btn:hover {
+            transform: scale(1.1);
+        }
+
+        .timeline-modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0,0,0,0.6);
+            z-index: 10001;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .timeline-modal.active {
+            display: flex;
+        }
+
+        .timeline-content {
+            background: white;
+            border-radius: 16px;
+            width: 90%;
+            max-width: 450px;
+            max-height: 85vh;
+            overflow: hidden;
+        }
+
+        .timeline-header {
+            background: linear-gradient(135deg, #5d4037, #8d6e63);
+            color: white;
+            padding: 15px 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .timeline-body {
+            padding: 20px;
+            max-height: 70vh;
+            overflow-y: auto;
+        }
+
+        .timeline-item {
+            display: flex;
+            margin-bottom: 15px;
+        }
+
+        .timeline-year {
+            width: 60px;
+            font-weight: bold;
+            color: #5d4037;
+            flex-shrink: 0;
+        }
+
+        .timeline-event {
+            flex: 1;
+            padding: 12px;
+            background: #efebe9;
+            border-radius: 10px;
+            border-left: 4px solid #5d4037;
+        }
+
+        .timeline-title {
+            font-weight: bold;
+            color: #3e2723;
+            margin-bottom: 5px;
+        }
+
+        .timeline-desc {
+            font-size: 0.85rem;
+            color: #666;
+        }
+
+        /* Lab Equipment */
+        .equipment-btn {
+            position: fixed;
+            left: 18px;
+            bottom: 2410px;
+            width: 52px;
+            height: 52px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, #455a64, #78909c);
+            color: white;
+            border: none;
+            font-size: 1.4rem;
+            cursor: pointer;
+            box-shadow: 0 4px 15px rgba(69, 90, 100, 0.4);
+            z-index: 1000;
+            transition: all 0.3s ease;
+        }
+
+        .equipment-btn:hover {
+            transform: scale(1.1);
+        }
+
+        .equipment-modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0,0,0,0.6);
+            z-index: 10001;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .equipment-modal.active {
+            display: flex;
+        }
+
+        .equipment-content {
+            background: white;
+            border-radius: 16px;
+            width: 90%;
+            max-width: 420px;
+            max-height: 85vh;
+            overflow: hidden;
+        }
+
+        .equipment-header {
+            background: linear-gradient(135deg, #455a64, #78909c);
+            color: white;
+            padding: 15px 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .equipment-body {
+            padding: 20px;
+            max-height: 70vh;
+            overflow-y: auto;
+        }
+
+        .equipment-card {
+            padding: 20px;
+            background: #eceff1;
+            border-radius: 12px;
+            text-align: center;
+            margin-bottom: 15px;
+        }
+
+        .equipment-icon {
+            font-size: 3rem;
+            margin-bottom: 10px;
+        }
+
+        .equipment-name {
+            font-size: 1.2rem;
+            font-weight: bold;
+            color: #37474f;
+            margin-bottom: 10px;
+        }
+
+        .equipment-use {
+            font-size: 0.9rem;
+            color: #666;
+        }
+
+        .equipment-nav {
+            display: flex;
+            justify-content: center;
+            gap: 10px;
+        }
+
+        .equipment-nav button {
+            padding: 10px 25px;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            font-weight: bold;
+            background: #455a64;
+            color: white;
+        }
+
+        /* Quick Quiz Mode */
+        .quick-quiz-btn {
+            position: fixed;
+            right: 18px;
+            bottom: 1930px;
+            width: 52px;
+            height: 52px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, #00897b, #4db6ac);
+            color: white;
+            border: none;
+            font-size: 1.4rem;
+            cursor: pointer;
+            box-shadow: 0 4px 15px rgba(0, 137, 123, 0.4);
+            z-index: 1000;
+            transition: all 0.3s ease;
+        }
+
+        .quick-quiz-btn:hover {
+            transform: scale(1.1);
+        }
+
+        .quick-quiz-modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0,0,0,0.6);
+            z-index: 10001;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .quick-quiz-modal.active {
+            display: flex;
+        }
+
+        .quick-quiz-content {
+            background: white;
+            border-radius: 16px;
+            width: 90%;
+            max-width: 450px;
+            overflow: hidden;
+        }
+
+        .quick-quiz-header {
+            background: linear-gradient(135deg, #00897b, #4db6ac);
+            color: white;
+            padding: 15px 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .quick-quiz-body {
+            padding: 20px;
+        }
+
+        .quick-quiz-question {
+            font-size: 1.1rem;
+            font-weight: bold;
+            text-align: center;
+            padding: 20px;
+            background: #e0f2f1;
+            border-radius: 12px;
+            margin-bottom: 15px;
+        }
+
+        .quick-quiz-options {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 10px;
+        }
+
+        .quick-quiz-option {
+            padding: 15px;
+            border: 2px solid #00897b;
+            border-radius: 10px;
+            background: white;
+            cursor: pointer;
+            font-weight: bold;
+            text-align: center;
+            transition: all 0.3s ease;
+        }
+
+        .quick-quiz-option:hover {
+            background: #e0f2f1;
+        }
+
+        .quick-quiz-option.correct {
+            background: #c8e6c9;
+            border-color: #4caf50;
+        }
+
+        .quick-quiz-option.wrong {
+            background: #ffcdd2;
+            border-color: #f44336;
+        }
+
+        .quick-quiz-counter {
+            text-align: center;
+            margin-top: 15px;
+            color: #00897b;
+            font-weight: bold;
+        }
     </style>
 </head>
 
@@ -75869,6 +76175,203 @@ This report was generated from the Science CER Practice App.
         }
 
         console.log('😄 Science Joke, Lab Safety Quiz, and Quick Convert loaded!');
+    </script>
+
+    <!-- Batch 82: Science Timeline Button -->
+    <button class="timeline-btn" onclick="openTimeline()" title="Science Timeline">📅</button>
+
+    <!-- Science Timeline Modal -->
+    <div class="timeline-modal" id="timelineModal">
+        <div class="timeline-content">
+            <div class="timeline-header">
+                <h3 style="margin:0;">📅 Science Timeline</h3>
+                <button onclick="closeTimeline()" style="background:none;border:none;color:white;font-size:1.5rem;cursor:pointer;">×</button>
+            </div>
+            <div class="timeline-body" id="timelineBody"></div>
+        </div>
+    </div>
+
+    <!-- Lab Equipment Button -->
+    <button class="equipment-btn" onclick="openEquipment()" title="Lab Equipment">🧪</button>
+
+    <!-- Lab Equipment Modal -->
+    <div class="equipment-modal" id="equipmentModal">
+        <div class="equipment-content">
+            <div class="equipment-header">
+                <h3 style="margin:0;">🧪 Lab Equipment</h3>
+                <button onclick="closeEquipment()" style="background:none;border:none;color:white;font-size:1.5rem;cursor:pointer;">×</button>
+            </div>
+            <div class="equipment-body">
+                <div class="equipment-card" id="equipmentCard">
+                    <div class="equipment-icon" id="equipmentIcon">🔬</div>
+                    <div class="equipment-name" id="equipmentName">Loading...</div>
+                    <div class="equipment-use" id="equipmentUse">...</div>
+                </div>
+                <div class="equipment-nav">
+                    <button onclick="prevEquipment()">← Prev</button>
+                    <button onclick="nextEquipment()">Next →</button>
+                </div>
+                <p style="text-align:center;color:#666;margin-top:10px;" id="equipmentCounter">1 / 10</p>
+            </div>
+        </div>
+    </div>
+
+    <!-- Quick Quiz Button -->
+    <button class="quick-quiz-btn" onclick="openQuickQuiz()" title="Quick Quiz">⚡</button>
+
+    <!-- Quick Quiz Modal -->
+    <div class="quick-quiz-modal" id="quickQuizModal">
+        <div class="quick-quiz-content">
+            <div class="quick-quiz-header">
+                <h3 style="margin:0;">⚡ Quick Quiz</h3>
+                <button onclick="closeQuickQuiz()" style="background:none;border:none;color:white;font-size:1.5rem;cursor:pointer;">×</button>
+            </div>
+            <div class="quick-quiz-body">
+                <div class="quick-quiz-question" id="quickQuizQuestion">Loading...</div>
+                <div class="quick-quiz-options" id="quickQuizOptions"></div>
+                <div class="quick-quiz-counter" id="quickQuizCounter">0 correct</div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Science Timeline System
+        const timelineEvents = [
+            { year: '1543', title: 'Heliocentric Model', desc: 'Copernicus proposes that Earth orbits the Sun' },
+            { year: '1665', title: 'Cell Discovery', desc: 'Robert Hooke observes cells in cork using a microscope' },
+            { year: '1687', title: 'Laws of Motion', desc: 'Newton publishes his three laws of motion and gravity' },
+            { year: '1859', title: 'Evolution Theory', desc: 'Darwin publishes On the Origin of Species' },
+            { year: '1869', title: 'Periodic Table', desc: 'Mendeleev creates the periodic table of elements' },
+            { year: '1896', title: 'Radioactivity', desc: 'Becquerel discovers radioactivity in uranium' },
+            { year: '1905', title: 'Special Relativity', desc: 'Einstein publishes theory of special relativity and E=mc²' },
+            { year: '1953', title: 'DNA Structure', desc: 'Watson and Crick discover the double helix structure of DNA' },
+            { year: '1969', title: 'Moon Landing', desc: 'Neil Armstrong becomes first human on the Moon' },
+            { year: '2012', title: 'Higgs Boson', desc: 'CERN confirms discovery of the Higgs boson particle' }
+        ];
+
+        function openTimeline() {
+            document.getElementById('timelineModal').classList.add('active');
+            renderTimeline();
+        }
+
+        function closeTimeline() {
+            document.getElementById('timelineModal').classList.remove('active');
+        }
+
+        function renderTimeline() {
+            document.getElementById('timelineBody').innerHTML = timelineEvents.map(e => `
+                <div class="timeline-item">
+                    <div class="timeline-year">${e.year}</div>
+                    <div class="timeline-event">
+                        <div class="timeline-title">${e.title}</div>
+                        <div class="timeline-desc">${e.desc}</div>
+                    </div>
+                </div>
+            `).join('');
+        }
+
+        // Lab Equipment System
+        const labEquipment = [
+            { icon: '🔬', name: 'Microscope', use: 'Used to magnify small objects that cannot be seen with the naked eye' },
+            { icon: '🧪', name: 'Test Tube', use: 'Used to hold, mix, or heat small quantities of chemicals' },
+            { icon: '⚗', name: 'Beaker', use: 'Used to hold and measure liquids, can be heated' },
+            { icon: '🧫', name: 'Petri Dish', use: 'Used to culture bacteria or other microorganisms' },
+            { icon: '🌡', name: 'Thermometer', use: 'Used to measure temperature of substances' },
+            { icon: '⚖', name: 'Balance Scale', use: 'Used to measure the mass of objects precisely' },
+            { icon: '🔥', name: 'Bunsen Burner', use: 'Used to heat substances using a gas flame' },
+            { icon: '🧲', name: 'Magnet', use: 'Used to test magnetic properties or separate materials' },
+            { icon: '📐', name: 'Ruler/Meter Stick', use: 'Used to measure length and distance' },
+            { icon: '🔦', name: 'Light Source', use: 'Used in experiments requiring light or for illumination' }
+        ];
+
+        let currentEquipmentIndex = 0;
+
+        function openEquipment() {
+            document.getElementById('equipmentModal').classList.add('active');
+            updateEquipmentDisplay();
+        }
+
+        function closeEquipment() {
+            document.getElementById('equipmentModal').classList.remove('active');
+        }
+
+        function updateEquipmentDisplay() {
+            const e = labEquipment[currentEquipmentIndex];
+            document.getElementById('equipmentIcon').textContent = e.icon;
+            document.getElementById('equipmentName').textContent = e.name;
+            document.getElementById('equipmentUse').textContent = e.use;
+            document.getElementById('equipmentCounter').textContent = `${currentEquipmentIndex + 1} / ${labEquipment.length}`;
+        }
+
+        function nextEquipment() {
+            currentEquipmentIndex = (currentEquipmentIndex + 1) % labEquipment.length;
+            updateEquipmentDisplay();
+        }
+
+        function prevEquipment() {
+            currentEquipmentIndex = (currentEquipmentIndex - 1 + labEquipment.length) % labEquipment.length;
+            updateEquipmentDisplay();
+        }
+
+        // Quick Quiz System
+        const quickQuizQuestions = [
+            { q: 'H2O is?', a: 'Water', options: ['Water', 'Oxygen', 'Hydrogen', 'Salt'] },
+            { q: 'Speed unit?', a: 'm/s', options: ['kg', 'm/s', 'N', 'J'] },
+            { q: 'Cell powerhouse?', a: 'Mitochondria', options: ['Nucleus', 'Mitochondria', 'Ribosome', 'Vacuole'] },
+            { q: 'Planets count?', a: '8', options: ['7', '8', '9', '10'] },
+            { q: 'Photosynthesis gas in?', a: 'CO2', options: ['O2', 'CO2', 'N2', 'H2'] },
+            { q: 'F = m × ?', a: 'a', options: ['v', 'a', 't', 'd'] },
+            { q: 'Largest organ?', a: 'Skin', options: ['Heart', 'Liver', 'Skin', 'Brain'] },
+            { q: 'Diamond is made of?', a: 'Carbon', options: ['Iron', 'Carbon', 'Silicon', 'Gold'] },
+            { q: 'Sound needs?', a: 'Medium', options: ['Light', 'Medium', 'Vacuum', 'Heat'] },
+            { q: 'Blood type O is?', a: 'Universal donor', options: ['Rare', 'Universal donor', 'Most common', 'Dangerous'] }
+        ];
+
+        let quickQuizCorrect = 0;
+
+        function openQuickQuiz() {
+            document.getElementById('quickQuizModal').classList.add('active');
+            quickQuizCorrect = 0;
+            nextQuickQuiz();
+        }
+
+        function closeQuickQuiz() {
+            document.getElementById('quickQuizModal').classList.remove('active');
+        }
+
+        function nextQuickQuiz() {
+            const q = quickQuizQuestions[Math.floor(Math.random() * quickQuizQuestions.length)];
+            document.getElementById('quickQuizQuestion').textContent = q.q;
+
+            const shuffled = [...q.options].sort(() => Math.random() - 0.5);
+            document.getElementById('quickQuizOptions').innerHTML = shuffled.map(opt =>
+                `<button class="quick-quiz-option" onclick="checkQuickQuiz('${opt}', '${q.a}')">${opt}</button>`
+            ).join('');
+
+            document.getElementById('quickQuizCounter').textContent = `${quickQuizCorrect} correct`;
+        }
+
+        function checkQuickQuiz(answer, correct) {
+            const buttons = document.querySelectorAll('.quick-quiz-option');
+            buttons.forEach(btn => {
+                btn.disabled = true;
+                if (btn.textContent === correct) {
+                    btn.classList.add('correct');
+                } else if (btn.textContent === answer && answer !== correct) {
+                    btn.classList.add('wrong');
+                }
+            });
+
+            if (answer === correct) {
+                quickQuizCorrect++;
+                addXP(3);
+            }
+
+            document.getElementById('quickQuizCounter').textContent = `${quickQuizCorrect} correct`;
+            setTimeout(nextQuickQuiz, 1000);
+        }
+
+        console.log('📅 Science Timeline, Lab Equipment, and Quick Quiz loaded!');
     </script>
 
     <!-- PowerPoint-style Table Grid Selector (positioned fixed, outside all containers) -->
