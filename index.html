@@ -25914,6 +25914,285 @@
         .reveal-joke-btn:hover {
             transform: scale(1.05);
         }
+
+        /* Batch 66: Topic Explorer */
+        .topic-explorer-btn {
+            position: fixed;
+            right: 18px;
+            bottom: 750px;
+            width: 56px;
+            height: 56px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, #1565c0 0%, #0d47a1 100%);
+            color: white;
+            border: none;
+            font-size: 24px;
+            cursor: pointer;
+            box-shadow: 0 4px 15px rgba(21, 101, 192, 0.4);
+            z-index: 999;
+            transition: all 0.3s ease;
+        }
+
+        .topic-explorer-btn:hover {
+            transform: scale(1.1);
+        }
+
+        .explorer-modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.7);
+            z-index: 10000;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .explorer-content {
+            background: white;
+            border-radius: 20px;
+            padding: 30px;
+            max-width: 600px;
+            width: 90%;
+            max-height: 85vh;
+            overflow-y: auto;
+        }
+
+        .explorer-topic-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 15px;
+            margin: 20px 0;
+        }
+
+        .explorer-topic-card {
+            background: linear-gradient(135deg, #e3f2fd 0%, #bbdefb 100%);
+            border: 2px solid #1565c0;
+            border-radius: 15px;
+            padding: 20px;
+            text-align: center;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .explorer-topic-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 8px 20px rgba(21, 101, 192, 0.3);
+        }
+
+        .explorer-topic-icon {
+            font-size: 2.5rem;
+            margin-bottom: 10px;
+        }
+
+        .topic-detail-box {
+            background: #e3f2fd;
+            border-radius: 15px;
+            padding: 20px;
+            margin: 15px 0;
+        }
+
+        .topic-fact {
+            background: white;
+            padding: 12px;
+            margin: 10px 0;
+            border-radius: 10px;
+            border-left: 4px solid #1565c0;
+        }
+
+        /* Question Bank */
+        .question-bank-btn {
+            position: fixed;
+            left: 18px;
+            bottom: 1270px;
+            width: 56px;
+            height: 56px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, #5e35b1 0%, #4527a0 100%);
+            color: white;
+            border: none;
+            font-size: 24px;
+            cursor: pointer;
+            box-shadow: 0 4px 15px rgba(94, 53, 177, 0.4);
+            z-index: 999;
+            transition: all 0.3s ease;
+        }
+
+        .question-bank-btn:hover {
+            transform: scale(1.1);
+        }
+
+        .bank-modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.7);
+            z-index: 10000;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .bank-content {
+            background: white;
+            border-radius: 20px;
+            padding: 30px;
+            max-width: 600px;
+            width: 90%;
+            max-height: 85vh;
+            overflow-y: auto;
+        }
+
+        .bank-filter {
+            display: flex;
+            gap: 10px;
+            flex-wrap: wrap;
+            margin-bottom: 15px;
+        }
+
+        .bank-filter-btn {
+            padding: 8px 16px;
+            border: 2px solid #5e35b1;
+            border-radius: 20px;
+            background: white;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .bank-filter-btn.active {
+            background: #5e35b1;
+            color: white;
+        }
+
+        .bank-question-card {
+            background: #ede7f6;
+            border-radius: 12px;
+            padding: 15px;
+            margin: 12px 0;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .bank-question-card:hover {
+            background: #d1c4e9;
+        }
+
+        .bank-question-category {
+            font-size: 0.75rem;
+            color: #5e35b1;
+            font-weight: bold;
+            margin-bottom: 5px;
+        }
+
+        /* Study Streak Calendar */
+        .streak-calendar-btn {
+            position: fixed;
+            right: 18px;
+            bottom: 790px;
+            width: 56px;
+            height: 56px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, #43a047 0%, #2e7d32 100%);
+            color: white;
+            border: none;
+            font-size: 24px;
+            cursor: pointer;
+            box-shadow: 0 4px 15px rgba(67, 160, 71, 0.4);
+            z-index: 999;
+            transition: all 0.3s ease;
+        }
+
+        .streak-calendar-btn:hover {
+            transform: scale(1.1);
+        }
+
+        .calendar-modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.7);
+            z-index: 10000;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .calendar-content {
+            background: white;
+            border-radius: 20px;
+            padding: 30px;
+            max-width: 450px;
+            width: 90%;
+        }
+
+        .calendar-grid {
+            display: grid;
+            grid-template-columns: repeat(7, 1fr);
+            gap: 5px;
+            margin: 15px 0;
+        }
+
+        .calendar-day-header {
+            text-align: center;
+            font-size: 0.75rem;
+            font-weight: bold;
+            color: #666;
+            padding: 5px;
+        }
+
+        .calendar-day {
+            aspect-ratio: 1;
+            border-radius: 8px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-size: 0.85rem;
+            background: #f5f5f5;
+        }
+
+        .calendar-day.active {
+            background: linear-gradient(135deg, #43a047 0%, #66bb6a 100%);
+            color: white;
+            font-weight: bold;
+        }
+
+        .calendar-day.today {
+            border: 3px solid #43a047;
+        }
+
+        .calendar-day.empty {
+            background: transparent;
+        }
+
+        .streak-stats {
+            display: flex;
+            justify-content: space-around;
+            padding: 15px;
+            background: #e8f5e9;
+            border-radius: 15px;
+            margin-top: 15px;
+        }
+
+        .streak-stat {
+            text-align: center;
+        }
+
+        .streak-stat-value {
+            font-size: 1.8rem;
+            font-weight: bold;
+            color: #2e7d32;
+        }
+
+        .streak-stat-label {
+            font-size: 0.8rem;
+            color: #666;
+        }
     </style>
 </head>
 
@@ -67166,6 +67445,271 @@ This report was generated from the Science CER Practice App.
         }
 
         console.log('⚡ Speed Quiz, Review Mistakes, and Science Jokes loaded!');
+    </script>
+
+    <!-- Batch 66: Topic Explorer Button -->
+    <button class="topic-explorer-btn" onclick="openTopicExplorer()" title="Topic Explorer">🔍</button>
+
+    <!-- Topic Explorer Modal -->
+    <div class="explorer-modal" id="explorer-modal">
+        <div class="explorer-content">
+            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px;">
+                <h2 style="margin: 0; color: #1565c0;">🔍 Topic Explorer</h2>
+                <button onclick="closeTopicExplorer()" style="background: none; border: none; font-size: 1.5rem; cursor: pointer;">✕</button>
+            </div>
+            <div id="explorer-content"></div>
+        </div>
+    </div>
+
+    <!-- Question Bank Button -->
+    <button class="question-bank-btn" onclick="openQuestionBank()" title="Question Bank">🗃️</button>
+
+    <!-- Question Bank Modal -->
+    <div class="bank-modal" id="bank-modal">
+        <div class="bank-content">
+            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px;">
+                <h2 style="margin: 0; color: #5e35b1;">🗃️ Question Bank</h2>
+                <button onclick="closeQuestionBank()" style="background: none; border: none; font-size: 1.5rem; cursor: pointer;">✕</button>
+            </div>
+            <div id="bank-content"></div>
+        </div>
+    </div>
+
+    <!-- Study Streak Calendar Button -->
+    <button class="streak-calendar-btn" onclick="openStreakCalendar()" title="Study Streak">📆</button>
+
+    <!-- Study Streak Calendar Modal -->
+    <div class="calendar-modal" id="calendar-modal">
+        <div class="calendar-content">
+            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px;">
+                <h2 style="margin: 0; color: #43a047;">📆 Study Streak</h2>
+                <button onclick="closeStreakCalendar()" style="background: none; border: none; font-size: 1.5rem; cursor: pointer;">✕</button>
+            </div>
+            <div id="calendar-content"></div>
+        </div>
+    </div>
+
+    <script>
+        // Batch 66: Topic Explorer
+        const explorerTopics = {
+            physics: {
+                icon: '⚡',
+                name: 'Physics',
+                description: 'The study of matter, energy, and their interactions',
+                facts: [
+                    'Light is both a particle and a wave',
+                    'Nothing can travel faster than the speed of light',
+                    'Gravity bends light around massive objects',
+                    'Energy cannot be created or destroyed, only transformed',
+                    'Sound cannot travel through a vacuum'
+                ]
+            },
+            chemistry: {
+                icon: '🧪',
+                name: 'Chemistry',
+                description: 'The study of matter and the changes it undergoes',
+                facts: [
+                    'There are 118 known elements on the periodic table',
+                    'Water is the only substance that naturally exists in all three states',
+                    'Diamonds and graphite are both made of pure carbon',
+                    'The human body contains enough carbon to make 9,000 pencils',
+                    'Gold is so malleable that one gram can be stretched to 165 meters'
+                ]
+            },
+            biology: {
+                icon: '🧬',
+                name: 'Biology',
+                description: 'The study of living organisms and life processes',
+                facts: [
+                    'Human DNA is 99.9% identical to every other human',
+                    'Your brain uses 20% of your body\'s oxygen and calories',
+                    'Red blood cells travel 12,000 miles daily through your body',
+                    'The average person has 100,000 hairs on their head',
+                    'Your bones are stronger than steel by weight'
+                ]
+            },
+            earth: {
+                icon: '🌍',
+                name: 'Earth Science',
+                description: 'The study of Earth and its atmosphere',
+                facts: [
+                    'Earth\'s core is as hot as the surface of the Sun',
+                    'More than 70% of Earth\'s surface is covered by water',
+                    'The oldest rocks on Earth are about 4 billion years old',
+                    'Earth\'s atmosphere extends about 6,200 miles into space',
+                    'Lightning strikes Earth about 100 times per second'
+                ]
+            }
+        };
+
+        function openTopicExplorer() {
+            document.getElementById('explorer-modal').style.display = 'flex';
+            showTopicSelection();
+        }
+
+        function closeTopicExplorer() {
+            document.getElementById('explorer-modal').style.display = 'none';
+        }
+
+        function showTopicSelection() {
+            const content = document.getElementById('explorer-content');
+            content.innerHTML = `
+                <p style="color: #666; margin-bottom: 15px;">Choose a topic to explore in depth:</p>
+                <div class="explorer-topic-grid">
+                    ${Object.entries(explorerTopics).map(([key, topic]) => `
+                        <div class="explorer-topic-card" onclick="exploreTopic('${key}')">
+                            <div class="explorer-topic-icon">${topic.icon}</div>
+                            <div style="font-weight: bold;">${topic.name}</div>
+                        </div>
+                    `).join('')}
+                </div>
+            `;
+        }
+
+        function exploreTopic(topicKey) {
+            const topic = explorerTopics[topicKey];
+            const content = document.getElementById('explorer-content');
+            content.innerHTML = `
+                <button onclick="showTopicSelection()" style="margin-bottom: 15px; padding: 8px 16px; background: #e3f2fd; border: none; border-radius: 20px; cursor: pointer;">← Back to Topics</button>
+                <div style="text-align: center; margin-bottom: 20px;">
+                    <div style="font-size: 3rem;">${topic.icon}</div>
+                    <h3 style="margin: 10px 0; color: #1565c0;">${topic.name}</h3>
+                    <p style="color: #666;">${topic.description}</p>
+                </div>
+                <div class="topic-detail-box">
+                    <h4 style="margin: 0 0 15px 0; color: #0d47a1;">Key Facts</h4>
+                    ${topic.facts.map(fact => `<div class="topic-fact">${fact}</div>`).join('')}
+                </div>
+            `;
+            addXP(3);
+        }
+
+        // Question Bank
+        const questionBankData = [
+            { category: 'Physics', q: 'What is the SI unit of force?', a: 'Newton' },
+            { category: 'Physics', q: 'What is the speed of light?', a: '3×10⁸ m/s' },
+            { category: 'Physics', q: 'What is Newton\'s first law?', a: 'Law of Inertia' },
+            { category: 'Chemistry', q: 'What is the pH of neutral water?', a: '7' },
+            { category: 'Chemistry', q: 'What is the chemical symbol for gold?', a: 'Au' },
+            { category: 'Chemistry', q: 'How many elements are in the periodic table?', a: '118' },
+            { category: 'Biology', q: 'What is the powerhouse of the cell?', a: 'Mitochondria' },
+            { category: 'Biology', q: 'What carries genetic information?', a: 'DNA' },
+            { category: 'Biology', q: 'How many chromosomes do humans have?', a: '46' },
+            { category: 'Earth', q: 'What causes tides?', a: 'Moon\'s gravity' },
+            { category: 'Earth', q: 'What is the outer layer of Earth?', a: 'Crust' },
+            { category: 'Earth', q: 'What scale measures earthquakes?', a: 'Richter scale' }
+        ];
+
+        let bankFilter = 'all';
+
+        function openQuestionBank() {
+            document.getElementById('bank-modal').style.display = 'flex';
+            renderQuestionBank();
+        }
+
+        function closeQuestionBank() {
+            document.getElementById('bank-modal').style.display = 'none';
+        }
+
+        function setFilter(filter) {
+            bankFilter = filter;
+            renderQuestionBank();
+        }
+
+        function renderQuestionBank() {
+            const content = document.getElementById('bank-content');
+            const categories = ['all', 'Physics', 'Chemistry', 'Biology', 'Earth'];
+            const filtered = bankFilter === 'all' ? questionBankData : questionBankData.filter(q => q.category === bankFilter);
+
+            content.innerHTML = `
+                <div class="bank-filter">
+                    ${categories.map(cat => `
+                        <button class="bank-filter-btn ${bankFilter === cat ? 'active' : ''}" onclick="setFilter('${cat}')">${cat === 'all' ? 'All' : cat}</button>
+                    `).join('')}
+                </div>
+                <p style="color: #666; margin-bottom: 10px;">${filtered.length} questions found</p>
+                ${filtered.map(q => `
+                    <div class="bank-question-card" onclick="alert('Answer: ${q.a}')">
+                        <div class="bank-question-category">${q.category}</div>
+                        <div>${q.q}</div>
+                    </div>
+                `).join('')}
+            `;
+        }
+
+        // Study Streak Calendar
+        function openStreakCalendar() {
+            document.getElementById('calendar-modal').style.display = 'flex';
+            renderCalendar();
+        }
+
+        function closeStreakCalendar() {
+            document.getElementById('calendar-modal').style.display = 'none';
+        }
+
+        function renderCalendar() {
+            const content = document.getElementById('calendar-content');
+            const now = new Date();
+            const year = now.getFullYear();
+            const month = now.getMonth();
+            const today = now.getDate();
+
+            const firstDay = new Date(year, month, 1).getDay();
+            const daysInMonth = new Date(year, month + 1, 0).getDate();
+            const monthNames = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'];
+
+            // Simulate active days (streak data)
+            const activeDays = [1, 2, 3, 5, 6, 7, 8, 9, 10, 11, 12, 13];
+            const currentStreak = parseInt(localStorage.getItem('loginStreak') || '5');
+            const longestStreak = parseInt(localStorage.getItem('longestStreak') || '12');
+            const totalDays = activeDays.length;
+
+            let calendarHTML = `
+                <h3 style="text-align: center; color: #2e7d32; margin-bottom: 15px;">${monthNames[month]} ${year}</h3>
+                <div class="calendar-grid">
+                    <div class="calendar-day-header">S</div>
+                    <div class="calendar-day-header">M</div>
+                    <div class="calendar-day-header">T</div>
+                    <div class="calendar-day-header">W</div>
+                    <div class="calendar-day-header">T</div>
+                    <div class="calendar-day-header">F</div>
+                    <div class="calendar-day-header">S</div>
+            `;
+
+            // Empty cells for days before month starts
+            for (let i = 0; i < firstDay; i++) {
+                calendarHTML += '<div class="calendar-day empty"></div>';
+            }
+
+            // Days of the month
+            for (let day = 1; day <= daysInMonth; day++) {
+                const isActive = activeDays.includes(day);
+                const isToday = day === today;
+                calendarHTML += `<div class="calendar-day ${isActive ? 'active' : ''} ${isToday ? 'today' : ''}">${day}</div>`;
+            }
+
+            calendarHTML += `
+                </div>
+                <div class="streak-stats">
+                    <div class="streak-stat">
+                        <div class="streak-stat-value">${currentStreak}</div>
+                        <div class="streak-stat-label">Current Streak</div>
+                    </div>
+                    <div class="streak-stat">
+                        <div class="streak-stat-value">${longestStreak}</div>
+                        <div class="streak-stat-label">Longest Streak</div>
+                    </div>
+                    <div class="streak-stat">
+                        <div class="streak-stat-value">${totalDays}</div>
+                        <div class="streak-stat-label">Total Days</div>
+                    </div>
+                </div>
+            `;
+
+            content.innerHTML = calendarHTML;
+        }
+
+        console.log('🔍 Topic Explorer, Question Bank, and Study Streak Calendar loaded!');
     </script>
 
     <!-- PowerPoint-style Table Grid Selector (positioned fixed, outside all containers) -->
