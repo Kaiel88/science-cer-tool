@@ -8525,6 +8525,493 @@
         body.high-contrast button {
             border: 2px solid #fff !important;
         }
+
+        /* ========== BATCH 21: Social Sharing, Leaderboard, Study Music ========== */
+
+        /* Social Sharing Modal */
+        .social-share-modal {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0,0,0,0.7);
+            display: none;
+            justify-content: center;
+            align-items: center;
+            z-index: 10000;
+        }
+
+        .social-share-content {
+            background: white;
+            border-radius: 20px;
+            padding: 30px;
+            max-width: 450px;
+            width: 90%;
+            text-align: center;
+            animation: modalSlideIn 0.3s ease;
+        }
+
+        .share-achievement-card {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            border-radius: 15px;
+            padding: 25px;
+            margin: 20px 0;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .share-achievement-card::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: radial-gradient(circle, rgba(255,255,255,0.1) 0%, transparent 70%);
+        }
+
+        .share-badge {
+            font-size: 3rem;
+            margin-bottom: 10px;
+        }
+
+        .share-title {
+            font-size: 1.3rem;
+            font-weight: 700;
+            margin-bottom: 5px;
+        }
+
+        .share-subtitle {
+            font-size: 0.9rem;
+            opacity: 0.9;
+        }
+
+        .share-buttons {
+            display: flex;
+            gap: 10px;
+            justify-content: center;
+            flex-wrap: wrap;
+            margin-top: 20px;
+        }
+
+        .share-btn {
+            padding: 12px 20px;
+            border: none;
+            border-radius: 25px;
+            font-weight: 600;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            transition: all 0.3s ease;
+        }
+
+        .share-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+        }
+
+        .share-btn.twitter {
+            background: #1DA1F2;
+            color: white;
+        }
+
+        .share-btn.facebook {
+            background: #4267B2;
+            color: white;
+        }
+
+        .share-btn.whatsapp {
+            background: #25D366;
+            color: white;
+        }
+
+        .share-btn.copy-link {
+            background: #6c757d;
+            color: white;
+        }
+
+        /* Leaderboard Panel */
+        .leaderboard-panel {
+            position: fixed;
+            right: -400px;
+            top: 0;
+            width: 380px;
+            height: 100%;
+            background: white;
+            box-shadow: -5px 0 30px rgba(0,0,0,0.2);
+            z-index: 9999;
+            transition: right 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+            overflow-y: auto;
+        }
+
+        .leaderboard-panel.open {
+            right: 0;
+        }
+
+        .leaderboard-header {
+            background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
+            color: white;
+            padding: 25px;
+            text-align: center;
+            position: sticky;
+            top: 0;
+        }
+
+        .leaderboard-header h2 {
+            margin: 0;
+            font-size: 1.5rem;
+        }
+
+        .leaderboard-close {
+            position: absolute;
+            top: 15px;
+            right: 15px;
+            background: rgba(255,255,255,0.2);
+            border: none;
+            width: 35px;
+            height: 35px;
+            border-radius: 50%;
+            color: white;
+            font-size: 1.2rem;
+            cursor: pointer;
+        }
+
+        .leaderboard-tabs {
+            display: flex;
+            border-bottom: 2px solid #e0e0e0;
+        }
+
+        .leaderboard-tab {
+            flex: 1;
+            padding: 12px;
+            text-align: center;
+            background: none;
+            border: none;
+            cursor: pointer;
+            font-weight: 600;
+            color: #666;
+            transition: all 0.3s ease;
+        }
+
+        .leaderboard-tab.active {
+            color: #f5576c;
+            border-bottom: 3px solid #f5576c;
+        }
+
+        .leaderboard-list {
+            padding: 15px;
+        }
+
+        .leaderboard-entry {
+            display: flex;
+            align-items: center;
+            padding: 15px;
+            background: #f8f9fa;
+            border-radius: 12px;
+            margin-bottom: 10px;
+            transition: all 0.3s ease;
+        }
+
+        .leaderboard-entry:hover {
+            background: #e9ecef;
+            transform: translateX(-5px);
+        }
+
+        .leaderboard-entry.current-user {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+        }
+
+        .leaderboard-rank {
+            width: 40px;
+            height: 40px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 700;
+            font-size: 1.1rem;
+            margin-right: 15px;
+        }
+
+        .leaderboard-rank.gold {
+            background: linear-gradient(135deg, #f5af19 0%, #f12711 100%);
+            color: white;
+            border-radius: 50%;
+        }
+
+        .leaderboard-rank.silver {
+            background: linear-gradient(135deg, #bdc3c7 0%, #2c3e50 100%);
+            color: white;
+            border-radius: 50%;
+        }
+
+        .leaderboard-rank.bronze {
+            background: linear-gradient(135deg, #cd7f32 0%, #8b4513 100%);
+            color: white;
+            border-radius: 50%;
+        }
+
+        .leaderboard-avatar {
+            width: 45px;
+            height: 45px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.2rem;
+            margin-right: 12px;
+        }
+
+        .leaderboard-info {
+            flex: 1;
+        }
+
+        .leaderboard-name {
+            font-weight: 600;
+            font-size: 0.95rem;
+        }
+
+        .leaderboard-xp {
+            font-size: 0.85rem;
+            opacity: 0.8;
+        }
+
+        .leaderboard-badge {
+            font-size: 1.5rem;
+        }
+
+        /* Study Music Player */
+        .music-player {
+            position: fixed;
+            bottom: 100px;
+            left: 20px;
+            background: white;
+            border-radius: 20px;
+            box-shadow: 0 10px 40px rgba(0,0,0,0.15);
+            z-index: 9000;
+            overflow: hidden;
+            width: 320px;
+            display: none;
+        }
+
+        .music-player.open {
+            display: block;
+            animation: slideUp 0.3s ease;
+        }
+
+        @keyframes slideUp {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .music-header {
+            background: linear-gradient(135deg, #11998e 0%, #38ef7d 100%);
+            color: white;
+            padding: 15px 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .music-header h3 {
+            margin: 0;
+            font-size: 1rem;
+        }
+
+        .music-close {
+            background: rgba(255,255,255,0.2);
+            border: none;
+            width: 30px;
+            height: 30px;
+            border-radius: 50%;
+            color: white;
+            cursor: pointer;
+        }
+
+        .music-body {
+            padding: 20px;
+        }
+
+        .now-playing {
+            text-align: center;
+            padding: 15px;
+            background: #f8f9fa;
+            border-radius: 12px;
+            margin-bottom: 15px;
+        }
+
+        .now-playing-icon {
+            font-size: 2rem;
+            margin-bottom: 5px;
+            animation: pulse 2s infinite;
+        }
+
+        .now-playing-title {
+            font-weight: 600;
+            color: #333;
+        }
+
+        .music-controls {
+            display: flex;
+            justify-content: center;
+            gap: 15px;
+            margin-bottom: 15px;
+        }
+
+        .music-control-btn {
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            border: none;
+            cursor: pointer;
+            font-size: 1.2rem;
+            transition: all 0.3s ease;
+        }
+
+        .music-control-btn.play-pause {
+            background: linear-gradient(135deg, #11998e 0%, #38ef7d 100%);
+            color: white;
+            width: 60px;
+            height: 60px;
+            font-size: 1.5rem;
+        }
+
+        .music-control-btn:hover {
+            transform: scale(1.1);
+        }
+
+        .volume-control {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            margin-bottom: 15px;
+        }
+
+        .volume-slider {
+            flex: 1;
+            height: 6px;
+            -webkit-appearance: none;
+            background: #e0e0e0;
+            border-radius: 3px;
+        }
+
+        .volume-slider::-webkit-slider-thumb {
+            -webkit-appearance: none;
+            width: 16px;
+            height: 16px;
+            background: #11998e;
+            border-radius: 50%;
+            cursor: pointer;
+        }
+
+        .playlist-section h4 {
+            font-size: 0.9rem;
+            color: #666;
+            margin-bottom: 10px;
+        }
+
+        .playlist-item {
+            display: flex;
+            align-items: center;
+            padding: 10px;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            margin-bottom: 5px;
+        }
+
+        .playlist-item:hover {
+            background: #f0f0f0;
+        }
+
+        .playlist-item.playing {
+            background: #e8f5e9;
+            border-left: 3px solid #11998e;
+        }
+
+        .playlist-item-icon {
+            margin-right: 10px;
+            font-size: 1.2rem;
+        }
+
+        .playlist-item-name {
+            font-size: 0.9rem;
+            font-weight: 500;
+        }
+
+        /* Floating Buttons for new features */
+        .floating-share-btn {
+            position: fixed;
+            bottom: 340px;
+            right: 20px;
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            border: none;
+            font-size: 1.3rem;
+            cursor: pointer;
+            box-shadow: 0 5px 20px rgba(102, 126, 234, 0.4);
+            z-index: 999;
+            transition: all 0.3s ease;
+        }
+
+        .floating-share-btn:hover {
+            transform: scale(1.1);
+        }
+
+        .floating-leaderboard-btn {
+            position: fixed;
+            bottom: 400px;
+            right: 20px;
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
+            color: white;
+            border: none;
+            font-size: 1.3rem;
+            cursor: pointer;
+            box-shadow: 0 5px 20px rgba(245, 87, 108, 0.4);
+            z-index: 999;
+            transition: all 0.3s ease;
+        }
+
+        .floating-leaderboard-btn:hover {
+            transform: scale(1.1);
+        }
+
+        .floating-music-btn {
+            position: fixed;
+            bottom: 460px;
+            right: 20px;
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, #11998e 0%, #38ef7d 100%);
+            color: white;
+            border: none;
+            font-size: 1.3rem;
+            cursor: pointer;
+            box-shadow: 0 5px 20px rgba(17, 153, 142, 0.4);
+            z-index: 999;
+            transition: all 0.3s ease;
+        }
+
+        .floating-music-btn:hover {
+            transform: scale(1.1);
+        }
     </style>
 </head>
 
@@ -33003,6 +33490,408 @@
         }
 
         console.log('♿ Accessibility, Break Reminders, and Question Review loaded!');
+    </script>
+
+    <!-- ========== BATCH 21: Social Sharing, Leaderboard, Study Music ========== -->
+
+    <!-- Social Share Modal -->
+    <div class="social-share-modal" id="social-share-modal">
+        <div class="social-share-content">
+            <h2>Share Your Achievement!</h2>
+            <div class="share-achievement-card" id="share-card">
+                <div class="share-badge" id="share-badge">🏆</div>
+                <div class="share-title" id="share-title">Level 5 Achieved!</div>
+                <div class="share-subtitle" id="share-subtitle">Earned 500 XP on Polymath Science</div>
+            </div>
+            <div class="share-buttons">
+                <button class="share-btn twitter" onclick="shareToTwitter()">
+                    <span>🐦</span> Twitter
+                </button>
+                <button class="share-btn facebook" onclick="shareToFacebook()">
+                    <span>📘</span> Facebook
+                </button>
+                <button class="share-btn whatsapp" onclick="shareToWhatsApp()">
+                    <span>💬</span> WhatsApp
+                </button>
+                <button class="share-btn copy-link" onclick="copyShareText()">
+                    <span>📋</span> Copy
+                </button>
+            </div>
+            <button onclick="closeSocialShare()" style="margin-top: 20px; padding: 10px 30px; border: none; background: #f0f0f0; border-radius: 20px; cursor: pointer;">Close</button>
+        </div>
+    </div>
+
+    <!-- Leaderboard Panel -->
+    <div class="leaderboard-panel" id="leaderboard-panel">
+        <div class="leaderboard-header">
+            <h2>🏆 Leaderboard</h2>
+            <button class="leaderboard-close" onclick="closeLeaderboard()">×</button>
+        </div>
+        <div class="leaderboard-tabs">
+            <button class="leaderboard-tab active" onclick="switchLeaderboardTab('daily')">Today</button>
+            <button class="leaderboard-tab" onclick="switchLeaderboardTab('weekly')">This Week</button>
+            <button class="leaderboard-tab" onclick="switchLeaderboardTab('alltime')">All Time</button>
+        </div>
+        <div class="leaderboard-list" id="leaderboard-list">
+            <!-- Populated by JavaScript -->
+        </div>
+    </div>
+
+    <!-- Study Music Player -->
+    <div class="music-player" id="music-player">
+        <div class="music-header">
+            <h3>🎵 Study Music</h3>
+            <button class="music-close" onclick="closeMusicPlayer()">×</button>
+        </div>
+        <div class="music-body">
+            <div class="now-playing">
+                <div class="now-playing-icon" id="music-icon">🎧</div>
+                <div class="now-playing-title" id="now-playing-title">Select a track</div>
+            </div>
+            <div class="music-controls">
+                <button class="music-control-btn" onclick="previousTrack()">⏮</button>
+                <button class="music-control-btn play-pause" id="play-pause-btn" onclick="togglePlayPause()">▶</button>
+                <button class="music-control-btn" onclick="nextTrack()">⏭</button>
+            </div>
+            <div class="volume-control">
+                <span>🔈</span>
+                <input type="range" class="volume-slider" id="volume-slider" min="0" max="100" value="50" onchange="updateVolume(this.value)">
+                <span>🔊</span>
+            </div>
+            <div class="playlist-section">
+                <h4>Ambient Sounds</h4>
+                <div id="playlist-container">
+                    <!-- Populated by JavaScript -->
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Floating Action Buttons for Batch 21 -->
+    <button class="floating-share-btn" onclick="openSocialShare()" title="Share Achievement">📤</button>
+    <button class="floating-leaderboard-btn" onclick="toggleLeaderboard()" title="Leaderboard">🏆</button>
+    <button class="floating-music-btn" onclick="toggleMusicPlayer()" title="Study Music">🎵</button>
+
+    <script>
+        // ========== BATCH 21: Social Sharing, Leaderboard, Study Music ==========
+
+        // Social Sharing Functions
+        let currentShareData = {
+            badge: '🏆',
+            title: 'Level Up!',
+            subtitle: 'Learning Science with Polymath'
+        };
+
+        function openSocialShare(badge = null, title = null, subtitle = null) {
+            if (badge) currentShareData.badge = badge;
+            if (title) currentShareData.title = title;
+            if (subtitle) currentShareData.subtitle = subtitle;
+
+            // Update from current XP
+            const totalXP = parseInt(localStorage.getItem('scienceXP')) || 0;
+            const level = Math.floor(totalXP / 100) + 1;
+
+            currentShareData.badge = level >= 10 ? '👑' : level >= 5 ? '🏆' : '⭐';
+            currentShareData.title = `Level ${level} Achieved!`;
+            currentShareData.subtitle = `Earned ${totalXP} XP on Polymath Science`;
+
+            document.getElementById('share-badge').textContent = currentShareData.badge;
+            document.getElementById('share-title').textContent = currentShareData.title;
+            document.getElementById('share-subtitle').textContent = currentShareData.subtitle;
+
+            document.getElementById('social-share-modal').style.display = 'flex';
+        }
+
+        function closeSocialShare() {
+            document.getElementById('social-share-modal').style.display = 'none';
+        }
+
+        function getShareText() {
+            return `${currentShareData.badge} ${currentShareData.title}\n${currentShareData.subtitle}\n\nJoin me on Polymath Science! 🔬`;
+        }
+
+        function shareToTwitter() {
+            const text = encodeURIComponent(getShareText());
+            window.open(`https://twitter.com/intent/tweet?text=${text}`, '_blank');
+        }
+
+        function shareToFacebook() {
+            const text = encodeURIComponent(getShareText());
+            window.open(`https://www.facebook.com/sharer/sharer.php?quote=${text}`, '_blank');
+        }
+
+        function shareToWhatsApp() {
+            const text = encodeURIComponent(getShareText());
+            window.open(`https://wa.me/?text=${text}`, '_blank');
+        }
+
+        function copyShareText() {
+            navigator.clipboard.writeText(getShareText()).then(() => {
+                const btn = document.querySelector('.share-btn.copy-link');
+                const originalText = btn.innerHTML;
+                btn.innerHTML = '<span>✅</span> Copied!';
+                setTimeout(() => btn.innerHTML = originalText, 2000);
+            });
+        }
+
+        // Leaderboard Functions
+        const virtualCompetitors = [
+            { name: 'Science Star', avatar: '🌟', xpMultiplier: 1.5 },
+            { name: 'Quiz Master', avatar: '🧠', xpMultiplier: 1.3 },
+            { name: 'Curious Cat', avatar: '🐱', xpMultiplier: 1.1 },
+            { name: 'Eager Beaver', avatar: '🦫', xpMultiplier: 0.9 },
+            { name: 'Wise Owl', avatar: '🦉', xpMultiplier: 1.2 },
+            { name: 'Speedy Dolphin', avatar: '🐬', xpMultiplier: 0.8 },
+            { name: 'Bright Bulb', avatar: '💡', xpMultiplier: 1.0 },
+            { name: 'Cool Penguin', avatar: '🐧', xpMultiplier: 0.7 },
+            { name: 'Happy Bee', avatar: '🐝', xpMultiplier: 0.95 }
+        ];
+
+        function generateLeaderboardData(period) {
+            const userXP = parseInt(localStorage.getItem('scienceXP')) || 0;
+            let periodMultiplier = period === 'daily' ? 0.1 : period === 'weekly' ? 0.5 : 1;
+
+            const entries = virtualCompetitors.map((comp, index) => ({
+                name: comp.name,
+                avatar: comp.avatar,
+                xp: Math.floor(userXP * comp.xpMultiplier * periodMultiplier * (0.8 + Math.random() * 0.4)),
+                isUser: false
+            }));
+
+            // Add current user
+            entries.push({
+                name: 'You',
+                avatar: '👤',
+                xp: Math.floor(userXP * periodMultiplier),
+                isUser: true
+            });
+
+            // Sort by XP
+            entries.sort((a, b) => b.xp - a.xp);
+
+            return entries;
+        }
+
+        function renderLeaderboard(period = 'daily') {
+            const entries = generateLeaderboardData(period);
+            const container = document.getElementById('leaderboard-list');
+
+            container.innerHTML = entries.map((entry, index) => {
+                const rankClass = index === 0 ? 'gold' : index === 1 ? 'silver' : index === 2 ? 'bronze' : '';
+                const userClass = entry.isUser ? 'current-user' : '';
+                const badge = index === 0 ? '🥇' : index === 1 ? '🥈' : index === 2 ? '🥉' : '';
+
+                return `
+                    <div class="leaderboard-entry ${userClass}">
+                        <div class="leaderboard-rank ${rankClass}">${index + 1}</div>
+                        <div class="leaderboard-avatar">${entry.avatar}</div>
+                        <div class="leaderboard-info">
+                            <div class="leaderboard-name">${entry.name}</div>
+                            <div class="leaderboard-xp">${entry.xp.toLocaleString()} XP</div>
+                        </div>
+                        <div class="leaderboard-badge">${badge}</div>
+                    </div>
+                `;
+            }).join('');
+        }
+
+        function toggleLeaderboard() {
+            const panel = document.getElementById('leaderboard-panel');
+            panel.classList.toggle('open');
+            if (panel.classList.contains('open')) {
+                renderLeaderboard('daily');
+            }
+        }
+
+        function closeLeaderboard() {
+            document.getElementById('leaderboard-panel').classList.remove('open');
+        }
+
+        function switchLeaderboardTab(period) {
+            document.querySelectorAll('.leaderboard-tab').forEach(tab => tab.classList.remove('active'));
+            event.target.classList.add('active');
+            renderLeaderboard(period);
+        }
+
+        // Study Music Player Functions
+        const studyTracks = [
+            { id: 'rain', name: 'Gentle Rain', icon: '🌧️', freq: 220 },
+            { id: 'forest', name: 'Forest Ambience', icon: '🌲', freq: 180 },
+            { id: 'ocean', name: 'Ocean Waves', icon: '🌊', freq: 150 },
+            { id: 'fire', name: 'Crackling Fire', icon: '🔥', freq: 200 },
+            { id: 'cafe', name: 'Cafe Sounds', icon: '☕', freq: 250 },
+            { id: 'white', name: 'White Noise', icon: '📻', freq: 440 },
+            { id: 'wind', name: 'Soft Wind', icon: '💨', freq: 160 },
+            { id: 'birds', name: 'Morning Birds', icon: '🐦', freq: 300 }
+        ];
+
+        let audioContext = null;
+        let currentOscillator = null;
+        let gainNode = null;
+        let isPlaying = false;
+        let currentTrackIndex = 0;
+
+        function initAudioContext() {
+            if (!audioContext) {
+                audioContext = new (window.AudioContext || window.webkitAudioContext)();
+                gainNode = audioContext.createGain();
+                gainNode.connect(audioContext.destination);
+                gainNode.gain.value = 0.3;
+            }
+        }
+
+        function initMusicPlayer() {
+            const container = document.getElementById('playlist-container');
+            container.innerHTML = studyTracks.map((track, index) => `
+                <div class="playlist-item" data-index="${index}" onclick="selectTrack(${index})">
+                    <span class="playlist-item-icon">${track.icon}</span>
+                    <span class="playlist-item-name">${track.name}</span>
+                </div>
+            `).join('');
+        }
+
+        function selectTrack(index) {
+            currentTrackIndex = index;
+            const track = studyTracks[index];
+
+            document.querySelectorAll('.playlist-item').forEach(item => item.classList.remove('playing'));
+            document.querySelector(`.playlist-item[data-index="${index}"]`).classList.add('playing');
+
+            document.getElementById('now-playing-title').textContent = track.name;
+            document.getElementById('music-icon').textContent = track.icon;
+
+            if (isPlaying) {
+                playTrack(track);
+            }
+        }
+
+        function playTrack(track) {
+            initAudioContext();
+            stopCurrentTrack();
+
+            // Create ambient sound using oscillator
+            currentOscillator = audioContext.createOscillator();
+            const noise = audioContext.createOscillator();
+
+            currentOscillator.type = 'sine';
+            currentOscillator.frequency.value = track.freq;
+
+            noise.type = 'triangle';
+            noise.frequency.value = track.freq * 0.5;
+
+            const oscGain = audioContext.createGain();
+            oscGain.gain.value = 0.2;
+
+            currentOscillator.connect(oscGain);
+            noise.connect(oscGain);
+            oscGain.connect(gainNode);
+
+            currentOscillator.start();
+            noise.start();
+
+            // Add some modulation for more natural sound
+            const lfo = audioContext.createOscillator();
+            lfo.frequency.value = 0.2;
+            const lfoGain = audioContext.createGain();
+            lfoGain.gain.value = 10;
+            lfo.connect(lfoGain);
+            lfoGain.connect(currentOscillator.frequency);
+            lfo.start();
+        }
+
+        function stopCurrentTrack() {
+            if (currentOscillator) {
+                try {
+                    currentOscillator.stop();
+                } catch(e) {}
+                currentOscillator = null;
+            }
+        }
+
+        function togglePlayPause() {
+            initAudioContext();
+            isPlaying = !isPlaying;
+
+            const btn = document.getElementById('play-pause-btn');
+            const icon = document.getElementById('music-icon');
+
+            if (isPlaying) {
+                btn.textContent = '⏸';
+                icon.style.animation = 'pulse 1s infinite';
+                const track = studyTracks[currentTrackIndex];
+                playTrack(track);
+            } else {
+                btn.textContent = '▶';
+                icon.style.animation = 'pulse 2s infinite';
+                stopCurrentTrack();
+            }
+        }
+
+        function previousTrack() {
+            currentTrackIndex = (currentTrackIndex - 1 + studyTracks.length) % studyTracks.length;
+            selectTrack(currentTrackIndex);
+        }
+
+        function nextTrack() {
+            currentTrackIndex = (currentTrackIndex + 1) % studyTracks.length;
+            selectTrack(currentTrackIndex);
+        }
+
+        function updateVolume(value) {
+            if (gainNode) {
+                gainNode.gain.value = value / 100;
+            }
+        }
+
+        function toggleMusicPlayer() {
+            const player = document.getElementById('music-player');
+            player.classList.toggle('open');
+            if (player.classList.contains('open')) {
+                initMusicPlayer();
+            }
+        }
+
+        function closeMusicPlayer() {
+            document.getElementById('music-player').classList.remove('open');
+            stopCurrentTrack();
+            isPlaying = false;
+            document.getElementById('play-pause-btn').textContent = '▶';
+        }
+
+        // Initialize Batch 21
+        document.addEventListener('DOMContentLoaded', function() {
+            initMusicPlayer();
+        });
+
+        // Close modals on escape key
+        document.addEventListener('keydown', function(e) {
+            if (e.key === 'Escape') {
+                closeSocialShare();
+                closeLeaderboard();
+                closeMusicPlayer();
+            }
+        });
+
+        // Trigger share on level up (hook into existing XP system)
+        const originalAddXP = window.addXP;
+        if (typeof originalAddXP === 'function') {
+            window.addXP = function(amount, source) {
+                const oldXP = parseInt(localStorage.getItem('scienceXP')) || 0;
+                const oldLevel = Math.floor(oldXP / 100) + 1;
+
+                originalAddXP(amount, source);
+
+                const newXP = parseInt(localStorage.getItem('scienceXP')) || 0;
+                const newLevel = Math.floor(newXP / 100) + 1;
+
+                // Auto-prompt to share on level up
+                if (newLevel > oldLevel && newLevel % 5 === 0) {
+                    setTimeout(() => openSocialShare(), 2000);
+                }
+            };
+        }
+
+        console.log('🎮 Social Sharing, Leaderboard, and Study Music loaded!');
     </script>
 
     <!-- PowerPoint-style Table Grid Selector (positioned fixed, outside all containers) -->
