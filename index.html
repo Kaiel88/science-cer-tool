@@ -5944,6 +5944,243 @@
             z-index: 10011;
             overflow: hidden;
         }
+
+        /* Auto-save Indicator */
+        .autosave-indicator {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            background: rgba(76, 175, 80, 0.95);
+            color: white;
+            padding: 8px 16px;
+            border-radius: 20px;
+            font-size: 0.85rem;
+            font-weight: 500;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            z-index: 9999;
+            animation: fadeInUp 0.3s ease;
+            box-shadow: 0 4px 15px rgba(76, 175, 80, 0.3);
+        }
+
+        @keyframes fadeInUp {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .autosave-indicator.saving {
+            background: rgba(33, 150, 243, 0.95);
+        }
+
+        /* Bookmark Button Styles */
+        .bookmark-btn {
+            background: none;
+            border: none;
+            font-size: 1.4rem;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            padding: 5px;
+            border-radius: 50%;
+        }
+
+        .bookmark-btn:hover {
+            transform: scale(1.2);
+            background: rgba(255, 193, 7, 0.1);
+        }
+
+        .bookmark-btn.bookmarked {
+            color: #FFC107;
+            animation: bookmarkPop 0.4s ease;
+        }
+
+        @keyframes bookmarkPop {
+            0% { transform: scale(1); }
+            50% { transform: scale(1.3); }
+            100% { transform: scale(1); }
+        }
+
+        .bookmarks-panel {
+            position: fixed;
+            top: 0;
+            right: -350px;
+            width: 350px;
+            height: 100%;
+            background: white;
+            box-shadow: -5px 0 30px rgba(0, 0, 0, 0.15);
+            z-index: 10004;
+            transition: right 0.3s ease;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .bookmarks-panel.open {
+            right: 0;
+        }
+
+        .bookmarks-header {
+            padding: 20px;
+            background: linear-gradient(135deg, #FFC107, #FF9800);
+            color: white;
+        }
+
+        .bookmarks-list {
+            flex: 1;
+            overflow-y: auto;
+            padding: 15px;
+        }
+
+        .bookmark-item {
+            background: #f9f9f9;
+            border-radius: 12px;
+            padding: 15px;
+            margin-bottom: 12px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            border-left: 4px solid #FFC107;
+        }
+
+        .bookmark-item:hover {
+            transform: translateX(5px);
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+        }
+
+        /* Pet Companion Styles */
+        .pet-companion {
+            position: fixed;
+            bottom: 100px;
+            right: 20px;
+            width: 80px;
+            height: 80px;
+            background: linear-gradient(135deg, #FFE0B2, #FFCC80);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 2.5rem;
+            cursor: pointer;
+            z-index: 9998;
+            box-shadow: 0 8px 25px rgba(255, 152, 0, 0.3);
+            transition: all 0.3s ease;
+            animation: petBounce 2s ease-in-out infinite;
+        }
+
+        .pet-companion:hover {
+            transform: scale(1.1);
+        }
+
+        @keyframes petBounce {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-8px); }
+        }
+
+        .pet-speech-bubble {
+            position: fixed;
+            bottom: 190px;
+            right: 20px;
+            background: white;
+            padding: 12px 18px;
+            border-radius: 18px;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.15);
+            max-width: 220px;
+            z-index: 9999;
+            animation: bubbleAppear 0.4s ease;
+        }
+
+        .pet-speech-bubble::after {
+            content: '';
+            position: absolute;
+            bottom: -10px;
+            right: 30px;
+            width: 0;
+            height: 0;
+            border-left: 10px solid transparent;
+            border-right: 10px solid transparent;
+            border-top: 10px solid white;
+        }
+
+        @keyframes bubbleAppear {
+            from { opacity: 0; transform: scale(0.8) translateY(10px); }
+            to { opacity: 1; transform: scale(1) translateY(0); }
+        }
+
+        .pet-speech-text {
+            font-size: 0.9rem;
+            color: #333;
+            line-height: 1.4;
+        }
+
+        /* Mini Celebration Styles */
+        .mini-celebration {
+            position: fixed;
+            pointer-events: none;
+            z-index: 10012;
+            font-size: 2rem;
+            animation: miniCelebrate 1s ease-out forwards;
+        }
+
+        @keyframes miniCelebrate {
+            0% {
+                opacity: 1;
+                transform: scale(0.5) translateY(0);
+            }
+            50% {
+                opacity: 1;
+                transform: scale(1.2) translateY(-30px);
+            }
+            100% {
+                opacity: 0;
+                transform: scale(1) translateY(-50px);
+            }
+        }
+
+        /* Better Error Feedback */
+        .error-feedback {
+            background: linear-gradient(135deg, #FFEBEE, #FFCDD2);
+            border: 1px solid #EF9A9A;
+            border-radius: 12px;
+            padding: 15px 20px;
+            margin-top: 10px;
+            animation: shakeError 0.5s ease;
+        }
+
+        @keyframes shakeError {
+            0%, 100% { transform: translateX(0); }
+            20% { transform: translateX(-5px); }
+            40% { transform: translateX(5px); }
+            60% { transform: translateX(-5px); }
+            80% { transform: translateX(5px); }
+        }
+
+        .error-feedback-header {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            font-weight: 600;
+            color: #C62828;
+            margin-bottom: 8px;
+        }
+
+        .error-feedback-hint {
+            color: #666;
+            font-size: 0.9rem;
+            line-height: 1.5;
+        }
+
+        .success-feedback {
+            background: linear-gradient(135deg, #E8F5E9, #C8E6C9);
+            border: 1px solid #A5D6A7;
+            border-radius: 12px;
+            padding: 15px 20px;
+            margin-top: 10px;
+            animation: successPulse 0.5s ease;
+        }
+
+        @keyframes successPulse {
+            0% { transform: scale(1); }
+            50% { transform: scale(1.02); }
+            100% { transform: scale(1); }
+        }
     </style>
 </head>
 
@@ -24544,6 +24781,486 @@
         };
 
         console.log('🎭 Avatar, Quest, Shortcuts, and Enhanced Confetti systems loaded!');
+    </script>
+
+    <!-- Auto-save, Bookmarks, Pet Companion, Mini Celebrations -->
+    <script>
+        // =====================================================
+        // AUTO-SAVE DRAFT ANSWERS
+        // =====================================================
+        window.draftAnswers = {};
+
+        window.saveDraftAnswer = function(questionId, inputElement) {
+            const value = inputElement.value;
+            if (!window.draftAnswers[questionId]) {
+                window.draftAnswers[questionId] = {};
+            }
+            const inputIndex = Array.from(inputElement.closest('.answer-template, .question-container').querySelectorAll('input, textarea')).indexOf(inputElement);
+            window.draftAnswers[questionId][inputIndex] = value;
+
+            localStorage.setItem('draftAnswers', JSON.stringify(window.draftAnswers));
+            showAutoSaveIndicator();
+        };
+
+        window.loadDraftAnswers = function() {
+            const stored = localStorage.getItem('draftAnswers');
+            if (stored) {
+                try {
+                    window.draftAnswers = JSON.parse(stored);
+                } catch (e) {}
+            }
+        };
+
+        window.restoreDraftAnswers = function(questionId) {
+            if (!window.draftAnswers[questionId]) return;
+
+            const container = document.querySelector(`[id*="${questionId}"]`) ||
+                              document.querySelector(`.question-container:has(input)`);
+            if (!container) return;
+
+            const inputs = container.querySelectorAll('input:not([type="submit"]):not([type="button"]), textarea');
+            Object.entries(window.draftAnswers[questionId]).forEach(([index, value]) => {
+                if (inputs[parseInt(index)]) {
+                    inputs[parseInt(index)].value = value;
+                }
+            });
+        };
+
+        window.showAutoSaveIndicator = function() {
+            // Remove existing indicator
+            document.querySelectorAll('.autosave-indicator').forEach(el => el.remove());
+
+            const indicator = document.createElement('div');
+            indicator.className = 'autosave-indicator';
+            indicator.innerHTML = '<span>💾</span> Draft saved';
+            document.body.appendChild(indicator);
+
+            setTimeout(() => indicator.remove(), 2000);
+        };
+
+        window.clearDraftForQuestion = function(questionId) {
+            delete window.draftAnswers[questionId];
+            localStorage.setItem('draftAnswers', JSON.stringify(window.draftAnswers));
+        };
+
+        // Add auto-save listeners to all inputs
+        document.addEventListener('input', (e) => {
+            if (e.target.matches('.answer-input, .cer-input, textarea')) {
+                const questionContainer = e.target.closest('.question-container');
+                if (questionContainer) {
+                    const questionId = questionContainer.id || 'unknown';
+                    saveDraftAnswer(questionId, e.target);
+                }
+            }
+        });
+
+        // =====================================================
+        // QUESTION BOOKMARKING SYSTEM
+        // =====================================================
+        window.bookmarkedQuestions = [];
+
+        window.loadBookmarks = function() {
+            const stored = localStorage.getItem('bookmarkedQuestions');
+            if (stored) {
+                try {
+                    window.bookmarkedQuestions = JSON.parse(stored);
+                } catch (e) {}
+            }
+        };
+
+        window.saveBookmarks = function() {
+            localStorage.setItem('bookmarkedQuestions', JSON.stringify(window.bookmarkedQuestions));
+        };
+
+        window.toggleBookmark = function(questionId, questionTitle, questionType) {
+            const index = window.bookmarkedQuestions.findIndex(b => b.id === questionId);
+
+            if (index === -1) {
+                window.bookmarkedQuestions.push({
+                    id: questionId,
+                    title: questionTitle || 'Question',
+                    type: questionType || 'general',
+                    addedAt: new Date().toISOString()
+                });
+                if (window.showToast) showToast('Question bookmarked!', 'success');
+                triggerMiniCelebration('🔖');
+            } else {
+                window.bookmarkedQuestions.splice(index, 1);
+                if (window.showToast) showToast('Bookmark removed', 'info');
+            }
+
+            saveBookmarks();
+            updateBookmarkButtons();
+        };
+
+        window.isBookmarked = function(questionId) {
+            return window.bookmarkedQuestions.some(b => b.id === questionId);
+        };
+
+        window.updateBookmarkButtons = function() {
+            document.querySelectorAll('.bookmark-btn').forEach(btn => {
+                const questionId = btn.dataset.questionId;
+                if (isBookmarked(questionId)) {
+                    btn.classList.add('bookmarked');
+                    btn.textContent = '🔖';
+                } else {
+                    btn.classList.remove('bookmarked');
+                    btn.textContent = '🏷️';
+                }
+            });
+        };
+
+        window.showBookmarksPanel = function() {
+            // Remove existing panel
+            document.querySelectorAll('.bookmarks-panel, .bookmarks-backdrop').forEach(el => el.remove());
+
+            const backdrop = document.createElement('div');
+            backdrop.className = 'bookmarks-backdrop';
+            backdrop.style.cssText = 'position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.3); z-index: 10003;';
+            backdrop.onclick = () => { backdrop.remove(); panel.remove(); };
+
+            const panel = document.createElement('div');
+            panel.className = 'bookmarks-panel open';
+            panel.innerHTML = `
+                <div class="bookmarks-header">
+                    <h2 style="margin: 0; font-size: 1.3rem;">🔖 My Bookmarks</h2>
+                    <p style="margin: 5px 0 0 0; opacity: 0.9; font-size: 0.9rem;">${window.bookmarkedQuestions.length} saved questions</p>
+                </div>
+                <div class="bookmarks-list">
+                    ${window.bookmarkedQuestions.length === 0 ? `
+                        <div style="text-align: center; padding: 40px 20px; color: #999;">
+                            <div style="font-size: 3rem; margin-bottom: 15px;">🏷️</div>
+                            <p>No bookmarks yet!</p>
+                            <p style="font-size: 0.85rem;">Click the bookmark icon on any question to save it here.</p>
+                        </div>
+                    ` : window.bookmarkedQuestions.map(bookmark => `
+                        <div class="bookmark-item" onclick="goToBookmarkedQuestion('${bookmark.id}')">
+                            <div style="font-weight: 600; margin-bottom: 5px;">${bookmark.title}</div>
+                            <div style="font-size: 0.8rem; color: #666; display: flex; justify-content: space-between;">
+                                <span>${bookmark.type}</span>
+                                <span>${new Date(bookmark.addedAt).toLocaleDateString()}</span>
+                            </div>
+                        </div>
+                    `).join('')}
+                </div>
+                <div style="padding: 15px; border-top: 1px solid #eee;">
+                    <button onclick="clearAllBookmarks()" style="width: 100%; padding: 10px; border: 1px solid #ddd; background: white; border-radius: 8px; cursor: pointer; color: #666;">
+                        Clear All Bookmarks
+                    </button>
+                </div>
+            `;
+
+            document.body.appendChild(backdrop);
+            document.body.appendChild(panel);
+        };
+
+        window.goToBookmarkedQuestion = function(questionId) {
+            document.querySelectorAll('.bookmarks-panel, .bookmarks-backdrop').forEach(el => el.remove());
+            const questionEl = document.getElementById(questionId);
+            if (questionEl) {
+                questionEl.scrollIntoView({ behavior: 'smooth', block: 'center' });
+                questionEl.style.animation = 'highlightQuestion 1s ease';
+            }
+        };
+
+        window.clearAllBookmarks = function() {
+            if (confirm('Clear all bookmarks?')) {
+                window.bookmarkedQuestions = [];
+                saveBookmarks();
+                showBookmarksPanel();
+                if (window.showToast) showToast('All bookmarks cleared', 'info');
+            }
+        };
+
+        // =====================================================
+        // PET COMPANION SYSTEM
+        // =====================================================
+        window.PET_OPTIONS = [
+            { id: 'fox', emoji: '🦊', name: 'Foxie' },
+            { id: 'panda', emoji: '🐼', name: 'Bambi' },
+            { id: 'cat', emoji: '🐱', name: 'Whiskers' },
+            { id: 'dog', emoji: '🐶', name: 'Buddy' },
+            { id: 'owl', emoji: '🦉', name: 'Wise' },
+            { id: 'robot', emoji: '🤖', name: 'Spark' }
+        ];
+
+        window.PET_MESSAGES = {
+            idle: [
+                "Keep up the great work! 🌟",
+                "You're doing amazing! 💪",
+                "Science is so cool, right? 🔬",
+                "I believe in you! ✨",
+                "Ready for the next question? 📚"
+            ],
+            correct: [
+                "Yay! That's correct! 🎉",
+                "You're so smart! 🧠",
+                "Amazing job! Keep it up! 🌟",
+                "Woohoo! Nailed it! 💯",
+                "You're on fire! 🔥"
+            ],
+            incorrect: [
+                "Don't worry, try again! 💪",
+                "You've got this! Keep trying! 🌟",
+                "Learning from mistakes makes us stronger! 📚",
+                "Almost there! Give it another shot! ✨",
+                "Every attempt makes you better! 🎯"
+            ],
+            streak: [
+                "Wow, what a streak! 🔥🔥🔥",
+                "You're unstoppable! 🚀",
+                "Keep the streak going! ⚡",
+                "On fire! Nothing can stop you! 💥"
+            ],
+            milestone: [
+                "You've reached a new milestone! 🏆",
+                "Incredible progress! 🌈",
+                "You're becoming a science master! 🎓"
+            ]
+        };
+
+        window.petCompanion = {
+            active: true,
+            currentPet: 'fox',
+            lastMessage: null
+        };
+
+        window.loadPetSettings = function() {
+            const stored = localStorage.getItem('petCompanion');
+            if (stored) {
+                try {
+                    window.petCompanion = JSON.parse(stored);
+                } catch (e) {}
+            }
+        };
+
+        window.savePetSettings = function() {
+            localStorage.setItem('petCompanion', JSON.stringify(window.petCompanion));
+        };
+
+        window.initPetCompanion = function() {
+            if (!window.petCompanion.active) return;
+
+            // Remove existing pet
+            document.querySelectorAll('.pet-companion').forEach(el => el.remove());
+
+            const pet = window.PET_OPTIONS.find(p => p.id === window.petCompanion.currentPet) || window.PET_OPTIONS[0];
+
+            const petEl = document.createElement('div');
+            petEl.className = 'pet-companion';
+            petEl.id = 'pet-companion';
+            petEl.textContent = pet.emoji;
+            petEl.onclick = () => showPetMenu();
+            document.body.appendChild(petEl);
+
+            // Show random idle message periodically
+            setInterval(() => {
+                if (Math.random() < 0.3 && !document.querySelector('.pet-speech-bubble')) {
+                    showPetMessage('idle');
+                }
+            }, 60000); // Every minute
+
+            // Show initial message after 5 seconds
+            setTimeout(() => showPetMessage('idle'), 5000);
+        };
+
+        window.showPetMessage = function(type, duration = 5000) {
+            // Remove existing bubble
+            document.querySelectorAll('.pet-speech-bubble').forEach(el => el.remove());
+
+            const messages = window.PET_MESSAGES[type] || window.PET_MESSAGES.idle;
+            const message = messages[Math.floor(Math.random() * messages.length)];
+
+            const bubble = document.createElement('div');
+            bubble.className = 'pet-speech-bubble';
+            bubble.innerHTML = `<div class="pet-speech-text">${message}</div>`;
+            document.body.appendChild(bubble);
+
+            setTimeout(() => {
+                if (bubble.parentElement) {
+                    bubble.style.animation = 'bubbleAppear 0.3s ease reverse forwards';
+                    setTimeout(() => bubble.remove(), 300);
+                }
+            }, duration);
+        };
+
+        window.showPetMenu = function() {
+            // Remove existing
+            document.querySelectorAll('.pet-menu-modal, .modal-backdrop').forEach(el => el.remove());
+
+            const backdrop = document.createElement('div');
+            backdrop.className = 'modal-backdrop';
+            backdrop.style.cssText = 'position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.5); z-index: 10005;';
+            backdrop.onclick = () => { backdrop.remove(); modal.remove(); };
+
+            const currentPet = window.PET_OPTIONS.find(p => p.id === window.petCompanion.currentPet) || window.PET_OPTIONS[0];
+
+            const modal = document.createElement('div');
+            modal.className = 'pet-menu-modal';
+            modal.style.cssText = `
+                position: fixed;
+                top: 50%;
+                left: 50%;
+                transform: translate(-50%, -50%);
+                background: white;
+                border-radius: 24px;
+                padding: 30px;
+                max-width: 400px;
+                width: 90%;
+                z-index: 10006;
+                box-shadow: 0 25px 80px rgba(0, 0, 0, 0.3);
+                animation: modalPop 0.4s ease;
+            `;
+            modal.innerHTML = `
+                <h2 style="margin: 0 0 10px 0; text-align: center;">🐾 Your Study Buddy</h2>
+                <p style="text-align: center; color: #666; margin-bottom: 20px;">Choose a companion to encourage you!</p>
+                <div style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 15px; margin-bottom: 20px;">
+                    ${window.PET_OPTIONS.map(pet => `
+                        <div onclick="selectPet('${pet.id}')" style="
+                            background: ${pet.id === currentPet.id ? 'linear-gradient(135deg, #FFE0B2, #FFCC80)' : '#f5f5f5'};
+                            border-radius: 16px;
+                            padding: 20px;
+                            text-align: center;
+                            cursor: pointer;
+                            transition: all 0.3s ease;
+                            border: 3px solid ${pet.id === currentPet.id ? '#FF9800' : 'transparent'};
+                        ">
+                            <div style="font-size: 2.5rem; margin-bottom: 8px;">${pet.emoji}</div>
+                            <div style="font-weight: 600; font-size: 0.9rem;">${pet.name}</div>
+                        </div>
+                    `).join('')}
+                </div>
+                <div style="display: flex; gap: 10px;">
+                    <button onclick="togglePetActive()" style="flex: 1; padding: 12px; border-radius: 25px; border: 1px solid #ddd; background: ${window.petCompanion.active ? '#f5f5f5' : '#4CAF50'}; color: ${window.petCompanion.active ? '#666' : 'white'}; cursor: pointer; font-weight: 600;">
+                        ${window.petCompanion.active ? 'Hide Pet' : 'Show Pet'}
+                    </button>
+                    <button onclick="document.querySelectorAll('.pet-menu-modal, .modal-backdrop').forEach(el => el.remove());" style="flex: 1; padding: 12px; border-radius: 25px; border: none; background: linear-gradient(135deg, #FF9800, #F57C00); color: white; cursor: pointer; font-weight: 600;">
+                        Done
+                    </button>
+                </div>
+            `;
+
+            document.body.appendChild(backdrop);
+            document.body.appendChild(modal);
+        };
+
+        window.selectPet = function(petId) {
+            window.petCompanion.currentPet = petId;
+            savePetSettings();
+            initPetCompanion();
+
+            // Close modal
+            document.querySelectorAll('.pet-menu-modal, .modal-backdrop').forEach(el => el.remove());
+
+            const pet = window.PET_OPTIONS.find(p => p.id === petId);
+            if (window.showToast) showToast(`${pet.emoji} ${pet.name} is now your study buddy!`, 'success');
+        };
+
+        window.togglePetActive = function() {
+            window.petCompanion.active = !window.petCompanion.active;
+            savePetSettings();
+
+            if (window.petCompanion.active) {
+                initPetCompanion();
+            } else {
+                document.querySelectorAll('.pet-companion, .pet-speech-bubble').forEach(el => el.remove());
+            }
+
+            // Update modal
+            document.querySelectorAll('.pet-menu-modal, .modal-backdrop').forEach(el => el.remove());
+            if (window.showToast) showToast(window.petCompanion.active ? 'Pet companion enabled!' : 'Pet companion hidden', 'info');
+        };
+
+        // =====================================================
+        // MINI CELEBRATION ANIMATIONS
+        // =====================================================
+        window.triggerMiniCelebration = function(emoji = '⭐', x, y) {
+            const element = document.createElement('div');
+            element.className = 'mini-celebration';
+            element.textContent = emoji;
+            element.style.left = (x || window.innerWidth / 2) + 'px';
+            element.style.top = (y || window.innerHeight / 2) + 'px';
+
+            document.body.appendChild(element);
+            setTimeout(() => element.remove(), 1000);
+        };
+
+        window.showAnswerFeedback = function(isCorrect, element, hint = '') {
+            // Remove existing feedback
+            element.querySelectorAll('.error-feedback, .success-feedback').forEach(el => el.remove());
+
+            const feedback = document.createElement('div');
+            feedback.className = isCorrect ? 'success-feedback' : 'error-feedback';
+
+            if (isCorrect) {
+                feedback.innerHTML = `
+                    <div style="display: flex; align-items: center; gap: 10px; color: #2E7D32;">
+                        <span style="font-size: 1.5rem;">✅</span>
+                        <span style="font-weight: 600;">Great job! That's correct!</span>
+                    </div>
+                `;
+                triggerMiniCelebration('🎉', element.getBoundingClientRect().x + element.offsetWidth / 2, element.getBoundingClientRect().y);
+            } else {
+                feedback.innerHTML = `
+                    <div class="error-feedback-header">
+                        <span style="font-size: 1.3rem;">💡</span>
+                        <span>Not quite right - let's try again!</span>
+                    </div>
+                    ${hint ? `<div class="error-feedback-hint"><strong>Hint:</strong> ${hint}</div>` : ''}
+                `;
+            }
+
+            element.appendChild(feedback);
+
+            // Auto-remove after delay
+            setTimeout(() => {
+                if (feedback.parentElement) {
+                    feedback.style.opacity = '0';
+                    feedback.style.transition = 'opacity 0.3s ease';
+                    setTimeout(() => feedback.remove(), 300);
+                }
+            }, 5000);
+        };
+
+        // =====================================================
+        // INITIALIZATION
+        // =====================================================
+        document.addEventListener('DOMContentLoaded', () => {
+            loadDraftAnswers();
+            loadBookmarks();
+            loadPetSettings();
+            initPetCompanion();
+        });
+
+        // Hook into answer handling for pet messages
+        const originalHandleAnswer7 = window.handleQuestionAnswer;
+        window.handleQuestionAnswer = function(isCorrect, questionElement, questionType) {
+            if (originalHandleAnswer7) {
+                originalHandleAnswer7(isCorrect, questionElement, questionType);
+            }
+
+            // Show pet message based on result
+            if (window.petCompanion.active) {
+                if (isCorrect) {
+                    showPetMessage('correct');
+
+                    // Check for streak messages
+                    if (window.gamificationState?.streak >= 3) {
+                        setTimeout(() => showPetMessage('streak'), 3000);
+                    }
+                } else {
+                    showPetMessage('incorrect');
+                }
+            }
+
+            // Clear draft for answered question
+            if (questionElement) {
+                const questionId = questionElement.id;
+                if (questionId) clearDraftForQuestion(questionId);
+            }
+        };
+
+        console.log('💾 Auto-save, Bookmarks, Pet Companion, and Mini Celebrations loaded!');
     </script>
 
     <!-- PowerPoint-style Table Grid Selector (positioned fixed, outside all containers) -->
