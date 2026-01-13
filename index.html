@@ -6434,6 +6434,237 @@
             cursor: help;
             z-index: 1;
         }
+
+        /* Collectible Badges System */
+        .badges-collection {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 15px;
+            padding: 20px;
+        }
+
+        .badge-card {
+            background: linear-gradient(145deg, #f5f5f5, #e0e0e0);
+            border-radius: 16px;
+            padding: 15px;
+            text-align: center;
+            transition: all 0.3s ease;
+            cursor: pointer;
+        }
+
+        .badge-card.unlocked {
+            background: linear-gradient(145deg, #E3F2FD, #BBDEFB);
+            box-shadow: 0 4px 15px rgba(33, 150, 243, 0.2);
+        }
+
+        .badge-card.locked {
+            opacity: 0.5;
+            filter: grayscale(1);
+        }
+
+        .badge-card:hover {
+            transform: translateY(-3px);
+        }
+
+        .badge-icon {
+            font-size: 2.5rem;
+            margin-bottom: 8px;
+        }
+
+        .badge-name {
+            font-weight: 600;
+            font-size: 0.85rem;
+            color: #333;
+            margin-bottom: 4px;
+        }
+
+        .badge-rarity {
+            font-size: 0.7rem;
+            padding: 2px 8px;
+            border-radius: 10px;
+            display: inline-block;
+        }
+
+        .badge-rarity.common { background: #9E9E9E; color: white; }
+        .badge-rarity.rare { background: #2196F3; color: white; }
+        .badge-rarity.epic { background: #9C27B0; color: white; }
+        .badge-rarity.legendary { background: linear-gradient(135deg, #FFD700, #FF8C00); color: white; }
+
+        /* Session Progress Indicator */
+        .session-progress-bar {
+            position: fixed;
+            top: 0;
+            left: 0;
+            height: 4px;
+            background: linear-gradient(90deg, #667eea, #764ba2);
+            z-index: 10020;
+            transition: width 0.3s ease;
+        }
+
+        .session-stats-panel {
+            position: fixed;
+            top: 60px;
+            right: 20px;
+            background: white;
+            border-radius: 16px;
+            padding: 15px 20px;
+            box-shadow: 0 8px 30px rgba(0, 0, 0, 0.15);
+            z-index: 9996;
+            min-width: 200px;
+        }
+
+        .session-stat-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 8px 0;
+            border-bottom: 1px solid #eee;
+        }
+
+        .session-stat-item:last-child {
+            border-bottom: none;
+        }
+
+        /* Focus Timer Mode */
+        .focus-timer {
+            position: fixed;
+            bottom: 100px;
+            left: 20px;
+            background: linear-gradient(135deg, #FF5722, #E64A19);
+            color: white;
+            padding: 15px 20px;
+            border-radius: 16px;
+            z-index: 9997;
+            box-shadow: 0 8px 25px rgba(255, 87, 34, 0.3);
+            animation: pulseGlow 2s infinite;
+        }
+
+        @keyframes pulseGlow {
+            0%, 100% { box-shadow: 0 8px 25px rgba(255, 87, 34, 0.3); }
+            50% { box-shadow: 0 8px 35px rgba(255, 87, 34, 0.5); }
+        }
+
+        .focus-timer-display {
+            font-size: 1.8rem;
+            font-weight: 700;
+            font-family: monospace;
+            text-align: center;
+        }
+
+        .focus-timer-label {
+            font-size: 0.8rem;
+            opacity: 0.9;
+            text-align: center;
+            margin-top: 5px;
+        }
+
+        /* Answer History */
+        .history-panel {
+            position: fixed;
+            top: 0;
+            right: -400px;
+            width: 400px;
+            height: 100%;
+            background: white;
+            box-shadow: -5px 0 30px rgba(0, 0, 0, 0.15);
+            z-index: 10004;
+            transition: right 0.3s ease;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .history-panel.open {
+            right: 0;
+        }
+
+        .history-header {
+            padding: 20px;
+            background: linear-gradient(135deg, #9C27B0, #673AB7);
+            color: white;
+        }
+
+        .history-list {
+            flex: 1;
+            overflow-y: auto;
+            padding: 15px;
+        }
+
+        .history-item {
+            background: #f9f9f9;
+            border-radius: 12px;
+            padding: 15px;
+            margin-bottom: 12px;
+            border-left: 4px solid #ddd;
+        }
+
+        .history-item.correct {
+            border-left-color: #4CAF50;
+            background: #E8F5E9;
+        }
+
+        .history-item.incorrect {
+            border-left-color: #F44336;
+            background: #FFEBEE;
+        }
+
+        /* Quick Practice Shortcuts */
+        .quick-actions-fab {
+            position: fixed;
+            bottom: 20px;
+            right: 100px;
+            width: 56px;
+            height: 56px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, #4CAF50, #8BC34A);
+            color: white;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.5rem;
+            cursor: pointer;
+            z-index: 9998;
+            box-shadow: 0 6px 20px rgba(76, 175, 80, 0.4);
+            transition: all 0.3s ease;
+        }
+
+        .quick-actions-fab:hover {
+            transform: scale(1.1);
+        }
+
+        .quick-actions-menu {
+            position: fixed;
+            bottom: 90px;
+            right: 85px;
+            background: white;
+            border-radius: 16px;
+            padding: 10px;
+            box-shadow: 0 8px 30px rgba(0, 0, 0, 0.2);
+            z-index: 9999;
+            display: none;
+        }
+
+        .quick-actions-menu.open {
+            display: block;
+            animation: fadeInUp 0.3s ease;
+        }
+
+        .quick-action-btn {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            padding: 12px 16px;
+            border-radius: 10px;
+            border: none;
+            background: none;
+            width: 100%;
+            cursor: pointer;
+            font-size: 0.95rem;
+            transition: background 0.2s ease;
+        }
+
+        .quick-action-btn:hover {
+            background: #f5f5f5;
+        }
     </style>
 </head>
 
@@ -25987,6 +26218,458 @@
         };
 
         console.log('🎡 Lucky Wheel, Daily Rewards, Sound Toggle, and Lazy Loading loaded!');
+    </script>
+
+    <!-- Collectible Badges, Session Progress, Focus Timer, Answer History -->
+    <script>
+        // =====================================================
+        // COLLECTIBLE SCIENCE BADGES SYSTEM
+        // =====================================================
+        window.SCIENCE_BADGES = [
+            // Common Badges
+            { id: 'first_question', name: 'First Steps', icon: '🌱', rarity: 'common', condition: 'Answer your first question', requirement: { type: 'total', value: 1 } },
+            { id: 'five_correct', name: 'Getting Started', icon: '⭐', rarity: 'common', condition: 'Get 5 correct answers', requirement: { type: 'correct', value: 5 } },
+            { id: 'explorer', name: 'Topic Explorer', icon: '🧭', rarity: 'common', condition: 'Try 3 different topics', requirement: { type: 'topics', value: 3 } },
+            { id: 'early_bird', name: 'Early Bird', icon: '🐦', rarity: 'common', condition: 'Practice before 8 AM', requirement: { type: 'time', value: 'morning' } },
+            // Rare Badges
+            { id: 'streak_master', name: 'Streak Master', icon: '🔥', rarity: 'rare', condition: 'Get 5 correct in a row', requirement: { type: 'streak', value: 5 } },
+            { id: 'fifty_club', name: 'Fifty Club', icon: '💪', rarity: 'rare', condition: 'Answer 50 questions', requirement: { type: 'total', value: 50 } },
+            { id: 'perfectionist', name: 'Perfectionist', icon: '💯', rarity: 'rare', condition: 'Get 10 perfect scores', requirement: { type: 'perfect', value: 10 } },
+            { id: 'weekender', name: 'Weekender', icon: '📅', rarity: 'rare', condition: 'Practice for 7 days', requirement: { type: 'days', value: 7 } },
+            // Epic Badges
+            { id: 'century', name: 'Century Milestone', icon: '🎯', rarity: 'epic', condition: 'Answer 100 questions', requirement: { type: 'total', value: 100 } },
+            { id: 'topic_master', name: 'Topic Master', icon: '🧠', rarity: 'epic', condition: 'Master 5 topics', requirement: { type: 'mastery', value: 5 } },
+            { id: 'unstoppable', name: 'Unstoppable', icon: '🚀', rarity: 'epic', condition: 'Get 10 correct in a row', requirement: { type: 'streak', value: 10 } },
+            { id: 'night_owl', name: 'Night Owl', icon: '🦉', rarity: 'epic', condition: 'Practice after 9 PM', requirement: { type: 'time', value: 'night' } },
+            // Legendary Badges
+            { id: 'science_legend', name: 'Science Legend', icon: '👑', rarity: 'legendary', condition: 'Reach Level 10', requirement: { type: 'level', value: 10 } },
+            { id: 'marathon', name: 'Marathon Runner', icon: '🏃', rarity: 'legendary', condition: 'Answer 500 questions', requirement: { type: 'total', value: 500 } },
+            { id: 'champion', name: 'Champion', icon: '🏆', rarity: 'legendary', condition: '90% accuracy over 100 questions', requirement: { type: 'accuracy', value: 90 } },
+            { id: 'dedication', name: 'True Dedication', icon: '💎', rarity: 'legendary', condition: '30-day streak', requirement: { type: 'days', value: 30 } }
+        ];
+
+        window.collectedBadges = [];
+
+        window.loadCollectedBadges = function() {
+            const stored = localStorage.getItem('collectedBadges');
+            if (stored) {
+                try {
+                    window.collectedBadges = JSON.parse(stored);
+                } catch (e) {}
+            }
+        };
+
+        window.saveCollectedBadges = function() {
+            localStorage.setItem('collectedBadges', JSON.stringify(window.collectedBadges));
+        };
+
+        window.checkBadgeUnlocks = function() {
+            const hour = new Date().getHours();
+
+            window.SCIENCE_BADGES.forEach(badge => {
+                if (window.collectedBadges.includes(badge.id)) return;
+
+                let unlocked = false;
+                const req = badge.requirement;
+
+                switch (req.type) {
+                    case 'total':
+                        unlocked = (window.gamificationState?.totalAttempts || 0) >= req.value;
+                        break;
+                    case 'correct':
+                        unlocked = (window.gamificationState?.totalCorrect || 0) >= req.value;
+                        break;
+                    case 'streak':
+                        unlocked = (window.gamificationState?.streak || 0) >= req.value;
+                        break;
+                    case 'topics':
+                        unlocked = Object.keys(window.topicMastery || {}).length >= req.value;
+                        break;
+                    case 'level':
+                        unlocked = (window.gamificationState?.level || 1) >= req.value;
+                        break;
+                    case 'mastery':
+                        unlocked = Object.values(window.topicMastery || {}).filter(m => m.percentage >= 80).length >= req.value;
+                        break;
+                    case 'time':
+                        if (req.value === 'morning') unlocked = hour < 8;
+                        if (req.value === 'night') unlocked = hour >= 21;
+                        break;
+                    case 'days':
+                        unlocked = (window.loginRewardsState?.claimedDays?.length || 0) >= req.value;
+                        break;
+                }
+
+                if (unlocked) {
+                    unlockBadge(badge);
+                }
+            });
+        };
+
+        window.unlockBadge = function(badge) {
+            if (window.collectedBadges.includes(badge.id)) return;
+
+            window.collectedBadges.push(badge.id);
+            saveCollectedBadges();
+
+            // Show notification
+            const notification = document.createElement('div');
+            notification.style.cssText = `
+                position: fixed;
+                top: 50%;
+                left: 50%;
+                transform: translate(-50%, -50%);
+                background: white;
+                border-radius: 24px;
+                padding: 30px;
+                text-align: center;
+                z-index: 10012;
+                box-shadow: 0 20px 60px rgba(0, 0, 0, 0.4);
+                animation: modalPop 0.5s ease;
+            `;
+            notification.innerHTML = `
+                <div style="font-size: 4rem; margin-bottom: 15px;">${badge.icon}</div>
+                <h2 style="margin: 0 0 10px 0; color: #333;">Badge Unlocked!</h2>
+                <div style="font-size: 1.3rem; font-weight: 700; color: #667eea; margin-bottom: 10px;">${badge.name}</div>
+                <div class="badge-rarity ${badge.rarity}">${badge.rarity.toUpperCase()}</div>
+                <p style="color: #666; margin: 15px 0;">${badge.condition}</p>
+                <button onclick="this.parentElement.remove();" style="padding: 12px 30px; border-radius: 25px; border: none; background: linear-gradient(135deg, #667eea, #764ba2); color: white; font-weight: 600; cursor: pointer;">
+                    Awesome! 🎉
+                </button>
+            `;
+            document.body.appendChild(notification);
+
+            if (window.triggerEpicConfetti) triggerEpicConfetti();
+            if (window.playSound) playSound('achievement');
+        };
+
+        window.showBadgeCollection = function() {
+            // Remove existing
+            document.querySelectorAll('.badges-modal, .modal-backdrop').forEach(el => el.remove());
+
+            const backdrop = document.createElement('div');
+            backdrop.className = 'modal-backdrop';
+            backdrop.style.cssText = 'position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.5); z-index: 10005;';
+            backdrop.onclick = () => { backdrop.remove(); modal.remove(); };
+
+            const modal = document.createElement('div');
+            modal.className = 'badges-modal';
+            modal.style.cssText = `
+                position: fixed;
+                top: 50%;
+                left: 50%;
+                transform: translate(-50%, -50%);
+                background: white;
+                border-radius: 24px;
+                max-width: 600px;
+                width: 90%;
+                max-height: 80vh;
+                overflow-y: auto;
+                z-index: 10006;
+                box-shadow: 0 25px 80px rgba(0, 0, 0, 0.3);
+            `;
+            modal.innerHTML = `
+                <div style="padding: 20px; background: linear-gradient(135deg, #667eea, #764ba2); color: white; border-radius: 24px 24px 0 0;">
+                    <h2 style="margin: 0;">🏅 Badge Collection</h2>
+                    <p style="margin: 5px 0 0 0; opacity: 0.9;">${window.collectedBadges.length}/${window.SCIENCE_BADGES.length} badges collected</p>
+                </div>
+                <div class="badges-collection">
+                    ${window.SCIENCE_BADGES.map(badge => {
+                        const unlocked = window.collectedBadges.includes(badge.id);
+                        return `
+                            <div class="badge-card ${unlocked ? 'unlocked' : 'locked'}" title="${badge.condition}">
+                                <div class="badge-icon">${badge.icon}</div>
+                                <div class="badge-name">${unlocked ? badge.name : '???'}</div>
+                                <div class="badge-rarity ${badge.rarity}">${badge.rarity}</div>
+                            </div>
+                        `;
+                    }).join('')}
+                </div>
+            `;
+
+            document.body.appendChild(backdrop);
+            document.body.appendChild(modal);
+        };
+
+        // =====================================================
+        // SESSION PROGRESS INDICATOR
+        // =====================================================
+        window.sessionGoal = 10; // Default: 10 questions per session
+
+        window.initSessionProgress = function() {
+            // Add progress bar to top of page
+            const progressBar = document.createElement('div');
+            progressBar.className = 'session-progress-bar';
+            progressBar.id = 'session-progress-bar';
+            progressBar.style.width = '0%';
+            document.body.appendChild(progressBar);
+
+            updateSessionProgress();
+        };
+
+        window.updateSessionProgress = function() {
+            const bar = document.getElementById('session-progress-bar');
+            if (!bar) return;
+
+            const answered = window.sessionStats?.questionsAnswered || 0;
+            const progress = Math.min((answered / window.sessionGoal) * 100, 100);
+            bar.style.width = progress + '%';
+
+            // Change color when goal reached
+            if (progress >= 100) {
+                bar.style.background = 'linear-gradient(90deg, #4CAF50, #8BC34A)';
+            }
+        };
+
+        // =====================================================
+        // FOCUS TIMER MODE
+        // =====================================================
+        window.focusTimer = {
+            active: false,
+            duration: 25 * 60, // 25 minutes default (Pomodoro)
+            remaining: 0,
+            interval: null
+        };
+
+        window.startFocusTimer = function(minutes = 25) {
+            window.focusTimer.active = true;
+            window.focusTimer.duration = minutes * 60;
+            window.focusTimer.remaining = minutes * 60;
+
+            // Remove existing timer
+            document.querySelectorAll('.focus-timer').forEach(el => el.remove());
+
+            const timer = document.createElement('div');
+            timer.className = 'focus-timer';
+            timer.id = 'focus-timer';
+            timer.innerHTML = `
+                <div class="focus-timer-display" id="focus-timer-display">${formatTime(window.focusTimer.remaining)}</div>
+                <div class="focus-timer-label">Focus Mode 🎯</div>
+                <div style="display: flex; gap: 10px; margin-top: 10px;">
+                    <button onclick="stopFocusTimer()" style="flex: 1; padding: 5px; border-radius: 8px; border: none; background: rgba(255,255,255,0.2); color: white; cursor: pointer; font-size: 0.8rem;">Stop</button>
+                </div>
+            `;
+            document.body.appendChild(timer);
+
+            window.focusTimer.interval = setInterval(() => {
+                window.focusTimer.remaining--;
+                const display = document.getElementById('focus-timer-display');
+                if (display) {
+                    display.textContent = formatTime(window.focusTimer.remaining);
+                }
+
+                if (window.focusTimer.remaining <= 0) {
+                    focusTimerComplete();
+                }
+            }, 1000);
+        };
+
+        window.formatTime = function(seconds) {
+            const mins = Math.floor(seconds / 60);
+            const secs = seconds % 60;
+            return `${String(mins).padStart(2, '0')}:${String(secs).padStart(2, '0')}`;
+        };
+
+        window.stopFocusTimer = function() {
+            clearInterval(window.focusTimer.interval);
+            window.focusTimer.active = false;
+            document.querySelectorAll('.focus-timer').forEach(el => el.remove());
+            if (window.showToast) showToast('Focus timer stopped', 'info');
+        };
+
+        window.focusTimerComplete = function() {
+            stopFocusTimer();
+
+            // Award bonus XP for completing focus session
+            if (window.addXP) addXP(50, 'Focus Session Complete');
+            if (window.triggerCelebration) triggerCelebration();
+            if (window.showToast) showToast('🎉 Focus session complete! +50 XP', 'success');
+
+            // Play notification sound
+            if (window.playSound) playSound('achievement');
+        };
+
+        // =====================================================
+        // ANSWER HISTORY VIEWER
+        // =====================================================
+        window.answerHistory = [];
+
+        window.loadAnswerHistory = function() {
+            const stored = localStorage.getItem('answerHistory');
+            if (stored) {
+                try {
+                    window.answerHistory = JSON.parse(stored);
+                    // Keep only last 50 entries
+                    if (window.answerHistory.length > 50) {
+                        window.answerHistory = window.answerHistory.slice(-50);
+                    }
+                } catch (e) {}
+            }
+        };
+
+        window.saveAnswerHistory = function() {
+            localStorage.setItem('answerHistory', JSON.stringify(window.answerHistory));
+        };
+
+        window.addToHistory = function(questionInfo, isCorrect) {
+            window.answerHistory.push({
+                question: questionInfo.substring(0, 100) + '...',
+                correct: isCorrect,
+                timestamp: new Date().toISOString()
+            });
+            saveAnswerHistory();
+        };
+
+        window.showAnswerHistoryPanel = function() {
+            // Remove existing
+            document.querySelectorAll('.history-panel, .history-backdrop').forEach(el => el.remove());
+
+            const backdrop = document.createElement('div');
+            backdrop.className = 'history-backdrop';
+            backdrop.style.cssText = 'position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.3); z-index: 10003;';
+            backdrop.onclick = () => { backdrop.remove(); panel.remove(); };
+
+            const panel = document.createElement('div');
+            panel.className = 'history-panel open';
+            panel.innerHTML = `
+                <div class="history-header">
+                    <h2 style="margin: 0; font-size: 1.3rem;">📚 Answer History</h2>
+                    <p style="margin: 5px 0 0 0; opacity: 0.9; font-size: 0.9rem;">Your last ${window.answerHistory.length} answers</p>
+                </div>
+                <div class="history-list">
+                    ${window.answerHistory.length === 0 ? `
+                        <div style="text-align: center; padding: 40px 20px; color: #999;">
+                            <div style="font-size: 3rem; margin-bottom: 15px;">📝</div>
+                            <p>No history yet!</p>
+                            <p style="font-size: 0.85rem;">Start answering questions to see your history.</p>
+                        </div>
+                    ` : window.answerHistory.slice().reverse().map(entry => `
+                        <div class="history-item ${entry.correct ? 'correct' : 'incorrect'}">
+                            <div style="font-weight: 600; margin-bottom: 5px;">${entry.correct ? '✅ Correct' : '❌ Incorrect'}</div>
+                            <div style="font-size: 0.85rem; color: #666; margin-bottom: 5px;">${entry.question}</div>
+                            <div style="font-size: 0.75rem; color: #999;">${new Date(entry.timestamp).toLocaleString()}</div>
+                        </div>
+                    `).join('')}
+                </div>
+                <div style="padding: 15px; border-top: 1px solid #eee;">
+                    <button onclick="clearAnswerHistory()" style="width: 100%; padding: 10px; border: 1px solid #ddd; background: white; border-radius: 8px; cursor: pointer; color: #666;">
+                        Clear History
+                    </button>
+                </div>
+            `;
+
+            document.body.appendChild(backdrop);
+            document.body.appendChild(panel);
+        };
+
+        window.clearAnswerHistory = function() {
+            if (confirm('Clear all answer history?')) {
+                window.answerHistory = [];
+                saveAnswerHistory();
+                showAnswerHistoryPanel();
+                if (window.showToast) showToast('History cleared', 'info');
+            }
+        };
+
+        // =====================================================
+        // QUICK PRACTICE SHORTCUTS
+        // =====================================================
+        window.initQuickActions = function() {
+            // Remove existing
+            document.querySelectorAll('.quick-actions-fab, .quick-actions-menu').forEach(el => el.remove());
+
+            const fab = document.createElement('div');
+            fab.className = 'quick-actions-fab';
+            fab.id = 'quick-actions-fab';
+            fab.textContent = '⚡';
+            fab.onclick = toggleQuickActionsMenu;
+            document.body.appendChild(fab);
+
+            const menu = document.createElement('div');
+            menu.className = 'quick-actions-menu';
+            menu.id = 'quick-actions-menu';
+            menu.innerHTML = `
+                <button class="quick-action-btn" onclick="startQuickPractice(5)">
+                    <span>🎯</span> Quick 5 Questions
+                </button>
+                <button class="quick-action-btn" onclick="startQuickPractice(10)">
+                    <span>📝</span> Practice 10 Questions
+                </button>
+                <button class="quick-action-btn" onclick="startFocusTimer(15)">
+                    <span>⏱️</span> 15-min Focus Mode
+                </button>
+                <button class="quick-action-btn" onclick="startFocusTimer(25)">
+                    <span>🍅</span> Pomodoro (25 min)
+                </button>
+                <button class="quick-action-btn" onclick="showLuckyWheel()">
+                    <span>🎡</span> Spin Lucky Wheel
+                </button>
+                <button class="quick-action-btn" onclick="showBadgeCollection()">
+                    <span>🏅</span> View Badges
+                </button>
+                <button class="quick-action-btn" onclick="showAnswerHistoryPanel()">
+                    <span>📚</span> Answer History
+                </button>
+            `;
+            document.body.appendChild(menu);
+        };
+
+        window.toggleQuickActionsMenu = function() {
+            const menu = document.getElementById('quick-actions-menu');
+            if (menu) {
+                menu.classList.toggle('open');
+            }
+        };
+
+        window.startQuickPractice = function(count) {
+            window.sessionGoal = count;
+            updateSessionProgress();
+            toggleQuickActionsMenu();
+            if (window.showToast) showToast(`Goal set: ${count} questions!`, 'success');
+            if (window.switchTab) switchTab('practice');
+        };
+
+        // Close menu when clicking outside
+        document.addEventListener('click', (e) => {
+            const menu = document.getElementById('quick-actions-menu');
+            const fab = document.getElementById('quick-actions-fab');
+            if (menu && fab && !menu.contains(e.target) && !fab.contains(e.target)) {
+                menu.classList.remove('open');
+            }
+        });
+
+        // =====================================================
+        // INITIALIZATION
+        // =====================================================
+        document.addEventListener('DOMContentLoaded', () => {
+            loadCollectedBadges();
+            loadAnswerHistory();
+            initSessionProgress();
+            initQuickActions();
+
+            // Check badge unlocks periodically
+            setInterval(checkBadgeUnlocks, 10000);
+        });
+
+        // Hook into answer handling
+        const originalHandleAnswer9 = window.handleQuestionAnswer;
+        window.handleQuestionAnswer = function(isCorrect, questionElement, questionType) {
+            if (originalHandleAnswer9) {
+                originalHandleAnswer9(isCorrect, questionElement, questionType);
+            }
+
+            // Update session progress
+            updateSessionProgress();
+
+            // Add to history
+            const questionText = questionElement?.querySelector('p, .question-title')?.textContent || 'Question';
+            addToHistory(questionText, isCorrect);
+
+            // Check for badge unlocks
+            checkBadgeUnlocks();
+        };
+
+        console.log('🏅 Collectible Badges, Session Progress, Focus Timer, and Answer History loaded!');
     </script>
 
     <!-- PowerPoint-style Table Grid Selector (positioned fixed, outside all containers) -->
