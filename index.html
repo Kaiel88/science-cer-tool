@@ -6665,6 +6665,163 @@
         .quick-action-btn:hover {
             background: #f5f5f5;
         }
+
+        /* Welcome Back Message */
+        .welcome-banner {
+            position: fixed;
+            top: 20px;
+            left: 50%;
+            transform: translateX(-50%);
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            color: white;
+            padding: 20px 30px;
+            border-radius: 20px;
+            z-index: 10015;
+            box-shadow: 0 10px 40px rgba(102, 126, 234, 0.4);
+            max-width: 400px;
+            text-align: center;
+            animation: slideDown 0.5s ease;
+        }
+
+        @keyframes slideDown {
+            from { transform: translateX(-50%) translateY(-100px); opacity: 0; }
+            to { transform: translateX(-50%) translateY(0); opacity: 1; }
+        }
+
+        .welcome-banner-close {
+            position: absolute;
+            top: 10px;
+            right: 15px;
+            background: none;
+            border: none;
+            color: white;
+            opacity: 0.7;
+            cursor: pointer;
+            font-size: 1.2rem;
+        }
+
+        /* Difficulty Indicator */
+        .difficulty-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 5px;
+            padding: 4px 12px;
+            border-radius: 15px;
+            font-size: 0.75rem;
+            font-weight: 600;
+        }
+
+        .difficulty-badge.easy { background: #C8E6C9; color: #2E7D32; }
+        .difficulty-badge.medium { background: #FFF9C4; color: #F57F17; }
+        .difficulty-badge.hard { background: #FFCDD2; color: #C62828; }
+        .difficulty-badge.expert { background: #E1BEE7; color: #6A1B9A; }
+
+        .difficulty-selector {
+            display: flex;
+            gap: 10px;
+            margin: 15px 0;
+            flex-wrap: wrap;
+        }
+
+        .difficulty-option {
+            flex: 1;
+            min-width: 80px;
+            padding: 12px;
+            border-radius: 12px;
+            border: 2px solid #ddd;
+            background: white;
+            cursor: pointer;
+            text-align: center;
+            transition: all 0.3s ease;
+        }
+
+        .difficulty-option:hover {
+            border-color: #667eea;
+        }
+
+        .difficulty-option.selected {
+            border-color: #667eea;
+            background: linear-gradient(135deg, #667eea10, #764ba210);
+        }
+
+        /* Motivational Quotes */
+        .quote-display {
+            background: linear-gradient(135deg, #E8EAF6, #C5CAE9);
+            border-left: 4px solid #3F51B5;
+            padding: 15px 20px;
+            border-radius: 0 12px 12px 0;
+            margin: 15px 0;
+            font-style: italic;
+            color: #333;
+        }
+
+        .quote-author {
+            font-style: normal;
+            font-weight: 600;
+            color: #3F51B5;
+            margin-top: 8px;
+            font-size: 0.85rem;
+        }
+
+        /* Streak Multiplier */
+        .streak-multiplier {
+            position: fixed;
+            top: 80px;
+            right: 20px;
+            background: linear-gradient(135deg, #FF5722, #FF9800);
+            color: white;
+            padding: 12px 18px;
+            border-radius: 25px;
+            z-index: 9995;
+            font-weight: 700;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            box-shadow: 0 6px 20px rgba(255, 87, 34, 0.4);
+            animation: bounce 0.5s ease;
+        }
+
+        @keyframes bounce {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.1); }
+        }
+
+        /* Quick Topic Selector */
+        .topic-quick-select {
+            display: flex;
+            gap: 8px;
+            flex-wrap: wrap;
+            margin: 15px 0;
+        }
+
+        .topic-chip {
+            padding: 8px 16px;
+            border-radius: 20px;
+            background: #f0f0f0;
+            cursor: pointer;
+            font-size: 0.85rem;
+            transition: all 0.3s ease;
+            border: 2px solid transparent;
+        }
+
+        .topic-chip:hover {
+            background: #e0e0e0;
+        }
+
+        .topic-chip.selected {
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            color: white;
+            border-color: transparent;
+        }
+
+        .topic-chip.hot {
+            animation: hotTopic 1s ease infinite;
+        }
+
+        @keyframes hotTopic {
+            0%, 100% { box-shadow: 0 0 5px rgba(255, 87, 34, 0.5); }
+            50% { box-shadow: 0 0 15px rgba(255, 87, 34, 0.8); }
+        }
     </style>
 </head>
 
@@ -26670,6 +26827,380 @@
         };
 
         console.log('🏅 Collectible Badges, Session Progress, Focus Timer, and Answer History loaded!');
+    </script>
+
+    <!-- Welcome Back, Difficulty, Quotes, Streak Multiplier, Topic Selector -->
+    <script>
+        // =====================================================
+        // WELCOME BACK MESSAGE SYSTEM
+        // =====================================================
+        window.welcomeMessages = {
+            morning: [
+                { greeting: 'Good morning, scientist! ☀️', message: 'Ready to start the day with some science?' },
+                { greeting: 'Rise and shine! 🌅', message: 'Early birds get the best learning!' },
+                { greeting: 'Morning champion! 🏆', message: 'Let\'s make today count!' }
+            ],
+            afternoon: [
+                { greeting: 'Good afternoon! 🌤️', message: 'Time for some science exploration!' },
+                { greeting: 'Welcome back! 📚', message: 'Let\'s keep the momentum going!' },
+                { greeting: 'Hello, explorer! 🧭', message: 'Ready for more discoveries?' }
+            ],
+            evening: [
+                { greeting: 'Good evening! 🌙', message: 'Perfect time for some focused study!' },
+                { greeting: 'Welcome back! ✨', message: 'Let\'s wind down with some science!' },
+                { greeting: 'Evening session! 🦉', message: 'Night owls learn best!' }
+            ],
+            returning: [
+                { greeting: 'Great to see you again! 🎉', message: 'You\'ve been missed!' },
+                { greeting: 'Welcome back, champion! 💪', message: 'Let\'s pick up where we left off!' },
+                { greeting: 'The scientist returns! 🔬', message: 'Ready to continue your journey?' }
+            ]
+        };
+
+        window.showWelcomeMessage = function() {
+            const lastVisit = localStorage.getItem('lastVisit');
+            const now = new Date();
+            const hour = now.getHours();
+
+            // Determine time of day
+            let timeOfDay = 'afternoon';
+            if (hour < 12) timeOfDay = 'morning';
+            else if (hour >= 18) timeOfDay = 'evening';
+
+            // Check if returning after a while
+            let messages = window.welcomeMessages[timeOfDay];
+            if (lastVisit) {
+                const lastDate = new Date(lastVisit);
+                const hoursSinceVisit = (now - lastDate) / (1000 * 60 * 60);
+                if (hoursSinceVisit > 24) {
+                    messages = window.welcomeMessages.returning;
+                }
+            }
+
+            const selected = messages[Math.floor(Math.random() * messages.length)];
+
+            // Get streak info
+            const streakDays = parseInt(document.getElementById('login-days-display')?.textContent?.match(/\d+/) || 0);
+            let streakBonus = '';
+            if (streakDays > 0) {
+                streakBonus = `<div style="margin-top: 10px; font-size: 0.9rem;">🔥 ${streakDays}-day streak! Keep it up!</div>`;
+            }
+
+            const banner = document.createElement('div');
+            banner.className = 'welcome-banner';
+            banner.innerHTML = `
+                <button class="welcome-banner-close" onclick="this.parentElement.remove()">×</button>
+                <div style="font-size: 1.5rem; font-weight: 700; margin-bottom: 5px;">${selected.greeting}</div>
+                <div style="opacity: 0.95;">${selected.message}</div>
+                ${streakBonus}
+            `;
+
+            document.body.appendChild(banner);
+            localStorage.setItem('lastVisit', now.toISOString());
+
+            // Auto-remove after 5 seconds
+            setTimeout(() => {
+                if (banner.parentElement) {
+                    banner.style.animation = 'slideDown 0.3s ease reverse forwards';
+                    setTimeout(() => banner.remove(), 300);
+                }
+            }, 5000);
+        };
+
+        // =====================================================
+        // DIFFICULTY PROGRESSION SYSTEM
+        // =====================================================
+        window.difficultyLevels = ['easy', 'medium', 'hard', 'expert'];
+        window.currentDifficulty = 'medium';
+
+        window.difficultyConfig = {
+            easy: { label: 'Easy', icon: '🌱', xpMultiplier: 0.8, color: '#4CAF50' },
+            medium: { label: 'Medium', icon: '📚', xpMultiplier: 1.0, color: '#FF9800' },
+            hard: { label: 'Hard', icon: '🔥', xpMultiplier: 1.5, color: '#F44336' },
+            expert: { label: 'Expert', icon: '👑', xpMultiplier: 2.0, color: '#9C27B0' }
+        };
+
+        window.loadDifficulty = function() {
+            const stored = localStorage.getItem('currentDifficulty');
+            if (stored && window.difficultyLevels.includes(stored)) {
+                window.currentDifficulty = stored;
+            }
+        };
+
+        window.saveDifficulty = function() {
+            localStorage.setItem('currentDifficulty', window.currentDifficulty);
+        };
+
+        window.setDifficulty = function(level) {
+            if (window.difficultyLevels.includes(level)) {
+                window.currentDifficulty = level;
+                saveDifficulty();
+                updateDifficultyDisplay();
+                if (window.showToast) {
+                    const config = window.difficultyConfig[level];
+                    showToast(`${config.icon} Difficulty set to ${config.label}!`, 'success');
+                }
+            }
+        };
+
+        window.updateDifficultyDisplay = function() {
+            document.querySelectorAll('.difficulty-option').forEach(opt => {
+                opt.classList.toggle('selected', opt.dataset.difficulty === window.currentDifficulty);
+            });
+        };
+
+        window.getDifficultyXPMultiplier = function() {
+            return window.difficultyConfig[window.currentDifficulty]?.xpMultiplier || 1.0;
+        };
+
+        window.showDifficultySelector = function() {
+            // Remove existing
+            document.querySelectorAll('.difficulty-modal, .modal-backdrop').forEach(el => el.remove());
+
+            const backdrop = document.createElement('div');
+            backdrop.className = 'modal-backdrop';
+            backdrop.style.cssText = 'position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.5); z-index: 10005;';
+            backdrop.onclick = () => { backdrop.remove(); modal.remove(); };
+
+            const modal = document.createElement('div');
+            modal.className = 'difficulty-modal';
+            modal.style.cssText = `
+                position: fixed;
+                top: 50%;
+                left: 50%;
+                transform: translate(-50%, -50%);
+                background: white;
+                border-radius: 24px;
+                padding: 30px;
+                max-width: 400px;
+                width: 90%;
+                z-index: 10006;
+                box-shadow: 0 25px 80px rgba(0, 0, 0, 0.3);
+            `;
+            modal.innerHTML = `
+                <h2 style="margin: 0 0 10px 0; text-align: center;">⚙️ Select Difficulty</h2>
+                <p style="text-align: center; color: #666; margin-bottom: 20px;">Higher difficulty = More XP rewards!</p>
+                <div class="difficulty-selector">
+                    ${window.difficultyLevels.map(level => {
+                        const config = window.difficultyConfig[level];
+                        return `
+                            <div class="difficulty-option ${level === window.currentDifficulty ? 'selected' : ''}"
+                                 data-difficulty="${level}"
+                                 onclick="setDifficulty('${level}'); document.querySelectorAll('.difficulty-modal, .modal-backdrop').forEach(el => el.remove());">
+                                <div style="font-size: 1.5rem;">${config.icon}</div>
+                                <div style="font-weight: 600;">${config.label}</div>
+                                <div style="font-size: 0.75rem; color: #666;">${config.xpMultiplier}x XP</div>
+                            </div>
+                        `;
+                    }).join('')}
+                </div>
+            `;
+
+            document.body.appendChild(backdrop);
+            document.body.appendChild(modal);
+        };
+
+        // =====================================================
+        // MOTIVATIONAL QUOTES
+        // =====================================================
+        window.MOTIVATIONAL_QUOTES = [
+            { quote: 'The important thing is not to stop questioning. Curiosity has its own reason for existing.', author: 'Albert Einstein' },
+            { quote: 'Science is not only a disciple of reason but also one of romance and passion.', author: 'Stephen Hawking' },
+            { quote: 'The good thing about science is that it\'s true whether or not you believe in it.', author: 'Neil deGrasse Tyson' },
+            { quote: 'Research is to see what everybody else has seen, and to think what nobody else has thought.', author: 'Albert Szent-Györgyi' },
+            { quote: 'The reward of the young scientist is the emotional thrill of being the first person in the history of the world to see something.', author: 'Cecilia Payne' },
+            { quote: 'Nothing in life is to be feared, it is only to be understood.', author: 'Marie Curie' },
+            { quote: 'The saddest aspect of life right now is that science gathers knowledge faster than society gathers wisdom.', author: 'Isaac Asimov' },
+            { quote: 'Science is organized knowledge. Wisdom is organized life.', author: 'Immanuel Kant' },
+            { quote: 'The science of today is the technology of tomorrow.', author: 'Edward Teller' },
+            { quote: 'In questions of science, the authority of a thousand is not worth the humble reasoning of a single individual.', author: 'Galileo Galilei' }
+        ];
+
+        window.currentQuoteIndex = 0;
+
+        window.showRandomQuote = function() {
+            const quote = window.MOTIVATIONAL_QUOTES[Math.floor(Math.random() * window.MOTIVATIONAL_QUOTES.length)];
+            return quote;
+        };
+
+        window.displayQuoteInSidebar = function() {
+            const container = document.getElementById('sidebar-quote-container');
+            if (!container) return;
+
+            const quote = showRandomQuote();
+            container.innerHTML = `
+                <div class="quote-display">
+                    "${quote.quote}"
+                    <div class="quote-author">— ${quote.author}</div>
+                </div>
+            `;
+        };
+
+        // =====================================================
+        // STREAK REWARDS MULTIPLIER
+        // =====================================================
+        window.streakMultiplier = {
+            active: false,
+            multiplier: 1.0,
+            threshold: 3 // Streak needed to activate
+        };
+
+        window.checkStreakMultiplier = function() {
+            const streakDays = parseInt(document.getElementById('login-days-display')?.textContent?.match(/\d+/) || 0);
+
+            // Remove existing multiplier display
+            document.querySelectorAll('.streak-multiplier').forEach(el => el.remove());
+
+            if (streakDays >= window.streakMultiplier.threshold) {
+                window.streakMultiplier.active = true;
+
+                // Calculate multiplier based on streak
+                if (streakDays >= 30) {
+                    window.streakMultiplier.multiplier = 2.0;
+                } else if (streakDays >= 14) {
+                    window.streakMultiplier.multiplier = 1.75;
+                } else if (streakDays >= 7) {
+                    window.streakMultiplier.multiplier = 1.5;
+                } else {
+                    window.streakMultiplier.multiplier = 1.25;
+                }
+
+                // Show multiplier badge
+                const badge = document.createElement('div');
+                badge.className = 'streak-multiplier';
+                badge.innerHTML = `
+                    <span>🔥</span>
+                    <span>${window.streakMultiplier.multiplier}x XP</span>
+                `;
+                badge.title = `${streakDays}-day streak bonus!`;
+                document.body.appendChild(badge);
+            } else {
+                window.streakMultiplier.active = false;
+                window.streakMultiplier.multiplier = 1.0;
+            }
+        };
+
+        window.getStreakXPMultiplier = function() {
+            return window.streakMultiplier.active ? window.streakMultiplier.multiplier : 1.0;
+        };
+
+        // =====================================================
+        // QUICK TOPIC SELECTOR
+        // =====================================================
+        window.popularTopics = [
+            { id: 'physics', name: 'Physics', icon: '⚛️' },
+            { id: 'chemistry', name: 'Chemistry', icon: '🧪' },
+            { id: 'biology', name: 'Biology', icon: '🧬' },
+            { id: 'earth', name: 'Earth Science', icon: '🌍' },
+            { id: 'space', name: 'Space', icon: '🚀' },
+            { id: 'energy', name: 'Energy', icon: '⚡' }
+        ];
+
+        window.showQuickTopicSelector = function() {
+            // Remove existing
+            document.querySelectorAll('.topic-selector-modal, .modal-backdrop').forEach(el => el.remove());
+
+            const backdrop = document.createElement('div');
+            backdrop.className = 'modal-backdrop';
+            backdrop.style.cssText = 'position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.5); z-index: 10005;';
+            backdrop.onclick = () => { backdrop.remove(); modal.remove(); };
+
+            // Get hot topics (topics with low mastery)
+            const hotTopics = Object.entries(window.topicMastery || {})
+                .filter(([_, data]) => data.percentage < 70)
+                .map(([id]) => id);
+
+            const modal = document.createElement('div');
+            modal.className = 'topic-selector-modal';
+            modal.style.cssText = `
+                position: fixed;
+                top: 50%;
+                left: 50%;
+                transform: translate(-50%, -50%);
+                background: white;
+                border-radius: 24px;
+                padding: 30px;
+                max-width: 450px;
+                width: 90%;
+                z-index: 10006;
+                box-shadow: 0 25px 80px rgba(0, 0, 0, 0.3);
+            `;
+            modal.innerHTML = `
+                <h2 style="margin: 0 0 10px 0; text-align: center;">📚 Quick Topic Select</h2>
+                <p style="text-align: center; color: #666; margin-bottom: 20px;">Choose a topic to practice!</p>
+                <div class="topic-quick-select">
+                    ${window.popularTopics.map(topic => {
+                        const isHot = hotTopics.includes(topic.id);
+                        return `
+                            <div class="topic-chip ${isHot ? 'hot' : ''}"
+                                 onclick="selectQuickTopic('${topic.id}'); document.querySelectorAll('.topic-selector-modal, .modal-backdrop').forEach(el => el.remove());">
+                                ${topic.icon} ${topic.name}
+                                ${isHot ? '<span style="font-size: 0.7rem;"> 🔥 Needs practice</span>' : ''}
+                            </div>
+                        `;
+                    }).join('')}
+                </div>
+                <div style="text-align: center; margin-top: 20px;">
+                    <button onclick="document.querySelectorAll('.topic-selector-modal, .modal-backdrop').forEach(el => el.remove());"
+                            style="padding: 10px 25px; border-radius: 20px; border: 1px solid #ddd; background: white; cursor: pointer; color: #666;">
+                        Cancel
+                    </button>
+                </div>
+            `;
+
+            document.body.appendChild(backdrop);
+            document.body.appendChild(modal);
+        };
+
+        window.selectQuickTopic = function(topicId) {
+            // Find topic in dropdown and select it
+            const dropdown = document.querySelector('select[name="topic"], .topic-dropdown');
+            if (dropdown) {
+                const option = Array.from(dropdown.options).find(opt =>
+                    opt.value.toLowerCase().includes(topicId) ||
+                    opt.text.toLowerCase().includes(topicId)
+                );
+                if (option) {
+                    dropdown.value = option.value;
+                    dropdown.dispatchEvent(new Event('change'));
+                }
+            }
+
+            if (window.showToast) showToast(`Topic selected: ${topicId}`, 'success');
+            if (window.switchTab) switchTab('practice');
+        };
+
+        // =====================================================
+        // INITIALIZATION
+        // =====================================================
+        document.addEventListener('DOMContentLoaded', () => {
+            loadDifficulty();
+
+            // Show welcome message after a short delay
+            setTimeout(showWelcomeMessage, 1000);
+
+            // Check streak multiplier
+            setTimeout(checkStreakMultiplier, 2000);
+
+            // Rotate quotes every 5 minutes
+            setInterval(displayQuoteInSidebar, 300000);
+        });
+
+        // Hook into XP system to apply multipliers
+        const originalAddXP3 = window.addXP;
+        window.addXP = function(amount, reason) {
+            // Apply difficulty multiplier
+            let multipliedAmount = Math.round(amount * getDifficultyXPMultiplier());
+
+            // Apply streak multiplier
+            multipliedAmount = Math.round(multipliedAmount * getStreakXPMultiplier());
+
+            if (originalAddXP3) {
+                originalAddXP3(multipliedAmount, reason);
+            }
+        };
+
+        console.log('👋 Welcome Messages, Difficulty, Quotes, and Streak Multipliers loaded!');
     </script>
 
     <!-- PowerPoint-style Table Grid Selector (positioned fixed, outside all containers) -->
