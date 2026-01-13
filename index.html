@@ -26997,6 +26997,316 @@
             font-weight: bold;
             margin-top: 4px;
         }
+
+        /* Batch 70: True/False Quiz */
+        .tf-quiz-btn {
+            position: fixed;
+            left: 18px;
+            bottom: 1470px;
+            width: 52px;
+            height: 52px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, #00bcd4, #4dd0e1);
+            color: white;
+            border: none;
+            font-size: 1.4rem;
+            cursor: pointer;
+            box-shadow: 0 4px 15px rgba(0, 188, 212, 0.4);
+            z-index: 1000;
+            transition: all 0.3s ease;
+        }
+
+        .tf-quiz-btn:hover {
+            transform: scale(1.1);
+        }
+
+        .tf-modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0,0,0,0.6);
+            z-index: 10001;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .tf-modal.active {
+            display: flex;
+        }
+
+        .tf-modal-content {
+            background: white;
+            border-radius: 16px;
+            width: 90%;
+            max-width: 450px;
+            max-height: 85vh;
+            overflow: hidden;
+        }
+
+        .tf-modal-header {
+            background: linear-gradient(135deg, #00bcd4, #4dd0e1);
+            color: white;
+            padding: 15px 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .tf-modal-body {
+            padding: 20px;
+        }
+
+        .tf-question {
+            font-size: 1.1rem;
+            text-align: center;
+            padding: 20px;
+            background: #e0f7fa;
+            border-radius: 12px;
+            margin-bottom: 20px;
+        }
+
+        .tf-buttons {
+            display: flex;
+            gap: 15px;
+        }
+
+        .tf-btn {
+            flex: 1;
+            padding: 15px;
+            font-size: 1.2rem;
+            border: none;
+            border-radius: 12px;
+            cursor: pointer;
+            font-weight: bold;
+            transition: all 0.3s ease;
+        }
+
+        .tf-btn.true {
+            background: #4caf50;
+            color: white;
+        }
+
+        .tf-btn.false {
+            background: #f44336;
+            color: white;
+        }
+
+        .tf-btn:hover {
+            transform: scale(1.05);
+        }
+
+        .tf-score {
+            text-align: center;
+            margin-top: 15px;
+            font-weight: bold;
+            color: #00bcd4;
+        }
+
+        /* Science News Feed */
+        .news-btn {
+            position: fixed;
+            right: 18px;
+            bottom: 1030px;
+            width: 52px;
+            height: 52px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, #795548, #a1887f);
+            color: white;
+            border: none;
+            font-size: 1.4rem;
+            cursor: pointer;
+            box-shadow: 0 4px 15px rgba(121, 85, 72, 0.4);
+            z-index: 1000;
+            transition: all 0.3s ease;
+        }
+
+        .news-btn:hover {
+            transform: scale(1.1);
+        }
+
+        .news-modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0,0,0,0.6);
+            z-index: 10001;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .news-modal.active {
+            display: flex;
+        }
+
+        .news-modal-content {
+            background: white;
+            border-radius: 16px;
+            width: 90%;
+            max-width: 450px;
+            max-height: 85vh;
+            overflow: hidden;
+        }
+
+        .news-modal-header {
+            background: linear-gradient(135deg, #795548, #a1887f);
+            color: white;
+            padding: 15px 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .news-modal-body {
+            padding: 20px;
+            max-height: 70vh;
+            overflow-y: auto;
+        }
+
+        .news-item {
+            padding: 15px;
+            background: #efebe9;
+            border-radius: 12px;
+            margin-bottom: 12px;
+        }
+
+        .news-title {
+            font-weight: bold;
+            color: #795548;
+            margin-bottom: 8px;
+        }
+
+        .news-content {
+            font-size: 0.9rem;
+            color: #555;
+            line-height: 1.5;
+        }
+
+        .news-category {
+            display: inline-block;
+            padding: 4px 10px;
+            background: #795548;
+            color: white;
+            border-radius: 15px;
+            font-size: 0.75rem;
+            margin-top: 8px;
+        }
+
+        /* Study Timer (Pomodoro) */
+        .pomodoro-btn {
+            position: fixed;
+            left: 18px;
+            bottom: 1510px;
+            width: 52px;
+            height: 52px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, #ff5722, #ff8a65);
+            color: white;
+            border: none;
+            font-size: 1.4rem;
+            cursor: pointer;
+            box-shadow: 0 4px 15px rgba(255, 87, 34, 0.4);
+            z-index: 1000;
+            transition: all 0.3s ease;
+        }
+
+        .pomodoro-btn:hover {
+            transform: scale(1.1);
+        }
+
+        .pomodoro-modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0,0,0,0.6);
+            z-index: 10001;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .pomodoro-modal.active {
+            display: flex;
+        }
+
+        .pomodoro-modal-content {
+            background: white;
+            border-radius: 16px;
+            width: 90%;
+            max-width: 400px;
+            overflow: hidden;
+        }
+
+        .pomodoro-modal-header {
+            background: linear-gradient(135deg, #ff5722, #ff8a65);
+            color: white;
+            padding: 15px 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .pomodoro-modal-body {
+            padding: 30px;
+            text-align: center;
+        }
+
+        .pomodoro-timer {
+            font-size: 4rem;
+            font-weight: bold;
+            color: #ff5722;
+            margin: 20px 0;
+        }
+
+        .pomodoro-label {
+            font-size: 1.2rem;
+            color: #666;
+            margin-bottom: 20px;
+        }
+
+        .pomodoro-controls {
+            display: flex;
+            gap: 10px;
+            justify-content: center;
+        }
+
+        .pomodoro-control-btn {
+            padding: 12px 25px;
+            font-size: 1rem;
+            border: none;
+            border-radius: 25px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .pomodoro-control-btn.start {
+            background: #4caf50;
+            color: white;
+        }
+
+        .pomodoro-control-btn.pause {
+            background: #ff9800;
+            color: white;
+        }
+
+        .pomodoro-control-btn.reset {
+            background: #9e9e9e;
+            color: white;
+        }
+
+        .pomodoro-stats {
+            margin-top: 20px;
+            padding-top: 15px;
+            border-top: 1px solid #eee;
+            color: #666;
+        }
     </style>
 </head>
 
@@ -69365,6 +69675,247 @@ This report was generated from the Science CER Practice App.
         }
 
         console.log('🃏 Memory Card Game, Science Glossary, and Achievement Progress loaded!');
+    </script>
+
+    <!-- Batch 70: True/False Quiz Button -->
+    <button class="tf-quiz-btn" onclick="openTFQuiz()" title="True/False Quiz">
+        ✓✗
+    </button>
+
+    <!-- True/False Quiz Modal -->
+    <div class="tf-modal" id="tfQuizModal">
+        <div class="tf-modal-content">
+            <div class="tf-modal-header">
+                <h3>✓✗ True or False</h3>
+                <button onclick="closeTFQuiz()" style="background:none;border:none;color:white;font-size:1.5rem;cursor:pointer;">✕</button>
+            </div>
+            <div class="tf-modal-body">
+                <div class="tf-question" id="tfQuestion">Loading question...</div>
+                <div class="tf-buttons">
+                    <button class="tf-btn true" onclick="answerTF(true)">✓ TRUE</button>
+                    <button class="tf-btn false" onclick="answerTF(false)">✗ FALSE</button>
+                </div>
+                <div class="tf-score" id="tfScore">Score: 0/0</div>
+                <button onclick="nextTFQuestion()" style="width:100%;margin-top:15px;padding:12px;background:linear-gradient(135deg,#00bcd4,#4dd0e1);color:white;border:none;border-radius:10px;cursor:pointer;">Next Question</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Science News Button -->
+    <button class="news-btn" onclick="openScienceNews()" title="Science News">
+        📰
+    </button>
+
+    <!-- Science News Modal -->
+    <div class="news-modal" id="newsModal">
+        <div class="news-modal-content">
+            <div class="news-modal-header">
+                <h3>📰 Science News</h3>
+                <button onclick="closeScienceNews()" style="background:none;border:none;color:white;font-size:1.5rem;cursor:pointer;">✕</button>
+            </div>
+            <div class="news-modal-body" id="newsContainer"></div>
+        </div>
+    </div>
+
+    <!-- Pomodoro Timer Button -->
+    <button class="pomodoro-btn" onclick="openPomodoro()" title="Study Timer">
+        🍅
+    </button>
+
+    <!-- Pomodoro Timer Modal -->
+    <div class="pomodoro-modal" id="pomodoroModal">
+        <div class="pomodoro-modal-content">
+            <div class="pomodoro-modal-header">
+                <h3>🍅 Study Timer</h3>
+                <button onclick="closePomodoro()" style="background:none;border:none;color:white;font-size:1.5rem;cursor:pointer;">✕</button>
+            </div>
+            <div class="pomodoro-modal-body">
+                <div class="pomodoro-label" id="pomodoroLabel">Study Session</div>
+                <div class="pomodoro-timer" id="pomodoroTimer">25:00</div>
+                <div class="pomodoro-controls">
+                    <button class="pomodoro-control-btn start" id="pomodoroStartBtn" onclick="togglePomodoro()">▶ Start</button>
+                    <button class="pomodoro-control-btn reset" onclick="resetPomodoro()">↺ Reset</button>
+                </div>
+                <div class="pomodoro-stats" id="pomodoroStats">Sessions completed today: 0</div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Batch 70: True/False Quiz, Science News, Pomodoro Timer
+
+        // True/False Quiz
+        const tfQuestions = [
+            { q: 'Water boils at 100°C at sea level.', answer: true },
+            { q: 'Sound travels faster in air than in water.', answer: false },
+            { q: 'The Sun is a star.', answer: true },
+            { q: 'Plants release oxygen during photosynthesis.', answer: true },
+            { q: 'Electrons are larger than protons.', answer: false },
+            { q: 'The human body has 206 bones.', answer: true },
+            { q: 'Lightning is hotter than the Sun\'s surface.', answer: true },
+            { q: 'Oil floats on water because it is denser.', answer: false },
+            { q: 'The Moon has its own light.', answer: false },
+            { q: 'Diamonds are made of carbon.', answer: true },
+            { q: 'Blood is always red inside the body.', answer: true },
+            { q: 'Venus is the hottest planet in our solar system.', answer: true },
+            { q: 'Bats are blind.', answer: false },
+            { q: 'Glass is made mainly from sand.', answer: true },
+            { q: 'Humans use only 10% of their brains.', answer: false }
+        ];
+
+        let tfState = { current: null, correct: 0, total: 0 };
+
+        function openTFQuiz() {
+            document.getElementById('tfQuizModal').classList.add('active');
+            nextTFQuestion();
+        }
+
+        function closeTFQuiz() {
+            document.getElementById('tfQuizModal').classList.remove('active');
+        }
+
+        function nextTFQuestion() {
+            tfState.current = tfQuestions[Math.floor(Math.random() * tfQuestions.length)];
+            document.getElementById('tfQuestion').textContent = tfState.current.q;
+            document.querySelectorAll('.tf-btn').forEach(btn => {
+                btn.disabled = false;
+                btn.style.opacity = '1';
+            });
+        }
+
+        function answerTF(answer) {
+            if (!tfState.current) return;
+
+            tfState.total++;
+            const btns = document.querySelectorAll('.tf-btn');
+            btns.forEach(btn => btn.disabled = true);
+
+            if (answer === tfState.current.answer) {
+                tfState.correct++;
+                document.getElementById('tfQuestion').innerHTML += '<br><span style="color:#4caf50;">✓ Correct! +10 XP</span>';
+                addXP(10);
+            } else {
+                const correctAns = tfState.current.answer ? 'TRUE' : 'FALSE';
+                document.getElementById('tfQuestion').innerHTML += `<br><span style="color:#f44336;">✗ Wrong! Answer: ${correctAns}</span>`;
+            }
+
+            document.getElementById('tfScore').textContent = `Score: ${tfState.correct}/${tfState.total}`;
+            tfState.current = null;
+        }
+
+        // Science News Feed
+        const scienceNews = [
+            { title: 'Water on Mars', content: 'Scientists have found evidence of liquid water beneath the surface of Mars, increasing the possibility of microbial life.', category: 'Space' },
+            { title: 'New Element Discovered', content: 'Researchers have synthesized a new superheavy element, expanding our understanding of the periodic table.', category: 'Chemistry' },
+            { title: 'Brain-Computer Interface', content: 'A breakthrough in neural technology allows paralyzed patients to control computers with their thoughts.', category: 'Biology' },
+            { title: 'Renewable Energy Record', content: 'Solar panels have achieved a new efficiency record of 47%, making clean energy more viable than ever.', category: 'Physics' },
+            { title: 'Deep Sea Discovery', content: 'A new species of bioluminescent fish has been found in the Mariana Trench, the deepest part of the ocean.', category: 'Biology' },
+            { title: 'Quantum Computing', content: 'A quantum computer has solved a problem in minutes that would take traditional computers thousands of years.', category: 'Physics' },
+            { title: 'Climate Breakthrough', content: 'Scientists develop a new material that can capture carbon dioxide from the air more efficiently.', category: 'Earth Science' },
+            { title: 'Gene Editing Advances', content: 'CRISPR technology has been used to successfully treat genetic disorders in clinical trials.', category: 'Biology' }
+        ];
+
+        function openScienceNews() {
+            document.getElementById('newsModal').classList.add('active');
+            renderNews();
+        }
+
+        function closeScienceNews() {
+            document.getElementById('newsModal').classList.remove('active');
+        }
+
+        function renderNews() {
+            document.getElementById('newsContainer').innerHTML = scienceNews.map(n => `
+                <div class="news-item">
+                    <div class="news-title">${n.title}</div>
+                    <div class="news-content">${n.content}</div>
+                    <span class="news-category">${n.category}</span>
+                </div>
+            `).join('');
+        }
+
+        // Pomodoro Timer
+        let pomodoroState = {
+            timeLeft: 25 * 60,
+            isRunning: false,
+            interval: null,
+            isBreak: false,
+            sessionsToday: parseInt(localStorage.getItem('pomodoroSessions') || '0')
+        };
+
+        function openPomodoro() {
+            document.getElementById('pomodoroModal').classList.add('active');
+            updatePomodoroDisplay();
+            document.getElementById('pomodoroStats').textContent = `Sessions completed today: ${pomodoroState.sessionsToday}`;
+        }
+
+        function closePomodoro() {
+            document.getElementById('pomodoroModal').classList.remove('active');
+        }
+
+        function togglePomodoro() {
+            if (pomodoroState.isRunning) {
+                clearInterval(pomodoroState.interval);
+                pomodoroState.isRunning = false;
+                document.getElementById('pomodoroStartBtn').innerHTML = '▶ Start';
+                document.getElementById('pomodoroStartBtn').classList.remove('pause');
+                document.getElementById('pomodoroStartBtn').classList.add('start');
+            } else {
+                pomodoroState.isRunning = true;
+                document.getElementById('pomodoroStartBtn').innerHTML = '⏸ Pause';
+                document.getElementById('pomodoroStartBtn').classList.remove('start');
+                document.getElementById('pomodoroStartBtn').classList.add('pause');
+
+                pomodoroState.interval = setInterval(() => {
+                    pomodoroState.timeLeft--;
+                    updatePomodoroDisplay();
+
+                    if (pomodoroState.timeLeft <= 0) {
+                        clearInterval(pomodoroState.interval);
+                        pomodoroState.isRunning = false;
+
+                        if (!pomodoroState.isBreak) {
+                            pomodoroState.sessionsToday++;
+                            localStorage.setItem('pomodoroSessions', pomodoroState.sessionsToday);
+                            document.getElementById('pomodoroStats').textContent = `Sessions completed today: ${pomodoroState.sessionsToday}`;
+                            addXP(25);
+                            alert('🎉 Study session complete! +25 XP. Take a 5-minute break!');
+                            pomodoroState.isBreak = true;
+                            pomodoroState.timeLeft = 5 * 60;
+                        } else {
+                            alert('⏰ Break is over! Ready for another session?');
+                            pomodoroState.isBreak = false;
+                            pomodoroState.timeLeft = 25 * 60;
+                        }
+
+                        updatePomodoroDisplay();
+                        document.getElementById('pomodoroStartBtn').innerHTML = '▶ Start';
+                        document.getElementById('pomodoroStartBtn').classList.remove('pause');
+                        document.getElementById('pomodoroStartBtn').classList.add('start');
+                    }
+                }, 1000);
+            }
+        }
+
+        function resetPomodoro() {
+            clearInterval(pomodoroState.interval);
+            pomodoroState.isRunning = false;
+            pomodoroState.isBreak = false;
+            pomodoroState.timeLeft = 25 * 60;
+            updatePomodoroDisplay();
+            document.getElementById('pomodoroStartBtn').innerHTML = '▶ Start';
+            document.getElementById('pomodoroStartBtn').classList.remove('pause');
+            document.getElementById('pomodoroStartBtn').classList.add('start');
+        }
+
+        function updatePomodoroDisplay() {
+            const mins = Math.floor(pomodoroState.timeLeft / 60);
+            const secs = pomodoroState.timeLeft % 60;
+            document.getElementById('pomodoroTimer').textContent = `${mins.toString().padStart(2, '0')}:${secs.toString().padStart(2, '0')}`;
+            document.getElementById('pomodoroLabel').textContent = pomodoroState.isBreak ? 'Break Time' : 'Study Session';
+        }
+
+        console.log('✓✗ True/False Quiz, Science News, and Pomodoro Timer loaded!');
     </script>
 
     <!-- PowerPoint-style Table Grid Selector (positioned fixed, outside all containers) -->
