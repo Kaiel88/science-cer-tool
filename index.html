@@ -27605,6 +27605,288 @@
             margin-bottom: 10px;
             color: #333;
         }
+
+        /* Batch 72: Fill in the Blanks */
+        .blanks-btn {
+            position: fixed;
+            left: 18px;
+            bottom: 1590px;
+            width: 52px;
+            height: 52px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, #f44336, #ef9a9a);
+            color: white;
+            border: none;
+            font-size: 1.4rem;
+            cursor: pointer;
+            box-shadow: 0 4px 15px rgba(244, 67, 54, 0.4);
+            z-index: 1000;
+            transition: all 0.3s ease;
+        }
+
+        .blanks-btn:hover {
+            transform: scale(1.1);
+        }
+
+        .blanks-modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0,0,0,0.6);
+            z-index: 10001;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .blanks-modal.active {
+            display: flex;
+        }
+
+        .blanks-modal-content {
+            background: white;
+            border-radius: 16px;
+            width: 90%;
+            max-width: 450px;
+            overflow: hidden;
+        }
+
+        .blanks-modal-header {
+            background: linear-gradient(135deg, #f44336, #ef9a9a);
+            color: white;
+            padding: 15px 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .blanks-modal-body {
+            padding: 25px;
+        }
+
+        .blanks-sentence {
+            font-size: 1.1rem;
+            line-height: 1.8;
+            padding: 20px;
+            background: #ffebee;
+            border-radius: 12px;
+            margin-bottom: 20px;
+        }
+
+        .blanks-input {
+            padding: 5px 10px;
+            border: 2px solid #f44336;
+            border-radius: 5px;
+            font-size: 1rem;
+            width: 120px;
+        }
+
+        .blanks-result {
+            text-align: center;
+            font-weight: bold;
+            margin-bottom: 15px;
+        }
+
+        /* Experiment Ideas */
+        .experiment-btn {
+            position: fixed;
+            right: 18px;
+            bottom: 1150px;
+            width: 52px;
+            height: 52px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, #8bc34a, #c5e1a5);
+            color: white;
+            border: none;
+            font-size: 1.4rem;
+            cursor: pointer;
+            box-shadow: 0 4px 15px rgba(139, 195, 74, 0.4);
+            z-index: 1000;
+            transition: all 0.3s ease;
+        }
+
+        .experiment-btn:hover {
+            transform: scale(1.1);
+        }
+
+        .experiment-modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0,0,0,0.6);
+            z-index: 10001;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .experiment-modal.active {
+            display: flex;
+        }
+
+        .experiment-modal-content {
+            background: white;
+            border-radius: 16px;
+            width: 90%;
+            max-width: 450px;
+            max-height: 85vh;
+            overflow: hidden;
+        }
+
+        .experiment-modal-header {
+            background: linear-gradient(135deg, #8bc34a, #c5e1a5);
+            color: white;
+            padding: 15px 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .experiment-modal-body {
+            padding: 20px;
+            max-height: 70vh;
+            overflow-y: auto;
+        }
+
+        .experiment-card {
+            background: #f1f8e9;
+            padding: 15px;
+            border-radius: 12px;
+            margin-bottom: 12px;
+        }
+
+        .experiment-title {
+            font-weight: bold;
+            color: #558b2f;
+            margin-bottom: 8px;
+            font-size: 1.1rem;
+        }
+
+        .experiment-materials {
+            font-size: 0.85rem;
+            color: #666;
+            margin-bottom: 8px;
+        }
+
+        .experiment-steps {
+            font-size: 0.9rem;
+            color: #333;
+        }
+
+        .experiment-difficulty {
+            display: inline-block;
+            padding: 3px 10px;
+            background: #8bc34a;
+            color: white;
+            border-radius: 10px;
+            font-size: 0.75rem;
+            margin-top: 8px;
+        }
+
+        /* Topic Progress */
+        .topic-progress-btn {
+            position: fixed;
+            left: 18px;
+            bottom: 1630px;
+            width: 52px;
+            height: 52px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, #2196f3, #90caf9);
+            color: white;
+            border: none;
+            font-size: 1.4rem;
+            cursor: pointer;
+            box-shadow: 0 4px 15px rgba(33, 150, 243, 0.4);
+            z-index: 1000;
+            transition: all 0.3s ease;
+        }
+
+        .topic-progress-btn:hover {
+            transform: scale(1.1);
+        }
+
+        .progress-modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0,0,0,0.6);
+            z-index: 10001;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .progress-modal.active {
+            display: flex;
+        }
+
+        .progress-modal-content {
+            background: white;
+            border-radius: 16px;
+            width: 90%;
+            max-width: 450px;
+            max-height: 85vh;
+            overflow: hidden;
+        }
+
+        .progress-modal-header {
+            background: linear-gradient(135deg, #2196f3, #90caf9);
+            color: white;
+            padding: 15px 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .progress-modal-body {
+            padding: 20px;
+            max-height: 70vh;
+            overflow-y: auto;
+        }
+
+        .progress-topic {
+            padding: 15px;
+            background: #e3f2fd;
+            border-radius: 12px;
+            margin-bottom: 12px;
+        }
+
+        .progress-topic-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 10px;
+        }
+
+        .progress-topic-name {
+            font-weight: bold;
+            color: #1976d2;
+        }
+
+        .progress-pct {
+            font-weight: bold;
+            color: #2196f3;
+        }
+
+        .progress-bar {
+            height: 10px;
+            background: #bbdefb;
+            border-radius: 5px;
+            overflow: hidden;
+        }
+
+        .progress-fill {
+            height: 100%;
+            background: linear-gradient(90deg, #2196f3, #64b5f6);
+            border-radius: 5px;
+            transition: width 0.5s ease;
+        }
     </style>
 </head>
 
@@ -70449,6 +70731,218 @@ This report was generated from the Science CER Practice App.
         }
 
         console.log('🔀 Word Scramble, Science Heroes, and Quick Review loaded!');
+    </script>
+
+    <!-- Batch 72: Fill in the Blanks Button -->
+    <button class="blanks-btn" onclick="openBlanks()" title="Fill in the Blanks">
+        📝
+    </button>
+
+    <!-- Fill in the Blanks Modal -->
+    <div class="blanks-modal" id="blanksModal">
+        <div class="blanks-modal-content">
+            <div class="blanks-modal-header">
+                <h3>📝 Fill in the Blanks</h3>
+                <button onclick="closeBlanks()" style="background:none;border:none;color:white;font-size:1.5rem;cursor:pointer;">✕</button>
+            </div>
+            <div class="blanks-modal-body">
+                <div class="blanks-sentence" id="blanksSentence"></div>
+                <div class="blanks-result" id="blanksResult"></div>
+                <button onclick="checkBlanks()" style="width:100%;padding:12px;background:#4caf50;color:white;border:none;border-radius:10px;cursor:pointer;margin-bottom:10px;">✓ Check Answer</button>
+                <button onclick="newBlanks()" style="width:100%;padding:12px;background:linear-gradient(135deg,#f44336,#ef9a9a);color:white;border:none;border-radius:10px;cursor:pointer;">🔄 New Question</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Experiment Ideas Button -->
+    <button class="experiment-btn" onclick="openExperiments()" title="Experiment Ideas">
+        🧪
+    </button>
+
+    <!-- Experiment Ideas Modal -->
+    <div class="experiment-modal" id="experimentModal">
+        <div class="experiment-modal-content">
+            <div class="experiment-modal-header">
+                <h3>🧪 Experiment Ideas</h3>
+                <button onclick="closeExperiments()" style="background:none;border:none;color:white;font-size:1.5rem;cursor:pointer;">✕</button>
+            </div>
+            <div class="experiment-modal-body" id="experimentContainer"></div>
+        </div>
+    </div>
+
+    <!-- Topic Progress Button -->
+    <button class="topic-progress-btn" onclick="openTopicProgress()" title="Topic Progress">
+        📊
+    </button>
+
+    <!-- Topic Progress Modal -->
+    <div class="progress-modal" id="topicProgressModal">
+        <div class="progress-modal-content">
+            <div class="progress-modal-header">
+                <h3>📊 Topic Progress</h3>
+                <button onclick="closeTopicProgress()" style="background:none;border:none;color:white;font-size:1.5rem;cursor:pointer;">✕</button>
+            </div>
+            <div class="progress-modal-body" id="topicProgressContainer"></div>
+        </div>
+    </div>
+
+    <script>
+        // Batch 72: Fill in the Blanks, Experiment Ideas, Topic Progress
+
+        // Fill in the Blanks
+        const blanksQuestions = [
+            { sentence: 'The force of _____ pulls objects toward Earth.', answer: 'gravity' },
+            { sentence: 'Plants use _____ to make food from sunlight.', answer: 'photosynthesis' },
+            { sentence: 'The _____ is the control center of the cell.', answer: 'nucleus' },
+            { sentence: 'Water is made of hydrogen and _____.', answer: 'oxygen' },
+            { sentence: 'The unit of force is the _____.', answer: 'newton' },
+            { sentence: 'Sound cannot travel through a _____.', answer: 'vacuum' },
+            { sentence: '_____ are negatively charged particles.', answer: 'electrons' },
+            { sentence: 'The powerhouse of the cell is the _____.', answer: 'mitochondria' },
+            { sentence: 'Light travels fastest in a _____.', answer: 'vacuum' },
+            { sentence: 'The chemical symbol for gold is _____.', answer: 'au' }
+        ];
+
+        let currentBlanks = null;
+
+        function openBlanks() {
+            document.getElementById('blanksModal').classList.add('active');
+            newBlanks();
+        }
+
+        function closeBlanks() {
+            document.getElementById('blanksModal').classList.remove('active');
+        }
+
+        function newBlanks() {
+            currentBlanks = blanksQuestions[Math.floor(Math.random() * blanksQuestions.length)];
+            const parts = currentBlanks.sentence.split('_____');
+            document.getElementById('blanksSentence').innerHTML =
+                parts[0] + '<input type="text" class="blanks-input" id="blanksInput" placeholder="...">' + parts[1];
+            document.getElementById('blanksResult').innerHTML = '';
+        }
+
+        function checkBlanks() {
+            if (!currentBlanks) return;
+            const input = document.getElementById('blanksInput').value.toLowerCase().trim();
+            const result = document.getElementById('blanksResult');
+
+            if (input === currentBlanks.answer) {
+                result.innerHTML = '<span style="color:#4caf50;">✓ Correct! +10 XP</span>';
+                addXP(10);
+            } else {
+                result.innerHTML = `<span style="color:#f44336;">✗ Wrong! Answer: ${currentBlanks.answer}</span>`;
+            }
+        }
+
+        // Experiment Ideas
+        const experiments = [
+            {
+                title: '🌋 Baking Soda Volcano',
+                materials: 'Baking soda, vinegar, dish soap, food coloring',
+                steps: 'Mix baking soda with dish soap, add food coloring, pour vinegar for eruption!',
+                difficulty: 'Easy'
+            },
+            {
+                title: '🌈 Rainbow in a Glass',
+                materials: 'Sugar, water, food coloring, tall glass',
+                steps: 'Create sugar solutions of different concentrations, layer them carefully with food coloring.',
+                difficulty: 'Medium'
+            },
+            {
+                title: '🥚 Floating Egg',
+                materials: 'Egg, salt, two glasses of water',
+                steps: 'Dissolve salt in one glass. The egg sinks in plain water but floats in salt water!',
+                difficulty: 'Easy'
+            },
+            {
+                title: '🌱 Growing Crystals',
+                materials: 'Sugar or salt, hot water, string, pencil',
+                steps: 'Make supersaturated solution, hang string in it, watch crystals form over days.',
+                difficulty: 'Medium'
+            },
+            {
+                title: '💡 Lemon Battery',
+                materials: 'Lemon, copper coin, zinc nail, LED',
+                steps: 'Insert copper and zinc into lemon, connect to LED. Chemical energy creates electricity!',
+                difficulty: 'Hard'
+            },
+            {
+                title: '🎈 Static Electricity',
+                materials: 'Balloon, wool cloth, small paper pieces',
+                steps: 'Rub balloon on wool, watch it attract paper pieces. Electrons transfer!',
+                difficulty: 'Easy'
+            }
+        ];
+
+        function openExperiments() {
+            document.getElementById('experimentModal').classList.add('active');
+            renderExperiments();
+        }
+
+        function closeExperiments() {
+            document.getElementById('experimentModal').classList.remove('active');
+        }
+
+        function renderExperiments() {
+            document.getElementById('experimentContainer').innerHTML = experiments.map(e => `
+                <div class="experiment-card">
+                    <div class="experiment-title">${e.title}</div>
+                    <div class="experiment-materials"><strong>Materials:</strong> ${e.materials}</div>
+                    <div class="experiment-steps">${e.steps}</div>
+                    <span class="experiment-difficulty">${e.difficulty}</span>
+                </div>
+            `).join('');
+        }
+
+        // Topic Progress
+        const topicList = [
+            { name: 'Forces & Motion', icon: '⚡' },
+            { name: 'Cells & Life', icon: '🧬' },
+            { name: 'Atoms & Elements', icon: '⚛️' },
+            { name: 'Energy & Waves', icon: '🌊' },
+            { name: 'Earth & Space', icon: '🌍' },
+            { name: 'Chemical Reactions', icon: '🧪' }
+        ];
+
+        function openTopicProgress() {
+            document.getElementById('topicProgressModal').classList.add('active');
+            renderTopicProgress();
+        }
+
+        function closeTopicProgress() {
+            document.getElementById('topicProgressModal').classList.remove('active');
+        }
+
+        function renderTopicProgress() {
+            const progress = JSON.parse(localStorage.getItem('topicProgress') || '{}');
+
+            document.getElementById('topicProgressContainer').innerHTML = topicList.map(t => {
+                const pct = progress[t.name] || Math.floor(Math.random() * 60 + 10);
+                return `
+                    <div class="progress-topic">
+                        <div class="progress-topic-header">
+                            <span class="progress-topic-name">${t.icon} ${t.name}</span>
+                            <span class="progress-pct">${pct}%</span>
+                        </div>
+                        <div class="progress-bar">
+                            <div class="progress-fill" style="width:${pct}%"></div>
+                        </div>
+                    </div>
+                `;
+            }).join('');
+        }
+
+        // Initialize some progress
+        if (!localStorage.getItem('topicProgress')) {
+            const initialProgress = {};
+            topicList.forEach(t => {
+                initialProgress[t.name] = Math.floor(Math.random() * 40 + 5);
+            });
+            localStorage.setItem('topicProgress', JSON.stringify(initialProgress));
+        }
+
+        console.log('📝 Fill in the Blanks, Experiment Ideas, and Topic Progress loaded!');
     </script>
 
     <!-- PowerPoint-style Table Grid Selector (positioned fixed, outside all containers) -->
