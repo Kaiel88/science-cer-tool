@@ -16218,6 +16218,280 @@
         .floating-reminders-btn:hover {
             transform: scale(1.1);
         }
+
+        /* ========== BATCH 41: Profile Customization, Difficulty Indicator, Science News ========== */
+
+        /* Profile Customization */
+        .profile-modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.7);
+            z-index: 10000;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .profile-container {
+            background: white;
+            border-radius: 20px;
+            width: 90%;
+            max-width: 450px;
+            overflow: hidden;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+        }
+
+        .profile-header {
+            background: linear-gradient(135deg, #2196f3 0%, #21cbf3 100%);
+            color: white;
+            padding: 30px;
+            text-align: center;
+        }
+
+        .profile-avatar-display {
+            font-size: 4rem;
+            margin-bottom: 10px;
+        }
+
+        .profile-name-display {
+            font-size: 1.5rem;
+            font-weight: bold;
+        }
+
+        .profile-body {
+            padding: 25px;
+        }
+
+        .profile-section {
+            margin-bottom: 20px;
+        }
+
+        .profile-section label {
+            display: block;
+            color: #333;
+            font-weight: 600;
+            margin-bottom: 10px;
+        }
+
+        .profile-section input {
+            width: 100%;
+            padding: 12px;
+            border: 2px solid #ddd;
+            border-radius: 10px;
+            font-size: 1rem;
+            box-sizing: border-box;
+        }
+
+        .avatar-picker {
+            display: grid;
+            grid-template-columns: repeat(6, 1fr);
+            gap: 10px;
+        }
+
+        .avatar-option {
+            font-size: 2rem;
+            text-align: center;
+            padding: 10px;
+            border-radius: 10px;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            border: 2px solid transparent;
+        }
+
+        .avatar-option:hover {
+            background: #e3f2fd;
+        }
+
+        .avatar-option.selected {
+            border-color: #2196f3;
+            background: #e3f2fd;
+        }
+
+        .profile-save-btn {
+            background: linear-gradient(135deg, #2196f3 0%, #21cbf3 100%);
+            color: white;
+            border: none;
+            padding: 15px 30px;
+            border-radius: 30px;
+            font-size: 1rem;
+            font-weight: bold;
+            cursor: pointer;
+            width: 100%;
+            margin-top: 10px;
+        }
+
+        /* Difficulty Indicator */
+        .difficulty-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 5px;
+            padding: 4px 12px;
+            border-radius: 20px;
+            font-size: 0.8rem;
+            font-weight: bold;
+            margin-left: 10px;
+        }
+
+        .difficulty-badge.easy {
+            background: #e8f5e9;
+            color: #2e7d32;
+        }
+
+        .difficulty-badge.medium {
+            background: #fff3e0;
+            color: #e65100;
+        }
+
+        .difficulty-badge.hard {
+            background: #ffebee;
+            color: #c62828;
+        }
+
+        .difficulty-stars {
+            color: #ffd700;
+        }
+
+        /* Science News */
+        .news-modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.7);
+            z-index: 10000;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .news-container {
+            background: white;
+            border-radius: 20px;
+            width: 95%;
+            max-width: 700px;
+            max-height: 85vh;
+            overflow: hidden;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+        }
+
+        .news-header {
+            background: linear-gradient(135deg, #37474f 0%, #546e7a 100%);
+            color: white;
+            padding: 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .news-header h2 {
+            margin: 0;
+            font-size: 1.5rem;
+        }
+
+        .news-body {
+            padding: 20px;
+            max-height: 65vh;
+            overflow-y: auto;
+        }
+
+        .news-card {
+            background: #f5f5f5;
+            border-radius: 12px;
+            padding: 20px;
+            margin-bottom: 15px;
+            border-left: 4px solid #37474f;
+            transition: all 0.3s ease;
+        }
+
+        .news-card:hover {
+            transform: translateX(5px);
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+        }
+
+        .news-card-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            margin-bottom: 10px;
+        }
+
+        .news-category {
+            background: #37474f;
+            color: white;
+            padding: 4px 10px;
+            border-radius: 15px;
+            font-size: 0.75rem;
+        }
+
+        .news-date {
+            color: #999;
+            font-size: 0.8rem;
+        }
+
+        .news-title {
+            font-weight: bold;
+            color: #333;
+            font-size: 1.1rem;
+            margin-bottom: 8px;
+        }
+
+        .news-summary {
+            color: #666;
+            font-size: 0.95rem;
+            line-height: 1.5;
+        }
+
+        .news-emoji {
+            font-size: 2rem;
+            margin-right: 15px;
+        }
+
+        /* Floating buttons */
+        .floating-profile-btn {
+            position: fixed;
+            bottom: 3280px;
+            right: 20px;
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, #2196f3 0%, #21cbf3 100%);
+            color: white;
+            border: none;
+            font-size: 1.3rem;
+            cursor: pointer;
+            box-shadow: 0 5px 20px rgba(33, 150, 243, 0.4);
+            z-index: 999;
+            transition: all 0.3s ease;
+        }
+
+        .floating-profile-btn:hover {
+            transform: scale(1.1);
+        }
+
+        .floating-news-btn {
+            position: fixed;
+            bottom: 3340px;
+            right: 20px;
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, #37474f 0%, #546e7a 100%);
+            color: white;
+            border: none;
+            font-size: 1.3rem;
+            cursor: pointer;
+            box-shadow: 0 5px 20px rgba(55, 71, 79, 0.4);
+            z-index: 999;
+            transition: all 0.3s ease;
+        }
+
+        .floating-news-btn:hover {
+            transform: scale(1.1);
+        }
     </style>
 </head>
 
@@ -48185,6 +48459,219 @@ Science Made Fun!
         setInterval(checkStudyReminder, 60000);
 
         console.log('🏆 Leaderboard, Confetti, and Study Reminders loaded!');
+    </script>
+
+    <!-- ========== BATCH 41: Profile Customization, Difficulty Indicator, Science News ========== -->
+
+    <!-- Profile Modal -->
+    <div class="profile-modal" id="profile-modal">
+        <div class="profile-container">
+            <div class="profile-header">
+                <div class="profile-avatar-display" id="profile-avatar-preview">👤</div>
+                <div class="profile-name-display" id="profile-name-preview">Student</div>
+            </div>
+            <div class="profile-body">
+                <div class="profile-section">
+                    <label>Your Name</label>
+                    <input type="text" id="profile-name-input" placeholder="Enter your name" maxlength="20">
+                </div>
+                <div class="profile-section">
+                    <label>Choose Your Avatar</label>
+                    <div class="avatar-picker" id="avatar-picker">
+                    </div>
+                </div>
+                <button class="profile-save-btn" onclick="saveProfile()">Save Profile</button>
+                <button onclick="closeProfile()" style="background: #f5f5f5; color: #333; border: none; padding: 12px; border-radius: 30px; width: 100%; margin-top: 10px; cursor: pointer;">Cancel</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Science News Modal -->
+    <div class="news-modal" id="news-modal">
+        <div class="news-container">
+            <div class="news-header">
+                <h2>📰 Science News</h2>
+                <button onclick="closeNews()" style="background: none; border: none; color: white; font-size: 1.5rem; cursor: pointer;">✕</button>
+            </div>
+            <div class="news-body" id="news-body">
+            </div>
+        </div>
+    </div>
+
+    <!-- Floating Buttons -->
+    <button class="floating-profile-btn" onclick="openProfile()" title="My Profile">👤</button>
+    <button class="floating-news-btn" onclick="openNews()" title="Science News">📰</button>
+
+    <script>
+        // ========== BATCH 41: Profile Customization, Difficulty Indicator, Science News ==========
+
+        // Profile System
+        const availableAvatars = ['👤', '🧑‍🔬', '👨‍🔬', '👩‍🔬', '🦸', '🦸‍♂️', '🦸‍♀️', '🧙', '🧙‍♂️', '🧙‍♀️', '🤖', '👾', '🐱', '🐶', '🦊', '🦁', '🐼', '🐨', '🐸', '🦋', '🌟', '⭐', '🔬', '🧪'];
+
+        let selectedAvatar = localStorage.getItem('userAvatar') || '👤';
+
+        function openProfile() {
+            document.getElementById('profile-modal').style.display = 'flex';
+            loadProfileSettings();
+            renderAvatarPicker();
+        }
+
+        function closeProfile() {
+            document.getElementById('profile-modal').style.display = 'none';
+        }
+
+        function loadProfileSettings() {
+            const name = localStorage.getItem('userName') || 'Student';
+            selectedAvatar = localStorage.getItem('userAvatar') || '👤';
+
+            document.getElementById('profile-name-input').value = name;
+            document.getElementById('profile-avatar-preview').textContent = selectedAvatar;
+            document.getElementById('profile-name-preview').textContent = name;
+        }
+
+        function renderAvatarPicker() {
+            const container = document.getElementById('avatar-picker');
+            container.innerHTML = availableAvatars.map(avatar => `
+                <div class="avatar-option ${avatar === selectedAvatar ? 'selected' : ''}" onclick="selectAvatar('${avatar}')">
+                    ${avatar}
+                </div>
+            `).join('');
+        }
+
+        function selectAvatar(avatar) {
+            selectedAvatar = avatar;
+            document.getElementById('profile-avatar-preview').textContent = avatar;
+            renderAvatarPicker();
+        }
+
+        function saveProfile() {
+            const name = document.getElementById('profile-name-input').value.trim() || 'Student';
+
+            localStorage.setItem('userName', name);
+            localStorage.setItem('userAvatar', selectedAvatar);
+
+            document.getElementById('profile-name-preview').textContent = name;
+
+            closeProfile();
+
+            if (typeof showMotivation === 'function') {
+                showMotivation('Profile saved! Welcome, ' + name + '!');
+            }
+
+            // Update leaderboard display
+            if (typeof renderLeaderboard === 'function') {
+                renderLeaderboard();
+            }
+        }
+
+        // Difficulty Indicator System
+        function getDifficultyBadge(level) {
+            if (level === 'easy') {
+                return '<span class="difficulty-badge easy"><span class="difficulty-stars">★</span> Easy</span>';
+            } else if (level === 'medium') {
+                return '<span class="difficulty-badge medium"><span class="difficulty-stars">★★</span> Medium</span>';
+            } else {
+                return '<span class="difficulty-badge hard"><span class="difficulty-stars">★★★</span> Hard</span>';
+            }
+        }
+
+        function getRandomDifficulty() {
+            const rand = Math.random();
+            if (rand < 0.4) return 'easy';
+            if (rand < 0.75) return 'medium';
+            return 'hard';
+        }
+
+        // Science News System
+        const scienceNews = [
+            {
+                emoji: '🚀',
+                category: 'Space',
+                title: 'New Exoplanet Discovered!',
+                summary: 'Scientists have discovered a new planet orbiting a distant star that may have conditions suitable for life.',
+                date: 'Today'
+            },
+            {
+                emoji: '🦕',
+                category: 'Paleontology',
+                title: 'Dinosaur Footprints Found',
+                summary: 'A new set of dinosaur footprints was discovered, revealing new information about how these ancient creatures moved.',
+                date: 'Yesterday'
+            },
+            {
+                emoji: '🧬',
+                category: 'Biology',
+                title: 'New Species of Deep Sea Fish',
+                summary: 'Marine biologists have identified a new species of fish living in the deepest parts of the ocean.',
+                date: '2 days ago'
+            },
+            {
+                emoji: '⚡',
+                category: 'Energy',
+                title: 'Solar Power Breakthrough',
+                summary: 'Engineers have developed more efficient solar panels that could make renewable energy cheaper than ever.',
+                date: '3 days ago'
+            },
+            {
+                emoji: '🌋',
+                category: 'Geology',
+                title: 'Volcano Activity Monitored',
+                summary: 'Scientists are using new technology to better predict volcanic eruptions and keep people safe.',
+                date: '4 days ago'
+            },
+            {
+                emoji: '🤖',
+                category: 'Technology',
+                title: 'Robot Helps Scientists',
+                summary: 'A new robot has been designed to help scientists explore dangerous environments like active volcanoes.',
+                date: '5 days ago'
+            },
+            {
+                emoji: '🌊',
+                category: 'Ocean',
+                title: 'Ocean Cleanup Progress',
+                summary: 'The project to clean plastic from the ocean has removed thousands of tonnes of waste this year.',
+                date: '1 week ago'
+            },
+            {
+                emoji: '🔭',
+                category: 'Astronomy',
+                title: 'Meteor Shower Coming!',
+                summary: 'A spectacular meteor shower will be visible next week. The best viewing time is after midnight.',
+                date: '1 week ago'
+            }
+        ];
+
+        function openNews() {
+            document.getElementById('news-modal').style.display = 'flex';
+            renderNews();
+        }
+
+        function closeNews() {
+            document.getElementById('news-modal').style.display = 'none';
+        }
+
+        function renderNews() {
+            const container = document.getElementById('news-body');
+
+            container.innerHTML = scienceNews.map(news => `
+                <div class="news-card">
+                    <div class="news-card-header">
+                        <span class="news-category">${news.category}</span>
+                        <span class="news-date">${news.date}</span>
+                    </div>
+                    <div style="display: flex; align-items: flex-start;">
+                        <span class="news-emoji">${news.emoji}</span>
+                        <div>
+                            <div class="news-title">${news.title}</div>
+                            <div class="news-summary">${news.summary}</div>
+                        </div>
+                    </div>
+                </div>
+            `).join('');
+        }
+
+        console.log('👤 Profile Customization, Difficulty Indicator, and Science News loaded!');
     </script>
 
     <!-- PowerPoint-style Table Grid Selector (positioned fixed, outside all containers) -->
