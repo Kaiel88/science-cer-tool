@@ -16492,6 +16492,370 @@
         .floating-news-btn:hover {
             transform: scale(1.1);
         }
+
+        /* ========== BATCH 42: Trivia Game, Study Breaks, Progress Milestones ========== */
+
+        /* Trivia Mini-Game */
+        .trivia-modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.85);
+            z-index: 10000;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .trivia-container {
+            background: linear-gradient(135deg, #6a1b9a 0%, #8e24aa 100%);
+            border-radius: 20px;
+            width: 90%;
+            max-width: 500px;
+            overflow: hidden;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.4);
+            text-align: center;
+        }
+
+        .trivia-header {
+            background: rgba(255, 255, 255, 0.1);
+            padding: 20px;
+            color: white;
+        }
+
+        .trivia-header h2 {
+            margin: 0;
+            font-size: 1.5rem;
+        }
+
+        .trivia-body {
+            padding: 25px;
+            color: white;
+        }
+
+        .trivia-question {
+            font-size: 1.2rem;
+            margin-bottom: 25px;
+            line-height: 1.5;
+        }
+
+        .trivia-options {
+            display: grid;
+            gap: 10px;
+        }
+
+        .trivia-option {
+            background: rgba(255, 255, 255, 0.2);
+            border: 2px solid rgba(255, 255, 255, 0.3);
+            color: white;
+            padding: 15px;
+            border-radius: 12px;
+            font-size: 1rem;
+            cursor: pointer;
+            transition: all 0.2s ease;
+        }
+
+        .trivia-option:hover {
+            background: rgba(255, 255, 255, 0.3);
+            border-color: white;
+        }
+
+        .trivia-option.correct {
+            background: #4CAF50;
+            border-color: #4CAF50;
+        }
+
+        .trivia-option.wrong {
+            background: #f44336;
+            border-color: #f44336;
+        }
+
+        .trivia-score {
+            font-size: 2rem;
+            font-weight: bold;
+            color: #ffd700;
+            margin-bottom: 15px;
+        }
+
+        .trivia-controls {
+            padding: 20px;
+        }
+
+        .trivia-btn {
+            background: white;
+            color: #6a1b9a;
+            border: none;
+            padding: 12px 30px;
+            border-radius: 25px;
+            font-size: 1rem;
+            font-weight: bold;
+            cursor: pointer;
+            margin: 5px;
+        }
+
+        /* Study Breaks */
+        .break-modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.7);
+            z-index: 10000;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .break-container {
+            background: linear-gradient(135deg, #43a047 0%, #66bb6a 100%);
+            border-radius: 20px;
+            width: 90%;
+            max-width: 450px;
+            overflow: hidden;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+            text-align: center;
+        }
+
+        .break-header {
+            background: rgba(255, 255, 255, 0.1);
+            padding: 20px;
+            color: white;
+        }
+
+        .break-header h2 {
+            margin: 0;
+            font-size: 1.5rem;
+        }
+
+        .break-body {
+            padding: 25px;
+            color: white;
+        }
+
+        .break-activity {
+            background: rgba(255, 255, 255, 0.15);
+            border-radius: 15px;
+            padding: 20px;
+            margin-bottom: 15px;
+        }
+
+        .break-activity-icon {
+            font-size: 3rem;
+            margin-bottom: 10px;
+        }
+
+        .break-activity-title {
+            font-size: 1.2rem;
+            font-weight: bold;
+            margin-bottom: 8px;
+        }
+
+        .break-activity-desc {
+            font-size: 0.95rem;
+            opacity: 0.9;
+        }
+
+        .break-timer {
+            font-size: 2.5rem;
+            font-weight: bold;
+            margin: 20px 0;
+            font-family: monospace;
+        }
+
+        .break-btn {
+            background: white;
+            color: #43a047;
+            border: none;
+            padding: 12px 30px;
+            border-radius: 25px;
+            font-size: 1rem;
+            font-weight: bold;
+            cursor: pointer;
+            margin: 5px;
+        }
+
+        /* Progress Milestones */
+        .milestones-modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.7);
+            z-index: 10000;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .milestones-container {
+            background: white;
+            border-radius: 20px;
+            width: 90%;
+            max-width: 600px;
+            max-height: 85vh;
+            overflow: hidden;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+        }
+
+        .milestones-header {
+            background: linear-gradient(135deg, #f9a825 0%, #fbc02d 100%);
+            color: white;
+            padding: 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .milestones-header h2 {
+            margin: 0;
+            font-size: 1.5rem;
+            text-shadow: 1px 1px 2px rgba(0,0,0,0.2);
+        }
+
+        .milestones-body {
+            padding: 20px;
+            max-height: 65vh;
+            overflow-y: auto;
+        }
+
+        .milestone-card {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            padding: 15px;
+            background: #f5f5f5;
+            border-radius: 12px;
+            margin-bottom: 12px;
+            position: relative;
+        }
+
+        .milestone-card.completed {
+            background: linear-gradient(135deg, #fff8e1 0%, #ffecb3 100%);
+            border: 2px solid #ffc107;
+        }
+
+        .milestone-card.locked {
+            opacity: 0.6;
+        }
+
+        .milestone-icon {
+            font-size: 2rem;
+            min-width: 50px;
+            text-align: center;
+        }
+
+        .milestone-info {
+            flex: 1;
+        }
+
+        .milestone-title {
+            font-weight: bold;
+            color: #333;
+            margin-bottom: 4px;
+        }
+
+        .milestone-desc {
+            font-size: 0.85rem;
+            color: #666;
+        }
+
+        .milestone-progress {
+            background: #ddd;
+            height: 8px;
+            border-radius: 4px;
+            margin-top: 8px;
+            overflow: hidden;
+        }
+
+        .milestone-progress-fill {
+            background: linear-gradient(135deg, #f9a825 0%, #fbc02d 100%);
+            height: 100%;
+            border-radius: 4px;
+            transition: width 0.5s ease;
+        }
+
+        .milestone-badge {
+            position: absolute;
+            top: -5px;
+            right: -5px;
+            background: #4CAF50;
+            color: white;
+            width: 25px;
+            height: 25px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 0.8rem;
+        }
+
+        /* Floating buttons */
+        .floating-trivia-btn {
+            position: fixed;
+            bottom: 3400px;
+            right: 20px;
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, #6a1b9a 0%, #8e24aa 100%);
+            color: white;
+            border: none;
+            font-size: 1.3rem;
+            cursor: pointer;
+            box-shadow: 0 5px 20px rgba(106, 27, 154, 0.4);
+            z-index: 999;
+            transition: all 0.3s ease;
+        }
+
+        .floating-trivia-btn:hover {
+            transform: scale(1.1);
+        }
+
+        .floating-break-btn {
+            position: fixed;
+            bottom: 3460px;
+            right: 20px;
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, #43a047 0%, #66bb6a 100%);
+            color: white;
+            border: none;
+            font-size: 1.3rem;
+            cursor: pointer;
+            box-shadow: 0 5px 20px rgba(67, 160, 71, 0.4);
+            z-index: 999;
+            transition: all 0.3s ease;
+        }
+
+        .floating-break-btn:hover {
+            transform: scale(1.1);
+        }
+
+        .floating-milestones-btn {
+            position: fixed;
+            bottom: 3520px;
+            right: 20px;
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, #f9a825 0%, #fbc02d 100%);
+            color: white;
+            border: none;
+            font-size: 1.3rem;
+            cursor: pointer;
+            box-shadow: 0 5px 20px rgba(249, 168, 37, 0.4);
+            z-index: 999;
+            transition: all 0.3s ease;
+        }
+
+        .floating-milestones-btn:hover {
+            transform: scale(1.1);
+        }
     </style>
 </head>
 
@@ -48672,6 +49036,264 @@ Science Made Fun!
         }
 
         console.log('👤 Profile Customization, Difficulty Indicator, and Science News loaded!');
+    </script>
+
+    <!-- ========== BATCH 42: Trivia Game, Study Breaks, Progress Milestones ========== -->
+
+    <!-- Trivia Modal -->
+    <div class="trivia-modal" id="trivia-modal">
+        <div class="trivia-container">
+            <div class="trivia-header">
+                <h2>🧩 Quick Trivia</h2>
+            </div>
+            <div class="trivia-body">
+                <div class="trivia-score" id="trivia-score">0 / 5</div>
+                <div class="trivia-question" id="trivia-question">Loading question...</div>
+                <div class="trivia-options" id="trivia-options"></div>
+            </div>
+            <div class="trivia-controls">
+                <button class="trivia-btn" onclick="closeTrivia()">Close</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Break Modal -->
+    <div class="break-modal" id="break-modal">
+        <div class="break-container">
+            <div class="break-header">
+                <h2>🧘 Study Break</h2>
+            </div>
+            <div class="break-body">
+                <div class="break-activity" id="break-activity">
+                    <div class="break-activity-icon">🧘</div>
+                    <div class="break-activity-title">Stretch Break</div>
+                    <div class="break-activity-desc">Stand up and stretch your arms above your head!</div>
+                </div>
+                <div class="break-timer" id="break-timer">2:00</div>
+                <button class="break-btn" id="break-start-btn" onclick="toggleBreak()">Start Break</button>
+                <button class="break-btn" onclick="newBreakActivity()">Different Activity</button>
+                <button class="break-btn" onclick="closeBreak()">Close</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Milestones Modal -->
+    <div class="milestones-modal" id="milestones-modal">
+        <div class="milestones-container">
+            <div class="milestones-header">
+                <h2>🏅 Milestones</h2>
+                <button onclick="closeMilestones()" style="background: none; border: none; color: white; font-size: 1.5rem; cursor: pointer;">✕</button>
+            </div>
+            <div class="milestones-body" id="milestones-body">
+            </div>
+        </div>
+    </div>
+
+    <!-- Floating Buttons -->
+    <button class="floating-trivia-btn" onclick="openTrivia()" title="Quick Trivia">🧩</button>
+    <button class="floating-break-btn" onclick="openBreak()" title="Study Break">🧘</button>
+    <button class="floating-milestones-btn" onclick="openMilestones()" title="Milestones">🏅</button>
+
+    <script>
+        // ========== BATCH 42: Trivia Game, Study Breaks, Progress Milestones ==========
+
+        // Quick Trivia Game
+        const triviaQuestions = [
+            { q: "How many planets are in our solar system?", options: ["7", "8", "9", "10"], answer: 1 },
+            { q: "What gas do plants breathe in?", options: ["Oxygen", "Nitrogen", "Carbon Dioxide", "Hydrogen"], answer: 2 },
+            { q: "What is the largest organ in the human body?", options: ["Heart", "Brain", "Skin", "Liver"], answer: 2 },
+            { q: "What force keeps us on the ground?", options: ["Magnetism", "Friction", "Gravity", "Tension"], answer: 2 },
+            { q: "Which animal can regenerate its limbs?", options: ["Frog", "Starfish", "Snake", "Bird"], answer: 1 },
+            { q: "What is H2O commonly known as?", options: ["Salt", "Water", "Sugar", "Air"], answer: 1 },
+            { q: "How many bones are in the adult human body?", options: ["106", "156", "206", "256"], answer: 2 },
+            { q: "What planet is known as the Red Planet?", options: ["Venus", "Jupiter", "Mars", "Saturn"], answer: 2 },
+            { q: "What do bees make?", options: ["Milk", "Honey", "Silk", "Wax only"], answer: 1 },
+            { q: "Which sense do dogs rely on most?", options: ["Sight", "Hearing", "Smell", "Touch"], answer: 2 }
+        ];
+
+        let triviaState = {
+            questions: [],
+            current: 0,
+            score: 0
+        };
+
+        function openTrivia() {
+            document.getElementById('trivia-modal').style.display = 'flex';
+            startTrivia();
+        }
+
+        function closeTrivia() {
+            document.getElementById('trivia-modal').style.display = 'none';
+        }
+
+        function startTrivia() {
+            triviaState.questions = [...triviaQuestions].sort(() => Math.random() - 0.5).slice(0, 5);
+            triviaState.current = 0;
+            triviaState.score = 0;
+            showTriviaQuestion();
+        }
+
+        function showTriviaQuestion() {
+            if (triviaState.current >= triviaState.questions.length) {
+                showTriviaResult();
+                return;
+            }
+
+            const q = triviaState.questions[triviaState.current];
+            document.getElementById('trivia-score').textContent = `${triviaState.score} / ${triviaState.questions.length}`;
+            document.getElementById('trivia-question').textContent = q.q;
+            document.getElementById('trivia-options').innerHTML = q.options.map((opt, i) => `
+                <button class="trivia-option" onclick="answerTrivia(${i})">${opt}</button>
+            `).join('');
+        }
+
+        function answerTrivia(selected) {
+            const q = triviaState.questions[triviaState.current];
+            const options = document.querySelectorAll('.trivia-option');
+
+            options.forEach((opt, i) => {
+                opt.disabled = true;
+                if (i === q.answer) opt.classList.add('correct');
+                if (i === selected && selected !== q.answer) opt.classList.add('wrong');
+            });
+
+            if (selected === q.answer) triviaState.score++;
+
+            setTimeout(() => {
+                triviaState.current++;
+                showTriviaQuestion();
+            }, 1000);
+        }
+
+        function showTriviaResult() {
+            document.getElementById('trivia-score').textContent = `Final: ${triviaState.score} / ${triviaState.questions.length}`;
+            document.getElementById('trivia-question').textContent = triviaState.score >= 4 ? '🎉 Excellent!' : triviaState.score >= 2 ? '👍 Good job!' : '📚 Keep practicing!';
+            document.getElementById('trivia-options').innerHTML = `<button class="trivia-option" onclick="startTrivia()">Play Again</button>`;
+
+            // Award XP
+            if (typeof addXP === 'function') addXP(triviaState.score * 5);
+        }
+
+        // Study Break Activities
+        const breakActivities = [
+            { icon: '🧘', title: 'Stretch Break', desc: 'Stand up and stretch your arms above your head, then touch your toes!' },
+            { icon: '👀', title: 'Eye Rest', desc: 'Look at something 20 feet away for 20 seconds to rest your eyes.' },
+            { icon: '💧', title: 'Hydration', desc: 'Take a moment to drink some water and stay hydrated!' },
+            { icon: '🚶', title: 'Walk Around', desc: 'Take a short walk around your room or house.' },
+            { icon: '🌬️', title: 'Deep Breathing', desc: 'Take 5 deep breaths - breathe in for 4 counts, out for 4 counts.' },
+            { icon: '🤸', title: 'Quick Exercise', desc: 'Do 10 jumping jacks or march in place for 30 seconds!' },
+            { icon: '🎵', title: 'Dance Break', desc: 'Put on your favorite song and dance for 2 minutes!' },
+            { icon: '🧠', title: 'Brain Teaser', desc: 'Think of 5 words that start with the same letter.' }
+        ];
+
+        let breakTimer = null;
+        let breakSeconds = 120;
+
+        function openBreak() {
+            document.getElementById('break-modal').style.display = 'flex';
+            newBreakActivity();
+        }
+
+        function closeBreak() {
+            document.getElementById('break-modal').style.display = 'none';
+            if (breakTimer) clearInterval(breakTimer);
+            breakTimer = null;
+        }
+
+        function newBreakActivity() {
+            const activity = breakActivities[Math.floor(Math.random() * breakActivities.length)];
+            document.getElementById('break-activity').innerHTML = `
+                <div class="break-activity-icon">${activity.icon}</div>
+                <div class="break-activity-title">${activity.title}</div>
+                <div class="break-activity-desc">${activity.desc}</div>
+            `;
+            breakSeconds = 120;
+            updateBreakTimer();
+            document.getElementById('break-start-btn').textContent = 'Start Break';
+            if (breakTimer) {
+                clearInterval(breakTimer);
+                breakTimer = null;
+            }
+        }
+
+        function toggleBreak() {
+            const btn = document.getElementById('break-start-btn');
+            if (breakTimer) {
+                clearInterval(breakTimer);
+                breakTimer = null;
+                btn.textContent = 'Resume';
+            } else {
+                breakTimer = setInterval(() => {
+                    breakSeconds--;
+                    updateBreakTimer();
+                    if (breakSeconds <= 0) {
+                        clearInterval(breakTimer);
+                        breakTimer = null;
+                        btn.textContent = 'Start Break';
+                        if (typeof showMotivation === 'function') showMotivation('Break complete! Ready to learn more?');
+                    }
+                }, 1000);
+                btn.textContent = 'Pause';
+            }
+        }
+
+        function updateBreakTimer() {
+            const mins = Math.floor(breakSeconds / 60);
+            const secs = breakSeconds % 60;
+            document.getElementById('break-timer').textContent = `${mins}:${secs.toString().padStart(2, '0')}`;
+        }
+
+        // Progress Milestones
+        const milestones = [
+            { icon: '🌟', title: 'First Steps', desc: 'Answer your first question', target: 1, key: 'totalQuestionsAnswered' },
+            { icon: '🔥', title: 'Getting Warmed Up', desc: 'Answer 10 questions', target: 10, key: 'totalQuestionsAnswered' },
+            { icon: '📚', title: 'Dedicated Learner', desc: 'Answer 50 questions', target: 50, key: 'totalQuestionsAnswered' },
+            { icon: '🏆', title: 'Century Club', desc: 'Answer 100 questions', target: 100, key: 'totalQuestionsAnswered' },
+            { icon: '⭐', title: 'Rising Star', desc: 'Reach Level 5', target: 5, key: 'scienceLevel' },
+            { icon: '🚀', title: 'Sky High', desc: 'Reach Level 10', target: 10, key: 'scienceLevel' },
+            { icon: '👑', title: 'Science Royalty', desc: 'Reach Level 20', target: 20, key: 'scienceLevel' },
+            { icon: '💎', title: 'XP Hunter', desc: 'Earn 500 XP', target: 500, key: 'scienceXP' },
+            { icon: '🏅', title: 'XP Master', desc: 'Earn 2000 XP', target: 2000, key: 'scienceXP' },
+            { icon: '📅', title: 'Daily Dedication', desc: 'Complete a 7-day streak', target: 7, key: 'loginStreak' }
+        ];
+
+        function openMilestones() {
+            document.getElementById('milestones-modal').style.display = 'flex';
+            renderMilestones();
+        }
+
+        function closeMilestones() {
+            document.getElementById('milestones-modal').style.display = 'none';
+        }
+
+        function renderMilestones() {
+            const container = document.getElementById('milestones-body');
+
+            container.innerHTML = milestones.map(m => {
+                const current = parseInt(localStorage.getItem(m.key)) || 0;
+                const progress = Math.min((current / m.target) * 100, 100);
+                const completed = current >= m.target;
+
+                return `
+                    <div class="milestone-card ${completed ? 'completed' : ''}">
+                        ${completed ? '<div class="milestone-badge">✓</div>' : ''}
+                        <div class="milestone-icon">${m.icon}</div>
+                        <div class="milestone-info">
+                            <div class="milestone-title">${m.title}</div>
+                            <div class="milestone-desc">${m.desc}</div>
+                            ${!completed ? `
+                                <div class="milestone-progress">
+                                    <div class="milestone-progress-fill" style="width: ${progress}%"></div>
+                                </div>
+                                <div style="font-size: 0.8rem; color: #999; margin-top: 4px;">${current} / ${m.target}</div>
+                            ` : ''}
+                        </div>
+                    </div>
+                `;
+            }).join('');
+        }
+
+        console.log('🧩 Trivia Game, Study Breaks, and Progress Milestones loaded!');
     </script>
 
     <!-- PowerPoint-style Table Grid Selector (positioned fixed, outside all containers) -->
