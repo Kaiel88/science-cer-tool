@@ -23187,6 +23187,387 @@
         console.log('🎯 Learning goals, session stats, and power-ups loaded!');
     </script>
 
+    <!-- =====================================================
+         STREAK CALENDAR, BONUS EVENTS & FUN FACTS
+         ===================================================== -->
+    <script>
+        // =====================================================
+        // PRACTICE STREAK CALENDAR
+        // =====================================================
+        window.streakCalendar = {
+            practiceDays: [] // Array of date strings when user practiced
+        };
+
+        window.initStreakCalendar = function() {
+            const stored = localStorage.getItem('streakCalendar');
+            if (stored) {
+                try {
+                    window.streakCalendar = JSON.parse(stored);
+                } catch (e) { }
+            }
+        };
+
+        window.markTodayAsPracticed = function() {
+            const today = new Date().toDateString();
+            if (!window.streakCalendar.practiceDays.includes(today)) {
+                window.streakCalendar.practiceDays.push(today);
+                // Keep only last 90 days
+                if (window.streakCalendar.practiceDays.length > 90) {
+                    window.streakCalendar.practiceDays.shift();
+                }
+                localStorage.setItem('streakCalendar', JSON.stringify(window.streakCalendar));
+            }
+        };
+
+        window.showStreakCalendar = function() {
+            const modal = document.createElement('div');
+            modal.style.cssText = `
+                position: fixed;
+                top: 0;
+                left: 0;
+                width: 100%;
+                height: 100%;
+                background: rgba(0,0,0,0.7);
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                z-index: 10006;
+            `;
+            modal.onclick = (e) => { if (e.target === modal) modal.remove(); };
+
+            // Generate last 35 days
+            const days = [];
+            for (let i = 34; i >= 0; i--) {
+                const date = new Date();
+                date.setDate(date.getDate() - i);
+                const dateStr = date.toDateString();
+                const practiced = window.streakCalendar.practiceDays.includes(dateStr);
+                const dayName = date.toLocaleDateString('en', { weekday: 'short' }).charAt(0);
+                const dayNum = date.getDate();
+                days.push({ dateStr, practiced, dayName, dayNum, isToday: i === 0 });
+            }
+
+            modal.innerHTML = `
+                <div style="background: white; border-radius: 24px; padding: 30px; max-width: 450px; width: 90%;">
+                    <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px;">
+                        <h2 style="margin: 0; color: #333; display: flex; align-items: center; gap: 10px;">
+                            <span>📅</span> Practice Calendar
+                        </h2>
+                        <button onclick="this.parentElement.parentElement.parentElement.remove()" style="background: none; border: none; font-size: 1.5rem; cursor: pointer;">×</button>
+                    </div>
+
+                    <div style="display: flex; justify-content: center; gap: 5px; margin-bottom: 15px;">
+                        ${['S', 'M', 'T', 'W', 'T', 'F', 'S'].map(d =>
+                            `<div style="width: 40px; text-align: center; font-size: 0.8rem; color: #666;">${d}</div>`
+                        ).join('')}
+                    </div>
+
+                    <div style="display: grid; grid-template-columns: repeat(7, 40px); gap: 5px; justify-content: center;">
+                        ${days.map(day => `
+                            <div style="
+                                width: 40px;
+                                height: 40px;
+                                border-radius: 8px;
+                                display: flex;
+                                align-items: center;
+                                justify-content: center;
+                                font-size: 0.85rem;
+                                font-weight: ${day.practiced ? '700' : '400'};
+                                background: ${day.practiced ? 'linear-gradient(135deg, #4CAF50, #8BC34A)' : '#f5f5f5'};
+                                color: ${day.practiced ? 'white' : '#666'};
+                                border: ${day.isToday ? '2px solid #667eea' : 'none'};
+                            ">${day.dayNum}</div>
+                        `).join('')}
+                    </div>
+
+                    <div style="text-align: center; margin-top: 20px;">
+                        <div style="display: inline-flex; align-items: center; gap: 15px;">
+                            <div style="display: flex; align-items: center; gap: 5px;">
+                                <div style="width: 16px; height: 16px; background: linear-gradient(135deg, #4CAF50, #8BC34A); border-radius: 4px;"></div>
+                                <span style="font-size: 0.8rem; color: #666;">Practiced</span>
+                            </div>
+                            <div style="display: flex; align-items: center; gap: 5px;">
+                                <div style="width: 16px; height: 16px; background: #f5f5f5; border-radius: 4px;"></div>
+                                <span style="font-size: 0.8rem; color: #666;">Missed</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div style="background: linear-gradient(135deg, #667eea, #764ba2); color: white; padding: 15px; border-radius: 12px; margin-top: 20px; text-align: center;">
+                        <div style="font-size: 2rem; font-weight: 700;">🔥 ${window.gamificationState?.loginStreak || 0}</div>
+                        <div style="font-size: 0.9rem; opacity: 0.9;">Current Streak</div>
+                    </div>
+                </div>
+            `;
+
+            document.body.appendChild(modal);
+        };
+
+        // =====================================================
+        // TIME-LIMITED BONUS EVENTS
+        // =====================================================
+        window.bonusEvents = {
+            active: null,
+            history: []
+        };
+
+        window.BONUS_EVENT_TYPES = [
+            { id: 'double_xp_hour', name: 'Double XP Hour', multiplier: 2, duration: 60, emoji: '⚡' },
+            { id: 'triple_streak', name: 'Triple Streak Bonus', multiplier: 3, duration: 30, emoji: '🔥' },
+            { id: 'bonus_achievement', name: 'Bonus Achievement Points', multiplier: 1.5, duration: 45, emoji: '🏅' },
+            { id: 'happy_hour', name: 'Happy Hour', multiplier: 2.5, duration: 20, emoji: '🎉' }
+        ];
+
+        window.checkBonusEvent = function() {
+            // 5% chance to trigger a bonus event every 10 questions
+            if (window.gamificationState?.totalAttempts % 10 === 0 && Math.random() < 0.05) {
+                startRandomBonusEvent();
+            }
+        };
+
+        window.startRandomBonusEvent = function() {
+            if (window.bonusEvents.active) return; // Already active
+
+            const eventType = window.BONUS_EVENT_TYPES[Math.floor(Math.random() * window.BONUS_EVENT_TYPES.length)];
+            window.bonusEvents.active = {
+                ...eventType,
+                startTime: Date.now(),
+                endTime: Date.now() + (eventType.duration * 60 * 1000)
+            };
+
+            showBonusEventStarted(eventType);
+
+            // Schedule end
+            setTimeout(() => {
+                endBonusEvent();
+            }, eventType.duration * 60 * 1000);
+        };
+
+        window.showBonusEventStarted = function(event) {
+            const notification = document.createElement('div');
+            notification.style.cssText = `
+                position: fixed;
+                top: 50%;
+                left: 50%;
+                transform: translate(-50%, -50%);
+                background: linear-gradient(135deg, #FF6B6B, #FF8E53);
+                color: white;
+                padding: 30px 40px;
+                border-radius: 24px;
+                text-align: center;
+                z-index: 10007;
+                box-shadow: 0 20px 60px rgba(0, 0, 0, 0.4);
+                animation: bonusEventPop 0.5s ease;
+            `;
+            notification.innerHTML = `
+                <div style="font-size: 3.5rem; margin-bottom: 10px;">${event.emoji}</div>
+                <h2 style="margin: 0 0 10px 0; font-size: 1.8rem;">BONUS EVENT!</h2>
+                <p style="margin: 0 0 15px 0; font-size: 1.2rem; font-weight: 600;">${event.name}</p>
+                <p style="margin: 0 0 20px 0; opacity: 0.9;">${event.multiplier}x rewards for ${event.duration} minutes!</p>
+                <button onclick="this.parentElement.remove()" style="background: white; color: #FF6B6B; border: none; padding: 12px 30px; border-radius: 25px; font-weight: 700; cursor: pointer; font-size: 1rem;">
+                    Let's Go! 🚀
+                </button>
+            `;
+
+            if (!document.getElementById('bonus-event-style')) {
+                const style = document.createElement('style');
+                style.id = 'bonus-event-style';
+                style.textContent = '@keyframes bonusEventPop { from { transform: translate(-50%, -50%) scale(0); } to { transform: translate(-50%, -50%) scale(1); } }';
+                document.head.appendChild(style);
+            }
+
+            document.body.appendChild(notification);
+            if (window.triggerCelebration) triggerCelebration();
+
+            setTimeout(() => {
+                if (notification.parentElement) notification.remove();
+            }, 8000);
+        };
+
+        window.endBonusEvent = function() {
+            if (!window.bonusEvents.active) return;
+
+            window.bonusEvents.history.push({
+                ...window.bonusEvents.active,
+                endedAt: Date.now()
+            });
+
+            showToast(`${window.bonusEvents.active.emoji} Bonus event ended!`, 'info');
+            window.bonusEvents.active = null;
+        };
+
+        // =====================================================
+        // FUN SCIENCE FACTS
+        // =====================================================
+        window.SCIENCE_FUN_FACTS = [
+            { emoji: '🧬', fact: 'Your DNA could stretch from Earth to Pluto and back 17 times!' },
+            { emoji: '🌡️', fact: 'Hot water freezes faster than cold water. This is called the Mpemba effect!' },
+            { emoji: '🦴', fact: 'Babies have about 300 bones, but adults only have 206!' },
+            { emoji: '⚡', fact: 'Lightning strikes Earth about 8 million times per day!' },
+            { emoji: '🌊', fact: 'The ocean produces over half of the world\'s oxygen!' },
+            { emoji: '🪐', fact: 'One day on Venus is longer than one year on Venus!' },
+            { emoji: '🐙', fact: 'Octopuses have three hearts and blue blood!' },
+            { emoji: '🦠', fact: 'Your body has more bacteria cells than human cells!' },
+            { emoji: '🌈', fact: 'Rainbows are actually full circles - we just see an arc from the ground!' },
+            { emoji: '🔥', fact: 'The Sun\'s core is about 15 million degrees Celsius!' },
+            { emoji: '🧠', fact: 'Your brain generates enough electricity to power a small light bulb!' },
+            { emoji: '🦋', fact: 'Butterflies taste with their feet!' },
+            { emoji: '🌍', fact: 'Earth is the only planet not named after a god!' },
+            { emoji: '💧', fact: 'Water is the only substance that exists naturally in all three states!' },
+            { emoji: '🐘', fact: 'Elephants are the only animals that can\'t jump!' },
+            { emoji: '🌳', fact: 'Trees can communicate with each other through underground fungal networks!' },
+            { emoji: '🦈', fact: 'Sharks have been on Earth longer than trees!' },
+            { emoji: '🎵', fact: 'Sound travels 4 times faster in water than in air!' },
+            { emoji: '🌙', fact: 'The Moon is slowly drifting away from Earth - about 3.8 cm per year!' },
+            { emoji: '🔬', fact: 'A teaspoon of neutron star would weigh about 6 billion tons!' }
+        ];
+
+        window.getRandomFunFact = function() {
+            return window.SCIENCE_FUN_FACTS[Math.floor(Math.random() * window.SCIENCE_FUN_FACTS.length)];
+        };
+
+        window.showFunFact = function() {
+            const fact = getRandomFunFact();
+
+            const factCard = document.createElement('div');
+            factCard.style.cssText = `
+                position: fixed;
+                bottom: 20px;
+                left: 50%;
+                transform: translateX(-50%);
+                background: linear-gradient(135deg, #2196F3, #03A9F4);
+                color: white;
+                padding: 15px 25px;
+                border-radius: 16px;
+                box-shadow: 0 8px 30px rgba(0, 0, 0, 0.2);
+                z-index: 10002;
+                max-width: 400px;
+                animation: factSlideUp 0.5s ease;
+            `;
+            factCard.innerHTML = `
+                <div style="display: flex; align-items: flex-start; gap: 12px;">
+                    <span style="font-size: 2rem;">${fact.emoji}</span>
+                    <div>
+                        <div style="font-weight: 700; font-size: 0.9rem; margin-bottom: 5px;">Did You Know?</div>
+                        <div style="font-size: 0.85rem; line-height: 1.4;">${fact.fact}</div>
+                    </div>
+                    <button onclick="this.parentElement.parentElement.remove()" style="background: none; border: none; color: white; font-size: 1.2rem; cursor: pointer; opacity: 0.7;">×</button>
+                </div>
+            `;
+
+            if (!document.getElementById('fact-slide-style')) {
+                const style = document.createElement('style');
+                style.id = 'fact-slide-style';
+                style.textContent = '@keyframes factSlideUp { from { transform: translateX(-50%) translateY(50px); opacity: 0; } to { transform: translateX(-50%) translateY(0); opacity: 1; } }';
+                document.head.appendChild(style);
+            }
+
+            document.body.appendChild(factCard);
+
+            setTimeout(() => {
+                if (factCard.parentElement) {
+                    factCard.style.animation = 'factSlideUp 0.3s ease reverse forwards';
+                    setTimeout(() => factCard.remove(), 300);
+                }
+            }, 8000);
+        };
+
+        // =====================================================
+        // PROGRESS COMPARISON
+        // =====================================================
+        window.sessionHistory = [];
+
+        window.saveSessionToHistory = function() {
+            const session = {
+                date: new Date().toISOString(),
+                questions: window.sessionStats.questionsAnswered,
+                correct: window.sessionStats.correctAnswers,
+                xp: window.sessionStats.xpEarned,
+                duration: getSessionDuration(),
+                streak: window.sessionStats.bestStreak
+            };
+
+            window.sessionHistory.push(session);
+
+            // Keep only last 10 sessions
+            if (window.sessionHistory.length > 10) {
+                window.sessionHistory.shift();
+            }
+
+            localStorage.setItem('sessionHistory', JSON.stringify(window.sessionHistory));
+        };
+
+        window.loadSessionHistory = function() {
+            const stored = localStorage.getItem('sessionHistory');
+            if (stored) {
+                try {
+                    window.sessionHistory = JSON.parse(stored);
+                } catch (e) { }
+            }
+        };
+
+        window.compareWithLastSession = function() {
+            if (window.sessionHistory.length < 1) return null;
+
+            const lastSession = window.sessionHistory[window.sessionHistory.length - 1];
+            const currentSession = {
+                questions: window.sessionStats.questionsAnswered,
+                correct: window.sessionStats.correctAnswers,
+                xp: window.sessionStats.xpEarned
+            };
+
+            return {
+                questionsDiff: currentSession.questions - (lastSession.questions || 0),
+                correctDiff: currentSession.correct - (lastSession.correct || 0),
+                xpDiff: currentSession.xp - (lastSession.xp || 0)
+            };
+        };
+
+        // =====================================================
+        // INITIALIZATION
+        // =====================================================
+        document.addEventListener('DOMContentLoaded', () => {
+            initStreakCalendar();
+            loadSessionHistory();
+        });
+
+        // Hook into answer tracking
+        const originalHandleAnswer5 = window.handleQuestionAnswer;
+        window.handleQuestionAnswer = function(isCorrect, questionElement, questionType) {
+            if (originalHandleAnswer5) {
+                originalHandleAnswer5(isCorrect, questionElement, questionType);
+            }
+
+            // Mark today as practiced
+            markTodayAsPracticed();
+
+            // Check for bonus event
+            checkBonusEvent();
+
+            // Show fun fact occasionally (every 10 questions, 30% chance)
+            if (window.gamificationState?.totalAttempts % 10 === 0 && Math.random() < 0.3) {
+                setTimeout(showFunFact, 1500);
+            }
+
+            // Apply bonus event multiplier if active
+            if (window.bonusEvents.active && isCorrect) {
+                const bonusXP = Math.round(window.GAMIFICATION_CONFIG.XP_PER_CORRECT * (window.bonusEvents.active.multiplier - 1));
+                if (bonusXP > 0 && window.addXP) {
+                    addXP(bonusXP, `${window.bonusEvents.active.name} Bonus`);
+                }
+            }
+        };
+
+        // Save session on page unload
+        window.addEventListener('beforeunload', () => {
+            if (window.sessionStats.questionsAnswered > 0) {
+                saveSessionToHistory();
+            }
+        });
+
+        console.log('📅 Streak calendar, bonus events, and fun facts loaded!');
+    </script>
+
     <!-- PowerPoint-style Table Grid Selector (positioned fixed, outside all containers) -->
     <div id="table-grid-selector" class="table-grid-selector">
         <h4 style="margin: 0 0 12px 0; font-size: 1rem; color: #2e7d32; font-weight: 600; display: flex; align-items: center; gap: 8px;">
