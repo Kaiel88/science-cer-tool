@@ -21883,6 +21883,315 @@
         .floating-calendar-btn:hover {
             transform: scale(1.1);
         }
+
+        /* ========== Batch 55: Quick Review, Answer Explanation, Parent Report ========== */
+
+        /* Quick Review Styles */
+        .quick-review-modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.85);
+            z-index: 10000;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .quick-review-content {
+            background: linear-gradient(145deg, #1a1a2e 0%, #16213e 100%);
+            border-radius: 20px;
+            padding: 25px;
+            max-width: 500px;
+            width: 95%;
+            box-shadow: 0 25px 80px rgba(0, 0, 0, 0.5);
+            border: 1px solid rgba(233, 30, 99, 0.3);
+        }
+
+        .quick-review-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+        }
+
+        .quick-review-header h2 {
+            color: #ec407a;
+            font-size: 1.5rem;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .review-progress {
+            display: flex;
+            gap: 8px;
+            margin-bottom: 20px;
+        }
+
+        .review-dot {
+            width: 12px;
+            height: 12px;
+            border-radius: 50%;
+            background: rgba(255, 255, 255, 0.2);
+        }
+
+        .review-dot.done {
+            background: #ec407a;
+        }
+
+        .review-dot.current {
+            background: #fff;
+            box-shadow: 0 0 10px rgba(255, 255, 255, 0.5);
+        }
+
+        .review-card {
+            background: rgba(233, 30, 99, 0.1);
+            border: 1px solid rgba(233, 30, 99, 0.3);
+            border-radius: 15px;
+            padding: 25px;
+            min-height: 200px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .review-card:hover {
+            transform: scale(1.02);
+        }
+
+        .review-front {
+            color: #fff;
+            font-size: 1.2rem;
+            line-height: 1.5;
+        }
+
+        .review-back {
+            display: none;
+            color: #f48fb1;
+            font-size: 1.1rem;
+            line-height: 1.5;
+        }
+
+        .review-card.flipped .review-front {
+            display: none;
+        }
+
+        .review-card.flipped .review-back {
+            display: block;
+        }
+
+        .review-controls {
+            display: flex;
+            gap: 10px;
+            margin-top: 20px;
+        }
+
+        .review-btn {
+            flex: 1;
+            padding: 12px;
+            border: none;
+            border-radius: 10px;
+            font-size: 1rem;
+            font-weight: bold;
+            cursor: pointer;
+        }
+
+        .review-btn.know {
+            background: linear-gradient(135deg, #4caf50 0%, #81c784 100%);
+            color: white;
+        }
+
+        .review-btn.learn {
+            background: linear-gradient(135deg, #ff9800 0%, #ffb74d 100%);
+            color: white;
+        }
+
+        /* Answer Explanation Styles */
+        .explanation-box {
+            background: rgba(33, 150, 243, 0.1);
+            border: 1px solid rgba(33, 150, 243, 0.3);
+            border-radius: 10px;
+            padding: 15px;
+            margin-top: 15px;
+            display: none;
+        }
+
+        .explanation-box.show {
+            display: block;
+            animation: explanation-fade 0.3s ease;
+        }
+
+        @keyframes explanation-fade {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .explanation-title {
+            color: #64b5f6;
+            font-weight: bold;
+            margin-bottom: 10px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .explanation-text {
+            color: #ddd;
+            font-size: 0.95rem;
+            line-height: 1.6;
+        }
+
+        /* Parent Report Styles */
+        .report-modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.85);
+            z-index: 10000;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .report-content {
+            background: linear-gradient(145deg, #1a1a2e 0%, #16213e 100%);
+            border-radius: 20px;
+            padding: 25px;
+            max-width: 600px;
+            width: 95%;
+            max-height: 90vh;
+            overflow-y: auto;
+            box-shadow: 0 25px 80px rgba(0, 0, 0, 0.5);
+            border: 1px solid rgba(76, 175, 80, 0.3);
+        }
+
+        .report-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+        }
+
+        .report-header h2 {
+            color: #81c784;
+            font-size: 1.5rem;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .report-section {
+            background: rgba(76, 175, 80, 0.1);
+            border-radius: 10px;
+            padding: 15px;
+            margin-bottom: 15px;
+        }
+
+        .report-section-title {
+            color: #81c784;
+            font-weight: bold;
+            margin-bottom: 10px;
+            font-size: 1rem;
+        }
+
+        .report-stat-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 10px;
+        }
+
+        .report-stat-item {
+            background: rgba(0, 0, 0, 0.2);
+            padding: 10px;
+            border-radius: 8px;
+        }
+
+        .report-stat-label {
+            color: #888;
+            font-size: 0.8rem;
+        }
+
+        .report-stat-value {
+            color: #fff;
+            font-size: 1.2rem;
+            font-weight: bold;
+        }
+
+        .export-btn {
+            width: 100%;
+            padding: 12px;
+            background: linear-gradient(135deg, #4caf50 0%, #81c784 100%);
+            color: white;
+            border: none;
+            border-radius: 10px;
+            font-size: 1rem;
+            font-weight: bold;
+            cursor: pointer;
+            margin-top: 15px;
+        }
+
+        .email-input {
+            width: 100%;
+            padding: 12px 15px;
+            border: 1px solid rgba(76, 175, 80, 0.3);
+            border-radius: 10px;
+            background: rgba(0, 0, 0, 0.3);
+            color: #fff;
+            font-size: 1rem;
+            margin-bottom: 10px;
+        }
+
+        /* Floating Buttons for Batch 55 */
+        .floating-review-btn {
+            position: fixed;
+            bottom: 5500px;
+            right: 20px;
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, #e91e63 0%, #f48fb1 100%);
+            color: white;
+            border: none;
+            font-size: 1.3rem;
+            cursor: pointer;
+            box-shadow: 0 5px 20px rgba(233, 30, 99, 0.4);
+            z-index: 999;
+            transition: all 0.3s ease;
+        }
+
+        .floating-review-btn:hover {
+            transform: scale(1.1);
+        }
+
+        .floating-report-parent-btn {
+            position: fixed;
+            bottom: 5560px;
+            right: 20px;
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, #4caf50 0%, #81c784 100%);
+            color: white;
+            border: none;
+            font-size: 1.3rem;
+            cursor: pointer;
+            box-shadow: 0 5px 20px rgba(76, 175, 80, 0.4);
+            z-index: 999;
+            transition: all 0.3s ease;
+        }
+
+        .floating-report-parent-btn:hover {
+            transform: scale(1.1);
+        }
     </style>
 </head>
 
@@ -58786,6 +59095,298 @@ Science Made Fun!
         }, 5000);
 
         console.log('📖 Dictionary, Practice Mode, and Streak Calendar loaded!');
+    </script>
+
+    <!-- ========== Batch 55: Quick Review, Answer Explanation, Parent Report ========== -->
+
+    <!-- Quick Review Floating Button -->
+    <button class="floating-review-btn" onclick="openQuickReview()" title="Quick Review">⚡</button>
+
+    <!-- Parent Report Floating Button -->
+    <button class="floating-report-parent-btn" onclick="openParentReport()" title="Parent Report">👨‍👩‍👧</button>
+
+    <!-- Quick Review Modal -->
+    <div class="quick-review-modal" id="quick-review-modal">
+        <div class="quick-review-content">
+            <div class="quick-review-header">
+                <h2>⚡ Quick Review</h2>
+                <button onclick="closeQuickReview()" style="background:none;border:none;color:#fff;font-size:1.5rem;cursor:pointer;">&times;</button>
+            </div>
+            <div class="review-progress" id="review-progress"></div>
+            <div class="review-card" id="review-card" onclick="flipReviewCard()">
+                <div class="review-front" id="review-front"></div>
+                <div class="review-back" id="review-back"></div>
+            </div>
+            <p style="color:#888;text-align:center;font-size:0.85rem;margin-top:10px;">Tap card to flip</p>
+            <div class="review-controls">
+                <button class="review-btn learn" onclick="markAsLearning()">📝 Still Learning</button>
+                <button class="review-btn know" onclick="markAsKnown()">✅ I Know This</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Parent Report Modal -->
+    <div class="report-modal" id="report-modal">
+        <div class="report-content">
+            <div class="report-header">
+                <h2>👨‍👩‍👧 Parent Report</h2>
+                <button onclick="closeParentReport()" style="background:none;border:none;color:#fff;font-size:1.5rem;cursor:pointer;">&times;</button>
+            </div>
+            <div id="report-summary"></div>
+            <button class="export-btn" onclick="exportReport()">📄 Export Report (Copy to Clipboard)</button>
+        </div>
+    </div>
+
+    <script>
+        // ========== Quick Review System ==========
+        const reviewCards = [
+            { front: 'What are the three states of matter?', back: 'Solid, Liquid, and Gas' },
+            { front: 'What is a good conductor of heat?', back: 'Metals (like copper, iron, aluminum)' },
+            { front: 'How does light travel?', back: 'In straight lines' },
+            { front: 'What do plants need for photosynthesis?', back: 'Sunlight, water, and carbon dioxide' },
+            { front: 'What force pulls objects toward Earth?', back: 'Gravity' },
+            { front: 'What is the basic unit of life?', back: 'Cell' },
+            { front: 'What type of material blocks all light?', back: 'Opaque' },
+            { front: 'What is friction?', back: 'A force that opposes motion between surfaces' },
+            { front: 'Where does photosynthesis mainly occur?', back: 'In the leaves (chloroplasts)' },
+            { front: 'Heat flows from...?', back: 'Hot objects to cold objects' }
+        ];
+
+        let reviewState = {
+            currentIndex: 0,
+            known: [],
+            learning: [],
+            deck: []
+        };
+
+        function openQuickReview() {
+            document.getElementById('quick-review-modal').style.display = 'flex';
+            // Shuffle cards
+            reviewState.deck = [...reviewCards].sort(() => Math.random() - 0.5);
+            reviewState.currentIndex = 0;
+            reviewState.known = [];
+            reviewState.learning = [];
+            showReviewCard();
+            if (typeof playSound === 'function' && getSoundSetting('notify')) playSound('pop');
+        }
+
+        function closeQuickReview() {
+            document.getElementById('quick-review-modal').style.display = 'none';
+        }
+
+        function showReviewCard() {
+            const card = reviewState.deck[reviewState.currentIndex];
+            if (!card) {
+                showReviewSummary();
+                return;
+            }
+
+            document.getElementById('review-front').textContent = card.front;
+            document.getElementById('review-back').textContent = card.back;
+            document.getElementById('review-card').classList.remove('flipped');
+
+            // Update progress dots
+            const progress = document.getElementById('review-progress');
+            progress.innerHTML = reviewState.deck.map((_, i) => {
+                let classes = 'review-dot';
+                if (i < reviewState.currentIndex) classes += ' done';
+                if (i === reviewState.currentIndex) classes += ' current';
+                return `<div class="${classes}"></div>`;
+            }).join('');
+        }
+
+        function flipReviewCard() {
+            document.getElementById('review-card').classList.toggle('flipped');
+            if (typeof playSound === 'function' && getSoundSetting('notify')) playSound('pop');
+        }
+
+        function markAsKnown() {
+            reviewState.known.push(reviewState.deck[reviewState.currentIndex]);
+            reviewState.currentIndex++;
+            showReviewCard();
+            if (typeof playSound === 'function' && getSoundSetting('correct')) playSound('success');
+        }
+
+        function markAsLearning() {
+            reviewState.learning.push(reviewState.deck[reviewState.currentIndex]);
+            reviewState.currentIndex++;
+            showReviewCard();
+            if (typeof playSound === 'function' && getSoundSetting('notify')) playSound('pop');
+        }
+
+        function showReviewSummary() {
+            const total = reviewState.deck.length;
+            const knownCount = reviewState.known.length;
+            const percent = Math.round((knownCount / total) * 100);
+
+            document.getElementById('review-card').innerHTML = `
+                <div class="review-front" style="display:block;">
+                    <div style="font-size:3rem;margin-bottom:20px;">🎉</div>
+                    <h3 style="color:#ec407a;margin-bottom:15px;">Review Complete!</h3>
+                    <p style="color:#ddd;">You knew <strong>${knownCount}/${total}</strong> cards (${percent}%)</p>
+                    <p style="color:#888;margin-top:10px;">${knownCount === total ? 'Perfect score! Amazing!' : 'Keep practicing the ones you\'re still learning!'}</p>
+                </div>
+            `;
+
+            // Add XP for review
+            const xpEarned = knownCount * 5;
+            if (typeof addXP === 'function') addXP(xpEarned);
+
+            document.querySelector('.review-controls').innerHTML = `
+                <button class="review-btn know" onclick="openQuickReview()">🔄 Review Again</button>
+            `;
+        }
+
+        // ========== Answer Explanation System ==========
+        const explanationDatabase = {
+            'solid': 'Solids have a fixed shape because their particles are tightly packed and vibrate in place. They cannot be compressed easily.',
+            'liquid': 'Liquids take the shape of their container because particles can slide past each other. They have a fixed volume.',
+            'gas': 'Gases have no fixed shape or volume. Particles move freely and far apart, which is why gases can be compressed.',
+            'conductor': 'Good conductors like metals have free electrons that quickly transfer heat energy from hot to cold regions.',
+            'insulator': 'Insulators like wood and plastic have tightly bound electrons that resist heat flow, keeping things warm or cold.',
+            'photosynthesis': 'Plants use chlorophyll to capture light energy. Carbon dioxide enters through stomata, water through roots. Glucose and oxygen are produced.',
+            'gravity': 'Gravity is the force of attraction between masses. On Earth, it pulls everything toward the center at 9.8 m/s².',
+            'friction': 'Friction occurs when surfaces rub together. It converts kinetic energy to heat and always opposes motion.',
+            'light': 'Light is electromagnetic radiation. It travels at 300,000 km/s in a vacuum and slower through materials.',
+            'opaque': 'Opaque materials absorb or reflect all light. No light passes through, creating shadows behind them.'
+        };
+
+        function showExplanation(keyword, container) {
+            const key = keyword.toLowerCase();
+            const explanation = explanationDatabase[key] || 'This concept relates to the fundamental principles of science. Understanding the key terms helps build a strong foundation.';
+
+            const explanationDiv = document.createElement('div');
+            explanationDiv.className = 'explanation-box show';
+            explanationDiv.innerHTML = `
+                <div class="explanation-title">💡 Why is this correct?</div>
+                <div class="explanation-text">${explanation}</div>
+            `;
+
+            container.appendChild(explanationDiv);
+        }
+
+        // ========== Parent Report System ==========
+        function openParentReport() {
+            document.getElementById('report-modal').style.display = 'flex';
+            generateReport();
+            if (typeof playSound === 'function' && getSoundSetting('notify')) playSound('pop');
+        }
+
+        function closeParentReport() {
+            document.getElementById('report-modal').style.display = 'none';
+        }
+
+        function generateReport() {
+            const totalQuestions = parseInt(localStorage.getItem('totalQuestionsAnswered')) || 0;
+            const correctAnswers = parseInt(localStorage.getItem('totalCorrectAnswers')) || 0;
+            const userXP = parseInt(localStorage.getItem('userXP')) || 0;
+            const userLevel = parseInt(localStorage.getItem('userLevel')) || 1;
+            const studyDaysArr = JSON.parse(localStorage.getItem('studyDays') || '[]');
+            const currentStreakVal = parseInt(localStorage.getItem('currentStreak')) || 0;
+            const longestStreakVal = parseInt(localStorage.getItem('longestStreak')) || 0;
+
+            const accuracy = totalQuestions > 0 ? Math.round((correctAnswers / totalQuestions) * 100) : 0;
+
+            // Get topic progress
+            const topicProgressDataReport = JSON.parse(localStorage.getItem('topicProgress') || '{}');
+            let topicHTML = '';
+            Object.keys(topicProgressDataReport).forEach(topic => {
+                const data = topicProgressDataReport[topic];
+                const percent = data.total > 0 ? Math.round((data.correct / data.total) * 100) : 0;
+                topicHTML += `
+                    <div class="report-stat-item">
+                        <div class="report-stat-label">${topic.charAt(0).toUpperCase() + topic.slice(1)}</div>
+                        <div class="report-stat-value">${percent}%</div>
+                    </div>
+                `;
+            });
+
+            const summaryDiv = document.getElementById('report-summary');
+            summaryDiv.innerHTML = `
+                <div class="report-section">
+                    <div class="report-section-title">📊 Overall Progress</div>
+                    <div class="report-stat-grid">
+                        <div class="report-stat-item">
+                            <div class="report-stat-label">Questions Answered</div>
+                            <div class="report-stat-value">${totalQuestions}</div>
+                        </div>
+                        <div class="report-stat-item">
+                            <div class="report-stat-label">Accuracy Rate</div>
+                            <div class="report-stat-value">${accuracy}%</div>
+                        </div>
+                        <div class="report-stat-item">
+                            <div class="report-stat-label">Experience Points</div>
+                            <div class="report-stat-value">${userXP} XP</div>
+                        </div>
+                        <div class="report-stat-item">
+                            <div class="report-stat-label">Current Level</div>
+                            <div class="report-stat-value">Level ${userLevel}</div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="report-section">
+                    <div class="report-section-title">🔥 Study Consistency</div>
+                    <div class="report-stat-grid">
+                        <div class="report-stat-item">
+                            <div class="report-stat-label">Current Streak</div>
+                            <div class="report-stat-value">${currentStreakVal} days</div>
+                        </div>
+                        <div class="report-stat-item">
+                            <div class="report-stat-label">Longest Streak</div>
+                            <div class="report-stat-value">${longestStreakVal} days</div>
+                        </div>
+                        <div class="report-stat-item">
+                            <div class="report-stat-label">Total Study Days</div>
+                            <div class="report-stat-value">${studyDaysArr.length}</div>
+                        </div>
+                    </div>
+                </div>
+
+                ${topicHTML ? `
+                <div class="report-section">
+                    <div class="report-section-title">📚 Topic Performance</div>
+                    <div class="report-stat-grid">
+                        ${topicHTML}
+                    </div>
+                </div>
+                ` : ''}
+            `;
+        }
+
+        function exportReport() {
+            const totalQuestions = parseInt(localStorage.getItem('totalQuestionsAnswered')) || 0;
+            const correctAnswers = parseInt(localStorage.getItem('totalCorrectAnswers')) || 0;
+            const userXP = parseInt(localStorage.getItem('userXP')) || 0;
+            const userLevel = parseInt(localStorage.getItem('userLevel')) || 1;
+            const currentStreakVal = parseInt(localStorage.getItem('currentStreak')) || 0;
+            const accuracy = totalQuestions > 0 ? Math.round((correctAnswers / totalQuestions) * 100) : 0;
+
+            const reportText = `
+Science CER Study Report
+========================
+Date: ${new Date().toLocaleDateString()}
+
+OVERALL PROGRESS
+- Questions Answered: ${totalQuestions}
+- Correct Answers: ${correctAnswers}
+- Accuracy Rate: ${accuracy}%
+- Experience Points: ${userXP} XP
+- Current Level: ${userLevel}
+- Study Streak: ${currentStreakVal} days
+
+This report was generated from the Science CER Practice App.
+            `.trim();
+
+            navigator.clipboard.writeText(reportText).then(() => {
+                alert('Report copied to clipboard! You can paste it into an email or document.');
+                if (typeof playSound === 'function' && getSoundSetting('correct')) playSound('success');
+            }).catch(() => {
+                alert('Could not copy to clipboard. Please try again.');
+            });
+        }
+
+        console.log('⚡ Quick Review, Answer Explanation, and Parent Report loaded!');
     </script>
 
     <!-- PowerPoint-style Table Grid Selector (positioned fixed, outside all containers) -->
