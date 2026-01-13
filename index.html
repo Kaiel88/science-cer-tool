@@ -11002,6 +11002,412 @@
         .floating-parent-btn:hover {
             transform: scale(1.1);
         }
+
+        /* ========== BATCH 27: Topic Explorer, Daily Challenge, Skill Tree ========== */
+
+        /* Topic Explorer */
+        .topic-explorer-modal {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0,0,0,0.9);
+            display: none;
+            justify-content: center;
+            align-items: center;
+            z-index: 10001;
+        }
+
+        .topic-explorer-content {
+            background: linear-gradient(135deg, #1a1a2e 0%, #0f0f23 100%);
+            border-radius: 25px;
+            width: 90%;
+            max-width: 900px;
+            padding: 30px;
+            color: white;
+        }
+
+        .topic-explorer-header {
+            text-align: center;
+            margin-bottom: 25px;
+        }
+
+        .topic-explorer-header h2 {
+            color: #00d4ff;
+            margin: 0;
+        }
+
+        .topic-map {
+            display: flex;
+            justify-content: center;
+            gap: 30px;
+            flex-wrap: wrap;
+            padding: 20px;
+        }
+
+        .topic-node {
+            width: 140px;
+            height: 140px;
+            border-radius: 50%;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            transition: all 0.4s ease;
+            position: relative;
+            border: 3px solid transparent;
+        }
+
+        .topic-node:hover {
+            transform: scale(1.15);
+            z-index: 10;
+        }
+
+        .topic-node.mastered {
+            border-color: #4CAF50;
+            box-shadow: 0 0 30px rgba(76, 175, 80, 0.5);
+        }
+
+        .topic-node-icon {
+            font-size: 2.5rem;
+            margin-bottom: 8px;
+        }
+
+        .topic-node-name {
+            font-size: 0.85rem;
+            font-weight: 600;
+            text-align: center;
+        }
+
+        .topic-node-progress {
+            position: absolute;
+            bottom: -8px;
+            font-size: 0.7rem;
+            background: rgba(0,0,0,0.7);
+            padding: 3px 10px;
+            border-radius: 10px;
+        }
+
+        .topic-connection {
+            position: absolute;
+            width: 50px;
+            height: 3px;
+            background: rgba(255,255,255,0.2);
+        }
+
+        /* Daily Challenge */
+        .daily-challenge-modal {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0,0,0,0.85);
+            display: none;
+            justify-content: center;
+            align-items: center;
+            z-index: 10001;
+        }
+
+        .daily-challenge-content {
+            background: white;
+            border-radius: 25px;
+            width: 90%;
+            max-width: 550px;
+            overflow: hidden;
+        }
+
+        .challenge-header {
+            background: linear-gradient(135deg, #f5af19 0%, #f12711 100%);
+            color: white;
+            padding: 25px;
+            text-align: center;
+            position: relative;
+        }
+
+        .challenge-header h2 {
+            margin: 0;
+        }
+
+        .challenge-timer {
+            margin-top: 10px;
+            font-size: 0.9rem;
+            opacity: 0.9;
+        }
+
+        .challenge-badge {
+            position: absolute;
+            top: -10px;
+            right: 20px;
+            background: #4CAF50;
+            color: white;
+            padding: 5px 15px;
+            border-radius: 20px;
+            font-size: 0.8rem;
+            font-weight: 600;
+        }
+
+        .challenge-body {
+            padding: 25px;
+        }
+
+        .challenge-question {
+            font-size: 1.1rem;
+            color: #333;
+            margin-bottom: 20px;
+            line-height: 1.6;
+        }
+
+        .challenge-options {
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+        }
+
+        .challenge-option {
+            padding: 15px 20px;
+            border: 2px solid #e0e0e0;
+            border-radius: 12px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .challenge-option:hover {
+            border-color: #f5af19;
+            background: #fff8e1;
+        }
+
+        .challenge-option.selected {
+            border-color: #f5af19;
+            background: #fff8e1;
+        }
+
+        .challenge-option.correct {
+            border-color: #4CAF50;
+            background: #e8f5e9;
+        }
+
+        .challenge-option.incorrect {
+            border-color: #f44336;
+            background: #ffebee;
+        }
+
+        .challenge-option-letter {
+            width: 30px;
+            height: 30px;
+            border-radius: 50%;
+            background: #f0f0f0;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 600;
+        }
+
+        .challenge-reward {
+            text-align: center;
+            padding: 20px;
+            background: #f8f9fa;
+            border-radius: 15px;
+            margin-top: 20px;
+        }
+
+        .challenge-reward-icon {
+            font-size: 2.5rem;
+        }
+
+        .challenge-reward-text {
+            font-weight: 600;
+            color: #f12711;
+            margin-top: 5px;
+        }
+
+        /* Skill Tree */
+        .skill-tree-modal {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0,0,0,0.9);
+            display: none;
+            justify-content: center;
+            align-items: center;
+            z-index: 10001;
+        }
+
+        .skill-tree-content {
+            background: linear-gradient(180deg, #1a1a2e 0%, #16213e 50%, #0f0f23 100%);
+            border-radius: 25px;
+            width: 90%;
+            max-width: 800px;
+            max-height: 85vh;
+            overflow-y: auto;
+            padding: 30px;
+            color: white;
+        }
+
+        .skill-tree-header {
+            text-align: center;
+            margin-bottom: 20px;
+        }
+
+        .skill-tree-header h2 {
+            color: #00d4ff;
+            margin: 0;
+        }
+
+        .skill-tree-container {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 30px;
+        }
+
+        .skill-tier {
+            display: flex;
+            justify-content: center;
+            gap: 20px;
+            flex-wrap: wrap;
+        }
+
+        .skill-node {
+            width: 90px;
+            height: 90px;
+            border-radius: 50%;
+            background: rgba(255,255,255,0.1);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            border: 3px solid rgba(255,255,255,0.2);
+            position: relative;
+        }
+
+        .skill-node:hover {
+            transform: scale(1.1);
+            background: rgba(255,255,255,0.2);
+        }
+
+        .skill-node.unlocked {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            border-color: #00d4ff;
+            box-shadow: 0 0 20px rgba(102, 126, 234, 0.5);
+        }
+
+        .skill-node.locked {
+            opacity: 0.5;
+            cursor: not-allowed;
+        }
+
+        .skill-node-icon {
+            font-size: 1.8rem;
+        }
+
+        .skill-node-name {
+            font-size: 0.65rem;
+            margin-top: 3px;
+            text-align: center;
+        }
+
+        .skill-connection-line {
+            width: 3px;
+            height: 30px;
+            background: linear-gradient(180deg, #00d4ff 0%, rgba(0,212,255,0.3) 100%);
+            margin: 0 auto;
+        }
+
+        .skill-tooltip {
+            position: absolute;
+            bottom: 100%;
+            left: 50%;
+            transform: translateX(-50%);
+            background: white;
+            color: #333;
+            padding: 10px 15px;
+            border-radius: 10px;
+            font-size: 0.8rem;
+            white-space: nowrap;
+            opacity: 0;
+            visibility: hidden;
+            margin-bottom: 10px;
+            box-shadow: 0 5px 20px rgba(0,0,0,0.2);
+        }
+
+        .skill-node:hover .skill-tooltip {
+            opacity: 1;
+            visibility: visible;
+        }
+
+        /* Floating buttons for Batch 27 */
+        .floating-explore-btn {
+            position: fixed;
+            bottom: 1300px;
+            right: 20px;
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, #00d4ff 0%, #0099cc 100%);
+            color: white;
+            border: none;
+            font-size: 1.3rem;
+            cursor: pointer;
+            box-shadow: 0 5px 20px rgba(0, 212, 255, 0.4);
+            z-index: 999;
+            transition: all 0.3s ease;
+        }
+
+        .floating-explore-btn:hover {
+            transform: scale(1.1);
+        }
+
+        .floating-challenge-btn {
+            position: fixed;
+            bottom: 1360px;
+            right: 20px;
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, #f5af19 0%, #f12711 100%);
+            color: white;
+            border: none;
+            font-size: 1.3rem;
+            cursor: pointer;
+            box-shadow: 0 5px 20px rgba(245, 175, 25, 0.4);
+            z-index: 999;
+            transition: all 0.3s ease;
+        }
+
+        .floating-challenge-btn:hover {
+            transform: scale(1.1);
+        }
+
+        .floating-skilltree-btn {
+            position: fixed;
+            bottom: 1420px;
+            right: 20px;
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            border: none;
+            font-size: 1.3rem;
+            cursor: pointer;
+            box-shadow: 0 5px 20px rgba(102, 126, 234, 0.4);
+            z-index: 999;
+            transition: all 0.3s ease;
+        }
+
+        .floating-skilltree-btn:hover {
+            transform: scale(1.1);
+        }
     </style>
 </head>
 
@@ -37848,6 +38254,301 @@ Science Made Fun!
         recordActivity(1);
 
         console.log('🎊 Confetti, Activity Heatmap, and Parent Mode loaded!');
+    </script>
+
+    <!-- ========== BATCH 27: Topic Explorer, Daily Challenge, Skill Tree ========== -->
+
+    <!-- Topic Explorer Modal -->
+    <div class="topic-explorer-modal" id="topic-explorer-modal">
+        <div class="topic-explorer-content">
+            <div class="topic-explorer-header">
+                <h2>🗺️ Topic Explorer</h2>
+                <p style="color: #aaa; margin-top: 5px;">Click a topic to explore and learn!</p>
+            </div>
+            <div class="topic-map" id="topic-map">
+                <!-- Populated by JavaScript -->
+            </div>
+            <div style="text-align: center; margin-top: 20px;">
+                <button onclick="closeTopicExplorer()" style="padding: 10px 30px; border: none; background: rgba(255,255,255,0.2); border-radius: 20px; color: white; cursor: pointer;">Close</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Daily Challenge Modal -->
+    <div class="daily-challenge-modal" id="daily-challenge-modal">
+        <div class="daily-challenge-content">
+            <div class="challenge-header">
+                <h2>⚡ Daily Challenge</h2>
+                <div class="challenge-timer" id="challenge-timer">Resets in: 12:34:56</div>
+                <span class="challenge-badge" id="challenge-status">NEW</span>
+            </div>
+            <div class="challenge-body" id="challenge-body">
+                <!-- Populated by JavaScript -->
+            </div>
+            <div style="text-align: center; padding: 20px;">
+                <button onclick="closeDailyChallenge()" style="padding: 10px 30px; border: none; background: #f0f0f0; border-radius: 20px; cursor: pointer;">Close</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Skill Tree Modal -->
+    <div class="skill-tree-modal" id="skill-tree-modal">
+        <div class="skill-tree-content">
+            <div class="skill-tree-header">
+                <h2>🌳 Skill Tree</h2>
+                <p style="color: #aaa; margin-top: 5px;">Unlock skills as you progress!</p>
+            </div>
+            <div class="skill-tree-container" id="skill-tree-container">
+                <!-- Populated by JavaScript -->
+            </div>
+            <div style="text-align: center; margin-top: 20px;">
+                <button onclick="closeSkillTree()" style="padding: 10px 30px; border: none; background: rgba(255,255,255,0.2); border-radius: 20px; color: white; cursor: pointer;">Close</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Floating Action Buttons for Batch 27 -->
+    <button class="floating-explore-btn" onclick="openTopicExplorer()" title="Topic Explorer">🗺️</button>
+    <button class="floating-challenge-btn" onclick="openDailyChallenge()" title="Daily Challenge">⚡</button>
+    <button class="floating-skilltree-btn" onclick="openSkillTree()" title="Skill Tree">🌳</button>
+
+    <script>
+        // ========== BATCH 27: Topic Explorer, Daily Challenge, Skill Tree ==========
+
+        // Topic Explorer
+        const scienceTopics = [
+            { id: 'physics', name: 'Physics', icon: '⚛️', color: 'linear-gradient(135deg, #667eea 0%, #764ba2 100%)' },
+            { id: 'chemistry', name: 'Chemistry', icon: '🧪', color: 'linear-gradient(135deg, #11998e 0%, #38ef7d 100%)' },
+            { id: 'biology', name: 'Biology', icon: '🧬', color: 'linear-gradient(135deg, #ee0979 0%, #ff6a00 100%)' },
+            { id: 'earth', name: 'Earth Science', icon: '🌍', color: 'linear-gradient(135deg, #4facfe 0%, #00f2fe 100%)' },
+            { id: 'space', name: 'Space', icon: '🚀', color: 'linear-gradient(135deg, #1a1a2e 0%, #16213e 100%)' },
+            { id: 'ecology', name: 'Ecology', icon: '🌱', color: 'linear-gradient(135deg, #56ab2f 0%, #a8e063 100%)' }
+        ];
+
+        let topicProgress = JSON.parse(localStorage.getItem('topicProgress')) || {};
+
+        function openTopicExplorer() {
+            renderTopicMap();
+            document.getElementById('topic-explorer-modal').style.display = 'flex';
+        }
+
+        function closeTopicExplorer() {
+            document.getElementById('topic-explorer-modal').style.display = 'none';
+        }
+
+        function renderTopicMap() {
+            const container = document.getElementById('topic-map');
+            container.innerHTML = scienceTopics.map(topic => {
+                const progress = topicProgress[topic.id] || 0;
+                const isMastered = progress >= 100;
+
+                return `
+                    <div class="topic-node ${isMastered ? 'mastered' : ''}" style="background: ${topic.color}" onclick="selectTopic('${topic.id}')">
+                        <span class="topic-node-icon">${topic.icon}</span>
+                        <span class="topic-node-name">${topic.name}</span>
+                        <span class="topic-node-progress">${progress}%</span>
+                    </div>
+                `;
+            }).join('');
+        }
+
+        function selectTopic(topicId) {
+            const topic = scienceTopics.find(t => t.id === topicId);
+            closeTopicExplorer();
+            alert('Starting ' + topic.name + ' questions! Feature coming soon.');
+
+            // Record topic visit
+            let topicsVisited = JSON.parse(localStorage.getItem('topicsVisited')) || [];
+            if (!topicsVisited.includes(topicId)) {
+                topicsVisited.push(topicId);
+                localStorage.setItem('topicsVisited', JSON.stringify(topicsVisited));
+            }
+        }
+
+        function updateTopicProgress(topicId, amount = 5) {
+            topicProgress[topicId] = Math.min((topicProgress[topicId] || 0) + amount, 100);
+            localStorage.setItem('topicProgress', JSON.stringify(topicProgress));
+        }
+
+        // Daily Challenge
+        const dailyChallenges = [
+            { question: 'What is the chemical symbol for water?', options: ['H2O', 'CO2', 'NaCl', 'O2'], correct: 0 },
+            { question: 'Which planet is known as the Red Planet?', options: ['Venus', 'Mars', 'Jupiter', 'Saturn'], correct: 1 },
+            { question: 'What is the powerhouse of the cell?', options: ['Nucleus', 'Ribosome', 'Mitochondria', 'Golgi Body'], correct: 2 },
+            { question: 'What force keeps us on the ground?', options: ['Friction', 'Magnetism', 'Gravity', 'Tension'], correct: 2 },
+            { question: 'What gas do plants release during photosynthesis?', options: ['Carbon Dioxide', 'Nitrogen', 'Oxygen', 'Hydrogen'], correct: 2 },
+            { question: 'What is the largest organ in the human body?', options: ['Heart', 'Brain', 'Liver', 'Skin'], correct: 3 },
+            { question: 'What type of rock is formed from cooled lava?', options: ['Sedimentary', 'Metamorphic', 'Igneous', 'Limestone'], correct: 2 }
+        ];
+
+        let challengeAnswered = false;
+
+        function openDailyChallenge() {
+            renderDailyChallenge();
+            document.getElementById('daily-challenge-modal').style.display = 'flex';
+        }
+
+        function closeDailyChallenge() {
+            document.getElementById('daily-challenge-modal').style.display = 'none';
+        }
+
+        function renderDailyChallenge() {
+            const today = new Date().toDateString();
+            const lastChallenge = localStorage.getItem('lastChallengeDate');
+            challengeAnswered = lastChallenge === today;
+
+            // Get today's challenge based on day of year
+            const dayOfYear = Math.floor((new Date() - new Date(new Date().getFullYear(), 0, 0)) / (1000 * 60 * 60 * 24));
+            const challenge = dailyChallenges[dayOfYear % dailyChallenges.length];
+
+            const statusBadge = document.getElementById('challenge-status');
+            statusBadge.textContent = challengeAnswered ? 'COMPLETED' : 'NEW';
+            statusBadge.style.background = challengeAnswered ? '#4CAF50' : '#f12711';
+
+            const body = document.getElementById('challenge-body');
+
+            if (challengeAnswered) {
+                body.innerHTML = `
+                    <div style="text-align: center; padding: 30px;">
+                        <div style="font-size: 4rem;">✅</div>
+                        <h3 style="color: #4CAF50;">Challenge Completed!</h3>
+                        <p style="color: #666;">Come back tomorrow for a new challenge.</p>
+                    </div>
+                `;
+            } else {
+                const letters = ['A', 'B', 'C', 'D'];
+                body.innerHTML = `
+                    <div class="challenge-question">${challenge.question}</div>
+                    <div class="challenge-options">
+                        ${challenge.options.map((opt, i) => `
+                            <div class="challenge-option" onclick="answerChallenge(${i}, ${challenge.correct})">
+                                <span class="challenge-option-letter">${letters[i]}</span>
+                                <span>${opt}</span>
+                            </div>
+                        `).join('')}
+                    </div>
+                    <div class="challenge-reward">
+                        <div class="challenge-reward-icon">🏆</div>
+                        <div class="challenge-reward-text">Reward: 100 XP</div>
+                    </div>
+                `;
+            }
+
+            updateChallengeTimer();
+        }
+
+        function answerChallenge(selected, correct) {
+            if (challengeAnswered) return;
+
+            const options = document.querySelectorAll('.challenge-option');
+            options.forEach((opt, i) => {
+                opt.onclick = null;
+                if (i === correct) {
+                    opt.classList.add('correct');
+                } else if (i === selected && selected !== correct) {
+                    opt.classList.add('incorrect');
+                }
+            });
+
+            challengeAnswered = true;
+            localStorage.setItem('lastChallengeDate', new Date().toDateString());
+
+            const statusBadge = document.getElementById('challenge-status');
+            statusBadge.textContent = 'COMPLETED';
+            statusBadge.style.background = '#4CAF50';
+
+            if (selected === correct) {
+                const currentXP = parseInt(localStorage.getItem('scienceXP')) || 0;
+                localStorage.setItem('scienceXP', currentXP + 100);
+
+                setTimeout(() => {
+                    celebrateWithConfetti();
+                    alert('🎉 Correct! You earned 100 XP!');
+                }, 500);
+            } else {
+                setTimeout(() => {
+                    alert('❌ Not quite! The correct answer was highlighted. Try again tomorrow!');
+                }, 500);
+            }
+        }
+
+        function updateChallengeTimer() {
+            const now = new Date();
+            const tomorrow = new Date(now);
+            tomorrow.setDate(tomorrow.getDate() + 1);
+            tomorrow.setHours(0, 0, 0, 0);
+
+            const diff = tomorrow - now;
+            const hours = Math.floor(diff / (1000 * 60 * 60));
+            const minutes = Math.floor((diff % (1000 * 60 * 60)) / (1000 * 60));
+            const seconds = Math.floor((diff % (1000 * 60)) / 1000);
+
+            document.getElementById('challenge-timer').textContent =
+                `Resets in: ${hours.toString().padStart(2, '0')}:${minutes.toString().padStart(2, '0')}:${seconds.toString().padStart(2, '0')}`;
+        }
+
+        // Skill Tree
+        const skillTree = [
+            { tier: 1, skills: [
+                { id: 's1', name: 'Beginner', icon: '🌱', xpRequired: 0 },
+            ]},
+            { tier: 2, skills: [
+                { id: 's2', name: 'Observer', icon: '👁️', xpRequired: 100 },
+                { id: 's3', name: 'Curious', icon: '❓', xpRequired: 100 },
+            ]},
+            { tier: 3, skills: [
+                { id: 's4', name: 'Thinker', icon: '🧠', xpRequired: 300 },
+                { id: 's5', name: 'Explorer', icon: '🔍', xpRequired: 300 },
+                { id: 's6', name: 'Reader', icon: '📚', xpRequired: 300 },
+            ]},
+            { tier: 4, skills: [
+                { id: 's7', name: 'Analyst', icon: '📊', xpRequired: 600 },
+                { id: 's8', name: 'Experimenter', icon: '🧪', xpRequired: 600 },
+            ]},
+            { tier: 5, skills: [
+                { id: 's9', name: 'Scientist', icon: '🔬', xpRequired: 1000 },
+            ]},
+            { tier: 6, skills: [
+                { id: 's10', name: 'Master', icon: '👑', xpRequired: 1500 },
+            ]}
+        ];
+
+        function openSkillTree() {
+            renderSkillTree();
+            document.getElementById('skill-tree-modal').style.display = 'flex';
+        }
+
+        function closeSkillTree() {
+            document.getElementById('skill-tree-modal').style.display = 'none';
+        }
+
+        function renderSkillTree() {
+            const container = document.getElementById('skill-tree-container');
+            const currentXP = parseInt(localStorage.getItem('scienceXP')) || 0;
+
+            container.innerHTML = skillTree.map((tier, tierIndex) => {
+                const tierHtml = tier.skills.map(skill => {
+                    const isUnlocked = currentXP >= skill.xpRequired;
+                    return `
+                        <div class="skill-node ${isUnlocked ? 'unlocked' : 'locked'}">
+                            <span class="skill-node-icon">${skill.icon}</span>
+                            <span class="skill-node-name">${skill.name}</span>
+                            <div class="skill-tooltip">
+                                ${skill.name}<br>
+                                ${isUnlocked ? '✅ Unlocked!' : `🔒 Requires ${skill.xpRequired} XP`}
+                            </div>
+                        </div>
+                    `;
+                }).join('');
+
+                return `
+                    ${tierIndex > 0 ? '<div class="skill-connection-line"></div>' : ''}
+                    <div class="skill-tier">${tierHtml}</div>
+                `;
+            }).join('');
+        }
+
+        console.log('🗺️ Topic Explorer, Daily Challenge, and Skill Tree loaded!');
     </script>
 
     <!-- PowerPoint-style Table Grid Selector (positioned fixed, outside all containers) -->
