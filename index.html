@@ -10664,6 +10664,344 @@
         .floating-sound-btn:hover {
             transform: scale(1.1);
         }
+
+        /* ========== BATCH 26: Confetti, Activity Heatmap, Parent Mode ========== */
+
+        /* Confetti Canvas */
+        #confetti-canvas {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: 100000;
+        }
+
+        /* Activity Heatmap */
+        .heatmap-modal {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0,0,0,0.85);
+            display: none;
+            justify-content: center;
+            align-items: center;
+            z-index: 10001;
+        }
+
+        .heatmap-content {
+            background: white;
+            border-radius: 25px;
+            width: 90%;
+            max-width: 800px;
+            padding: 30px;
+        }
+
+        .heatmap-header {
+            text-align: center;
+            margin-bottom: 25px;
+        }
+
+        .heatmap-header h2 {
+            margin: 0;
+            color: #333;
+        }
+
+        .heatmap-legend {
+            display: flex;
+            justify-content: center;
+            gap: 15px;
+            margin-bottom: 20px;
+        }
+
+        .legend-item {
+            display: flex;
+            align-items: center;
+            gap: 5px;
+            font-size: 0.8rem;
+            color: #666;
+        }
+
+        .legend-box {
+            width: 15px;
+            height: 15px;
+            border-radius: 3px;
+        }
+
+        .heatmap-grid {
+            display: grid;
+            grid-template-columns: repeat(7, 1fr);
+            gap: 4px;
+            margin-bottom: 20px;
+        }
+
+        .heatmap-day-label {
+            text-align: center;
+            font-size: 0.7rem;
+            color: #999;
+            padding: 5px;
+        }
+
+        .heatmap-cell {
+            aspect-ratio: 1;
+            border-radius: 4px;
+            background: #ebedf0;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            position: relative;
+        }
+
+        .heatmap-cell:hover {
+            transform: scale(1.2);
+            z-index: 10;
+        }
+
+        .heatmap-cell.level-1 { background: #9be9a8; }
+        .heatmap-cell.level-2 { background: #40c463; }
+        .heatmap-cell.level-3 { background: #30a14e; }
+        .heatmap-cell.level-4 { background: #216e39; }
+
+        .heatmap-tooltip {
+            position: absolute;
+            bottom: 100%;
+            left: 50%;
+            transform: translateX(-50%);
+            background: #333;
+            color: white;
+            padding: 5px 10px;
+            border-radius: 5px;
+            font-size: 0.75rem;
+            white-space: nowrap;
+            opacity: 0;
+            visibility: hidden;
+            margin-bottom: 5px;
+        }
+
+        .heatmap-cell:hover .heatmap-tooltip {
+            opacity: 1;
+            visibility: visible;
+        }
+
+        .heatmap-summary {
+            display: flex;
+            justify-content: center;
+            gap: 40px;
+            padding: 20px;
+            background: #f8f9fa;
+            border-radius: 15px;
+        }
+
+        .heatmap-stat {
+            text-align: center;
+        }
+
+        .heatmap-stat-value {
+            font-size: 2rem;
+            font-weight: 700;
+            color: #333;
+        }
+
+        .heatmap-stat-label {
+            font-size: 0.85rem;
+            color: #666;
+        }
+
+        /* Parent Mode */
+        .parent-modal {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0,0,0,0.9);
+            display: none;
+            justify-content: center;
+            align-items: center;
+            z-index: 10001;
+        }
+
+        .parent-content {
+            background: white;
+            border-radius: 25px;
+            width: 90%;
+            max-width: 700px;
+            max-height: 85vh;
+            overflow-y: auto;
+        }
+
+        .parent-header {
+            background: linear-gradient(135deg, #1976d2 0%, #1565c0 100%);
+            color: white;
+            padding: 25px;
+            text-align: center;
+            border-radius: 25px 25px 0 0;
+        }
+
+        .parent-header h2 {
+            margin: 0;
+        }
+
+        .parent-login {
+            padding: 30px;
+            text-align: center;
+        }
+
+        .parent-pin-input {
+            width: 200px;
+            padding: 15px;
+            font-size: 1.5rem;
+            text-align: center;
+            border: 2px solid #e0e0e0;
+            border-radius: 10px;
+            letter-spacing: 10px;
+            margin-bottom: 20px;
+        }
+
+        .parent-pin-btn {
+            padding: 12px 40px;
+            border: none;
+            border-radius: 25px;
+            background: linear-gradient(135deg, #1976d2 0%, #1565c0 100%);
+            color: white;
+            font-weight: 600;
+            cursor: pointer;
+        }
+
+        .parent-dashboard {
+            padding: 25px;
+            display: none;
+        }
+
+        .parent-dashboard.active {
+            display: block;
+        }
+
+        .dashboard-section {
+            background: #f8f9fa;
+            border-radius: 15px;
+            padding: 20px;
+            margin-bottom: 20px;
+        }
+
+        .dashboard-section h3 {
+            margin: 0 0 15px 0;
+            color: #333;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .dashboard-stats {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 15px;
+        }
+
+        .dashboard-stat {
+            background: white;
+            padding: 15px;
+            border-radius: 10px;
+            text-align: center;
+        }
+
+        .dashboard-stat-value {
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: #1976d2;
+        }
+
+        .dashboard-stat-label {
+            font-size: 0.8rem;
+            color: #666;
+        }
+
+        .progress-chart {
+            height: 150px;
+            display: flex;
+            align-items: flex-end;
+            gap: 10px;
+            padding: 20px;
+            background: white;
+            border-radius: 10px;
+        }
+
+        .chart-bar {
+            flex: 1;
+            background: linear-gradient(180deg, #1976d2 0%, #42a5f5 100%);
+            border-radius: 5px 5px 0 0;
+            min-height: 10px;
+            position: relative;
+        }
+
+        .chart-bar-label {
+            position: absolute;
+            bottom: -20px;
+            left: 50%;
+            transform: translateX(-50%);
+            font-size: 0.7rem;
+            color: #666;
+        }
+
+        .parent-settings {
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+        }
+
+        .parent-setting {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 15px;
+            background: white;
+            border-radius: 10px;
+        }
+
+        /* Floating buttons for Batch 26 */
+        .floating-heatmap-btn {
+            position: fixed;
+            bottom: 1180px;
+            right: 20px;
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, #30a14e 0%, #216e39 100%);
+            color: white;
+            border: none;
+            font-size: 1.3rem;
+            cursor: pointer;
+            box-shadow: 0 5px 20px rgba(48, 161, 78, 0.4);
+            z-index: 999;
+            transition: all 0.3s ease;
+        }
+
+        .floating-heatmap-btn:hover {
+            transform: scale(1.1);
+        }
+
+        .floating-parent-btn {
+            position: fixed;
+            bottom: 1240px;
+            right: 20px;
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, #1976d2 0%, #1565c0 100%);
+            color: white;
+            border: none;
+            font-size: 1.3rem;
+            cursor: pointer;
+            box-shadow: 0 5px 20px rgba(25, 118, 210, 0.4);
+            z-index: 999;
+            transition: all 0.3s ease;
+        }
+
+        .floating-parent-btn:hover {
+            transform: scale(1.1);
+        }
     </style>
 </head>
 
@@ -37147,6 +37485,369 @@ Science Made Fun!
         });
 
         console.log('🏅 Badges Gallery, Custom Avatar, and Sound Effects loaded!');
+    </script>
+
+    <!-- ========== BATCH 26: Confetti, Activity Heatmap, Parent Mode ========== -->
+
+    <!-- Confetti Canvas -->
+    <canvas id="confetti-canvas"></canvas>
+
+    <!-- Activity Heatmap Modal -->
+    <div class="heatmap-modal" id="heatmap-modal">
+        <div class="heatmap-content">
+            <div class="heatmap-header">
+                <h2>📅 Learning Activity</h2>
+                <p style="color: #666; margin-top: 5px;">Your study activity over the past weeks</p>
+            </div>
+            <div class="heatmap-legend">
+                <span class="legend-item"><span class="legend-box" style="background: #ebedf0;"></span> No activity</span>
+                <span class="legend-item"><span class="legend-box" style="background: #9be9a8;"></span> Light</span>
+                <span class="legend-item"><span class="legend-box" style="background: #40c463;"></span> Medium</span>
+                <span class="legend-item"><span class="legend-box" style="background: #30a14e;"></span> Good</span>
+                <span class="legend-item"><span class="legend-box" style="background: #216e39;"></span> Great</span>
+            </div>
+            <div class="heatmap-grid" id="heatmap-grid">
+                <!-- Populated by JavaScript -->
+            </div>
+            <div class="heatmap-summary" id="heatmap-summary">
+                <!-- Populated by JavaScript -->
+            </div>
+            <div style="text-align: center; margin-top: 20px;">
+                <button onclick="closeHeatmapModal()" style="padding: 10px 30px; border: none; background: #f0f0f0; border-radius: 20px; cursor: pointer;">Close</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Parent Mode Modal -->
+    <div class="parent-modal" id="parent-modal">
+        <div class="parent-content">
+            <div class="parent-header">
+                <h2>👨‍👩‍👧 Parent Dashboard</h2>
+                <p style="margin: 5px 0 0 0; opacity: 0.9;">Monitor your child's learning progress</p>
+            </div>
+            <div class="parent-login" id="parent-login">
+                <p style="color: #666; margin-bottom: 20px;">Enter PIN to access (default: 1234)</p>
+                <input type="password" class="parent-pin-input" id="parent-pin" maxlength="4" placeholder="****">
+                <br>
+                <button class="parent-pin-btn" onclick="verifyParentPin()">Access Dashboard</button>
+                <p id="pin-error" style="color: #f44336; margin-top: 10px; display: none;">Incorrect PIN</p>
+                <button onclick="closeParentModal()" style="margin-top: 15px; padding: 10px 20px; border: none; background: transparent; color: #666; cursor: pointer;">Cancel</button>
+            </div>
+            <div class="parent-dashboard" id="parent-dashboard">
+                <div class="dashboard-section">
+                    <h3>📊 Overview</h3>
+                    <div class="dashboard-stats" id="dashboard-stats">
+                        <!-- Populated by JavaScript -->
+                    </div>
+                </div>
+                <div class="dashboard-section">
+                    <h3>📈 Weekly Progress</h3>
+                    <div class="progress-chart" id="progress-chart">
+                        <!-- Populated by JavaScript -->
+                    </div>
+                </div>
+                <div class="dashboard-section">
+                    <h3>⚙️ Settings</h3>
+                    <div class="parent-settings">
+                        <div class="parent-setting">
+                            <span>Daily Study Goal</span>
+                            <select id="daily-goal-setting" onchange="updateParentSettings()">
+                                <option value="15">15 min</option>
+                                <option value="30">30 min</option>
+                                <option value="45">45 min</option>
+                                <option value="60">60 min</option>
+                            </select>
+                        </div>
+                        <div class="parent-setting">
+                            <span>Change PIN</span>
+                            <input type="password" id="new-pin" maxlength="4" placeholder="New PIN" style="width: 80px; padding: 8px; border: 1px solid #ddd; border-radius: 5px;">
+                        </div>
+                        <button onclick="saveParentSettings()" style="padding: 12px; border: none; background: #1976d2; color: white; border-radius: 10px; cursor: pointer;">Save Settings</button>
+                    </div>
+                </div>
+                <button onclick="closeParentModal()" style="margin-top: 10px; padding: 10px 30px; border: none; background: #f0f0f0; border-radius: 20px; cursor: pointer; width: 100%;">Close Dashboard</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Floating Action Buttons for Batch 26 -->
+    <button class="floating-heatmap-btn" onclick="openHeatmapModal()" title="Activity Heatmap">📅</button>
+    <button class="floating-parent-btn" onclick="openParentModal()" title="Parent Mode">👨‍👩‍👧</button>
+
+    <script>
+        // ========== BATCH 26: Confetti, Activity Heatmap, Parent Mode ==========
+
+        // Confetti System
+        const confettiCanvas = document.getElementById('confetti-canvas');
+        const confettiCtx = confettiCanvas.getContext('2d');
+        let confettiParticles = [];
+        let confettiAnimating = false;
+
+        function resizeConfettiCanvas() {
+            confettiCanvas.width = window.innerWidth;
+            confettiCanvas.height = window.innerHeight;
+        }
+        resizeConfettiCanvas();
+        window.addEventListener('resize', resizeConfettiCanvas);
+
+        class ConfettiParticle {
+            constructor() {
+                this.x = Math.random() * confettiCanvas.width;
+                this.y = Math.random() * confettiCanvas.height - confettiCanvas.height;
+                this.size = Math.random() * 10 + 5;
+                this.speedY = Math.random() * 3 + 2;
+                this.speedX = Math.random() * 2 - 1;
+                this.rotation = Math.random() * 360;
+                this.rotationSpeed = Math.random() * 10 - 5;
+                this.color = ['#ff6b6b', '#4ecdc4', '#45b7d1', '#96ceb4', '#ffeaa7', '#dfe6e9', '#fd79a8', '#a29bfe'][Math.floor(Math.random() * 8)];
+            }
+
+            update() {
+                this.y += this.speedY;
+                this.x += this.speedX;
+                this.rotation += this.rotationSpeed;
+            }
+
+            draw() {
+                confettiCtx.save();
+                confettiCtx.translate(this.x, this.y);
+                confettiCtx.rotate(this.rotation * Math.PI / 180);
+                confettiCtx.fillStyle = this.color;
+                confettiCtx.fillRect(-this.size / 2, -this.size / 2, this.size, this.size / 2);
+                confettiCtx.restore();
+            }
+        }
+
+        function createConfetti(count = 150) {
+            confettiParticles = [];
+            for (let i = 0; i < count; i++) {
+                confettiParticles.push(new ConfettiParticle());
+            }
+            if (!confettiAnimating) {
+                confettiAnimating = true;
+                animateConfetti();
+            }
+        }
+
+        function animateConfetti() {
+            confettiCtx.clearRect(0, 0, confettiCanvas.width, confettiCanvas.height);
+
+            confettiParticles.forEach((p, index) => {
+                p.update();
+                p.draw();
+                if (p.y > confettiCanvas.height) {
+                    confettiParticles.splice(index, 1);
+                }
+            });
+
+            if (confettiParticles.length > 0) {
+                requestAnimationFrame(animateConfetti);
+            } else {
+                confettiAnimating = false;
+            }
+        }
+
+        function celebrateWithConfetti() {
+            createConfetti(200);
+        }
+
+        // Activity Heatmap
+        let activityData = JSON.parse(localStorage.getItem('activityData')) || {};
+
+        function recordActivity(count = 1) {
+            const today = new Date().toISOString().split('T')[0];
+            activityData[today] = (activityData[today] || 0) + count;
+            localStorage.setItem('activityData', JSON.stringify(activityData));
+        }
+
+        function openHeatmapModal() {
+            renderHeatmap();
+            document.getElementById('heatmap-modal').style.display = 'flex';
+        }
+
+        function closeHeatmapModal() {
+            document.getElementById('heatmap-modal').style.display = 'none';
+        }
+
+        function renderHeatmap() {
+            const grid = document.getElementById('heatmap-grid');
+            const days = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'];
+
+            // Generate 8 weeks of data (56 days)
+            const cells = [];
+
+            // Day labels
+            days.forEach(day => {
+                cells.push(`<div class="heatmap-day-label">${day}</div>`);
+            });
+
+            // Generate cells for past 8 weeks
+            const today = new Date();
+            const startDate = new Date(today);
+            startDate.setDate(today.getDate() - 55);
+
+            // Adjust to start from Sunday
+            const dayOfWeek = startDate.getDay();
+            startDate.setDate(startDate.getDate() - dayOfWeek);
+
+            let totalActivity = 0;
+            let activeDays = 0;
+
+            for (let i = 0; i < 56; i++) {
+                const date = new Date(startDate);
+                date.setDate(startDate.getDate() + i);
+                const dateStr = date.toISOString().split('T')[0];
+                const activity = activityData[dateStr] || 0;
+
+                if (activity > 0) {
+                    totalActivity += activity;
+                    activeDays++;
+                }
+
+                let level = '';
+                if (activity >= 20) level = 'level-4';
+                else if (activity >= 10) level = 'level-3';
+                else if (activity >= 5) level = 'level-2';
+                else if (activity >= 1) level = 'level-1';
+
+                const formattedDate = date.toLocaleDateString('en-US', { month: 'short', day: 'numeric' });
+
+                cells.push(`
+                    <div class="heatmap-cell ${level}">
+                        <div class="heatmap-tooltip">${formattedDate}: ${activity} activities</div>
+                    </div>
+                `);
+            }
+
+            grid.innerHTML = cells.join('');
+
+            // Update summary
+            const summary = document.getElementById('heatmap-summary');
+            const currentStreak = parseInt(localStorage.getItem('currentStreak')) || 0;
+            summary.innerHTML = `
+                <div class="heatmap-stat">
+                    <div class="heatmap-stat-value">${totalActivity}</div>
+                    <div class="heatmap-stat-label">Total Activities</div>
+                </div>
+                <div class="heatmap-stat">
+                    <div class="heatmap-stat-value">${activeDays}</div>
+                    <div class="heatmap-stat-label">Active Days</div>
+                </div>
+                <div class="heatmap-stat">
+                    <div class="heatmap-stat-value">${currentStreak}</div>
+                    <div class="heatmap-stat-label">Current Streak</div>
+                </div>
+            `;
+        }
+
+        // Parent Mode
+        let parentSettings = JSON.parse(localStorage.getItem('parentSettings')) || {
+            pin: '1234',
+            dailyGoal: 30
+        };
+
+        function openParentModal() {
+            document.getElementById('parent-login').style.display = 'block';
+            document.getElementById('parent-dashboard').classList.remove('active');
+            document.getElementById('parent-pin').value = '';
+            document.getElementById('pin-error').style.display = 'none';
+            document.getElementById('parent-modal').style.display = 'flex';
+        }
+
+        function closeParentModal() {
+            document.getElementById('parent-modal').style.display = 'none';
+        }
+
+        function verifyParentPin() {
+            const enteredPin = document.getElementById('parent-pin').value;
+            if (enteredPin === parentSettings.pin) {
+                document.getElementById('parent-login').style.display = 'none';
+                document.getElementById('parent-dashboard').classList.add('active');
+                renderParentDashboard();
+            } else {
+                document.getElementById('pin-error').style.display = 'block';
+            }
+        }
+
+        function renderParentDashboard() {
+            const stats = document.getElementById('dashboard-stats');
+            const totalXP = parseInt(localStorage.getItem('scienceXP')) || 0;
+            const level = Math.floor(totalXP / 100) + 1;
+            const questionsAnswered = parseInt(localStorage.getItem('totalQuestionsAnswered')) || 0;
+            const correctAnswers = parseInt(localStorage.getItem('correctAnswers')) || 0;
+            const accuracy = questionsAnswered > 0 ? Math.round((correctAnswers / questionsAnswered) * 100) : 0;
+            const streak = parseInt(localStorage.getItem('currentStreak')) || 0;
+
+            stats.innerHTML = `
+                <div class="dashboard-stat">
+                    <div class="dashboard-stat-value">${level}</div>
+                    <div class="dashboard-stat-label">Current Level</div>
+                </div>
+                <div class="dashboard-stat">
+                    <div class="dashboard-stat-value">${totalXP}</div>
+                    <div class="dashboard-stat-label">Total XP</div>
+                </div>
+                <div class="dashboard-stat">
+                    <div class="dashboard-stat-value">${accuracy}%</div>
+                    <div class="dashboard-stat-label">Accuracy</div>
+                </div>
+                <div class="dashboard-stat">
+                    <div class="dashboard-stat-value">${questionsAnswered}</div>
+                    <div class="dashboard-stat-label">Questions</div>
+                </div>
+                <div class="dashboard-stat">
+                    <div class="dashboard-stat-value">${correctAnswers}</div>
+                    <div class="dashboard-stat-label">Correct</div>
+                </div>
+                <div class="dashboard-stat">
+                    <div class="dashboard-stat-value">${streak}</div>
+                    <div class="dashboard-stat-label">Streak</div>
+                </div>
+            `;
+
+            // Weekly progress chart
+            const chart = document.getElementById('progress-chart');
+            const weekDays = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'];
+            const maxActivity = 20;
+
+            chart.innerHTML = weekDays.map((day, i) => {
+                const date = new Date();
+                date.setDate(date.getDate() - (6 - i));
+                const dateStr = date.toISOString().split('T')[0];
+                const activity = activityData[dateStr] || 0;
+                const height = Math.min((activity / maxActivity) * 100, 100);
+
+                return `
+                    <div class="chart-bar" style="height: ${height}%">
+                        <span class="chart-bar-label">${day}</span>
+                    </div>
+                `;
+            }).join('');
+
+            // Load settings
+            document.getElementById('daily-goal-setting').value = parentSettings.dailyGoal;
+        }
+
+        function updateParentSettings() {
+            parentSettings.dailyGoal = parseInt(document.getElementById('daily-goal-setting').value);
+        }
+
+        function saveParentSettings() {
+            const newPin = document.getElementById('new-pin').value;
+            if (newPin && newPin.length === 4) {
+                parentSettings.pin = newPin;
+            }
+            parentSettings.dailyGoal = parseInt(document.getElementById('daily-goal-setting').value);
+            localStorage.setItem('parentSettings', JSON.stringify(parentSettings));
+
+            alert('Settings saved!');
+            document.getElementById('new-pin').value = '';
+        }
+
+        // Auto-record activity when answering questions (hook)
+        recordActivity(1);
+
+        console.log('🎊 Confetti, Activity Heatmap, and Parent Mode loaded!');
     </script>
 
     <!-- PowerPoint-style Table Grid Selector (positioned fixed, outside all containers) -->
