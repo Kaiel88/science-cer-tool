@@ -21493,6 +21493,396 @@
         .floating-progress-btn:hover {
             transform: scale(1.1);
         }
+
+        /* ========== Batch 54: Dictionary, Practice Mode, Streak Calendar ========== */
+
+        /* Science Dictionary Styles */
+        .dictionary-modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.85);
+            z-index: 10000;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .dictionary-content {
+            background: linear-gradient(145deg, #1a1a2e 0%, #16213e 100%);
+            border-radius: 20px;
+            padding: 25px;
+            max-width: 550px;
+            width: 95%;
+            max-height: 90vh;
+            overflow-y: auto;
+            box-shadow: 0 25px 80px rgba(0, 0, 0, 0.5);
+            border: 1px solid rgba(0, 150, 136, 0.3);
+        }
+
+        .dictionary-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+        }
+
+        .dictionary-header h2 {
+            color: #26a69a;
+            font-size: 1.5rem;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .dictionary-search {
+            width: 100%;
+            padding: 12px 15px;
+            border: 1px solid rgba(0, 150, 136, 0.3);
+            border-radius: 25px;
+            background: rgba(0, 0, 0, 0.3);
+            color: #fff;
+            font-size: 1rem;
+            margin-bottom: 15px;
+        }
+
+        .dictionary-search:focus {
+            outline: none;
+            border-color: #26a69a;
+        }
+
+        .dictionary-list {
+            max-height: 400px;
+            overflow-y: auto;
+        }
+
+        .dictionary-item {
+            background: rgba(0, 150, 136, 0.1);
+            border: 1px solid rgba(0, 150, 136, 0.2);
+            border-radius: 10px;
+            padding: 15px;
+            margin-bottom: 10px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .dictionary-item:hover {
+            background: rgba(0, 150, 136, 0.2);
+        }
+
+        .dictionary-term {
+            color: #26a69a;
+            font-weight: bold;
+            font-size: 1.1rem;
+            margin-bottom: 5px;
+        }
+
+        .dictionary-definition {
+            color: #ddd;
+            font-size: 0.9rem;
+            line-height: 1.5;
+        }
+
+        .dictionary-category {
+            display: inline-block;
+            background: rgba(0, 150, 136, 0.3);
+            color: #80cbc4;
+            padding: 3px 10px;
+            border-radius: 10px;
+            font-size: 0.75rem;
+            margin-top: 8px;
+        }
+
+        /* Practice Mode Styles */
+        .practice-modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.85);
+            z-index: 10000;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .practice-content {
+            background: linear-gradient(145deg, #1a1a2e 0%, #16213e 100%);
+            border-radius: 20px;
+            padding: 25px;
+            max-width: 600px;
+            width: 95%;
+            max-height: 90vh;
+            overflow-y: auto;
+            box-shadow: 0 25px 80px rgba(0, 0, 0, 0.5);
+            border: 1px solid rgba(63, 81, 181, 0.3);
+        }
+
+        .practice-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+        }
+
+        .practice-header h2 {
+            color: #7986cb;
+            font-size: 1.5rem;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .practice-stats {
+            display: flex;
+            gap: 15px;
+            margin-bottom: 20px;
+        }
+
+        .practice-stat {
+            flex: 1;
+            background: rgba(63, 81, 181, 0.1);
+            padding: 12px;
+            border-radius: 10px;
+            text-align: center;
+        }
+
+        .practice-stat-value {
+            font-size: 1.5rem;
+            font-weight: bold;
+            color: #7986cb;
+        }
+
+        .practice-stat-label {
+            font-size: 0.75rem;
+            color: #888;
+        }
+
+        .practice-question-box {
+            background: rgba(63, 81, 181, 0.1);
+            border: 1px solid rgba(63, 81, 181, 0.3);
+            border-radius: 15px;
+            padding: 20px;
+            margin-bottom: 15px;
+        }
+
+        .practice-question {
+            color: #fff;
+            font-size: 1.1rem;
+            margin-bottom: 15px;
+            line-height: 1.5;
+        }
+
+        .practice-options {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
+
+        .practice-option {
+            padding: 12px 15px;
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 10px;
+            color: #fff;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .practice-option:hover {
+            background: rgba(63, 81, 181, 0.3);
+        }
+
+        .practice-option.correct {
+            background: rgba(76, 175, 80, 0.3);
+            border-color: #4caf50;
+        }
+
+        .practice-option.wrong {
+            background: rgba(244, 67, 54, 0.3);
+            border-color: #f44336;
+        }
+
+        .practice-next-btn {
+            width: 100%;
+            padding: 12px;
+            background: linear-gradient(135deg, #3f51b5 0%, #7986cb 100%);
+            color: white;
+            border: none;
+            border-radius: 10px;
+            font-size: 1rem;
+            font-weight: bold;
+            cursor: pointer;
+        }
+
+        /* Streak Calendar Styles */
+        .calendar-modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.85);
+            z-index: 10000;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .calendar-content {
+            background: linear-gradient(145deg, #1a1a2e 0%, #16213e 100%);
+            border-radius: 20px;
+            padding: 25px;
+            max-width: 450px;
+            width: 95%;
+            box-shadow: 0 25px 80px rgba(0, 0, 0, 0.5);
+            border: 1px solid rgba(255, 87, 34, 0.3);
+        }
+
+        .calendar-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+        }
+
+        .calendar-header h2 {
+            color: #ff7043;
+            font-size: 1.5rem;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .streak-summary {
+            display: flex;
+            gap: 15px;
+            margin-bottom: 20px;
+        }
+
+        .streak-box {
+            flex: 1;
+            background: rgba(255, 87, 34, 0.1);
+            padding: 15px;
+            border-radius: 10px;
+            text-align: center;
+        }
+
+        .streak-value {
+            font-size: 2rem;
+            font-weight: bold;
+            color: #ff7043;
+        }
+
+        .streak-label {
+            font-size: 0.8rem;
+            color: #888;
+        }
+
+        .calendar-grid {
+            display: grid;
+            grid-template-columns: repeat(7, 1fr);
+            gap: 5px;
+        }
+
+        .calendar-day-header {
+            text-align: center;
+            color: #888;
+            font-size: 0.75rem;
+            padding: 5px;
+        }
+
+        .calendar-day {
+            aspect-ratio: 1;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 8px;
+            font-size: 0.85rem;
+            color: #666;
+            background: rgba(255, 255, 255, 0.05);
+        }
+
+        .calendar-day.active {
+            background: linear-gradient(135deg, #ff7043 0%, #ffab91 100%);
+            color: white;
+            font-weight: bold;
+        }
+
+        .calendar-day.today {
+            border: 2px solid #ff7043;
+        }
+
+        .calendar-day.inactive {
+            opacity: 0.3;
+        }
+
+        /* Floating Buttons for Batch 54 */
+        .floating-dictionary-btn {
+            position: fixed;
+            bottom: 5320px;
+            right: 20px;
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, #009688 0%, #4db6ac 100%);
+            color: white;
+            border: none;
+            font-size: 1.3rem;
+            cursor: pointer;
+            box-shadow: 0 5px 20px rgba(0, 150, 136, 0.4);
+            z-index: 999;
+            transition: all 0.3s ease;
+        }
+
+        .floating-dictionary-btn:hover {
+            transform: scale(1.1);
+        }
+
+        .floating-practice-btn {
+            position: fixed;
+            bottom: 5380px;
+            right: 20px;
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, #3f51b5 0%, #7986cb 100%);
+            color: white;
+            border: none;
+            font-size: 1.3rem;
+            cursor: pointer;
+            box-shadow: 0 5px 20px rgba(63, 81, 181, 0.4);
+            z-index: 999;
+            transition: all 0.3s ease;
+        }
+
+        .floating-practice-btn:hover {
+            transform: scale(1.1);
+        }
+
+        .floating-calendar-btn {
+            position: fixed;
+            bottom: 5440px;
+            right: 20px;
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, #ff5722 0%, #ff8a65 100%);
+            color: white;
+            border: none;
+            font-size: 1.3rem;
+            cursor: pointer;
+            box-shadow: 0 5px 20px rgba(255, 87, 34, 0.4);
+            z-index: 999;
+            transition: all 0.3s ease;
+        }
+
+        .floating-calendar-btn:hover {
+            transform: scale(1.1);
+        }
     </style>
 </head>
 
@@ -58077,6 +58467,325 @@ Science Made Fun!
         }
 
         console.log('📝 Study Notes, Hint System, and Topic Progress loaded!');
+    </script>
+
+    <!-- ========== Batch 54: Dictionary, Practice Mode, Streak Calendar ========== -->
+
+    <!-- Dictionary Floating Button -->
+    <button class="floating-dictionary-btn" onclick="openDictionary()" title="Science Dictionary">📖</button>
+
+    <!-- Practice Mode Floating Button -->
+    <button class="floating-practice-btn" onclick="openPractice()" title="Practice Mode">🎯</button>
+
+    <!-- Streak Calendar Floating Button -->
+    <button class="floating-calendar-btn" onclick="openStreakCalendar()" title="Study Streak">📆</button>
+
+    <!-- Science Dictionary Modal -->
+    <div class="dictionary-modal" id="dictionary-modal">
+        <div class="dictionary-content">
+            <div class="dictionary-header">
+                <h2>📖 Science Dictionary</h2>
+                <button onclick="closeDictionary()" style="background:none;border:none;color:#fff;font-size:1.5rem;cursor:pointer;">&times;</button>
+            </div>
+            <input type="text" class="dictionary-search" id="dictionary-search" placeholder="Search for a term..." oninput="filterDictionary()">
+            <div class="dictionary-list" id="dictionary-list"></div>
+        </div>
+    </div>
+
+    <!-- Practice Mode Modal -->
+    <div class="practice-modal" id="practice-modal">
+        <div class="practice-content">
+            <div class="practice-header">
+                <h2>🎯 Practice Mode</h2>
+                <button onclick="closePractice()" style="background:none;border:none;color:#fff;font-size:1.5rem;cursor:pointer;">&times;</button>
+            </div>
+            <div class="practice-stats">
+                <div class="practice-stat">
+                    <div class="practice-stat-value" id="practice-correct">0</div>
+                    <div class="practice-stat-label">Correct</div>
+                </div>
+                <div class="practice-stat">
+                    <div class="practice-stat-value" id="practice-total">0</div>
+                    <div class="practice-stat-label">Total</div>
+                </div>
+                <div class="practice-stat">
+                    <div class="practice-stat-value" id="practice-streak">0</div>
+                    <div class="practice-stat-label">Streak</div>
+                </div>
+            </div>
+            <div class="practice-question-box" id="practice-question-box"></div>
+            <button class="practice-next-btn" id="practice-next-btn" onclick="nextPracticeQuestion()" style="display:none;">Next Question →</button>
+        </div>
+    </div>
+
+    <!-- Streak Calendar Modal -->
+    <div class="calendar-modal" id="calendar-modal">
+        <div class="calendar-content">
+            <div class="calendar-header">
+                <h2>📆 Study Streak</h2>
+                <button onclick="closeStreakCalendar()" style="background:none;border:none;color:#fff;font-size:1.5rem;cursor:pointer;">&times;</button>
+            </div>
+            <div class="streak-summary">
+                <div class="streak-box">
+                    <div class="streak-value" id="current-streak">0</div>
+                    <div class="streak-label">Current Streak</div>
+                </div>
+                <div class="streak-box">
+                    <div class="streak-value" id="longest-streak">0</div>
+                    <div class="streak-label">Longest Streak</div>
+                </div>
+            </div>
+            <div class="calendar-grid" id="calendar-grid"></div>
+        </div>
+    </div>
+
+    <script>
+        // ========== Science Dictionary System ==========
+        const scienceDictionary = [
+            { term: 'Matter', definition: 'Anything that has mass and takes up space.', category: 'Matter' },
+            { term: 'Solid', definition: 'State of matter with fixed shape and volume. Particles are tightly packed.', category: 'Matter' },
+            { term: 'Liquid', definition: 'State of matter with fixed volume but takes shape of container.', category: 'Matter' },
+            { term: 'Gas', definition: 'State of matter with no fixed shape or volume. Particles move freely.', category: 'Matter' },
+            { term: 'Heat', definition: 'A form of energy that flows from warmer to cooler objects.', category: 'Heat' },
+            { term: 'Conductor', definition: 'Material that allows heat or electricity to pass through easily.', category: 'Heat' },
+            { term: 'Insulator', definition: 'Material that does not allow heat or electricity to pass through easily.', category: 'Heat' },
+            { term: 'Light', definition: 'A form of energy that allows us to see. Travels in straight lines.', category: 'Light' },
+            { term: 'Transparent', definition: 'Material that lets all light pass through (e.g., clear glass).', category: 'Light' },
+            { term: 'Opaque', definition: 'Material that blocks all light from passing through.', category: 'Light' },
+            { term: 'Translucent', definition: 'Material that lets some light pass through but scatters it.', category: 'Light' },
+            { term: 'Energy', definition: 'The ability to do work or cause change.', category: 'Energy' },
+            { term: 'Photosynthesis', definition: 'Process by which plants make food using sunlight, water, and carbon dioxide.', category: 'Plants' },
+            { term: 'Chlorophyll', definition: 'Green pigment in plants that captures light energy for photosynthesis.', category: 'Plants' },
+            { term: 'Force', definition: 'A push or pull that can change the motion or shape of an object.', category: 'Forces' },
+            { term: 'Gravity', definition: 'Force that pulls objects toward the center of Earth.', category: 'Forces' },
+            { term: 'Friction', definition: 'Force that opposes motion between two surfaces in contact.', category: 'Forces' },
+            { term: 'Cell', definition: 'The basic unit of life. All living things are made of cells.', category: 'Life Science' },
+            { term: 'Habitat', definition: 'The natural home or environment of an animal or plant.', category: 'Life Science' },
+            { term: 'Food Chain', definition: 'Shows how energy flows from one organism to another through eating.', category: 'Life Science' }
+        ];
+
+        function openDictionary() {
+            document.getElementById('dictionary-modal').style.display = 'flex';
+            document.getElementById('dictionary-search').value = '';
+            renderDictionary(scienceDictionary);
+            if (typeof playSound === 'function' && getSoundSetting('notify')) playSound('pop');
+        }
+
+        function closeDictionary() {
+            document.getElementById('dictionary-modal').style.display = 'none';
+        }
+
+        function filterDictionary() {
+            const search = document.getElementById('dictionary-search').value.toLowerCase();
+            const filtered = scienceDictionary.filter(item =>
+                item.term.toLowerCase().includes(search) ||
+                item.definition.toLowerCase().includes(search)
+            );
+            renderDictionary(filtered);
+        }
+
+        function renderDictionary(items) {
+            const list = document.getElementById('dictionary-list');
+            if (items.length === 0) {
+                list.innerHTML = '<p style="color:#888;text-align:center;padding:20px;">No terms found.</p>';
+                return;
+            }
+            list.innerHTML = items.map(item => `
+                <div class="dictionary-item">
+                    <div class="dictionary-term">${item.term}</div>
+                    <div class="dictionary-definition">${item.definition}</div>
+                    <span class="dictionary-category">${item.category}</span>
+                </div>
+            `).join('');
+        }
+
+        // ========== Practice Mode System ==========
+        const practiceQuestions = [
+            { q: 'What state of matter has a fixed shape and volume?', options: ['Solid', 'Liquid', 'Gas', 'Plasma'], answer: 0, topic: 'Matter' },
+            { q: 'Which material is a good conductor of heat?', options: ['Wood', 'Plastic', 'Metal', 'Rubber'], answer: 2, topic: 'Heat' },
+            { q: 'Light travels in...', options: ['Curved lines', 'Zigzag lines', 'Straight lines', 'Wavy lines'], answer: 2, topic: 'Light' },
+            { q: 'What do plants need for photosynthesis?', options: ['Darkness', 'Sunlight, water, CO2', 'Only water', 'Only soil'], answer: 1, topic: 'Plants' },
+            { q: 'Which force pulls objects toward Earth?', options: ['Friction', 'Magnetism', 'Gravity', 'Air resistance'], answer: 2, topic: 'Forces' },
+            { q: 'What is the basic unit of life?', options: ['Atom', 'Molecule', 'Cell', 'Organ'], answer: 2, topic: 'Life Science' },
+            { q: 'An opaque material...', options: ['Lets all light through', 'Blocks all light', 'Scatters light', 'Bends light'], answer: 1, topic: 'Light' },
+            { q: 'Heat flows from...', options: ['Cold to hot', 'Hot to cold', 'Equally in all directions', 'Does not flow'], answer: 1, topic: 'Heat' },
+            { q: 'The green pigment in plants is called...', options: ['Melanin', 'Chlorophyll', 'Hemoglobin', 'Carotene'], answer: 1, topic: 'Plants' },
+            { q: 'Friction opposes...', options: ['Gravity', 'Motion', 'Light', 'Sound'], answer: 1, topic: 'Forces' }
+        ];
+
+        let practiceState = {
+            correct: 0,
+            total: 0,
+            streak: 0,
+            currentQuestion: null,
+            answered: false
+        };
+
+        function openPractice() {
+            document.getElementById('practice-modal').style.display = 'flex';
+            practiceState = { correct: 0, total: 0, streak: 0, currentQuestion: null, answered: false };
+            updatePracticeStats();
+            nextPracticeQuestion();
+            if (typeof playSound === 'function' && getSoundSetting('notify')) playSound('pop');
+        }
+
+        function closePractice() {
+            document.getElementById('practice-modal').style.display = 'none';
+        }
+
+        function nextPracticeQuestion() {
+            practiceState.answered = false;
+            document.getElementById('practice-next-btn').style.display = 'none';
+
+            // Get random question
+            const randomIndex = Math.floor(Math.random() * practiceQuestions.length);
+            practiceState.currentQuestion = practiceQuestions[randomIndex];
+            const q = practiceState.currentQuestion;
+
+            document.getElementById('practice-question-box').innerHTML = `
+                <div class="practice-question">${q.q}</div>
+                <div class="practice-options">
+                    ${q.options.map((opt, i) => `
+                        <div class="practice-option" onclick="selectPracticeAnswer(${i})" id="practice-opt-${i}">${opt}</div>
+                    `).join('')}
+                </div>
+            `;
+        }
+
+        function selectPracticeAnswer(index) {
+            if (practiceState.answered) return;
+            practiceState.answered = true;
+            practiceState.total++;
+
+            const q = practiceState.currentQuestion;
+            const correct = index === q.answer;
+
+            // Highlight answers
+            document.getElementById(`practice-opt-${index}`).classList.add(correct ? 'correct' : 'wrong');
+            if (!correct) {
+                document.getElementById(`practice-opt-${q.answer}`).classList.add('correct');
+            }
+
+            if (correct) {
+                practiceState.correct++;
+                practiceState.streak++;
+                if (typeof playSound === 'function' && getSoundSetting('correct')) playSound('success');
+            } else {
+                practiceState.streak = 0;
+                if (typeof playSound === 'function' && getSoundSetting('wrong')) playSound('error');
+            }
+
+            updatePracticeStats();
+            document.getElementById('practice-next-btn').style.display = 'block';
+
+            // Record for topic progress
+            if (typeof recordTopicAnswer === 'function') {
+                recordTopicAnswer(q.topic.toLowerCase().replace(/\s+/g, ''), correct);
+            }
+        }
+
+        function updatePracticeStats() {
+            document.getElementById('practice-correct').textContent = practiceState.correct;
+            document.getElementById('practice-total').textContent = practiceState.total;
+            document.getElementById('practice-streak').textContent = practiceState.streak;
+        }
+
+        // ========== Streak Calendar System ==========
+        let studyDays = JSON.parse(localStorage.getItem('studyDays') || '[]');
+        let currentStreak = parseInt(localStorage.getItem('currentStreak')) || 0;
+        let longestStreak = parseInt(localStorage.getItem('longestStreak')) || 0;
+
+        function openStreakCalendar() {
+            document.getElementById('calendar-modal').style.display = 'flex';
+            updateStreakData();
+            renderCalendar();
+            if (typeof playSound === 'function' && getSoundSetting('notify')) playSound('pop');
+        }
+
+        function closeStreakCalendar() {
+            document.getElementById('calendar-modal').style.display = 'none';
+        }
+
+        function recordStudyDay() {
+            const today = new Date().toDateString();
+            if (!studyDays.includes(today)) {
+                studyDays.push(today);
+                localStorage.setItem('studyDays', JSON.stringify(studyDays));
+                updateStreakData();
+            }
+        }
+
+        function updateStreakData() {
+            const today = new Date();
+            let streak = 0;
+            let checkDate = new Date(today);
+
+            // Count consecutive days backwards from today
+            while (true) {
+                const dateStr = checkDate.toDateString();
+                if (studyDays.includes(dateStr)) {
+                    streak++;
+                    checkDate.setDate(checkDate.getDate() - 1);
+                } else {
+                    break;
+                }
+            }
+
+            currentStreak = streak;
+            if (currentStreak > longestStreak) {
+                longestStreak = currentStreak;
+            }
+
+            localStorage.setItem('currentStreak', currentStreak);
+            localStorage.setItem('longestStreak', longestStreak);
+
+            document.getElementById('current-streak').textContent = currentStreak;
+            document.getElementById('longest-streak').textContent = longestStreak;
+        }
+
+        function renderCalendar() {
+            const grid = document.getElementById('calendar-grid');
+            const today = new Date();
+            const currentMonth = today.getMonth();
+            const currentYear = today.getFullYear();
+
+            // Day headers
+            const days = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'];
+            let html = days.map(d => `<div class="calendar-day-header">${d}</div>`).join('');
+
+            // Get first day of month
+            const firstDay = new Date(currentYear, currentMonth, 1);
+            const lastDay = new Date(currentYear, currentMonth + 1, 0);
+            const startPadding = firstDay.getDay();
+
+            // Add empty cells for padding
+            for (let i = 0; i < startPadding; i++) {
+                html += '<div class="calendar-day inactive"></div>';
+            }
+
+            // Add days
+            for (let day = 1; day <= lastDay.getDate(); day++) {
+                const date = new Date(currentYear, currentMonth, day);
+                const dateStr = date.toDateString();
+                const isToday = date.toDateString() === today.toDateString();
+                const isActive = studyDays.includes(dateStr);
+
+                let classes = 'calendar-day';
+                if (isToday) classes += ' today';
+                if (isActive) classes += ' active';
+
+                html += `<div class="${classes}">${day}</div>`;
+            }
+
+            grid.innerHTML = html;
+        }
+
+        // Record study day on any activity
+        setTimeout(() => {
+            recordStudyDay();
+        }, 5000);
+
+        console.log('📖 Dictionary, Practice Mode, and Streak Calendar loaded!');
     </script>
 
     <!-- PowerPoint-style Table Grid Selector (positioned fixed, outside all containers) -->
