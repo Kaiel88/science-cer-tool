@@ -33564,6 +33564,271 @@
             border: 2px solid #9575cd;
             border-radius: 8px;
         }
+
+        /* Batch 93: Progress Rings */
+        .progress-rings-btn {
+            position: fixed;
+            right: 20px;
+            bottom: 3070px;
+            width: 52px;
+            height: 52px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, #7c4dff, #536dfe);
+            color: white;
+            border: none;
+            cursor: pointer;
+            font-size: 1.4rem;
+            box-shadow: 0 4px 15px rgba(124, 77, 255, 0.4);
+            z-index: 1000;
+            transition: all 0.3s ease;
+        }
+
+        .progress-rings-btn:hover {
+            transform: scale(1.1);
+            box-shadow: 0 6px 20px rgba(124, 77, 255, 0.6);
+        }
+
+        .progress-rings-modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0,0,0,0.5);
+            z-index: 10001;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .progress-rings-content {
+            background: white;
+            padding: 25px;
+            border-radius: 20px;
+            width: 90%;
+            max-width: 400px;
+            max-height: 80vh;
+            overflow-y: auto;
+        }
+
+        .ring-container {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 20px;
+            justify-content: center;
+        }
+
+        .progress-ring {
+            text-align: center;
+        }
+
+        .ring-svg {
+            width: 80px;
+            height: 80px;
+            transform: rotate(-90deg);
+        }
+
+        .ring-bg {
+            fill: none;
+            stroke: #e0e0e0;
+            stroke-width: 8;
+        }
+
+        .ring-progress {
+            fill: none;
+            stroke-width: 8;
+            stroke-linecap: round;
+            transition: stroke-dashoffset 0.5s ease;
+        }
+
+        .ring-label {
+            font-size: 0.8rem;
+            color: #666;
+            margin-top: 5px;
+        }
+
+        .ring-value {
+            font-size: 0.9rem;
+            font-weight: bold;
+            color: #333;
+        }
+
+        /* Experiment Log */
+        .experiment-log-btn {
+            position: fixed;
+            left: 18px;
+            bottom: 3190px;
+            width: 52px;
+            height: 52px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, #00897b, #26a69a);
+            color: white;
+            border: none;
+            cursor: pointer;
+            font-size: 1.4rem;
+            box-shadow: 0 4px 15px rgba(0, 137, 123, 0.4);
+            z-index: 1000;
+            transition: all 0.3s ease;
+        }
+
+        .experiment-log-btn:hover {
+            transform: scale(1.1);
+            box-shadow: 0 6px 20px rgba(0, 137, 123, 0.6);
+        }
+
+        .experiment-log-modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0,0,0,0.5);
+            z-index: 10001;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .experiment-log-content {
+            background: linear-gradient(135deg, #e0f2f1, #ffffff);
+            padding: 25px;
+            border-radius: 20px;
+            width: 90%;
+            max-width: 450px;
+            max-height: 80vh;
+            overflow-y: auto;
+        }
+
+        .experiment-entry {
+            background: white;
+            padding: 12px;
+            border-radius: 10px;
+            margin-bottom: 10px;
+            border-left: 4px solid #00897b;
+        }
+
+        .experiment-title {
+            font-weight: bold;
+            color: #00695c;
+        }
+
+        .experiment-date {
+            font-size: 0.75rem;
+            color: #999;
+        }
+
+        .experiment-notes {
+            font-size: 0.85rem;
+            color: #555;
+            margin-top: 5px;
+        }
+
+        .add-experiment {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+            margin-top: 15px;
+        }
+
+        .add-experiment input,
+        .add-experiment textarea {
+            padding: 10px;
+            border: 2px solid #26a69a;
+            border-radius: 8px;
+            font-family: inherit;
+        }
+
+        /* Study Timer Breaks */
+        .study-break-btn {
+            position: fixed;
+            right: 20px;
+            bottom: 3130px;
+            width: 52px;
+            height: 52px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, #ec407a, #f48fb1);
+            color: white;
+            border: none;
+            cursor: pointer;
+            font-size: 1.4rem;
+            box-shadow: 0 4px 15px rgba(236, 64, 122, 0.4);
+            z-index: 1000;
+            transition: all 0.3s ease;
+        }
+
+        .study-break-btn:hover {
+            transform: scale(1.1);
+            box-shadow: 0 6px 20px rgba(236, 64, 122, 0.6);
+        }
+
+        .study-break-modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0,0,0,0.5);
+            z-index: 10001;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .study-break-content {
+            background: linear-gradient(135deg, #fce4ec, #ffffff);
+            padding: 25px;
+            border-radius: 20px;
+            width: 90%;
+            max-width: 380px;
+            text-align: center;
+        }
+
+        .break-activity {
+            background: white;
+            padding: 20px;
+            border-radius: 15px;
+            margin: 15px 0;
+            box-shadow: 0 3px 10px rgba(0,0,0,0.1);
+        }
+
+        .break-emoji {
+            font-size: 3rem;
+            margin-bottom: 10px;
+        }
+
+        .break-title {
+            font-weight: bold;
+            color: #c2185b;
+            font-size: 1.1rem;
+        }
+
+        .break-duration {
+            color: #666;
+            font-size: 0.85rem;
+            margin-top: 5px;
+        }
+
+        .break-description {
+            color: #555;
+            font-size: 0.9rem;
+            margin-top: 10px;
+        }
+
+        .new-break-btn {
+            background: linear-gradient(135deg, #ec407a, #f48fb1);
+            color: white;
+            border: none;
+            padding: 12px 25px;
+            border-radius: 25px;
+            cursor: pointer;
+            font-weight: bold;
+            margin-top: 15px;
+            transition: transform 0.2s;
+        }
+
+        .new-break-btn:hover {
+            transform: scale(1.05);
+        }
     </style>
 </head>
 
@@ -81679,6 +81944,222 @@ This report was generated from the Science CER Practice App.
         }
 
         console.log('🏅 Scoreboard, Random Fact, and Homework Tracker loaded!');
+    </script>
+
+    <!-- Batch 93: Progress Rings Button -->
+    <button class="progress-rings-btn" onclick="openProgressRings()" title="Progress Rings">⭕</button>
+
+    <!-- Progress Rings Modal -->
+    <div class="progress-rings-modal" id="progressRingsModal" onclick="if(event.target===this)closeProgressRings()">
+        <div class="progress-rings-content">
+            <h3 style="margin: 0 0 20px 0; color: #7c4dff; text-align: center;">📊 Your Progress Rings</h3>
+            <div class="ring-container" id="progressRingsContainer"></div>
+            <p style="text-align: center; color: #666; margin-top: 20px; font-size: 0.85rem;">Complete activities to fill your rings!</p>
+            <button onclick="closeProgressRings()" style="display: block; margin: 20px auto 0; padding: 10px 25px; background: #7c4dff; color: white; border: none; border-radius: 20px; cursor: pointer;">Close</button>
+        </div>
+    </div>
+
+    <!-- Experiment Log Button -->
+    <button class="experiment-log-btn" onclick="openExperimentLog()" title="Experiment Log">🔬</button>
+
+    <!-- Experiment Log Modal -->
+    <div class="experiment-log-modal" id="experimentLogModal" onclick="if(event.target===this)closeExperimentLog()">
+        <div class="experiment-log-content">
+            <h3 style="margin: 0 0 20px 0; color: #00897b; text-align: center;">🔬 Experiment Log</h3>
+            <div id="experimentList"></div>
+            <div class="add-experiment">
+                <input type="text" id="experimentTitle" placeholder="Experiment name...">
+                <textarea id="experimentNotes" rows="2" placeholder="What did you observe?"></textarea>
+                <button onclick="addExperiment()" style="padding: 12px; background: linear-gradient(135deg, #00897b, #26a69a); color: white; border: none; border-radius: 10px; cursor: pointer; font-weight: bold;">📝 Log Experiment (+20 XP)</button>
+            </div>
+            <button onclick="closeExperimentLog()" style="display: block; margin: 15px auto 0; padding: 10px 25px; background: #666; color: white; border: none; border-radius: 20px; cursor: pointer;">Close</button>
+        </div>
+    </div>
+
+    <!-- Study Break Button -->
+    <button class="study-break-btn" onclick="openStudyBreak()" title="Study Break Ideas">☕</button>
+
+    <!-- Study Break Modal -->
+    <div class="study-break-modal" id="studyBreakModal" onclick="if(event.target===this)closeStudyBreak()">
+        <div class="study-break-content">
+            <h3 style="margin: 0 0 15px 0; color: #ec407a;">☕ Take a Break!</h3>
+            <p style="color: #666; font-size: 0.9rem;">Regular breaks help you learn better</p>
+            <div class="break-activity" id="breakActivity"></div>
+            <button class="new-break-btn" onclick="showRandomBreak()">🎲 New Activity</button>
+            <button onclick="closeStudyBreak()" style="display: block; margin: 15px auto 0; padding: 10px 25px; background: #999; color: white; border: none; border-radius: 20px; cursor: pointer;">Back to Studying</button>
+        </div>
+    </div>
+
+    <script>
+        // Batch 93: Progress Rings
+        const progressCategories = [
+            { id: 'questions', label: 'Questions', color: '#4caf50', icon: '❓' },
+            { id: 'experiments', label: 'Experiments', color: '#00897b', icon: '🔬' },
+            { id: 'flashcards', label: 'Flashcards', color: '#ff9800', icon: '📚' },
+            { id: 'quizzes', label: 'Quizzes', color: '#e91e63', icon: '📝' },
+            { id: 'streak', label: 'Streak Days', color: '#9c27b0', icon: '🔥' },
+            { id: 'xp', label: 'XP Earned', color: '#2196f3', icon: '⭐' }
+        ];
+
+        function getProgressData() {
+            return JSON.parse(localStorage.getItem('progressRingsData') || '{"questions":0,"experiments":0,"flashcards":0,"quizzes":0,"streak":0,"xp":0}');
+        }
+
+        function updateProgressRing(category, amount) {
+            const data = getProgressData();
+            data[category] = (data[category] || 0) + amount;
+            localStorage.setItem('progressRingsData', JSON.stringify(data));
+        }
+
+        function renderProgressRings() {
+            const container = document.getElementById('progressRingsContainer');
+            const data = getProgressData();
+            const goals = { questions: 50, experiments: 10, flashcards: 30, quizzes: 20, streak: 7, xp: 1000 };
+
+            container.innerHTML = progressCategories.map(cat => {
+                const value = data[cat.id] || 0;
+                const goal = goals[cat.id];
+                const percent = Math.min((value / goal) * 100, 100);
+                const circumference = 2 * Math.PI * 30;
+                const offset = circumference - (percent / 100) * circumference;
+
+                return `
+                    <div class="progress-ring">
+                        <svg class="ring-svg" viewBox="0 0 80 80">
+                            <circle class="ring-bg" cx="40" cy="40" r="30"/>
+                            <circle class="ring-progress" cx="40" cy="40" r="30"
+                                stroke="${cat.color}"
+                                stroke-dasharray="${circumference}"
+                                stroke-dashoffset="${offset}"/>
+                        </svg>
+                        <div class="ring-value">${cat.icon} ${value}/${goal}</div>
+                        <div class="ring-label">${cat.label}</div>
+                    </div>
+                `;
+            }).join('');
+        }
+
+        function openProgressRings() {
+            // Sync XP from main XP tracker
+            const currentXP = parseInt(localStorage.getItem('scienceToolXP') || '0');
+            const data = getProgressData();
+            data.xp = currentXP;
+            localStorage.setItem('progressRingsData', JSON.stringify(data));
+
+            renderProgressRings();
+            document.getElementById('progressRingsModal').style.display = 'flex';
+        }
+
+        function closeProgressRings() {
+            document.getElementById('progressRingsModal').style.display = 'none';
+        }
+
+        // Experiment Log
+        function getExperiments() {
+            return JSON.parse(localStorage.getItem('experimentLog') || '[]');
+        }
+
+        function saveExperiments(experiments) {
+            localStorage.setItem('experimentLog', JSON.stringify(experiments));
+        }
+
+        function renderExperiments() {
+            const list = document.getElementById('experimentList');
+            const experiments = getExperiments();
+
+            if (experiments.length === 0) {
+                list.innerHTML = '<p style="text-align: center; color: #999;">No experiments logged yet. Start experimenting!</p>';
+                return;
+            }
+
+            list.innerHTML = experiments.slice().reverse().map((exp, idx) => `
+                <div class="experiment-entry">
+                    <div class="experiment-title">🧪 ${exp.title}</div>
+                    <div class="experiment-date">📅 ${exp.date}</div>
+                    ${exp.notes ? `<div class="experiment-notes">${exp.notes}</div>` : ''}
+                    <button onclick="deleteExperiment(${experiments.length - 1 - idx})" style="margin-top: 8px; padding: 5px 10px; background: #ef5350; color: white; border: none; border-radius: 5px; cursor: pointer; font-size: 0.75rem;">Delete</button>
+                </div>
+            `).join('');
+        }
+
+        function addExperiment() {
+            const title = document.getElementById('experimentTitle').value.trim();
+            const notes = document.getElementById('experimentNotes').value.trim();
+
+            if (!title) {
+                alert('Please enter an experiment name!');
+                return;
+            }
+
+            const experiments = getExperiments();
+            experiments.push({
+                title,
+                notes,
+                date: new Date().toLocaleDateString()
+            });
+            saveExperiments(experiments);
+
+            // Update progress ring
+            updateProgressRing('experiments', 1);
+
+            addXP(20);
+            document.getElementById('experimentTitle').value = '';
+            document.getElementById('experimentNotes').value = '';
+            renderExperiments();
+        }
+
+        function deleteExperiment(index) {
+            const experiments = getExperiments();
+            experiments.splice(index, 1);
+            saveExperiments(experiments);
+            renderExperiments();
+        }
+
+        function openExperimentLog() {
+            renderExperiments();
+            document.getElementById('experimentLogModal').style.display = 'flex';
+        }
+
+        function closeExperimentLog() {
+            document.getElementById('experimentLogModal').style.display = 'none';
+        }
+
+        // Study Break Activities
+        const breakActivities = [
+            { emoji: '🚶', title: 'Take a Walk', duration: '5-10 min', description: 'A short walk helps blood circulation and refreshes your brain!' },
+            { emoji: '💧', title: 'Hydrate', duration: '2 min', description: 'Drink a glass of water. Your brain is 75% water!' },
+            { emoji: '👀', title: '20-20-20 Eye Break', duration: '1 min', description: 'Look at something 20 feet away for 20 seconds to rest your eyes.' },
+            { emoji: '🧘', title: 'Deep Breathing', duration: '3 min', description: 'Take 10 deep breaths. Inhale for 4 counts, hold for 4, exhale for 4.' },
+            { emoji: '🍎', title: 'Healthy Snack', duration: '5 min', description: 'Grab a fruit or nuts. Brain food boosts concentration!' },
+            { emoji: '🎵', title: 'Listen to Music', duration: '5 min', description: 'Put on your favorite song and relax for a bit.' },
+            { emoji: '✋', title: 'Hand Stretches', duration: '2 min', description: 'Stretch your fingers and wrists if you\'ve been writing a lot.' },
+            { emoji: '🌱', title: 'Look at Nature', duration: '3 min', description: 'Look outside at trees or plants. Green views reduce stress!' },
+            { emoji: '😺', title: 'Watch Something Cute', duration: '3 min', description: 'Watch a short animal video. Cuteness improves focus!' },
+            { emoji: '🏋️', title: 'Quick Exercises', duration: '5 min', description: 'Do 10 jumping jacks or stretches to energize yourself!' },
+            { emoji: '📱', title: 'Text a Friend', duration: '3 min', description: 'Send a quick message to someone. Social connection matters!' },
+            { emoji: '🎨', title: 'Doodle Break', duration: '5 min', description: 'Draw anything you like! Doodling activates creative thinking.' }
+        ];
+
+        function showRandomBreak() {
+            const activity = breakActivities[Math.floor(Math.random() * breakActivities.length)];
+            document.getElementById('breakActivity').innerHTML = `
+                <div class="break-emoji">${activity.emoji}</div>
+                <div class="break-title">${activity.title}</div>
+                <div class="break-duration">⏱️ ${activity.duration}</div>
+                <div class="break-description">${activity.description}</div>
+            `;
+        }
+
+        function openStudyBreak() {
+            showRandomBreak();
+            document.getElementById('studyBreakModal').style.display = 'flex';
+        }
+
+        function closeStudyBreak() {
+            document.getElementById('studyBreakModal').style.display = 'none';
+        }
+
+        console.log('⭕ Progress Rings, Experiment Log, and Study Breaks loaded!');
     </script>
 
     <!-- PowerPoint-style Table Grid Selector (positioned fixed, outside all containers) -->
