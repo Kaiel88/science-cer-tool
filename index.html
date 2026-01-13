@@ -28810,6 +28810,230 @@
             color: #666;
             margin-top: 5px;
         }
+
+        /* Batch 76: Diagram Viewer */
+        .diagram-btn {
+            position: fixed;
+            left: 18px;
+            bottom: 1830px;
+            width: 52px;
+            height: 52px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, #e91e63, #f48fb1);
+            color: white;
+            border: none;
+            font-size: 1.4rem;
+            cursor: pointer;
+            box-shadow: 0 4px 15px rgba(233, 30, 99, 0.4);
+            z-index: 1000;
+            transition: all 0.3s ease;
+        }
+
+        .diagram-btn:hover {
+            transform: scale(1.1);
+        }
+
+        .diagram-modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0,0,0,0.6);
+            z-index: 10001;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .diagram-modal.active {
+            display: flex;
+        }
+
+        .diagram-modal-content {
+            background: white;
+            border-radius: 16px;
+            width: 90%;
+            max-width: 500px;
+            max-height: 85vh;
+            overflow: hidden;
+        }
+
+        .diagram-modal-header {
+            background: linear-gradient(135deg, #e91e63, #f48fb1);
+            color: white;
+            padding: 15px 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .diagram-modal-body {
+            padding: 20px;
+            max-height: 70vh;
+            overflow-y: auto;
+        }
+
+        .diagram-tabs {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 15px;
+            flex-wrap: wrap;
+        }
+
+        .diagram-tab {
+            padding: 8px 15px;
+            border: 2px solid #e91e63;
+            border-radius: 20px;
+            background: white;
+            cursor: pointer;
+            transition: all 0.2s ease;
+        }
+
+        .diagram-tab.active {
+            background: #e91e63;
+            color: white;
+        }
+
+        .diagram-display {
+            background: #fce4ec;
+            padding: 20px;
+            border-radius: 12px;
+            text-align: center;
+        }
+
+        .diagram-image {
+            font-size: 5rem;
+            margin-bottom: 15px;
+        }
+
+        .diagram-label {
+            font-weight: bold;
+            color: #e91e63;
+            margin-bottom: 10px;
+        }
+
+        .diagram-parts {
+            font-size: 0.9rem;
+            color: #666;
+            text-align: left;
+        }
+
+        /* Question Bookmark */
+        .bookmark-btn {
+            position: fixed;
+            right: 18px;
+            bottom: 1390px;
+            width: 52px;
+            height: 52px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, #ff9800, #ffcc80);
+            color: white;
+            border: none;
+            font-size: 1.4rem;
+            cursor: pointer;
+            box-shadow: 0 4px 15px rgba(255, 152, 0, 0.4);
+            z-index: 1000;
+            transition: all 0.3s ease;
+        }
+
+        .bookmark-btn:hover {
+            transform: scale(1.1);
+        }
+
+        .bookmark-modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0,0,0,0.6);
+            z-index: 10001;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .bookmark-modal.active {
+            display: flex;
+        }
+
+        .bookmark-modal-content {
+            background: white;
+            border-radius: 16px;
+            width: 90%;
+            max-width: 420px;
+            max-height: 85vh;
+            overflow: hidden;
+        }
+
+        .bookmark-modal-header {
+            background: linear-gradient(135deg, #ff9800, #ffcc80);
+            color: white;
+            padding: 15px 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .bookmark-modal-body {
+            padding: 20px;
+            max-height: 70vh;
+            overflow-y: auto;
+        }
+
+        .bookmark-item {
+            padding: 15px;
+            background: #fff3e0;
+            border-radius: 12px;
+            margin-bottom: 12px;
+        }
+
+        .bookmark-question {
+            font-weight: bold;
+            color: #e65100;
+            margin-bottom: 8px;
+        }
+
+        .bookmark-answer {
+            font-size: 0.9rem;
+            color: #666;
+        }
+
+        .bookmark-remove {
+            float: right;
+            background: none;
+            border: none;
+            color: #f44336;
+            cursor: pointer;
+            font-size: 1.2rem;
+        }
+
+        /* Sound Toggle */
+        .sound-btn {
+            position: fixed;
+            left: 18px;
+            bottom: 1870px;
+            width: 52px;
+            height: 52px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, #607d8b, #90a4ae);
+            color: white;
+            border: none;
+            font-size: 1.4rem;
+            cursor: pointer;
+            box-shadow: 0 4px 15px rgba(96, 125, 139, 0.4);
+            z-index: 1000;
+            transition: all 0.3s ease;
+        }
+
+        .sound-btn:hover {
+            transform: scale(1.1);
+        }
+
+        .sound-btn.muted {
+            background: linear-gradient(135deg, #9e9e9e, #bdbdbd);
+        }
     </style>
 </head>
 
@@ -72552,6 +72776,205 @@ This report was generated from the Science CER Practice App.
         }
 
         console.log('🔗 Concept Connector, Mini Quiz, and Learning Path loaded!');
+    </script>
+
+    <!-- Batch 76: Diagram Viewer Button -->
+    <button class="diagram-btn" onclick="openDiagramViewer()" title="Diagram Viewer">
+        🖼️
+    </button>
+
+    <!-- Diagram Viewer Modal -->
+    <div class="diagram-modal" id="diagramModal">
+        <div class="diagram-modal-content">
+            <div class="diagram-modal-header">
+                <h3>🖼️ Diagram Viewer</h3>
+                <button onclick="closeDiagramViewer()" style="background:none;border:none;color:white;font-size:1.5rem;cursor:pointer;">✕</button>
+            </div>
+            <div class="diagram-modal-body">
+                <div class="diagram-tabs" id="diagramTabs"></div>
+                <div class="diagram-display" id="diagramDisplay"></div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Question Bookmark Button -->
+    <button class="bookmark-btn" onclick="openBookmarks()" title="Bookmarked Questions">
+        🔖
+    </button>
+
+    <!-- Bookmark Modal -->
+    <div class="bookmark-modal" id="bookmarkModal">
+        <div class="bookmark-modal-content">
+            <div class="bookmark-modal-header">
+                <h3>🔖 Bookmarked Questions</h3>
+                <button onclick="closeBookmarks()" style="background:none;border:none;color:white;font-size:1.5rem;cursor:pointer;">✕</button>
+            </div>
+            <div class="bookmark-modal-body" id="bookmarkList"></div>
+        </div>
+    </div>
+
+    <!-- Sound Toggle Button -->
+    <button class="sound-btn" id="soundToggleBtn" onclick="toggleSound()" title="Sound Effects">
+        🔊
+    </button>
+
+    <script>
+        // Batch 76: Diagram Viewer, Question Bookmark, Sound Toggle
+
+        // Diagram Viewer
+        const diagrams = {
+            'Cell': {
+                image: '🔬',
+                label: 'Animal Cell',
+                parts: ['Nucleus - Control center', 'Mitochondria - Powerhouse', 'Cell Membrane - Boundary', 'Cytoplasm - Jelly-like fluid', 'Ribosomes - Protein makers']
+            },
+            'Atom': {
+                image: '⚛️',
+                label: 'Atomic Structure',
+                parts: ['Nucleus - Protons + Neutrons', 'Electrons - Orbit in shells', 'Protons - Positive charge', 'Neutrons - No charge', 'Electron Cloud - Probability zone']
+            },
+            'Heart': {
+                image: '❤️',
+                label: 'Human Heart',
+                parts: ['Right Atrium - Receives blood', 'Right Ventricle - Pumps to lungs', 'Left Atrium - Receives from lungs', 'Left Ventricle - Pumps to body', 'Valves - Prevent backflow']
+            },
+            'Circuit': {
+                image: '⚡',
+                label: 'Simple Circuit',
+                parts: ['Battery - Power source', 'Wire - Conductor', 'Switch - On/Off control', 'Resistor - Controls current', 'Light Bulb - Load/Output']
+            },
+            'Solar': {
+                image: '☀️',
+                label: 'Solar System',
+                parts: ['Sun - Star at center', 'Inner Planets - Mercury to Mars', 'Asteroid Belt - Between Mars & Jupiter', 'Outer Planets - Jupiter to Neptune', 'Dwarf Planets - Pluto, etc.']
+            }
+        };
+
+        function openDiagramViewer() {
+            document.getElementById('diagramModal').classList.add('active');
+            renderDiagramTabs();
+            showDiagram('Cell');
+        }
+
+        function closeDiagramViewer() {
+            document.getElementById('diagramModal').classList.remove('active');
+        }
+
+        function renderDiagramTabs() {
+            document.getElementById('diagramTabs').innerHTML = Object.keys(diagrams).map(d => `
+                <button class="diagram-tab" onclick="showDiagram('${d}')">${d}</button>
+            `).join('');
+        }
+
+        function showDiagram(name) {
+            document.querySelectorAll('.diagram-tab').forEach(tab => {
+                tab.classList.toggle('active', tab.textContent === name);
+            });
+
+            const d = diagrams[name];
+            document.getElementById('diagramDisplay').innerHTML = `
+                <div class="diagram-image">${d.image}</div>
+                <div class="diagram-label">${d.label}</div>
+                <div class="diagram-parts">
+                    ${d.parts.map(p => `<p>• ${p}</p>`).join('')}
+                </div>
+            `;
+        }
+
+        // Question Bookmark
+        let bookmarkedQuestions = JSON.parse(localStorage.getItem('bookmarkedQuestions') || '[]');
+
+        // Add sample bookmarks if empty
+        if (bookmarkedQuestions.length === 0) {
+            bookmarkedQuestions = [
+                { q: 'What is the unit of force?', a: 'Newton' },
+                { q: 'What is the powerhouse of the cell?', a: 'Mitochondria' },
+                { q: 'What gas do plants release?', a: 'Oxygen' }
+            ];
+            localStorage.setItem('bookmarkedQuestions', JSON.stringify(bookmarkedQuestions));
+        }
+
+        function openBookmarks() {
+            document.getElementById('bookmarkModal').classList.add('active');
+            renderBookmarks();
+        }
+
+        function closeBookmarks() {
+            document.getElementById('bookmarkModal').classList.remove('active');
+        }
+
+        function renderBookmarks() {
+            const list = document.getElementById('bookmarkList');
+            if (bookmarkedQuestions.length === 0) {
+                list.innerHTML = '<p style="text-align:center;color:#888;">No bookmarked questions yet!</p>';
+                return;
+            }
+            list.innerHTML = bookmarkedQuestions.map((b, i) => `
+                <div class="bookmark-item">
+                    <button class="bookmark-remove" onclick="removeBookmark(${i})">×</button>
+                    <div class="bookmark-question">${b.q}</div>
+                    <div class="bookmark-answer">Answer: ${b.a}</div>
+                </div>
+            `).join('');
+        }
+
+        function addBookmark(question, answer) {
+            bookmarkedQuestions.push({ q: question, a: answer });
+            localStorage.setItem('bookmarkedQuestions', JSON.stringify(bookmarkedQuestions));
+        }
+
+        function removeBookmark(idx) {
+            bookmarkedQuestions.splice(idx, 1);
+            localStorage.setItem('bookmarkedQuestions', JSON.stringify(bookmarkedQuestions));
+            renderBookmarks();
+        }
+
+        // Sound Toggle
+        let soundEnabled = localStorage.getItem('soundEnabled') !== 'false';
+        updateSoundButton();
+
+        function toggleSound() {
+            soundEnabled = !soundEnabled;
+            localStorage.setItem('soundEnabled', soundEnabled);
+            updateSoundButton();
+        }
+
+        function updateSoundButton() {
+            const btn = document.getElementById('soundToggleBtn');
+            btn.textContent = soundEnabled ? '🔊' : '🔇';
+            btn.classList.toggle('muted', !soundEnabled);
+        }
+
+        function playSound(type) {
+            if (!soundEnabled) return;
+            // Audio feedback simulation with Web Audio API
+            try {
+                const ctx = new (window.AudioContext || window.webkitAudioContext)();
+                const osc = ctx.createOscillator();
+                const gain = ctx.createGain();
+                osc.connect(gain);
+                gain.connect(ctx.destination);
+
+                if (type === 'correct') {
+                    osc.frequency.value = 523.25; // C5
+                    gain.gain.value = 0.3;
+                } else if (type === 'wrong') {
+                    osc.frequency.value = 220; // A3
+                    gain.gain.value = 0.2;
+                } else {
+                    osc.frequency.value = 440; // A4
+                    gain.gain.value = 0.15;
+                }
+
+                osc.start();
+                gain.gain.exponentialRampToValueAtTime(0.01, ctx.currentTime + 0.2);
+                osc.stop(ctx.currentTime + 0.2);
+            } catch (e) {
+                // Audio not supported
+            }
+        }
+
+        console.log('🖼️ Diagram Viewer, Question Bookmarks, and Sound Toggle loaded!');
     </script>
 
     <!-- PowerPoint-style Table Grid Selector (positioned fixed, outside all containers) -->
