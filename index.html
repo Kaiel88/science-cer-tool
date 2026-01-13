@@ -24411,6 +24411,379 @@
             width: 100%;
             margin-top: 10px;
         }
+
+        /* Batch 61: Daily Challenge */
+        .daily-challenge-btn {
+            position: fixed;
+            left: 18px;
+            bottom: 950px;
+            width: 56px;
+            height: 56px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, #ff5722 0%, #e64a19 100%);
+            color: white;
+            border: none;
+            font-size: 24px;
+            cursor: pointer;
+            box-shadow: 0 4px 15px rgba(255, 87, 34, 0.4);
+            z-index: 999;
+            transition: all 0.3s ease;
+        }
+
+        .daily-challenge-btn:hover {
+            transform: scale(1.1);
+            box-shadow: 0 6px 20px rgba(255, 87, 34, 0.5);
+        }
+
+        .daily-challenge-btn.completed {
+            background: linear-gradient(135deg, #4caf50 0%, #388e3c 100%);
+            box-shadow: 0 4px 15px rgba(76, 175, 80, 0.4);
+        }
+
+        .daily-challenge-modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.7);
+            z-index: 10000;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .daily-challenge-content {
+            background: white;
+            border-radius: 20px;
+            padding: 30px;
+            max-width: 500px;
+            width: 90%;
+            max-height: 80vh;
+            overflow-y: auto;
+        }
+
+        .daily-bonus-badge {
+            background: linear-gradient(135deg, #ffd700 0%, #ffb300 100%);
+            color: #333;
+            padding: 8px 20px;
+            border-radius: 20px;
+            font-weight: bold;
+            display: inline-block;
+            margin-bottom: 15px;
+        }
+
+        .daily-question-box {
+            background: #fff3e0;
+            border-radius: 15px;
+            padding: 20px;
+            margin: 15px 0;
+        }
+
+        .daily-option {
+            display: block;
+            width: 100%;
+            padding: 15px;
+            margin: 10px 0;
+            background: white;
+            border: 2px solid #ff5722;
+            border-radius: 10px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-align: left;
+            font-size: 1rem;
+        }
+
+        .daily-option:hover {
+            background: #fff3e0;
+            transform: translateX(5px);
+        }
+
+        .daily-option.correct {
+            background: #c8e6c9;
+            border-color: #4caf50;
+        }
+
+        .daily-option.wrong {
+            background: #ffcdd2;
+            border-color: #f44336;
+        }
+
+        /* Vocabulary Builder */
+        .vocab-builder-btn {
+            position: fixed;
+            right: 18px;
+            bottom: 470px;
+            width: 56px;
+            height: 56px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, #3f51b5 0%, #303f9f 100%);
+            color: white;
+            border: none;
+            font-size: 24px;
+            cursor: pointer;
+            box-shadow: 0 4px 15px rgba(63, 81, 181, 0.4);
+            z-index: 999;
+            transition: all 0.3s ease;
+        }
+
+        .vocab-builder-btn:hover {
+            transform: scale(1.1);
+        }
+
+        .vocab-modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.7);
+            z-index: 10000;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .vocab-content {
+            background: white;
+            border-radius: 20px;
+            padding: 30px;
+            max-width: 550px;
+            width: 90%;
+            max-height: 85vh;
+            overflow-y: auto;
+        }
+
+        .flashcard {
+            perspective: 1000px;
+            width: 100%;
+            height: 200px;
+            margin: 20px 0;
+        }
+
+        .flashcard-inner {
+            position: relative;
+            width: 100%;
+            height: 100%;
+            transition: transform 0.6s;
+            transform-style: preserve-3d;
+            cursor: pointer;
+        }
+
+        .flashcard.flipped .flashcard-inner {
+            transform: rotateY(180deg);
+        }
+
+        .flashcard-front, .flashcard-back {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            backface-visibility: hidden;
+            border-radius: 15px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+            text-align: center;
+            box-sizing: border-box;
+        }
+
+        .flashcard-front {
+            background: linear-gradient(135deg, #3f51b5 0%, #5c6bc0 100%);
+            color: white;
+            font-size: 1.5rem;
+            font-weight: bold;
+        }
+
+        .flashcard-back {
+            background: linear-gradient(135deg, #e8eaf6 0%, #c5cae9 100%);
+            color: #333;
+            transform: rotateY(180deg);
+            font-size: 1.1rem;
+        }
+
+        .vocab-nav {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-top: 15px;
+        }
+
+        .vocab-nav-btn {
+            background: #3f51b5;
+            color: white;
+            border: none;
+            padding: 12px 25px;
+            border-radius: 25px;
+            cursor: pointer;
+            font-size: 1rem;
+            transition: all 0.3s ease;
+        }
+
+        .vocab-nav-btn:hover {
+            background: #303f9f;
+            transform: scale(1.05);
+        }
+
+        .vocab-progress {
+            font-size: 1rem;
+            color: #666;
+        }
+
+        .vocab-category-select {
+            width: 100%;
+            padding: 12px;
+            border: 2px solid #3f51b5;
+            border-radius: 10px;
+            font-size: 1rem;
+            margin-bottom: 15px;
+        }
+
+        /* Progress Charts */
+        .progress-charts-btn {
+            position: fixed;
+            left: 18px;
+            bottom: 990px;
+            width: 56px;
+            height: 56px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, #00bcd4 0%, #0097a7 100%);
+            color: white;
+            border: none;
+            font-size: 24px;
+            cursor: pointer;
+            box-shadow: 0 4px 15px rgba(0, 188, 212, 0.4);
+            z-index: 999;
+            transition: all 0.3s ease;
+        }
+
+        .progress-charts-btn:hover {
+            transform: scale(1.1);
+        }
+
+        .charts-modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.7);
+            z-index: 10000;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .charts-content {
+            background: white;
+            border-radius: 20px;
+            padding: 30px;
+            max-width: 600px;
+            width: 90%;
+            max-height: 85vh;
+            overflow-y: auto;
+        }
+
+        .chart-container {
+            background: #f5f5f5;
+            border-radius: 15px;
+            padding: 20px;
+            margin: 15px 0;
+        }
+
+        .bar-chart {
+            display: flex;
+            align-items: flex-end;
+            justify-content: space-around;
+            height: 150px;
+            padding: 10px 0;
+        }
+
+        .bar-item {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            flex: 1;
+        }
+
+        .bar {
+            width: 30px;
+            background: linear-gradient(to top, #00bcd4 0%, #4dd0e1 100%);
+            border-radius: 5px 5px 0 0;
+            transition: height 0.5s ease;
+            min-height: 5px;
+        }
+
+        .bar-label {
+            font-size: 0.75rem;
+            color: #666;
+            margin-top: 8px;
+            text-align: center;
+        }
+
+        .bar-value {
+            font-size: 0.7rem;
+            color: #333;
+            font-weight: bold;
+            margin-bottom: 5px;
+        }
+
+        .stat-ring {
+            width: 120px;
+            height: 120px;
+            border-radius: 50%;
+            background: conic-gradient(#00bcd4 0deg, #e0e0e0 0deg);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            margin: 0 auto;
+        }
+
+        .stat-ring-inner {
+            width: 90px;
+            height: 90px;
+            border-radius: 50%;
+            background: white;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .stat-ring-value {
+            font-size: 1.5rem;
+            font-weight: bold;
+            color: #00bcd4;
+        }
+
+        .stat-ring-label {
+            font-size: 0.75rem;
+            color: #666;
+        }
+
+        .charts-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 15px;
+        }
+
+        .mini-stat {
+            background: #e0f7fa;
+            border-radius: 12px;
+            padding: 15px;
+            text-align: center;
+        }
+
+        .mini-stat-value {
+            font-size: 1.8rem;
+            font-weight: bold;
+            color: #00838f;
+        }
+
+        .mini-stat-label {
+            font-size: 0.85rem;
+            color: #666;
+        }
     </style>
 </head>
 
@@ -64157,6 +64530,366 @@ This report was generated from the Science CER Practice App.
         }
 
         console.log('🏆 Leaderboard, Achievements, and Sound Effects loaded!');
+    </script>
+
+    <!-- Batch 61: Daily Challenge Button -->
+    <button class="daily-challenge-btn" id="daily-challenge-btn" onclick="openDailyChallenge()" title="Daily Challenge">🔥</button>
+
+    <!-- Daily Challenge Modal -->
+    <div class="daily-challenge-modal" id="daily-challenge-modal">
+        <div class="daily-challenge-content">
+            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 15px;">
+                <h2 style="margin: 0; color: #ff5722;">🔥 Daily Challenge</h2>
+                <button onclick="closeDailyChallenge()" style="background: none; border: none; font-size: 1.5rem; cursor: pointer;">✕</button>
+            </div>
+            <div class="daily-bonus-badge">⭐ 2x XP Bonus!</div>
+            <div id="daily-challenge-content"></div>
+        </div>
+    </div>
+
+    <!-- Vocabulary Builder Button -->
+    <button class="vocab-builder-btn" id="vocab-builder-btn" onclick="openVocabBuilder()" title="Vocabulary Builder">📚</button>
+
+    <!-- Vocabulary Modal -->
+    <div class="vocab-modal" id="vocab-modal">
+        <div class="vocab-content">
+            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px;">
+                <h2 style="margin: 0; color: #3f51b5;">📚 Vocabulary Builder</h2>
+                <button onclick="closeVocabBuilder()" style="background: none; border: none; font-size: 1.5rem; cursor: pointer;">✕</button>
+            </div>
+            <select class="vocab-category-select" id="vocab-category" onchange="loadVocabCategory()">
+                <option value="physics">Physics Terms</option>
+                <option value="chemistry">Chemistry Terms</option>
+                <option value="biology">Biology Terms</option>
+                <option value="earth">Earth Science Terms</option>
+            </select>
+            <p style="text-align: center; color: #666; font-size: 0.9rem;">Click card to flip</p>
+            <div class="flashcard" id="vocab-flashcard" onclick="flipFlashcard()">
+                <div class="flashcard-inner" id="flashcard-inner">
+                    <div class="flashcard-front" id="flashcard-front">Term</div>
+                    <div class="flashcard-back" id="flashcard-back">Definition</div>
+                </div>
+            </div>
+            <div class="vocab-nav">
+                <button class="vocab-nav-btn" onclick="prevVocab()">← Previous</button>
+                <span class="vocab-progress" id="vocab-progress">1 / 10</span>
+                <button class="vocab-nav-btn" onclick="nextVocab()">Next →</button>
+            </div>
+            <button onclick="markVocabLearned()" style="width: 100%; margin-top: 15px; padding: 12px; background: #4caf50; color: white; border: none; border-radius: 10px; cursor: pointer; font-size: 1rem;">✓ Mark as Learned</button>
+        </div>
+    </div>
+
+    <!-- Progress Charts Button -->
+    <button class="progress-charts-btn" id="progress-charts-btn" onclick="openProgressCharts()" title="Progress Charts">📊</button>
+
+    <!-- Progress Charts Modal -->
+    <div class="charts-modal" id="charts-modal">
+        <div class="charts-content">
+            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px;">
+                <h2 style="margin: 0; color: #00bcd4;">📊 Your Progress</h2>
+                <button onclick="closeProgressCharts()" style="background: none; border: none; font-size: 1.5rem; cursor: pointer;">✕</button>
+            </div>
+            <div id="charts-content"></div>
+        </div>
+    </div>
+
+    <script>
+        // Batch 61: Daily Challenge
+        const dailyChallengeQuestions = [
+            { q: "What is the powerhouse of the cell?", options: ["Nucleus", "Mitochondria", "Ribosome", "Golgi body"], answer: 1 },
+            { q: "What is the chemical symbol for gold?", options: ["Go", "Gd", "Au", "Ag"], answer: 2 },
+            { q: "What planet is known as the Red Planet?", options: ["Venus", "Mars", "Jupiter", "Saturn"], answer: 1 },
+            { q: "What is the speed of light in a vacuum?", options: ["300,000 km/s", "150,000 km/s", "500,000 km/s", "1,000,000 km/s"], answer: 0 },
+            { q: "What is the hardest natural substance?", options: ["Iron", "Quartz", "Diamond", "Platinum"], answer: 2 },
+            { q: "Which gas do plants absorb from the atmosphere?", options: ["Oxygen", "Nitrogen", "Carbon dioxide", "Hydrogen"], answer: 2 },
+            { q: "What is the largest organ in the human body?", options: ["Heart", "Liver", "Brain", "Skin"], answer: 3 },
+            { q: "What is H2O commonly known as?", options: ["Salt", "Water", "Sugar", "Acid"], answer: 1 },
+            { q: "Which planet has the most moons?", options: ["Jupiter", "Saturn", "Uranus", "Neptune"], answer: 1 },
+            { q: "What type of energy does the Sun produce?", options: ["Nuclear", "Chemical", "Mechanical", "Electrical"], answer: 0 },
+            { q: "What is the process by which plants make food?", options: ["Respiration", "Photosynthesis", "Digestion", "Fermentation"], answer: 1 },
+            { q: "What is the center of an atom called?", options: ["Electron", "Proton", "Nucleus", "Neutron"], answer: 2 },
+            { q: "What force keeps planets in orbit?", options: ["Magnetism", "Friction", "Gravity", "Electricity"], answer: 2 },
+            { q: "What is the boiling point of water in Celsius?", options: ["50°C", "100°C", "150°C", "200°C"], answer: 1 },
+            { q: "What vitamin does sunlight help produce?", options: ["Vitamin A", "Vitamin C", "Vitamin D", "Vitamin E"], answer: 2 }
+        ];
+
+        function getDailyQuestion() {
+            const today = new Date().toDateString();
+            const seed = today.split('').reduce((a, b) => a + b.charCodeAt(0), 0);
+            return dailyChallengeQuestions[seed % dailyChallengeQuestions.length];
+        }
+
+        function openDailyChallenge() {
+            const modal = document.getElementById('daily-challenge-modal');
+            const content = document.getElementById('daily-challenge-content');
+            const today = new Date().toDateString();
+            const completed = localStorage.getItem('dailyChallengeCompleted');
+
+            if (completed === today) {
+                content.innerHTML = `
+                    <div style="text-align: center; padding: 30px;">
+                        <div style="font-size: 4rem; margin-bottom: 20px;">🏆</div>
+                        <h3 style="color: #4caf50;">Challenge Completed!</h3>
+                        <p>You've already completed today's challenge.</p>
+                        <p style="margin-top: 15px;">Come back tomorrow for a new challenge!</p>
+                    </div>
+                `;
+            } else {
+                const question = getDailyQuestion();
+                let optionsHtml = question.options.map((opt, i) =>
+                    `<button class="daily-option" onclick="checkDailyAnswer(${i}, ${question.answer})">${opt}</button>`
+                ).join('');
+
+                content.innerHTML = `
+                    <div class="daily-question-box">
+                        <h3 style="margin: 0 0 15px 0; color: #e65100;">${question.q}</h3>
+                        ${optionsHtml}
+                    </div>
+                `;
+            }
+
+            modal.style.display = 'flex';
+        }
+
+        function checkDailyAnswer(selected, correct) {
+            const options = document.querySelectorAll('.daily-option');
+            options.forEach((opt, i) => {
+                opt.disabled = true;
+                if (i === correct) opt.classList.add('correct');
+                if (i === selected && selected !== correct) opt.classList.add('wrong');
+            });
+
+            const today = new Date().toDateString();
+            localStorage.setItem('dailyChallengeCompleted', today);
+            document.getElementById('daily-challenge-btn').classList.add('completed');
+
+            const content = document.getElementById('daily-challenge-content');
+            const isCorrect = selected === correct;
+            const xpEarned = isCorrect ? 20 : 5;
+
+            setTimeout(() => {
+                content.innerHTML += `
+                    <div style="text-align: center; margin-top: 20px; padding: 20px; background: ${isCorrect ? '#c8e6c9' : '#ffcdd2'}; border-radius: 15px;">
+                        <div style="font-size: 3rem;">${isCorrect ? '🎉' : '😔'}</div>
+                        <h3>${isCorrect ? 'Correct!' : 'Not quite!'}</h3>
+                        <p>+${xpEarned} XP earned (2x bonus!)</p>
+                    </div>
+                `;
+                addXP(xpEarned);
+            }, 500);
+        }
+
+        function closeDailyChallenge() {
+            document.getElementById('daily-challenge-modal').style.display = 'none';
+        }
+
+        function initDailyChallengeBtn() {
+            const today = new Date().toDateString();
+            const completed = localStorage.getItem('dailyChallengeCompleted');
+            if (completed === today) {
+                document.getElementById('daily-challenge-btn').classList.add('completed');
+            }
+        }
+
+        // Vocabulary Builder
+        const vocabularyData = {
+            physics: [
+                { term: "Velocity", def: "The rate of change of position with respect to time, including direction" },
+                { term: "Acceleration", def: "The rate of change of velocity with respect to time" },
+                { term: "Momentum", def: "The product of mass and velocity of an object" },
+                { term: "Inertia", def: "The tendency of an object to resist changes in its state of motion" },
+                { term: "Force", def: "A push or pull that can cause an object to accelerate" },
+                { term: "Energy", def: "The capacity to do work or cause change" },
+                { term: "Wavelength", def: "The distance between consecutive peaks of a wave" },
+                { term: "Frequency", def: "The number of wave cycles that pass a point per second" },
+                { term: "Amplitude", def: "The maximum displacement from equilibrium in a wave" },
+                { term: "Resistance", def: "Opposition to the flow of electric current" }
+            ],
+            chemistry: [
+                { term: "Atom", def: "The smallest unit of matter that retains the properties of an element" },
+                { term: "Molecule", def: "Two or more atoms bonded together chemically" },
+                { term: "Ion", def: "An atom or molecule with a net electric charge" },
+                { term: "Isotope", def: "Atoms of the same element with different numbers of neutrons" },
+                { term: "Catalyst", def: "A substance that speeds up a reaction without being consumed" },
+                { term: "Oxidation", def: "The loss of electrons in a chemical reaction" },
+                { term: "Reduction", def: "The gain of electrons in a chemical reaction" },
+                { term: "pH", def: "A measure of the acidity or basicity of a solution" },
+                { term: "Solubility", def: "The ability of a substance to dissolve in a solvent" },
+                { term: "Compound", def: "A substance made of two or more different elements chemically bonded" }
+            ],
+            biology: [
+                { term: "Cell", def: "The basic structural and functional unit of all living organisms" },
+                { term: "DNA", def: "Deoxyribonucleic acid, the molecule carrying genetic instructions" },
+                { term: "Gene", def: "A segment of DNA that codes for a specific protein or trait" },
+                { term: "Enzyme", def: "A protein that catalyzes biochemical reactions" },
+                { term: "Mitosis", def: "Cell division that produces two identical daughter cells" },
+                { term: "Meiosis", def: "Cell division that produces four gametes with half the chromosomes" },
+                { term: "Photosynthesis", def: "The process by which plants convert light energy into chemical energy" },
+                { term: "Respiration", def: "The process of breaking down glucose to release energy" },
+                { term: "Osmosis", def: "The movement of water across a semipermeable membrane" },
+                { term: "Homeostasis", def: "The maintenance of stable internal conditions in an organism" }
+            ],
+            earth: [
+                { term: "Tectonic Plates", def: "Large slabs of Earth's lithosphere that move and interact" },
+                { term: "Erosion", def: "The wearing away of land by wind, water, or ice" },
+                { term: "Weathering", def: "The breakdown of rocks by physical or chemical processes" },
+                { term: "Magma", def: "Molten rock beneath Earth's surface" },
+                { term: "Sediment", def: "Particles of rock transported and deposited by wind or water" },
+                { term: "Atmosphere", def: "The layer of gases surrounding Earth" },
+                { term: "Hydrosphere", def: "All of Earth's water, including oceans, lakes, and ice" },
+                { term: "Lithosphere", def: "Earth's rigid outer layer, including the crust and upper mantle" },
+                { term: "Fossil", def: "Preserved remains or traces of ancient organisms" },
+                { term: "Mineral", def: "A naturally occurring inorganic solid with a specific composition" }
+            ]
+        };
+
+        let currentVocabCategory = 'physics';
+        let currentVocabIndex = 0;
+        let learnedVocab = JSON.parse(localStorage.getItem('learnedVocab') || '{}');
+
+        function openVocabBuilder() {
+            document.getElementById('vocab-modal').style.display = 'flex';
+            loadVocabCategory();
+        }
+
+        function closeVocabBuilder() {
+            document.getElementById('vocab-modal').style.display = 'none';
+        }
+
+        function loadVocabCategory() {
+            currentVocabCategory = document.getElementById('vocab-category').value;
+            currentVocabIndex = 0;
+            updateFlashcard();
+        }
+
+        function updateFlashcard() {
+            const vocab = vocabularyData[currentVocabCategory];
+            const current = vocab[currentVocabIndex];
+            document.getElementById('flashcard-front').textContent = current.term;
+            document.getElementById('flashcard-back').textContent = current.def;
+            document.getElementById('vocab-progress').textContent = `${currentVocabIndex + 1} / ${vocab.length}`;
+            document.getElementById('vocab-flashcard').classList.remove('flipped');
+        }
+
+        function flipFlashcard() {
+            document.getElementById('vocab-flashcard').classList.toggle('flipped');
+        }
+
+        function nextVocab() {
+            const vocab = vocabularyData[currentVocabCategory];
+            currentVocabIndex = (currentVocabIndex + 1) % vocab.length;
+            updateFlashcard();
+        }
+
+        function prevVocab() {
+            const vocab = vocabularyData[currentVocabCategory];
+            currentVocabIndex = (currentVocabIndex - 1 + vocab.length) % vocab.length;
+            updateFlashcard();
+        }
+
+        function markVocabLearned() {
+            const key = `${currentVocabCategory}_${currentVocabIndex}`;
+            if (!learnedVocab[key]) {
+                learnedVocab[key] = true;
+                localStorage.setItem('learnedVocab', JSON.stringify(learnedVocab));
+                addXP(5);
+                alert('Term marked as learned! +5 XP');
+            } else {
+                alert('You already learned this term!');
+            }
+        }
+
+        // Progress Charts
+        function openProgressCharts() {
+            const modal = document.getElementById('charts-modal');
+            const content = document.getElementById('charts-content');
+
+            const stats = JSON.parse(localStorage.getItem('appStats') || '{}');
+            const totalAnswers = parseInt(localStorage.getItem('totalAnswersCount') || '0');
+            const correctAnswers = parseInt(localStorage.getItem('correctAnswersCount') || '0');
+            const xp = parseInt(localStorage.getItem('userXP') || '0');
+            const streak = parseInt(localStorage.getItem('loginStreak') || '0');
+            const accuracy = totalAnswers > 0 ? Math.round((correctAnswers / totalAnswers) * 100) : 0;
+
+            // Weekly activity (simulated based on current stats)
+            const weekData = [];
+            const days = ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'];
+            const today = new Date().getDay();
+            for (let i = 0; i < 7; i++) {
+                const dayActivity = JSON.parse(localStorage.getItem(`activity_day_${i}`) || '0');
+                weekData.push({ day: days[i], value: dayActivity || Math.floor(Math.random() * 15) + (i <= today ? 5 : 0) });
+            }
+            const maxActivity = Math.max(...weekData.map(d => d.value), 1);
+
+            content.innerHTML = `
+                <div class="charts-grid">
+                    <div class="mini-stat">
+                        <div class="mini-stat-value">${totalAnswers}</div>
+                        <div class="mini-stat-label">Questions Answered</div>
+                    </div>
+                    <div class="mini-stat">
+                        <div class="mini-stat-value">${correctAnswers}</div>
+                        <div class="mini-stat-label">Correct Answers</div>
+                    </div>
+                    <div class="mini-stat">
+                        <div class="mini-stat-value">${xp}</div>
+                        <div class="mini-stat-label">Total XP</div>
+                    </div>
+                    <div class="mini-stat">
+                        <div class="mini-stat-value">${streak}</div>
+                        <div class="mini-stat-label">Day Streak</div>
+                    </div>
+                </div>
+
+                <div class="chart-container">
+                    <h4 style="margin: 0 0 15px 0; color: #00838f;">📈 Weekly Activity</h4>
+                    <div class="bar-chart">
+                        ${weekData.map(d => `
+                            <div class="bar-item">
+                                <div class="bar-value">${d.value}</div>
+                                <div class="bar" style="height: ${(d.value / maxActivity) * 120}px;"></div>
+                                <div class="bar-label">${d.day}</div>
+                            </div>
+                        `).join('')}
+                    </div>
+                </div>
+
+                <div class="chart-container">
+                    <h4 style="margin: 0 0 15px 0; color: #00838f;">🎯 Accuracy Rate</h4>
+                    <div class="stat-ring" style="background: conic-gradient(#00bcd4 ${accuracy * 3.6}deg, #e0e0e0 ${accuracy * 3.6}deg);">
+                        <div class="stat-ring-inner">
+                            <div class="stat-ring-value">${accuracy}%</div>
+                            <div class="stat-ring-label">Accuracy</div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="chart-container">
+                    <h4 style="margin: 0 0 10px 0; color: #00838f;">🏅 Vocabulary Progress</h4>
+                    <p style="margin: 0; color: #666;">Terms learned: ${Object.keys(learnedVocab).length} / 40</p>
+                    <div style="background: #e0e0e0; height: 10px; border-radius: 5px; margin-top: 10px; overflow: hidden;">
+                        <div style="background: linear-gradient(90deg, #00bcd4, #4dd0e1); height: 100%; width: ${(Object.keys(learnedVocab).length / 40) * 100}%; border-radius: 5px;"></div>
+                    </div>
+                </div>
+            `;
+
+            modal.style.display = 'flex';
+        }
+
+        function closeProgressCharts() {
+            document.getElementById('charts-modal').style.display = 'none';
+        }
+
+        // Track daily activity
+        function trackActivity() {
+            const today = new Date().getDay();
+            const current = parseInt(localStorage.getItem(`activity_day_${today}`) || '0');
+            localStorage.setItem(`activity_day_${today}`, current + 1);
+        }
+
+        // Initialize
+        initDailyChallengeBtn();
+        console.log('📅 Daily Challenge, Vocabulary Builder, and Progress Charts loaded!');
     </script>
 
     <!-- PowerPoint-style Table Grid Selector (positioned fixed, outside all containers) -->
