@@ -5808,6 +5808,29 @@
                         <div class="streak-bonus-multiplier" id="streak-bonus-multiplier">+10% XP Bonus</div>
                     </div>
 
+                    <!-- Smart Recommendation Card -->
+                    <div class="recommendation-card" id="smart-recommendation-card">
+                        <div class="recommendation-header">
+                            <span>💡</span> <span id="recommendation-title">Recommended for You</span>
+                        </div>
+                        <div class="recommendation-content" id="recommendation-content">
+                            Loading personalized suggestion...
+                        </div>
+                        <button class="recommendation-btn" id="recommendation-btn" onclick="followRecommendation()">
+                            Start Now
+                        </button>
+                    </div>
+
+                    <!-- Motivational Tip Card -->
+                    <div id="motivational-tip-card" style="background: linear-gradient(135deg, #a8edea 0%, #fed6e3 100%); border-radius: 16px; padding: 12px 16px; margin-bottom: 1rem; color: #333;">
+                        <div style="display: flex; align-items: center; gap: 8px; font-weight: 600; margin-bottom: 6px;">
+                            <span id="tip-emoji">💪</span> <span id="tip-title">Daily Tip</span>
+                        </div>
+                        <div id="tip-content" style="font-size: 0.85rem; line-height: 1.4;">
+                            Practice makes progress! Every question you answer brings you closer to mastery.
+                        </div>
+                    </div>
+
                     <!-- Animated Practice Mode Button -->
                     <button id="btn-sidebar-practice" class="practice-btn-animated tooltip-container" onclick="switchTab('practice', this)" data-tooltip="Enter practice mode to work through questions at your own pace">
                         <span class="practice-btn-icon">🎯</span>
@@ -21586,6 +21609,331 @@
         };
 
         console.log('🎮 Gamification system loaded!');
+    </script>
+
+    <!-- =====================================================
+         SMART RECOMMENDATIONS & MOTIVATIONAL TIPS
+         ===================================================== -->
+    <script>
+        // =====================================================
+        // SMART RECOMMENDATION SYSTEM
+        // =====================================================
+        window.RECOMMENDATIONS = {
+            types: [
+                { id: 'review_due', title: 'Review Time', icon: '🔄', priority: 10 },
+                { id: 'weak_topic', title: 'Focus Area', icon: '🎯', priority: 9 },
+                { id: 'new_challenge', title: 'New Challenge', icon: '🚀', priority: 7 },
+                { id: 'daily_goal', title: 'Daily Goal', icon: '📅', priority: 8 },
+                { id: 'streak_protect', title: 'Keep Streak', icon: '🔥', priority: 10 },
+                { id: 'level_up_close', title: 'Almost There', icon: '⬆️', priority: 8 },
+                { id: 'achievement_close', title: 'Badge Nearby', icon: '🏅', priority: 6 }
+            ]
+        };
+
+        window.currentRecommendation = null;
+
+        window.generateSmartRecommendation = function() {
+            const state = window.gamificationState;
+            const recommendations = [];
+
+            // Check for review questions due
+            const reviewCount = window.practiceState?.reviewDueCount || 0;
+            if (reviewCount > 0) {
+                recommendations.push({
+                    type: 'review_due',
+                    title: 'Review Time',
+                    content: `You have ${reviewCount} question${reviewCount > 1 ? 's' : ''} due for review. Reviewing helps strengthen memory!`,
+                    action: 'review',
+                    priority: 10
+                });
+            }
+
+            // Check for daily challenge progress
+            const challenge = state.dailyChallenge;
+            if (challenge && !challenge.completed) {
+                const remaining = challenge.target - state.dailyChallengeProgress;
+                if (remaining > 0) {
+                    recommendations.push({
+                        type: 'daily_goal',
+                        title: 'Daily Challenge',
+                        content: `${remaining} more to complete today's challenge and earn +${challenge.reward} XP!`,
+                        action: 'practice',
+                        priority: 8
+                    });
+                }
+            }
+
+            // Check for level up proximity
+            const currentLevel = calculateLevel(state.xp);
+            const nextLevelXP = getXPForNextLevel(currentLevel.level);
+            if (nextLevelXP) {
+                const xpNeeded = nextLevelXP - state.xp;
+                if (xpNeeded <= 50) {
+                    recommendations.push({
+                        type: 'level_up_close',
+                        title: 'Almost Level Up!',
+                        content: `Just ${xpNeeded} XP away from Level ${currentLevel.level + 1}! Answer a few questions to level up!`,
+                        action: 'practice',
+                        priority: 9
+                    });
+                }
+            }
+
+            // Check streak protection (if user hasn't practiced today)
+            if (state.loginStreak >= 3) {
+                const today = new Date().toDateString();
+                const lastPractice = localStorage.getItem('lastPracticeDate');
+                if (lastPractice !== today) {
+                    recommendations.push({
+                        type: 'streak_protect',
+                        title: 'Protect Your Streak!',
+                        content: `You have a ${state.loginStreak}-day streak! Practice now to keep it going!`,
+                        action: 'practice',
+                        priority: 10
+                    });
+                }
+            }
+
+            // Check for achievement proximity
+            const achievements = window.GAMIFICATION_CONFIG.ACHIEVEMENTS;
+            achievements.forEach(ach => {
+                if (!state.unlockedAchievements.includes(ach.id)) {
+                    // Check specific achievements that are close
+                    if (ach.id === 'getting_started' && state.totalAttempts >= 7) {
+                        recommendations.push({
+                            type: 'achievement_close',
+                            title: 'Badge Nearby!',
+                            content: `Answer ${10 - state.totalAttempts} more questions to unlock "Getting Started" badge!`,
+                            action: 'practice',
+                            priority: 7
+                        });
+                    }
+                    if (ach.id === 'on_a_roll' && state.currentStreak >= 3) {
+                        recommendations.push({
+                            type: 'achievement_close',
+                            title: 'On Fire!',
+                            content: `${5 - state.currentStreak} more correct answers in a row to unlock "On a Roll" badge!`,
+                            action: 'practice',
+                            priority: 8
+                        });
+                    }
+                }
+            });
+
+            // Default recommendation if nothing specific
+            if (recommendations.length === 0) {
+                const defaultRecs = [
+                    { type: 'new_challenge', title: 'Ready to Learn?', content: 'Start practicing to earn XP and climb the leaderboard!', action: 'practice', priority: 5 },
+                    { type: 'new_challenge', title: 'Explore Topics', content: 'Try a new topic to broaden your science knowledge!', action: 'practice', priority: 5 },
+                    { type: 'new_challenge', title: 'Challenge Yourself', content: 'Push your limits with some challenging questions!', action: 'practice', priority: 5 }
+                ];
+                recommendations.push(defaultRecs[Math.floor(Math.random() * defaultRecs.length)]);
+            }
+
+            // Sort by priority and pick the best
+            recommendations.sort((a, b) => b.priority - a.priority);
+            return recommendations[0];
+        };
+
+        window.updateRecommendationDisplay = function() {
+            const recommendation = generateSmartRecommendation();
+            window.currentRecommendation = recommendation;
+
+            const titleEl = document.getElementById('recommendation-title');
+            const contentEl = document.getElementById('recommendation-content');
+            const btnEl = document.getElementById('recommendation-btn');
+
+            if (titleEl) titleEl.textContent = recommendation.title;
+            if (contentEl) contentEl.textContent = recommendation.content;
+            if (btnEl) {
+                if (recommendation.action === 'review') {
+                    btnEl.textContent = '📖 Review Now';
+                } else {
+                    btnEl.textContent = '🎮 Start Now';
+                }
+            }
+        };
+
+        window.followRecommendation = function() {
+            const rec = window.currentRecommendation;
+            if (!rec) return;
+
+            if (rec.action === 'review') {
+                // Navigate to review questions
+                const practiceBtn = document.getElementById('btn-sidebar-practice');
+                if (practiceBtn) {
+                    switchTab('practice', practiceBtn);
+                    // Could trigger review mode here
+                }
+            } else {
+                // Navigate to practice mode
+                const practiceBtn = document.getElementById('btn-sidebar-practice');
+                if (practiceBtn) {
+                    switchTab('practice', practiceBtn);
+                }
+            }
+
+            // Mark practice date
+            localStorage.setItem('lastPracticeDate', new Date().toDateString());
+        };
+
+        // =====================================================
+        // MOTIVATIONAL TIPS SYSTEM
+        // =====================================================
+        window.MOTIVATIONAL_TIPS = [
+            { emoji: '💪', title: 'Stay Strong', content: 'Every mistake is a learning opportunity. Keep going!' },
+            { emoji: '🧠', title: 'Brain Power', content: 'Science shows that practicing retrieval strengthens memory more than re-reading!' },
+            { emoji: '🎯', title: 'Focus Tip', content: 'Try answering 5 questions without breaks for better concentration.' },
+            { emoji: '⭐', title: 'Star Tip', content: 'Correct answers earn more XP. Take your time to think carefully!' },
+            { emoji: '🔥', title: 'Streak Power', content: 'Daily practice builds momentum. Your streak bonus increases your XP!' },
+            { emoji: '🏆', title: 'Champion Mindset', content: 'Top students review their mistakes. Check the explanations after each question!' },
+            { emoji: '📚', title: 'Study Smart', content: 'Mix up topics to improve your ability to recall information during exams.' },
+            { emoji: '🌟', title: 'You Got This', content: 'Believe in yourself! Every question you answer makes you smarter.' },
+            { emoji: '⏰', title: 'Perfect Timing', content: 'Short, focused study sessions are more effective than long cramming sessions.' },
+            { emoji: '🎮', title: 'Level Up', content: 'Completing daily challenges is the fastest way to gain XP and level up!' },
+            { emoji: '💡', title: 'Pro Tip', content: 'Read the question twice before answering. Details matter in science!' },
+            { emoji: '🌈', title: 'Positive Vibes', content: 'A positive attitude helps your brain absorb information better!' },
+            { emoji: '🔬', title: 'Be Curious', content: 'Scientists ask questions. Be curious about why things work the way they do!' },
+            { emoji: '📈', title: 'Progress', content: 'Check "My Progress" to see how much you have improved over time!' },
+            { emoji: '🤝', title: 'Learn Together', content: 'Compare your ranking on the Leaderboard and challenge your friends!' },
+            { emoji: '🎁', title: 'Rewards', content: 'Complete achievements to unlock special badges and bonus XP!' },
+            { emoji: '🧪', title: 'Experiment', content: 'Try both MCQ and OEQ modes to master different question types!' },
+            { emoji: '🌱', title: 'Growth', content: 'Every expert was once a beginner. Keep practicing and you will improve!' }
+        ];
+
+        window.currentTipIndex = 0;
+
+        window.updateMotivationalTip = function() {
+            const tips = window.MOTIVATIONAL_TIPS;
+            const tip = tips[window.currentTipIndex];
+
+            const emojiEl = document.getElementById('tip-emoji');
+            const titleEl = document.getElementById('tip-title');
+            const contentEl = document.getElementById('tip-content');
+
+            if (emojiEl) emojiEl.textContent = tip.emoji;
+            if (titleEl) titleEl.textContent = tip.title;
+            if (contentEl) contentEl.textContent = tip.content;
+
+            // Rotate to next tip
+            window.currentTipIndex = (window.currentTipIndex + 1) % tips.length;
+        };
+
+        // =====================================================
+        // ENCOURAGEMENT MESSAGES AFTER ANSWERS
+        // =====================================================
+        window.ENCOURAGEMENT_MESSAGES = {
+            correct: [
+                { emoji: '🎉', message: 'Excellent work!' },
+                { emoji: '⭐', message: 'You nailed it!' },
+                { emoji: '🔥', message: 'On fire!' },
+                { emoji: '💯', message: 'Perfect!' },
+                { emoji: '🏆', message: 'Champion answer!' },
+                { emoji: '✨', message: 'Brilliant!' },
+                { emoji: '🚀', message: 'Stellar work!' },
+                { emoji: '💪', message: 'Strong answer!' },
+                { emoji: '🌟', message: 'Superstar!' },
+                { emoji: '👏', message: 'Great job!' }
+            ],
+            incorrect: [
+                { emoji: '💪', message: 'Keep trying!' },
+                { emoji: '🌱', message: 'Learning in progress!' },
+                { emoji: '🔄', message: 'Try again next time!' },
+                { emoji: '📚', message: 'Now you know!' },
+                { emoji: '🎯', message: 'Getting closer!' },
+                { emoji: '⬆️', message: 'Room to grow!' },
+                { emoji: '🧠', message: 'Brain training!' },
+                { emoji: '🌈', message: 'Every attempt counts!' }
+            ],
+            streak: [
+                { emoji: '🔥', message: '{n} in a row! Keep it up!' },
+                { emoji: '⚡', message: '{n} streak! You are unstoppable!' },
+                { emoji: '🎯', message: 'Perfect streak of {n}!' },
+                { emoji: '💎', message: '{n} correct! Brilliant!' }
+            ]
+        };
+
+        window.showEncouragementMessage = function(isCorrect, streakCount) {
+            let messages, message;
+
+            if (isCorrect && streakCount >= 3) {
+                messages = window.ENCOURAGEMENT_MESSAGES.streak;
+                const msg = messages[Math.floor(Math.random() * messages.length)];
+                message = { emoji: msg.emoji, message: msg.message.replace('{n}', streakCount) };
+            } else if (isCorrect) {
+                messages = window.ENCOURAGEMENT_MESSAGES.correct;
+                message = messages[Math.floor(Math.random() * messages.length)];
+            } else {
+                messages = window.ENCOURAGEMENT_MESSAGES.incorrect;
+                message = messages[Math.floor(Math.random() * messages.length)];
+            }
+
+            // Show toast with encouragement
+            if (window.showToast) {
+                showToast(`${message.emoji} ${message.message}`, isCorrect ? 'success' : 'info');
+            }
+        };
+
+        // =====================================================
+        // SKELETON LOADING HELPERS
+        // =====================================================
+        window.showSkeletonLoading = function(containerId, count = 3) {
+            const container = document.getElementById(containerId);
+            if (!container) return;
+
+            let skeletonHTML = '';
+            for (let i = 0; i < count; i++) {
+                skeletonHTML += `
+                    <div class="skeleton-card">
+                        <div class="skeleton skeleton-text"></div>
+                        <div class="skeleton skeleton-text medium"></div>
+                        <div class="skeleton skeleton-text short"></div>
+                    </div>
+                `;
+            }
+            container.innerHTML = skeletonHTML;
+        };
+
+        window.hideSkeletonLoading = function(containerId) {
+            const container = document.getElementById(containerId);
+            if (container && container.querySelector('.skeleton-card')) {
+                container.innerHTML = '';
+            }
+        };
+
+        // =====================================================
+        // INITIALIZATION
+        // =====================================================
+        document.addEventListener('DOMContentLoaded', () => {
+            // Initialize motivational tip with random start
+            window.currentTipIndex = Math.floor(Math.random() * window.MOTIVATIONAL_TIPS.length);
+            updateMotivationalTip();
+
+            // Rotate tips every 30 seconds
+            setInterval(updateMotivationalTip, 30000);
+
+            // Wait for auth then update recommendation
+            setTimeout(() => {
+                if (window.auth?.currentUser) {
+                    updateRecommendationDisplay();
+                    // Update recommendation every 2 minutes
+                    setInterval(updateRecommendationDisplay, 120000);
+                }
+            }, 3000);
+        });
+
+        // Hook into answer handling for encouragement messages
+        const originalHandleQuestionAnswer = window.handleQuestionAnswer;
+        window.handleQuestionAnswer = function(isCorrect, questionElement, questionType) {
+            if (originalHandleQuestionAnswer) {
+                originalHandleQuestionAnswer(isCorrect, questionElement, questionType);
+            }
+            // Show encouragement message
+            const streakCount = window.gamificationState?.currentStreak || 0;
+            showEncouragementMessage(isCorrect, streakCount);
+        };
+
+        console.log('💡 Smart recommendations and tips loaded!');
     </script>
 
     <!-- PowerPoint-style Table Grid Selector (positioned fixed, outside all containers) -->
