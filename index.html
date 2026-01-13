@@ -9434,6 +9434,358 @@
         .floating-export-btn:hover {
             transform: scale(1.1);
         }
+
+        /* ========== BATCH 23: Quiz Timer, Power-ups, Daily Login ========== */
+
+        /* Quiz Timer */
+        .quiz-timer {
+            position: fixed;
+            top: 100px;
+            right: 20px;
+            background: white;
+            border-radius: 20px;
+            padding: 15px 25px;
+            box-shadow: 0 10px 40px rgba(0,0,0,0.15);
+            z-index: 9000;
+            display: none;
+            text-align: center;
+        }
+
+        .quiz-timer.active {
+            display: block;
+            animation: timerPulse 1s ease;
+        }
+
+        @keyframes timerPulse {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.05); }
+        }
+
+        .timer-display {
+            font-size: 2.5rem;
+            font-weight: 700;
+            font-family: 'Courier New', monospace;
+        }
+
+        .timer-display.warning {
+            color: #ff9800;
+            animation: timerWarning 0.5s infinite;
+        }
+
+        .timer-display.danger {
+            color: #f44336;
+            animation: timerWarning 0.3s infinite;
+        }
+
+        @keyframes timerWarning {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.5; }
+        }
+
+        .timer-label {
+            font-size: 0.8rem;
+            color: #666;
+            margin-top: 5px;
+        }
+
+        .timer-progress {
+            width: 100%;
+            height: 6px;
+            background: #e0e0e0;
+            border-radius: 3px;
+            margin-top: 10px;
+            overflow: hidden;
+        }
+
+        .timer-progress-bar {
+            height: 100%;
+            background: linear-gradient(90deg, #4CAF50, #8BC34A);
+            border-radius: 3px;
+            transition: width 1s linear;
+        }
+
+        .timer-progress-bar.warning {
+            background: linear-gradient(90deg, #ff9800, #ffc107);
+        }
+
+        .timer-progress-bar.danger {
+            background: linear-gradient(90deg, #f44336, #ff5722);
+        }
+
+        /* Power-ups */
+        .powerups-bar {
+            position: fixed;
+            bottom: 20px;
+            left: 50%;
+            transform: translateX(-50%);
+            background: white;
+            border-radius: 30px;
+            padding: 10px 20px;
+            box-shadow: 0 10px 40px rgba(0,0,0,0.15);
+            z-index: 9000;
+            display: none;
+            gap: 15px;
+        }
+
+        .powerups-bar.active {
+            display: flex;
+        }
+
+        .powerup-item {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            position: relative;
+        }
+
+        .powerup-item:hover {
+            transform: translateY(-5px);
+        }
+
+        .powerup-item.disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+        }
+
+        .powerup-icon {
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.5rem;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+        }
+
+        .powerup-icon.hint {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        }
+
+        .powerup-icon.freeze {
+            background: linear-gradient(135deg, #00d2ff 0%, #3a7bd5 100%);
+        }
+
+        .powerup-icon.double {
+            background: linear-gradient(135deg, #f5af19 0%, #f12711 100%);
+        }
+
+        .powerup-icon.skip {
+            background: linear-gradient(135deg, #11998e 0%, #38ef7d 100%);
+        }
+
+        .powerup-icon.shield {
+            background: linear-gradient(135deg, #ee0979 0%, #ff6a00 100%);
+        }
+
+        .powerup-count {
+            position: absolute;
+            top: -5px;
+            right: -5px;
+            background: #f44336;
+            color: white;
+            font-size: 0.7rem;
+            font-weight: 700;
+            width: 20px;
+            height: 20px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .powerup-name {
+            font-size: 0.7rem;
+            margin-top: 5px;
+            color: #666;
+        }
+
+        .powerup-tooltip {
+            position: absolute;
+            bottom: 80px;
+            left: 50%;
+            transform: translateX(-50%);
+            background: #333;
+            color: white;
+            padding: 8px 15px;
+            border-radius: 8px;
+            font-size: 0.8rem;
+            white-space: nowrap;
+            opacity: 0;
+            visibility: hidden;
+            transition: all 0.3s ease;
+        }
+
+        .powerup-item:hover .powerup-tooltip {
+            opacity: 1;
+            visibility: visible;
+        }
+
+        /* Daily Login Rewards */
+        .login-rewards-modal {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0,0,0,0.8);
+            display: none;
+            justify-content: center;
+            align-items: center;
+            z-index: 10001;
+        }
+
+        .login-rewards-content {
+            background: white;
+            border-radius: 25px;
+            padding: 30px;
+            max-width: 500px;
+            width: 90%;
+            text-align: center;
+            animation: rewardBounce 0.5s ease;
+        }
+
+        @keyframes rewardBounce {
+            0% { transform: scale(0.5); opacity: 0; }
+            70% { transform: scale(1.1); }
+            100% { transform: scale(1); opacity: 1; }
+        }
+
+        .login-rewards-header {
+            margin-bottom: 20px;
+        }
+
+        .login-rewards-header h2 {
+            margin: 0;
+            color: #333;
+            font-size: 1.5rem;
+        }
+
+        .login-streak-badge {
+            display: inline-block;
+            background: linear-gradient(135deg, #f5af19 0%, #f12711 100%);
+            color: white;
+            padding: 8px 20px;
+            border-radius: 20px;
+            margin-top: 10px;
+            font-weight: 600;
+        }
+
+        .daily-rewards-grid {
+            display: grid;
+            grid-template-columns: repeat(7, 1fr);
+            gap: 8px;
+            margin: 20px 0;
+        }
+
+        .daily-reward-day {
+            background: #f8f9fa;
+            border-radius: 12px;
+            padding: 10px 5px;
+            text-align: center;
+            transition: all 0.3s ease;
+        }
+
+        .daily-reward-day.claimed {
+            background: linear-gradient(135deg, #4CAF50 0%, #8BC34A 100%);
+            color: white;
+        }
+
+        .daily-reward-day.today {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            transform: scale(1.1);
+            box-shadow: 0 5px 20px rgba(102, 126, 234, 0.4);
+        }
+
+        .daily-reward-day.locked {
+            opacity: 0.5;
+        }
+
+        .reward-day-num {
+            font-size: 0.7rem;
+            opacity: 0.8;
+        }
+
+        .reward-day-icon {
+            font-size: 1.3rem;
+            margin: 5px 0;
+        }
+
+        .reward-day-xp {
+            font-size: 0.7rem;
+            font-weight: 600;
+        }
+
+        .claim-reward-btn {
+            margin-top: 20px;
+            padding: 15px 40px;
+            border: none;
+            border-radius: 30px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            font-size: 1.1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .claim-reward-btn:hover {
+            transform: scale(1.05);
+            box-shadow: 0 10px 30px rgba(102, 126, 234, 0.4);
+        }
+
+        .claim-reward-btn:disabled {
+            background: #ccc;
+            cursor: not-allowed;
+            transform: none;
+            box-shadow: none;
+        }
+
+        /* Floating buttons for Batch 23 */
+        .floating-timer-btn {
+            position: fixed;
+            bottom: 700px;
+            right: 20px;
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, #f44336 0%, #d32f2f 100%);
+            color: white;
+            border: none;
+            font-size: 1.3rem;
+            cursor: pointer;
+            box-shadow: 0 5px 20px rgba(244, 67, 54, 0.4);
+            z-index: 999;
+            transition: all 0.3s ease;
+        }
+
+        .floating-timer-btn:hover {
+            transform: scale(1.1);
+        }
+
+        .floating-powerups-btn {
+            position: fixed;
+            bottom: 760px;
+            right: 20px;
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, #9c27b0 0%, #7b1fa2 100%);
+            color: white;
+            border: none;
+            font-size: 1.3rem;
+            cursor: pointer;
+            box-shadow: 0 5px 20px rgba(156, 39, 176, 0.4);
+            z-index: 999;
+            transition: all 0.3s ease;
+        }
+
+        .floating-powerups-btn:hover {
+            transform: scale(1.1);
+        }
     </style>
 </head>
 
@@ -34787,6 +35139,394 @@ Science Made Fun!
         });
 
         console.log('📝 Study Notes, Bookmarks, and Progress Export loaded!');
+    </script>
+
+    <!-- ========== BATCH 23: Quiz Timer, Power-ups, Daily Login ========== -->
+
+    <!-- Quiz Timer -->
+    <div class="quiz-timer" id="quiz-timer">
+        <div class="timer-display" id="timer-display">2:00</div>
+        <div class="timer-label">Time Remaining</div>
+        <div class="timer-progress">
+            <div class="timer-progress-bar" id="timer-progress-bar" style="width: 100%"></div>
+        </div>
+    </div>
+
+    <!-- Power-ups Bar -->
+    <div class="powerups-bar" id="powerups-bar">
+        <div class="powerup-item" onclick="usePowerup('hint')">
+            <div class="powerup-icon hint">💡</div>
+            <span class="powerup-count" id="hint-count">3</span>
+            <span class="powerup-name">Hint</span>
+            <div class="powerup-tooltip">Reveal a hint for the question</div>
+        </div>
+        <div class="powerup-item" onclick="usePowerup('freeze')">
+            <div class="powerup-icon freeze">❄️</div>
+            <span class="powerup-count" id="freeze-count">2</span>
+            <span class="powerup-name">Freeze</span>
+            <div class="powerup-tooltip">Freeze timer for 30 seconds</div>
+        </div>
+        <div class="powerup-item" onclick="usePowerup('double')">
+            <div class="powerup-icon double">✨</div>
+            <span class="powerup-count" id="double-count">1</span>
+            <span class="powerup-name">2x XP</span>
+            <div class="powerup-tooltip">Double XP for next correct answer</div>
+        </div>
+        <div class="powerup-item" onclick="usePowerup('skip')">
+            <div class="powerup-icon skip">⏭️</div>
+            <span class="powerup-count" id="skip-count">2</span>
+            <span class="powerup-name">Skip</span>
+            <div class="powerup-tooltip">Skip this question without penalty</div>
+        </div>
+        <div class="powerup-item" onclick="usePowerup('shield')">
+            <div class="powerup-icon shield">🛡️</div>
+            <span class="powerup-count" id="shield-count">1</span>
+            <span class="powerup-name">Shield</span>
+            <div class="powerup-tooltip">Protect streak from wrong answer</div>
+        </div>
+    </div>
+
+    <!-- Daily Login Rewards Modal -->
+    <div class="login-rewards-modal" id="login-rewards-modal">
+        <div class="login-rewards-content">
+            <div class="login-rewards-header">
+                <h2>🎁 Daily Login Rewards</h2>
+                <div class="login-streak-badge" id="login-streak-badge">🔥 Day 1</div>
+            </div>
+            <div class="daily-rewards-grid" id="daily-rewards-grid">
+                <!-- Populated by JavaScript -->
+            </div>
+            <button class="claim-reward-btn" id="claim-reward-btn" onclick="claimDailyReward()">
+                Claim Today's Reward!
+            </button>
+            <button onclick="closeLoginRewards()" style="margin-top: 10px; padding: 10px 20px; border: none; background: transparent; color: #666; cursor: pointer;">Maybe Later</button>
+        </div>
+    </div>
+
+    <!-- Floating Action Buttons for Batch 23 -->
+    <button class="floating-timer-btn" onclick="toggleQuizTimer()" title="Quiz Timer">⏱️</button>
+    <button class="floating-powerups-btn" onclick="togglePowerupsBar()" title="Power-ups">⚡</button>
+
+    <script>
+        // ========== BATCH 23: Quiz Timer, Power-ups, Daily Login ==========
+
+        // Quiz Timer Functions
+        let timerInterval = null;
+        let timeRemaining = 120; // 2 minutes default
+        let maxTime = 120;
+        let timerActive = false;
+        let timerFrozen = false;
+
+        function toggleQuizTimer() {
+            const timer = document.getElementById('quiz-timer');
+            if (timer.classList.contains('active')) {
+                stopQuizTimer();
+            } else {
+                startQuizTimer();
+            }
+        }
+
+        function startQuizTimer(duration = 120) {
+            timeRemaining = duration;
+            maxTime = duration;
+            timerActive = true;
+            timerFrozen = false;
+
+            document.getElementById('quiz-timer').classList.add('active');
+            updateTimerDisplay();
+
+            timerInterval = setInterval(() => {
+                if (!timerFrozen && timeRemaining > 0) {
+                    timeRemaining--;
+                    updateTimerDisplay();
+                } else if (timeRemaining <= 0) {
+                    timerExpired();
+                }
+            }, 1000);
+        }
+
+        function stopQuizTimer() {
+            timerActive = false;
+            clearInterval(timerInterval);
+            document.getElementById('quiz-timer').classList.remove('active');
+        }
+
+        function updateTimerDisplay() {
+            const minutes = Math.floor(timeRemaining / 60);
+            const seconds = timeRemaining % 60;
+            const display = document.getElementById('timer-display');
+            const progressBar = document.getElementById('timer-progress-bar');
+
+            display.textContent = `${minutes}:${seconds.toString().padStart(2, '0')}`;
+
+            const percentage = (timeRemaining / maxTime) * 100;
+            progressBar.style.width = percentage + '%';
+
+            // Update visual warnings
+            display.classList.remove('warning', 'danger');
+            progressBar.classList.remove('warning', 'danger');
+
+            if (timeRemaining <= 10) {
+                display.classList.add('danger');
+                progressBar.classList.add('danger');
+            } else if (timeRemaining <= 30) {
+                display.classList.add('warning');
+                progressBar.classList.add('warning');
+            }
+        }
+
+        function timerExpired() {
+            stopQuizTimer();
+            alert('⏰ Time\'s up! Try to be faster next time.');
+        }
+
+        function freezeTimer(duration = 30) {
+            if (!timerActive) return;
+            timerFrozen = true;
+            document.getElementById('timer-display').style.color = '#00d2ff';
+            setTimeout(() => {
+                timerFrozen = false;
+                document.getElementById('timer-display').style.color = '';
+            }, duration * 1000);
+        }
+
+        // Power-ups Functions
+        let powerups = JSON.parse(localStorage.getItem('sciencePowerups')) || {
+            hint: 3,
+            freeze: 2,
+            double: 1,
+            skip: 2,
+            shield: 1
+        };
+        let doubleXPActive = false;
+        let shieldActive = false;
+
+        function togglePowerupsBar() {
+            const bar = document.getElementById('powerups-bar');
+            bar.classList.toggle('active');
+            if (bar.classList.contains('active')) {
+                updatePowerupsDisplay();
+            }
+        }
+
+        function updatePowerupsDisplay() {
+            Object.keys(powerups).forEach(type => {
+                const countEl = document.getElementById(type + '-count');
+                if (countEl) {
+                    countEl.textContent = powerups[type];
+                    const item = countEl.closest('.powerup-item');
+                    if (powerups[type] <= 0) {
+                        item.classList.add('disabled');
+                    } else {
+                        item.classList.remove('disabled');
+                    }
+                }
+            });
+        }
+
+        function usePowerup(type) {
+            if (powerups[type] <= 0) {
+                showPowerupToast('No more ' + type + ' power-ups!', 'error');
+                return;
+            }
+
+            powerups[type]--;
+            localStorage.setItem('sciencePowerups', JSON.stringify(powerups));
+            updatePowerupsDisplay();
+
+            switch (type) {
+                case 'hint':
+                    showPowerupToast('💡 Hint revealed!', 'success');
+                    // Would integrate with question system
+                    break;
+                case 'freeze':
+                    freezeTimer(30);
+                    showPowerupToast('❄️ Timer frozen for 30 seconds!', 'success');
+                    break;
+                case 'double':
+                    doubleXPActive = true;
+                    showPowerupToast('✨ 2x XP active for next answer!', 'success');
+                    setTimeout(() => {
+                        if (doubleXPActive) {
+                            doubleXPActive = false;
+                            showPowerupToast('2x XP expired', 'warning');
+                        }
+                    }, 60000);
+                    break;
+                case 'skip':
+                    showPowerupToast('⏭️ Question skipped!', 'success');
+                    break;
+                case 'shield':
+                    shieldActive = true;
+                    showPowerupToast('🛡️ Shield active! Your streak is protected.', 'success');
+                    break;
+            }
+        }
+
+        function showPowerupToast(message, type = 'info') {
+            const toast = document.createElement('div');
+            const bgColor = type === 'success' ? '#4CAF50' : type === 'error' ? '#f44336' : type === 'warning' ? '#ff9800' : '#333';
+            toast.style.cssText = `
+                position: fixed;
+                top: 100px;
+                left: 50%;
+                transform: translateX(-50%);
+                background: ${bgColor};
+                color: white;
+                padding: 15px 25px;
+                border-radius: 30px;
+                font-weight: 600;
+                z-index: 99999;
+                animation: slideDown 0.3s ease;
+            `;
+            toast.textContent = message;
+            document.body.appendChild(toast);
+            setTimeout(() => toast.remove(), 2500);
+        }
+
+        function addPowerups(type, amount) {
+            powerups[type] = (powerups[type] || 0) + amount;
+            localStorage.setItem('sciencePowerups', JSON.stringify(powerups));
+            updatePowerupsDisplay();
+        }
+
+        // Daily Login Rewards
+        const dailyRewards = [
+            { day: 1, icon: '⭐', xp: 50, powerup: null },
+            { day: 2, icon: '🌟', xp: 75, powerup: null },
+            { day: 3, icon: '💡', xp: 100, powerup: { type: 'hint', amount: 1 } },
+            { day: 4, icon: '🔥', xp: 125, powerup: null },
+            { day: 5, icon: '❄️', xp: 150, powerup: { type: 'freeze', amount: 1 } },
+            { day: 6, icon: '✨', xp: 200, powerup: { type: 'double', amount: 1 } },
+            { day: 7, icon: '🏆', xp: 500, powerup: { type: 'shield', amount: 1 } }
+        ];
+
+        function checkDailyLogin() {
+            const lastLogin = localStorage.getItem('lastLoginDate');
+            const today = new Date().toDateString();
+            const loginStreak = parseInt(localStorage.getItem('loginStreak')) || 0;
+            const claimedToday = localStorage.getItem('claimedToday') === today;
+
+            if (lastLogin !== today && !claimedToday) {
+                // Check if streak continues
+                const lastDate = lastLogin ? new Date(lastLogin) : null;
+                const todayDate = new Date(today);
+                let newStreak = loginStreak;
+
+                if (lastDate) {
+                    const diffDays = Math.floor((todayDate - lastDate) / (1000 * 60 * 60 * 24));
+                    if (diffDays === 1) {
+                        newStreak++;
+                    } else if (diffDays > 1) {
+                        newStreak = 1; // Reset streak
+                    }
+                } else {
+                    newStreak = 1;
+                }
+
+                if (newStreak > 7) newStreak = ((newStreak - 1) % 7) + 1;
+
+                localStorage.setItem('loginStreak', newStreak);
+                localStorage.setItem('lastLoginDate', today);
+
+                // Show rewards modal
+                setTimeout(() => showLoginRewardsModal(newStreak), 1500);
+            }
+        }
+
+        function showLoginRewardsModal(streak) {
+            const modal = document.getElementById('login-rewards-modal');
+            const grid = document.getElementById('daily-rewards-grid');
+            const badge = document.getElementById('login-streak-badge');
+            const claimBtn = document.getElementById('claim-reward-btn');
+
+            badge.textContent = `🔥 Day ${streak}`;
+
+            grid.innerHTML = dailyRewards.map((reward, index) => {
+                let statusClass = '';
+                if (index + 1 < streak) {
+                    statusClass = 'claimed';
+                } else if (index + 1 === streak) {
+                    statusClass = 'today';
+                } else {
+                    statusClass = 'locked';
+                }
+
+                return `
+                    <div class="daily-reward-day ${statusClass}">
+                        <div class="reward-day-num">Day ${reward.day}</div>
+                        <div class="reward-day-icon">${reward.icon}</div>
+                        <div class="reward-day-xp">+${reward.xp} XP</div>
+                    </div>
+                `;
+            }).join('');
+
+            const today = new Date().toDateString();
+            const claimedToday = localStorage.getItem('claimedToday') === today;
+            claimBtn.disabled = claimedToday;
+            claimBtn.textContent = claimedToday ? 'Already Claimed!' : 'Claim Today\'s Reward!';
+
+            modal.style.display = 'flex';
+        }
+
+        function claimDailyReward() {
+            const today = new Date().toDateString();
+            if (localStorage.getItem('claimedToday') === today) return;
+
+            const streak = parseInt(localStorage.getItem('loginStreak')) || 1;
+            const rewardIndex = ((streak - 1) % 7);
+            const reward = dailyRewards[rewardIndex];
+
+            // Add XP
+            const currentXP = parseInt(localStorage.getItem('scienceXP')) || 0;
+            localStorage.setItem('scienceXP', currentXP + reward.xp);
+
+            // Add powerup if included
+            if (reward.powerup) {
+                addPowerups(reward.powerup.type, reward.powerup.amount);
+            }
+
+            localStorage.setItem('claimedToday', today);
+
+            // Show celebration
+            const modal = document.getElementById('login-rewards-modal');
+            modal.innerHTML = `
+                <div class="login-rewards-content" style="text-align: center;">
+                    <div style="font-size: 4rem; margin-bottom: 20px;">🎉</div>
+                    <h2 style="color: #333;">Reward Claimed!</h2>
+                    <p style="font-size: 1.5rem; color: #667eea; font-weight: 600;">+${reward.xp} XP</p>
+                    ${reward.powerup ? `<p style="color: #666;">+1 ${reward.powerup.type} power-up</p>` : ''}
+                    <button onclick="closeLoginRewards()" style="margin-top: 20px; padding: 15px 40px; border: none; border-radius: 30px; background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); color: white; font-weight: 600; cursor: pointer;">Awesome!</button>
+                </div>
+            `;
+        }
+
+        function closeLoginRewards() {
+            document.getElementById('login-rewards-modal').style.display = 'none';
+        }
+
+        function openLoginRewards() {
+            const streak = parseInt(localStorage.getItem('loginStreak')) || 1;
+            showLoginRewardsModal(streak);
+        }
+
+        // Initialize Batch 23
+        document.addEventListener('DOMContentLoaded', function() {
+            updatePowerupsDisplay();
+            checkDailyLogin();
+        });
+
+        // Add CSS animation for slide down
+        const slideDownStyle = document.createElement('style');
+        slideDownStyle.textContent = `
+            @keyframes slideDown {
+                from { opacity: 0; transform: translate(-50%, -20px); }
+                to { opacity: 1; transform: translate(-50%, 0); }
+            }
+        `;
+        document.head.appendChild(slideDownStyle);
+
+        console.log('⚡ Quiz Timer, Power-ups, and Daily Login loaded!');
     </script>
 
     <!-- PowerPoint-style Table Grid Selector (positioned fixed, outside all containers) -->
