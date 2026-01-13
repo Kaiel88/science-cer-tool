@@ -6822,6 +6822,124 @@
             0%, 100% { box-shadow: 0 0 5px rgba(255, 87, 34, 0.5); }
             50% { box-shadow: 0 0 15px rgba(255, 87, 34, 0.8); }
         }
+
+        /* Comeback Notification */
+        .comeback-modal {
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            background: linear-gradient(135deg, #E91E63, #9C27B0);
+            color: white;
+            border-radius: 24px;
+            padding: 40px;
+            max-width: 400px;
+            width: 90%;
+            text-align: center;
+            z-index: 10020;
+            box-shadow: 0 25px 80px rgba(0, 0, 0, 0.4);
+            animation: modalPop 0.5s ease;
+        }
+
+        .comeback-gift {
+            font-size: 4rem;
+            margin-bottom: 15px;
+            animation: giftBounce 1s ease infinite;
+        }
+
+        @keyframes giftBounce {
+            0%, 100% { transform: scale(1) rotate(-5deg); }
+            50% { transform: scale(1.1) rotate(5deg); }
+        }
+
+        /* Progress Summary Card */
+        .progress-summary-card {
+            background: linear-gradient(135deg, #00BCD4, #009688);
+            color: white;
+            border-radius: 20px;
+            padding: 20px;
+            margin: 15px 0;
+        }
+
+        .progress-summary-stat {
+            display: flex;
+            justify-content: space-between;
+            padding: 10px 0;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.2);
+        }
+
+        .progress-summary-stat:last-child {
+            border-bottom: none;
+        }
+
+        .progress-summary-label {
+            opacity: 0.9;
+        }
+
+        .progress-summary-value {
+            font-weight: 700;
+            font-size: 1.1rem;
+        }
+
+        /* Seasonal Event Banner */
+        .seasonal-banner {
+            background: linear-gradient(135deg, var(--seasonal-color-1), var(--seasonal-color-2));
+            color: white;
+            padding: 15px 20px;
+            border-radius: 16px;
+            margin-bottom: 15px;
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            animation: seasonalPulse 3s ease infinite;
+        }
+
+        @keyframes seasonalPulse {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.02); }
+        }
+
+        .seasonal-icon {
+            font-size: 2rem;
+        }
+
+        .seasonal-info {
+            flex: 1;
+        }
+
+        .seasonal-title {
+            font-weight: 700;
+            font-size: 1.1rem;
+        }
+
+        .seasonal-bonus {
+            font-size: 0.85rem;
+            opacity: 0.95;
+            margin-top: 3px;
+        }
+
+        /* Practice Reminder Toast */
+        .reminder-toast {
+            position: fixed;
+            bottom: 30px;
+            left: 50%;
+            transform: translateX(-50%);
+            background: linear-gradient(135deg, #FF5722, #FF9800);
+            color: white;
+            padding: 15px 25px;
+            border-radius: 50px;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            z-index: 10016;
+            box-shadow: 0 8px 30px rgba(255, 87, 34, 0.4);
+            animation: slideUp 0.5s ease;
+        }
+
+        @keyframes slideUp {
+            from { transform: translateX(-50%) translateY(100px); opacity: 0; }
+            to { transform: translateX(-50%) translateY(0); opacity: 1; }
+        }
     </style>
 </head>
 
@@ -27201,6 +27319,308 @@
         };
 
         console.log('👋 Welcome Messages, Difficulty, Quotes, and Streak Multipliers loaded!');
+    </script>
+
+    <!-- Comeback Notifications, Practice Reminders, Seasonal Events, Progress Summary -->
+    <script>
+        // =====================================================
+        // COMEBACK NOTIFICATION FOR INACTIVE USERS
+        // =====================================================
+        window.comebackGifts = [
+            { xp: 50, icon: '🎁', message: 'A gift for coming back!' },
+            { xp: 75, icon: '🌟', message: 'We missed you!' },
+            { xp: 100, icon: '💎', message: 'Welcome back, superstar!' }
+        ];
+
+        window.checkComebackBonus = function() {
+            const lastActive = localStorage.getItem('lastActiveDate');
+            if (!lastActive) {
+                localStorage.setItem('lastActiveDate', new Date().toDateString());
+                return;
+            }
+
+            const lastDate = new Date(lastActive);
+            const today = new Date();
+            const daysDiff = Math.floor((today - lastDate) / (1000 * 60 * 60 * 24));
+
+            // If inactive for 3+ days, show comeback gift
+            if (daysDiff >= 3) {
+                const giftIndex = Math.min(Math.floor(daysDiff / 3) - 1, window.comebackGifts.length - 1);
+                const gift = window.comebackGifts[giftIndex];
+                showComebackModal(gift, daysDiff);
+            }
+
+            localStorage.setItem('lastActiveDate', today.toDateString());
+        };
+
+        window.showComebackModal = function(gift, days) {
+            const backdrop = document.createElement('div');
+            backdrop.style.cssText = 'position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.7); z-index: 10019;';
+
+            const modal = document.createElement('div');
+            modal.className = 'comeback-modal';
+            modal.innerHTML = `
+                <div class="comeback-gift">${gift.icon}</div>
+                <h2 style="margin: 0 0 10px 0; font-size: 1.5rem;">${gift.message}</h2>
+                <p style="opacity: 0.9; margin-bottom: 20px;">It's been ${days} days. Here's a special bonus to get you started!</p>
+                <div style="background: rgba(255,255,255,0.2); padding: 15px 25px; border-radius: 15px; margin-bottom: 25px;">
+                    <div style="font-size: 2rem; font-weight: 700;">+${gift.xp} XP</div>
+                </div>
+                <button onclick="claimComebackGift(${gift.xp}); this.closest('.comeback-modal').remove(); document.querySelector('[style*=\\'10019\\']')?.remove();"
+                        style="padding: 15px 40px; border-radius: 30px; border: none; background: white; color: #E91E63; font-weight: 700; font-size: 1.1rem; cursor: pointer;">
+                    Claim Gift! 🎉
+                </button>
+            `;
+
+            document.body.appendChild(backdrop);
+            document.body.appendChild(modal);
+        };
+
+        window.claimComebackGift = function(xp) {
+            if (window.addXP) addXP(xp, 'Comeback Bonus');
+            if (window.triggerCelebration) triggerCelebration();
+            if (window.showToast) showToast('Welcome back! 🎉', 'success');
+        };
+
+        // =====================================================
+        // PRACTICE REMINDER SYSTEM
+        // =====================================================
+        window.reminderSettings = {
+            enabled: true,
+            intervalMinutes: 30,
+            idleThresholdMinutes: 15
+        };
+
+        window.lastActivityTime = Date.now();
+
+        window.initPracticeReminders = function() {
+            // Track activity
+            document.addEventListener('click', () => { window.lastActivityTime = Date.now(); });
+            document.addEventListener('keypress', () => { window.lastActivityTime = Date.now(); });
+
+            // Check for idle periodically
+            setInterval(checkIdleReminder, 60000); // Check every minute
+        };
+
+        window.checkIdleReminder = function() {
+            if (!window.reminderSettings.enabled) return;
+
+            const idleMinutes = (Date.now() - window.lastActivityTime) / (1000 * 60);
+
+            if (idleMinutes >= window.reminderSettings.idleThresholdMinutes) {
+                showPracticeReminder();
+                window.lastActivityTime = Date.now(); // Reset to avoid spam
+            }
+        };
+
+        window.showPracticeReminder = function() {
+            // Remove existing
+            document.querySelectorAll('.reminder-toast').forEach(el => el.remove());
+
+            const reminders = [
+                { icon: '📚', text: 'Time for some science practice!' },
+                { icon: '🧠', text: 'Your brain needs some exercise!' },
+                { icon: '⚡', text: 'Quick practice session?' },
+                { icon: '🎯', text: 'Let\'s answer a few questions!' },
+                { icon: '🚀', text: 'Keep your streak alive!' }
+            ];
+
+            const reminder = reminders[Math.floor(Math.random() * reminders.length)];
+
+            const toast = document.createElement('div');
+            toast.className = 'reminder-toast';
+            toast.innerHTML = `
+                <span style="font-size: 1.5rem;">${reminder.icon}</span>
+                <span>${reminder.text}</span>
+                <button onclick="this.parentElement.remove(); if(window.switchTab) switchTab('practice');"
+                        style="background: white; color: #FF5722; border: none; padding: 8px 15px; border-radius: 20px; font-weight: 600; cursor: pointer; margin-left: 10px;">
+                    Let's Go!
+                </button>
+                <button onclick="this.parentElement.remove();"
+                        style="background: transparent; color: white; border: none; font-size: 1.2rem; cursor: pointer; padding: 0 5px;">×</button>
+            `;
+
+            document.body.appendChild(toast);
+
+            // Auto-remove after 10 seconds
+            setTimeout(() => {
+                if (toast.parentElement) {
+                    toast.style.animation = 'slideUp 0.3s ease reverse forwards';
+                    setTimeout(() => toast.remove(), 300);
+                }
+            }, 10000);
+        };
+
+        // =====================================================
+        // SEASONAL/THEMED EVENTS
+        // =====================================================
+        window.SEASONAL_EVENTS = [
+            { name: 'Science Week', icon: '🔬', color1: '#4CAF50', color2: '#8BC34A', multiplier: 1.5, months: [3] }, // March
+            { name: 'Earth Day', icon: '🌍', color1: '#009688', color2: '#4CAF50', multiplier: 1.5, months: [4] }, // April
+            { name: 'Space Month', icon: '🚀', color1: '#3F51B5', color2: '#673AB7', multiplier: 1.5, months: [7] }, // July
+            { name: 'Back to School', icon: '📚', color1: '#FF9800', color2: '#F57C00', multiplier: 1.25, months: [8, 9] }, // Aug-Sep
+            { name: 'Nobel Week', icon: '🏆', color1: '#FFD700', color2: '#FF8C00', multiplier: 2.0, months: [10] }, // October
+            { name: 'Winter Science', icon: '❄️', color1: '#00BCD4', color2: '#03A9F4', multiplier: 1.5, months: [12, 1] } // Dec-Jan
+        ];
+
+        window.currentSeasonalEvent = null;
+
+        window.checkSeasonalEvent = function() {
+            const currentMonth = new Date().getMonth() + 1;
+
+            window.currentSeasonalEvent = window.SEASONAL_EVENTS.find(event =>
+                event.months.includes(currentMonth)
+            );
+
+            if (window.currentSeasonalEvent) {
+                displaySeasonalBanner();
+            }
+        };
+
+        window.displaySeasonalBanner = function() {
+            const event = window.currentSeasonalEvent;
+            if (!event) return;
+
+            // Set CSS variables
+            document.documentElement.style.setProperty('--seasonal-color-1', event.color1);
+            document.documentElement.style.setProperty('--seasonal-color-2', event.color2);
+
+            // Find sidebar or create container
+            const sidebar = document.querySelector('.sidebar-top-section');
+            if (!sidebar) return;
+
+            // Remove existing banner
+            document.querySelectorAll('.seasonal-banner').forEach(el => el.remove());
+
+            const banner = document.createElement('div');
+            banner.className = 'seasonal-banner';
+            banner.innerHTML = `
+                <div class="seasonal-icon">${event.icon}</div>
+                <div class="seasonal-info">
+                    <div class="seasonal-title">${event.name} Event!</div>
+                    <div class="seasonal-bonus">${event.multiplier}x XP Bonus Active</div>
+                </div>
+            `;
+
+            sidebar.insertBefore(banner, sidebar.firstChild);
+        };
+
+        window.getSeasonalMultiplier = function() {
+            return window.currentSeasonalEvent?.multiplier || 1.0;
+        };
+
+        // =====================================================
+        // MOTIVATIONAL PROGRESS SUMMARY
+        // =====================================================
+        window.showProgressSummary = function() {
+            const stats = window.gamificationState || {};
+            const level = stats.level || 1;
+            const xp = stats.xp || 0;
+            const totalQuestions = stats.totalAttempts || 0;
+            const correctAnswers = stats.totalCorrect || 0;
+            const accuracy = totalQuestions > 0 ? Math.round((correctAnswers / totalQuestions) * 100) : 0;
+            const streakDays = parseInt(document.getElementById('login-days-display')?.textContent?.match(/\d+/) || 0);
+            const badges = window.collectedBadges?.length || 0;
+
+            // Remove existing
+            document.querySelectorAll('.progress-summary-modal, .modal-backdrop').forEach(el => el.remove());
+
+            const backdrop = document.createElement('div');
+            backdrop.className = 'modal-backdrop';
+            backdrop.style.cssText = 'position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.5); z-index: 10005;';
+            backdrop.onclick = () => { backdrop.remove(); modal.remove(); };
+
+            const modal = document.createElement('div');
+            modal.className = 'progress-summary-modal';
+            modal.style.cssText = `
+                position: fixed;
+                top: 50%;
+                left: 50%;
+                transform: translate(-50%, -50%);
+                background: white;
+                border-radius: 24px;
+                padding: 30px;
+                max-width: 400px;
+                width: 90%;
+                z-index: 10006;
+                box-shadow: 0 25px 80px rgba(0, 0, 0, 0.3);
+            `;
+
+            // Generate motivational message based on stats
+            let motivation = '';
+            if (accuracy >= 80) motivation = 'Outstanding accuracy! 🌟';
+            else if (accuracy >= 60) motivation = 'Great progress! Keep it up! 💪';
+            else motivation = 'Every question makes you stronger! 🚀';
+
+            modal.innerHTML = `
+                <h2 style="margin: 0 0 20px 0; text-align: center;">📊 Your Progress</h2>
+                <div class="progress-summary-card">
+                    <div class="progress-summary-stat">
+                        <span class="progress-summary-label">🎓 Level</span>
+                        <span class="progress-summary-value">${level}</span>
+                    </div>
+                    <div class="progress-summary-stat">
+                        <span class="progress-summary-label">⭐ Total XP</span>
+                        <span class="progress-summary-value">${xp.toLocaleString()}</span>
+                    </div>
+                    <div class="progress-summary-stat">
+                        <span class="progress-summary-label">📝 Questions</span>
+                        <span class="progress-summary-value">${totalQuestions}</span>
+                    </div>
+                    <div class="progress-summary-stat">
+                        <span class="progress-summary-label">✅ Accuracy</span>
+                        <span class="progress-summary-value">${accuracy}%</span>
+                    </div>
+                    <div class="progress-summary-stat">
+                        <span class="progress-summary-label">🔥 Streak</span>
+                        <span class="progress-summary-value">${streakDays} days</span>
+                    </div>
+                    <div class="progress-summary-stat">
+                        <span class="progress-summary-label">🏅 Badges</span>
+                        <span class="progress-summary-value">${badges}/${window.SCIENCE_BADGES?.length || 16}</span>
+                    </div>
+                </div>
+                <div style="text-align: center; padding: 15px; background: #f5f5f5; border-radius: 12px; margin-top: 15px;">
+                    <div style="font-size: 1.1rem; color: #333;">${motivation}</div>
+                </div>
+                <div style="text-align: center; margin-top: 20px;">
+                    <button onclick="document.querySelectorAll('.progress-summary-modal, .modal-backdrop').forEach(el => el.remove());"
+                            style="padding: 12px 30px; border-radius: 25px; border: none; background: linear-gradient(135deg, #00BCD4, #009688); color: white; font-weight: 600; cursor: pointer;">
+                        Keep Going! 🚀
+                    </button>
+                </div>
+            `;
+
+            document.body.appendChild(backdrop);
+            document.body.appendChild(modal);
+        };
+
+        // =====================================================
+        // INITIALIZATION
+        // =====================================================
+        document.addEventListener('DOMContentLoaded', () => {
+            // Check for comeback bonus
+            setTimeout(checkComebackBonus, 3000);
+
+            // Initialize practice reminders
+            initPracticeReminders();
+
+            // Check for seasonal events
+            checkSeasonalEvent();
+        });
+
+        // Update XP multiplier to include seasonal
+        const originalAddXP4 = window.addXP;
+        window.addXP = function(amount, reason) {
+            // Apply seasonal multiplier
+            const multipliedAmount = Math.round(amount * getSeasonalMultiplier());
+
+            if (originalAddXP4) {
+                originalAddXP4(multipliedAmount, reason);
+            }
+        };
+
+        console.log('🎁 Comeback Notifications, Practice Reminders, Seasonal Events, and Progress Summary loaded!');
     </script>
 
     <!-- PowerPoint-style Table Grid Selector (positioned fixed, outside all containers) -->
