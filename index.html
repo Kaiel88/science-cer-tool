@@ -13438,6 +13438,280 @@
         .floating-pathways-btn:hover {
             transform: scale(1.1);
         }
+
+        /* ========== BATCH 33: Keyboard Shortcuts, Level Rewards, Celebrations ========== */
+
+        /* Keyboard Shortcuts Help */
+        .shortcuts-modal {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0,0,0,0.85);
+            display: none;
+            justify-content: center;
+            align-items: center;
+            z-index: 10001;
+        }
+
+        .shortcuts-content {
+            background: white;
+            border-radius: 25px;
+            width: 95%;
+            max-width: 550px;
+            max-height: 90vh;
+            overflow-y: auto;
+            padding: 30px;
+        }
+
+        .shortcuts-category {
+            margin-bottom: 25px;
+        }
+
+        .shortcuts-category-title {
+            font-weight: 700;
+            color: #667eea;
+            margin-bottom: 15px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .shortcut-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 12px 15px;
+            background: #f8f9fa;
+            border-radius: 10px;
+            margin-bottom: 8px;
+        }
+
+        .shortcut-keys {
+            display: flex;
+            gap: 5px;
+        }
+
+        .shortcut-key {
+            padding: 5px 12px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            border-radius: 6px;
+            font-family: monospace;
+            font-size: 0.85rem;
+            font-weight: 600;
+        }
+
+        .shortcut-desc {
+            color: #666;
+            font-size: 0.9rem;
+        }
+
+        /* Level Rewards */
+        .level-reward-popup {
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%) scale(0);
+            background: linear-gradient(135deg, #1a1a2e 0%, #16213e 100%);
+            border-radius: 30px;
+            padding: 50px;
+            text-align: center;
+            z-index: 100003;
+            color: white;
+            box-shadow: 0 30px 100px rgba(0,0,0,0.5);
+            opacity: 0;
+            transition: all 0.5s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+        }
+
+        .level-reward-popup.show {
+            transform: translate(-50%, -50%) scale(1);
+            opacity: 1;
+        }
+
+        .level-reward-glow {
+            position: absolute;
+            top: -50px;
+            left: -50px;
+            right: -50px;
+            bottom: -50px;
+            background: radial-gradient(circle, rgba(102, 126, 234, 0.3) 0%, transparent 70%);
+            animation: rewardGlow 2s ease infinite;
+            pointer-events: none;
+            border-radius: 50px;
+        }
+
+        @keyframes rewardGlow {
+            0%, 100% { opacity: 0.5; transform: scale(1); }
+            50% { opacity: 1; transform: scale(1.1); }
+        }
+
+        .level-reward-badge {
+            font-size: 5rem;
+            margin-bottom: 20px;
+            animation: rewardBounce 1s ease infinite;
+        }
+
+        @keyframes rewardBounce {
+            0%, 100% { transform: translateY(0) rotate(0deg); }
+            25% { transform: translateY(-10px) rotate(-5deg); }
+            75% { transform: translateY(-10px) rotate(5deg); }
+        }
+
+        .level-reward-title {
+            font-size: 2rem;
+            font-weight: 700;
+            margin-bottom: 10px;
+            background: linear-gradient(135deg, #f5af19 0%, #f12711 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .level-reward-desc {
+            color: #aaa;
+            margin-bottom: 25px;
+        }
+
+        .level-reward-items {
+            display: flex;
+            gap: 20px;
+            justify-content: center;
+            margin-bottom: 30px;
+        }
+
+        .level-reward-item {
+            background: rgba(255,255,255,0.1);
+            padding: 20px;
+            border-radius: 15px;
+            text-align: center;
+        }
+
+        .level-reward-item-icon {
+            font-size: 2rem;
+            margin-bottom: 8px;
+        }
+
+        .level-reward-item-value {
+            font-weight: 700;
+            color: #4CAF50;
+        }
+
+        .level-reward-claim-btn {
+            padding: 15px 50px;
+            border: none;
+            border-radius: 30px;
+            background: linear-gradient(135deg, #f5af19 0%, #f12711 100%);
+            color: white;
+            font-size: 1.1rem;
+            font-weight: 700;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .level-reward-claim-btn:hover {
+            transform: scale(1.05);
+            box-shadow: 0 10px 30px rgba(245, 175, 25, 0.4);
+        }
+
+        /* Celebration Effects */
+        .celebration-firework {
+            position: fixed;
+            width: 10px;
+            height: 10px;
+            border-radius: 50%;
+            pointer-events: none;
+            z-index: 100001;
+        }
+
+        .star-burst {
+            position: fixed;
+            pointer-events: none;
+            z-index: 100001;
+            animation: starBurst 1s ease-out forwards;
+        }
+
+        @keyframes starBurst {
+            0% { transform: scale(0) rotate(0deg); opacity: 1; }
+            100% { transform: scale(2) rotate(180deg); opacity: 0; }
+        }
+
+        .sparkle {
+            position: fixed;
+            font-size: 2rem;
+            pointer-events: none;
+            z-index: 100001;
+            animation: sparkleAnim 1.5s ease-out forwards;
+        }
+
+        @keyframes sparkleAnim {
+            0% { transform: translateY(0) scale(0); opacity: 0; }
+            20% { transform: translateY(-20px) scale(1); opacity: 1; }
+            100% { transform: translateY(-100px) scale(0.5); opacity: 0; }
+        }
+
+        .floating-text {
+            position: fixed;
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: #4CAF50;
+            pointer-events: none;
+            z-index: 100001;
+            animation: floatUp 1.5s ease-out forwards;
+            text-shadow: 0 2px 10px rgba(0,0,0,0.3);
+        }
+
+        @keyframes floatUp {
+            0% { transform: translateY(0) scale(1); opacity: 1; }
+            100% { transform: translateY(-80px) scale(1.2); opacity: 0; }
+        }
+
+        .rainbow-border {
+            position: relative;
+        }
+
+        .rainbow-border::before {
+            content: '';
+            position: absolute;
+            top: -3px;
+            left: -3px;
+            right: -3px;
+            bottom: -3px;
+            background: linear-gradient(45deg, #ff0000, #ff7300, #fffb00, #48ff00, #00ffd5, #002bff, #7a00ff, #ff00c8, #ff0000);
+            background-size: 400%;
+            border-radius: inherit;
+            z-index: -1;
+            animation: rainbowBorder 3s linear infinite;
+        }
+
+        @keyframes rainbowBorder {
+            0% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
+        }
+
+        /* Floating shortcut button */
+        .floating-shortcuts-btn {
+            position: fixed;
+            bottom: 2200px;
+            right: 20px;
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, #607d8b 0%, #455a64 100%);
+            color: white;
+            border: none;
+            font-size: 1.3rem;
+            cursor: pointer;
+            box-shadow: 0 5px 20px rgba(96, 125, 139, 0.4);
+            z-index: 999;
+            transition: all 0.3s ease;
+        }
+
+        .floating-shortcuts-btn:hover {
+            transform: scale(1.1);
+        }
     </style>
 </head>
 
@@ -42794,6 +43068,298 @@ Science Made Fun!
         setTimeout(showTutorial, 2000);
 
         console.log('🔬 Science Experiments, Learning Pathways, and Tutorial loaded!');
+    </script>
+
+    <!-- ========== BATCH 33: Keyboard Shortcuts, Level Rewards, Celebrations ========== -->
+
+    <!-- Keyboard Shortcuts Modal -->
+    <div class="shortcuts-modal" id="shortcuts-modal">
+        <div class="shortcuts-content">
+            <div style="text-align: center; margin-bottom: 25px;">
+                <h2 style="margin: 0;">⌨️ Keyboard Shortcuts</h2>
+                <p style="color: #666; margin-top: 5px;">Use these shortcuts to navigate faster!</p>
+            </div>
+            <div id="shortcuts-list">
+                <!-- Populated by JavaScript -->
+            </div>
+            <div style="text-align: center; margin-top: 20px;">
+                <button onclick="closeShortcuts()" style="padding: 12px 40px; border: none; background: linear-gradient(135deg, #607d8b 0%, #455a64 100%); border-radius: 25px; color: white; font-weight: bold; cursor: pointer;">Close</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Level Reward Popup -->
+    <div class="level-reward-popup" id="level-reward-popup">
+        <div class="level-reward-glow"></div>
+        <div class="level-reward-badge" id="level-reward-badge">🎉</div>
+        <h2 class="level-reward-title" id="level-reward-title">Level Up!</h2>
+        <p class="level-reward-desc" id="level-reward-desc">You reached a new level!</p>
+        <div class="level-reward-items" id="level-reward-items">
+            <!-- Populated by JavaScript -->
+        </div>
+        <button class="level-reward-claim-btn" onclick="claimLevelReward()">Claim Rewards!</button>
+    </div>
+
+    <!-- Floating Shortcuts Button -->
+    <button class="floating-shortcuts-btn" onclick="openShortcuts()" title="Keyboard Shortcuts">⌨️</button>
+
+    <script>
+        // ========== BATCH 33: Keyboard Shortcuts, Level Rewards, Celebrations ==========
+
+        // Keyboard Shortcuts
+        const keyboardShortcuts = [
+            {
+                category: '🎮 Navigation',
+                shortcuts: [
+                    { keys: ['Ctrl', 'Shift', 'N'], desc: 'Open Study Notes' },
+                    { keys: ['Ctrl', 'Shift', 'F'], desc: 'Toggle Focus Mode' },
+                    { keys: ['?'], desc: 'Show this shortcuts panel' },
+                    { keys: ['Esc'], desc: 'Close any open modal' }
+                ]
+            },
+            {
+                category: '📚 Study',
+                shortcuts: [
+                    { keys: ['1-4'], desc: 'Select answer option' },
+                    { keys: ['Enter'], desc: 'Submit answer / Continue' },
+                    { keys: ['Space'], desc: 'Flip flashcard' }
+                ]
+            },
+            {
+                category: '🎯 Quick Access',
+                shortcuts: [
+                    { keys: ['Q'], desc: 'Open Quiz Generator' },
+                    { keys: ['D'], desc: 'Open Dictionary' },
+                    { keys: ['G'], desc: 'Open Goals' }
+                ]
+            }
+        ];
+
+        function openShortcuts() {
+            renderShortcuts();
+            document.getElementById('shortcuts-modal').style.display = 'flex';
+        }
+
+        function closeShortcuts() {
+            document.getElementById('shortcuts-modal').style.display = 'none';
+        }
+
+        function renderShortcuts() {
+            document.getElementById('shortcuts-list').innerHTML = keyboardShortcuts.map(cat => `
+                <div class="shortcuts-category">
+                    <div class="shortcuts-category-title">${cat.category}</div>
+                    ${cat.shortcuts.map(s => `
+                        <div class="shortcut-item">
+                            <div class="shortcut-keys">
+                                ${s.keys.map(k => `<span class="shortcut-key">${k}</span>`).join(' + ')}
+                            </div>
+                            <span class="shortcut-desc">${s.desc}</span>
+                        </div>
+                    `).join('')}
+                </div>
+            `).join('');
+        }
+
+        // Level Rewards System
+        const levelRewards = {
+            5: { badge: '🌟', title: 'Rising Star!', desc: 'Level 5 Unlocked', xp: 100, powerups: 2 },
+            10: { badge: '🎓', title: 'Scholar!', desc: 'Level 10 Unlocked', xp: 200, powerups: 3 },
+            15: { badge: '🔬', title: 'Scientist!', desc: 'Level 15 Unlocked', xp: 300, powerups: 4 },
+            20: { badge: '🧠', title: 'Genius!', desc: 'Level 20 Unlocked', xp: 500, powerups: 5 },
+            25: { badge: '🏆', title: 'Champion!', desc: 'Level 25 Unlocked', xp: 750, powerups: 6 },
+            30: { badge: '👑', title: 'Legend!', desc: 'Level 30 Unlocked', xp: 1000, powerups: 8 },
+            50: { badge: '💎', title: 'Diamond Scholar!', desc: 'Level 50 Unlocked', xp: 2000, powerups: 10 }
+        };
+
+        let pendingLevelReward = null;
+        let claimedLevelRewards = JSON.parse(localStorage.getItem('claimedLevelRewards')) || [];
+
+        function checkLevelReward(level) {
+            if (levelRewards[level] && !claimedLevelRewards.includes(level)) {
+                showLevelReward(level);
+            }
+        }
+
+        function showLevelReward(level) {
+            const reward = levelRewards[level];
+            pendingLevelReward = { level, ...reward };
+
+            document.getElementById('level-reward-badge').textContent = reward.badge;
+            document.getElementById('level-reward-title').textContent = reward.title;
+            document.getElementById('level-reward-desc').textContent = reward.desc;
+
+            document.getElementById('level-reward-items').innerHTML = `
+                <div class="level-reward-item">
+                    <div class="level-reward-item-icon">⭐</div>
+                    <div class="level-reward-item-value">+${reward.xp} XP</div>
+                </div>
+                <div class="level-reward-item">
+                    <div class="level-reward-item-icon">🎁</div>
+                    <div class="level-reward-item-value">${reward.powerups} Power-ups</div>
+                </div>
+            `;
+
+            document.getElementById('level-reward-popup').classList.add('show');
+            triggerCelebration('level');
+        }
+
+        function claimLevelReward() {
+            if (!pendingLevelReward) return;
+
+            // Award XP
+            const currentXP = parseInt(localStorage.getItem('scienceXP')) || 0;
+            localStorage.setItem('scienceXP', currentXP + pendingLevelReward.xp);
+
+            // Award powerups
+            const currentPowerups = parseInt(localStorage.getItem('totalPowerups')) || 0;
+            localStorage.setItem('totalPowerups', currentPowerups + pendingLevelReward.powerups);
+
+            // Mark as claimed
+            claimedLevelRewards.push(pendingLevelReward.level);
+            localStorage.setItem('claimedLevelRewards', JSON.stringify(claimedLevelRewards));
+
+            document.getElementById('level-reward-popup').classList.remove('show');
+            pendingLevelReward = null;
+        }
+
+        // Celebration Effects
+        function triggerCelebration(type = 'normal') {
+            if (type === 'level') {
+                createFireworks(10);
+                createSparkles(20);
+            } else if (type === 'streak') {
+                createSparkles(15);
+                createFloatingText('🔥 Streak!', window.innerWidth / 2, window.innerHeight / 2);
+            } else if (type === 'correct') {
+                createSparkles(5);
+            }
+        }
+
+        function createFireworks(count) {
+            for (let i = 0; i < count; i++) {
+                setTimeout(() => {
+                    const x = Math.random() * window.innerWidth;
+                    const y = Math.random() * (window.innerHeight / 2);
+                    createFirework(x, y);
+                }, i * 200);
+            }
+        }
+
+        function createFirework(x, y) {
+            const colors = ['#ff0000', '#ff7300', '#fffb00', '#48ff00', '#00ffd5', '#002bff', '#7a00ff', '#ff00c8'];
+
+            for (let i = 0; i < 12; i++) {
+                const particle = document.createElement('div');
+                particle.className = 'celebration-firework';
+                particle.style.left = x + 'px';
+                particle.style.top = y + 'px';
+                particle.style.background = colors[Math.floor(Math.random() * colors.length)];
+
+                const angle = (i / 12) * Math.PI * 2;
+                const velocity = 100 + Math.random() * 50;
+                const vx = Math.cos(angle) * velocity;
+                const vy = Math.sin(angle) * velocity;
+
+                document.body.appendChild(particle);
+
+                let posX = x;
+                let posY = y;
+                let opacity = 1;
+
+                const animate = () => {
+                    posX += vx * 0.02;
+                    posY += vy * 0.02 + 1;
+                    opacity -= 0.02;
+
+                    particle.style.left = posX + 'px';
+                    particle.style.top = posY + 'px';
+                    particle.style.opacity = opacity;
+
+                    if (opacity > 0) {
+                        requestAnimationFrame(animate);
+                    } else {
+                        particle.remove();
+                    }
+                };
+
+                requestAnimationFrame(animate);
+            }
+        }
+
+        function createSparkles(count) {
+            const emojis = ['✨', '⭐', '🌟', '💫', '✴️'];
+
+            for (let i = 0; i < count; i++) {
+                setTimeout(() => {
+                    const sparkle = document.createElement('div');
+                    sparkle.className = 'sparkle';
+                    sparkle.textContent = emojis[Math.floor(Math.random() * emojis.length)];
+                    sparkle.style.left = (Math.random() * window.innerWidth) + 'px';
+                    sparkle.style.top = (window.innerHeight / 2 + Math.random() * (window.innerHeight / 2)) + 'px';
+
+                    document.body.appendChild(sparkle);
+
+                    setTimeout(() => sparkle.remove(), 1500);
+                }, i * 100);
+            }
+        }
+
+        function createFloatingText(text, x, y) {
+            const floatText = document.createElement('div');
+            floatText.className = 'floating-text';
+            floatText.textContent = text;
+            floatText.style.left = x + 'px';
+            floatText.style.top = y + 'px';
+
+            document.body.appendChild(floatText);
+
+            setTimeout(() => floatText.remove(), 1500);
+        }
+
+        function showXPGain(amount, x, y) {
+            createFloatingText(`+${amount} XP`, x || window.innerWidth / 2, y || window.innerHeight / 2);
+        }
+
+        // Global keyboard shortcuts
+        document.addEventListener('keydown', (e) => {
+            // ? for shortcuts
+            if (e.key === '?' || (e.key === '/' && e.shiftKey)) {
+                e.preventDefault();
+                openShortcuts();
+            }
+
+            // Escape to close modals
+            if (e.key === 'Escape') {
+                closeShortcuts();
+                document.getElementById('level-reward-popup').classList.remove('show');
+            }
+
+            // Q for Quiz
+            if (e.key === 'q' && !e.ctrlKey && !e.shiftKey && !e.altKey) {
+                const activeElement = document.activeElement;
+                if (activeElement.tagName !== 'INPUT' && activeElement.tagName !== 'TEXTAREA') {
+                    if (typeof openQuizGenerator === 'function') openQuizGenerator();
+                }
+            }
+
+            // D for Dictionary
+            if (e.key === 'd' && !e.ctrlKey && !e.shiftKey && !e.altKey) {
+                const activeElement = document.activeElement;
+                if (activeElement.tagName !== 'INPUT' && activeElement.tagName !== 'TEXTAREA') {
+                    if (typeof openDictionary === 'function') openDictionary();
+                }
+            }
+
+            // G for Goals
+            if (e.key === 'g' && !e.ctrlKey && !e.shiftKey && !e.altKey) {
+                const activeElement = document.activeElement;
+                if (activeElement.tagName !== 'INPUT' && activeElement.tagName !== 'TEXTAREA') {
+                    if (typeof openGoals === 'function') openGoals();
+                }
+            }
+        });
+
+        console.log('⌨️ Keyboard Shortcuts, Level Rewards, and Celebrations loaded!');
     </script>
 
     <!-- PowerPoint-style Table Grid Selector (positioned fixed, outside all containers) -->
