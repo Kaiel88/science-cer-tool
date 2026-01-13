@@ -21936,6 +21936,353 @@
         console.log('💡 Smart recommendations and tips loaded!');
     </script>
 
+    <!-- =====================================================
+         PROGRESS MILESTONES & WEEKLY CHALLENGES
+         ===================================================== -->
+    <script>
+        // =====================================================
+        // PROGRESS MILESTONES
+        // =====================================================
+        window.MILESTONES = [
+            { id: 'first_question', count: 1, title: 'First Step!', message: 'You answered your first question! Keep going!', emoji: '🎯', xpBonus: 5 },
+            { id: 'ten_questions', count: 10, title: 'Getting Warmed Up!', message: "10 questions down! You're building momentum!", emoji: '🌟', xpBonus: 15 },
+            { id: 'twentyfive', count: 25, title: 'Quarter Century!', message: '25 questions completed! Great progress!', emoji: '🏅', xpBonus: 25 },
+            { id: 'fifty', count: 50, title: 'Half Century!', message: '50 questions! You are dedicated!', emoji: '🎖️', xpBonus: 40 },
+            { id: 'hundred', count: 100, title: 'Century Club!', message: '100 questions! You are a true learner!', emoji: '💯', xpBonus: 75 },
+            { id: 'twohundred', count: 200, title: 'Double Century!', message: '200 questions! Incredible dedication!', emoji: '🏆', xpBonus: 100 },
+            { id: 'fivehundred', count: 500, title: 'Science Champion!', message: '500 questions! You are a science master!', emoji: '👑', xpBonus: 200 },
+            { id: 'thousand', count: 1000, title: 'LEGENDARY!', message: '1000 questions! You are absolutely LEGENDARY!', emoji: '🌈', xpBonus: 500 }
+        ];
+
+        window.checkMilestones = function() {
+            const state = window.gamificationState;
+            const reachedMilestones = JSON.parse(localStorage.getItem('reachedMilestones') || '[]');
+
+            window.MILESTONES.forEach(milestone => {
+                if (state.totalAttempts >= milestone.count && !reachedMilestones.includes(milestone.id)) {
+                    showMilestonePopup(milestone);
+                    reachedMilestones.push(milestone.id);
+                    localStorage.setItem('reachedMilestones', JSON.stringify(reachedMilestones));
+
+                    // Award bonus XP
+                    if (window.addXP) {
+                        setTimeout(() => addXP(milestone.xpBonus, `Milestone: ${milestone.title}`), 1500);
+                    }
+                }
+            });
+        };
+
+        window.showMilestonePopup = function(milestone) {
+            const popup = document.createElement('div');
+            popup.style.cssText = `
+                position: fixed;
+                top: 50%;
+                left: 50%;
+                transform: translate(-50%, -50%) scale(0);
+                background: linear-gradient(135deg, #FFD700 0%, #FFA500 100%);
+                color: #333;
+                padding: 40px;
+                border-radius: 24px;
+                text-align: center;
+                z-index: 10005;
+                box-shadow: 0 20px 60px rgba(0, 0, 0, 0.4);
+                animation: milestoneAppear 0.5s cubic-bezier(0.34, 1.56, 0.64, 1) forwards;
+                max-width: 400px;
+            `;
+            popup.innerHTML = `
+                <div style="font-size: 4rem; margin-bottom: 10px;">${milestone.emoji}</div>
+                <h2 style="margin: 0 0 10px 0; font-size: 1.8rem;">${milestone.title}</h2>
+                <p style="margin: 0 0 20px 0; font-size: 1rem; opacity: 0.9;">${milestone.message}</p>
+                <div style="background: rgba(0,0,0,0.1); padding: 10px 20px; border-radius: 12px; display: inline-block; margin-bottom: 20px;">
+                    <span style="font-size: 1.2rem; font-weight: 700;">+${milestone.xpBonus} XP Bonus!</span>
+                </div>
+                <br>
+                <button onclick="this.parentElement.remove()" style="background: #333; color: white; border: none; padding: 12px 30px; border-radius: 25px; font-weight: 600; cursor: pointer;">
+                    Awesome! 🎉
+                </button>
+            `;
+
+            // Add animation keyframes if not exists
+            if (!document.getElementById('milestone-animation-style')) {
+                const style = document.createElement('style');
+                style.id = 'milestone-animation-style';
+                style.textContent = `
+                    @keyframes milestoneAppear {
+                        0% { transform: translate(-50%, -50%) scale(0); }
+                        100% { transform: translate(-50%, -50%) scale(1); }
+                    }
+                `;
+                document.head.appendChild(style);
+            }
+
+            document.body.appendChild(popup);
+
+            // Trigger celebration
+            if (window.triggerCelebration) triggerCelebration();
+
+            // Auto-close after 8 seconds
+            setTimeout(() => {
+                if (popup.parentElement) popup.remove();
+            }, 8000);
+        };
+
+        // =====================================================
+        // WEEKLY CHALLENGES
+        // =====================================================
+        window.WEEKLY_CHALLENGES = [
+            { id: 'weekly_50', task: 'Answer 50 questions this week', target: 50, type: 'attempts', reward: 150 },
+            { id: 'weekly_30_correct', task: 'Get 30 correct answers this week', target: 30, type: 'correct', reward: 200 },
+            { id: 'weekly_all_topics', task: 'Practice 5 different topics this week', target: 5, type: 'topics', reward: 175 },
+            { id: 'weekly_streak', task: 'Maintain a 5-day login streak', target: 5, type: 'login_streak', reward: 250 },
+            { id: 'weekly_daily_complete', task: 'Complete 3 daily challenges', target: 3, type: 'daily_challenges', reward: 225 }
+        ];
+
+        window.weeklyState = {
+            challenge: null,
+            progress: 0,
+            weekStart: null,
+            completed: false,
+            topicsPracticed: new Set()
+        };
+
+        window.initWeeklyChallenge = function() {
+            const stored = localStorage.getItem('weeklyState');
+            if (stored) {
+                try {
+                    const parsed = JSON.parse(stored);
+                    window.weeklyState = {
+                        ...parsed,
+                        topicsPracticed: new Set(parsed.topicsPracticed || [])
+                    };
+                } catch (e) { }
+            }
+
+            const now = new Date();
+            const currentWeekStart = getWeekStart(now).toDateString();
+
+            // Check if we need a new weekly challenge
+            if (window.weeklyState.weekStart !== currentWeekStart) {
+                // New week, new challenge
+                const challenges = window.WEEKLY_CHALLENGES;
+                const randomIndex = Math.floor(Math.random() * challenges.length);
+                window.weeklyState = {
+                    challenge: { ...challenges[randomIndex] },
+                    progress: 0,
+                    weekStart: currentWeekStart,
+                    completed: false,
+                    topicsPracticed: new Set()
+                };
+                saveWeeklyState();
+            }
+
+            updateWeeklyChallengeDisplay();
+        };
+
+        window.getWeekStart = function(date) {
+            const d = new Date(date);
+            const day = d.getDay();
+            const diff = d.getDate() - day + (day === 0 ? -6 : 1); // Adjust for Sunday
+            return new Date(d.setDate(diff));
+        };
+
+        window.updateWeeklyChallengeProgress = function(type, amount = 1) {
+            const state = window.weeklyState;
+            if (!state.challenge || state.completed) return;
+
+            if (state.challenge.type === type) {
+                if (type === 'topics') {
+                    state.topicsPracticed.add(amount);
+                    state.progress = state.topicsPracticed.size;
+                } else {
+                    state.progress += (typeof amount === 'number' ? amount : 1);
+                }
+                saveWeeklyState();
+                updateWeeklyChallengeDisplay();
+
+                // Check completion
+                if (state.progress >= state.challenge.target && !state.completed) {
+                    completeWeeklyChallenge();
+                }
+            }
+        };
+
+        window.completeWeeklyChallenge = function() {
+            const state = window.weeklyState;
+            if (!state.challenge || state.completed) return;
+
+            state.completed = true;
+
+            // Award XP
+            if (window.addXP) {
+                addXP(state.challenge.reward, 'Weekly Challenge Complete');
+            }
+
+            // Show notification
+            const notification = document.createElement('div');
+            notification.style.cssText = 'position:fixed;top:20px;left:50%;transform:translateX(-50%);background:linear-gradient(135deg,#9C27B0,#673AB7);color:white;padding:20px 30px;border-radius:16px;box-shadow:0 8px 30px rgba(0,0,0,0.3);z-index:10004;animation:slideDown 0.5s ease;text-align:center';
+            notification.innerHTML = `
+                <div style="font-size:2rem;margin-bottom:8px;">🏆</div>
+                <div style="font-weight:700;font-size:1.2rem;">Weekly Challenge Complete!</div>
+                <div style="font-size:1rem;opacity:0.9;margin-top:5px;">+${state.challenge.reward} XP</div>
+            `;
+
+            if (!document.getElementById('slidedown-style')) {
+                const style = document.createElement('style');
+                style.id = 'slidedown-style';
+                style.textContent = '@keyframes slideDown { from { transform: translateX(-50%) translateY(-100px); } to { transform: translateX(-50%) translateY(0); } }';
+                document.head.appendChild(style);
+            }
+
+            document.body.appendChild(notification);
+            setTimeout(() => notification.remove(), 5000);
+
+            if (window.triggerCelebration) triggerCelebration();
+
+            saveWeeklyState();
+        };
+
+        window.updateWeeklyChallengeDisplay = function() {
+            // This could update a UI element if we add one
+        };
+
+        window.saveWeeklyState = function() {
+            localStorage.setItem('weeklyState', JSON.stringify({
+                ...window.weeklyState,
+                topicsPracticed: Array.from(window.weeklyState.topicsPracticed)
+            }));
+        };
+
+        // =====================================================
+        // STUDY SESSION TIMER WITH BREAK REMINDERS
+        // =====================================================
+        window.studySessionState = {
+            startTime: null,
+            questionsAnswered: 0,
+            breaksTaken: 0,
+            lastBreakReminder: null
+        };
+
+        window.STUDY_CONFIG = {
+            BREAK_REMINDER_INTERVAL: 20 * 60 * 1000, // 20 minutes
+            QUESTIONS_BEFORE_BREAK: 15,
+            BREAK_MESSAGES: [
+                { emoji: '☕', title: 'Time for a Break!', message: 'You have been studying for 20 minutes. Take a 5-minute break to refresh your mind!' },
+                { emoji: '🧘', title: 'Stretch Break!', message: 'Stand up, stretch, and take some deep breaths. Your brain will thank you!' },
+                { emoji: '💧', title: 'Hydration Check!', message: 'Time to drink some water and rest your eyes for a few minutes!' },
+                { emoji: '🌿', title: 'Fresh Air Break!', message: 'Consider stepping outside for fresh air. Short breaks improve focus!' }
+            ]
+        };
+
+        window.initStudySession = function() {
+            window.studySessionState.startTime = Date.now();
+            window.studySessionState.questionsAnswered = 0;
+            window.studySessionState.lastBreakReminder = Date.now();
+
+            // Check for break reminders every minute
+            setInterval(checkBreakReminder, 60000);
+        };
+
+        window.checkBreakReminder = function() {
+            const state = window.studySessionState;
+            const now = Date.now();
+
+            // Check time-based break
+            if (now - state.lastBreakReminder >= window.STUDY_CONFIG.BREAK_REMINDER_INTERVAL) {
+                showBreakReminder();
+                state.lastBreakReminder = now;
+            }
+        };
+
+        window.trackStudyQuestion = function() {
+            const state = window.studySessionState;
+            state.questionsAnswered++;
+
+            // Check questions-based break
+            if (state.questionsAnswered > 0 && state.questionsAnswered % window.STUDY_CONFIG.QUESTIONS_BEFORE_BREAK === 0) {
+                showBreakReminder();
+            }
+        };
+
+        window.showBreakReminder = function() {
+            const messages = window.STUDY_CONFIG.BREAK_MESSAGES;
+            const msg = messages[Math.floor(Math.random() * messages.length)];
+
+            const reminder = document.createElement('div');
+            reminder.style.cssText = `
+                position: fixed;
+                bottom: 20px;
+                right: 20px;
+                background: linear-gradient(135deg, #4CAF50, #8BC34A);
+                color: white;
+                padding: 20px;
+                border-radius: 16px;
+                box-shadow: 0 8px 30px rgba(0, 0, 0, 0.2);
+                z-index: 10003;
+                max-width: 320px;
+                animation: slideLeft 0.5s ease;
+            `;
+            reminder.innerHTML = `
+                <div style="display:flex;align-items:center;gap:12px;margin-bottom:10px;">
+                    <span style="font-size:2rem;">${msg.emoji}</span>
+                    <span style="font-weight:700;font-size:1.1rem;">${msg.title}</span>
+                </div>
+                <p style="margin:0 0 15px 0;font-size:0.9rem;line-height:1.4;">${msg.message}</p>
+                <div style="display:flex;gap:10px;">
+                    <button onclick="this.parentElement.parentElement.remove(); window.studySessionState.breaksTaken++;" style="flex:1;background:rgba(255,255,255,0.2);border:none;color:white;padding:10px;border-radius:8px;cursor:pointer;font-weight:600;">
+                        Take Break
+                    </button>
+                    <button onclick="this.parentElement.parentElement.remove();" style="flex:1;background:rgba(0,0,0,0.2);border:none;color:white;padding:10px;border-radius:8px;cursor:pointer;font-weight:600;">
+                        Later
+                    </button>
+                </div>
+            `;
+
+            if (!document.getElementById('slideleft-style')) {
+                const style = document.createElement('style');
+                style.id = 'slideleft-style';
+                style.textContent = '@keyframes slideLeft { from { transform: translateX(100px); opacity: 0; } to { transform: translateX(0); opacity: 1; } }';
+                document.head.appendChild(style);
+            }
+
+            document.body.appendChild(reminder);
+
+            // Auto-dismiss after 15 seconds
+            setTimeout(() => {
+                if (reminder.parentElement) reminder.remove();
+            }, 15000);
+        };
+
+        // =====================================================
+        // INITIALIZATION AND HOOKS
+        // =====================================================
+        document.addEventListener('DOMContentLoaded', () => {
+            initWeeklyChallenge();
+            initStudySession();
+        });
+
+        // Hook into answer tracking for milestones and weekly challenges
+        const originalHandleAnswer2 = window.handleQuestionAnswer;
+        window.handleQuestionAnswer = function(isCorrect, questionElement, questionType) {
+            if (originalHandleAnswer2) {
+                originalHandleAnswer2(isCorrect, questionElement, questionType);
+            }
+
+            // Check milestones
+            setTimeout(checkMilestones, 500);
+
+            // Update weekly challenge
+            updateWeeklyChallengeProgress('attempts');
+            if (isCorrect) {
+                updateWeeklyChallengeProgress('correct');
+            }
+
+            // Track for study session
+            trackStudyQuestion();
+        };
+
+        console.log('📊 Progress milestones and weekly challenges loaded!');
+    </script>
+
     <!-- PowerPoint-style Table Grid Selector (positioned fixed, outside all containers) -->
     <div id="table-grid-selector" class="table-grid-selector">
         <h4 style="margin: 0 0 12px 0; font-size: 1rem; color: #2e7d32; font-weight: 600; display: flex; align-items: center; gap: 8px;">
