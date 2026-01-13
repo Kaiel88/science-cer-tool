@@ -235,7 +235,7 @@
             transform: scale(0.95);
         }
 
-        /* Tooltip System */
+        /* ==================== LIQUID GLASS TOOLTIP SYSTEM ==================== */
         .tooltip-container {
             position: relative;
             display: inline-block;
@@ -243,21 +243,63 @@
 
         .tooltip {
             position: absolute;
-            background: #333;
-            color: white;
-            padding: 8px 12px;
-            border-radius: 8px;
+            /* Liquid Glass Effect */
+            background: linear-gradient(
+                135deg,
+                rgba(255, 255, 255, 0.9) 0%,
+                rgba(255, 255, 255, 0.7) 50%,
+                rgba(240, 248, 255, 0.85) 100%
+            );
+            backdrop-filter: blur(20px) saturate(180%);
+            -webkit-backdrop-filter: blur(20px) saturate(180%);
+            color: #1a1a2e;
+            padding: 12px 16px;
+            border-radius: 16px;
             font-size: 0.85rem;
-            white-space: nowrap;
+            font-weight: 500;
             z-index: 10000;
             pointer-events: none;
             opacity: 0;
-            transform: scale(0.8) translateY(-5px);
-            transition: opacity 0.2s ease, transform 0.2s cubic-bezier(0.34, 1.56, 0.64, 1);
-            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
-            max-width: 250px;
+            transform: scale(0.9) translateY(-8px);
+            transition: all 0.35s cubic-bezier(0.34, 1.56, 0.64, 1);
+            /* Glass border and shadow */
+            border: 1px solid rgba(255, 255, 255, 0.6);
+            box-shadow:
+                0 8px 32px rgba(0, 0, 0, 0.12),
+                0 2px 8px rgba(0, 0, 0, 0.08),
+                inset 0 1px 0 rgba(255, 255, 255, 0.8),
+                inset 0 -1px 0 rgba(0, 0, 0, 0.05);
+            max-width: 280px;
             white-space: normal;
-            line-height: 1.4;
+            line-height: 1.5;
+            letter-spacing: 0.01em;
+        }
+
+        /* Glass shimmer effect on hover */
+        .tooltip::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(
+                90deg,
+                transparent 0%,
+                rgba(255, 255, 255, 0.4) 50%,
+                transparent 100%
+            );
+            border-radius: 16px;
+            pointer-events: none;
+        }
+
+        .tooltip.show::after {
+            animation: glassShimmer 0.8s ease-out forwards;
+        }
+
+        @keyframes glassShimmer {
+            0% { left: -100%; }
+            100% { left: 100%; }
         }
 
         .tooltip::before {
@@ -265,65 +307,66 @@
             position: absolute;
             width: 0;
             height: 0;
-            border: 6px solid transparent;
+            border: 8px solid transparent;
+            filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.1));
         }
 
         /* Tooltip positioning */
         .tooltip-top {
-            bottom: calc(100% + 10px);
+            bottom: calc(100% + 14px);
             left: 50%;
-            transform: translateX(-50%) scale(0.8) translateY(-5px);
+            transform: translateX(-50%) scale(0.9) translateY(-8px);
         }
 
         .tooltip-top::before {
             top: 100%;
             left: 50%;
             transform: translateX(-50%);
-            border-top-color: #333;
+            border-top-color: rgba(255, 255, 255, 0.9);
         }
 
         .tooltip-bottom {
-            top: calc(100% + 10px);
+            top: calc(100% + 14px);
             left: 50%;
-            transform: translateX(-50%) scale(0.8) translateY(5px);
+            transform: translateX(-50%) scale(0.9) translateY(8px);
         }
 
         .tooltip-bottom::before {
             bottom: 100%;
             left: 50%;
             transform: translateX(-50%);
-            border-bottom-color: #333;
+            border-bottom-color: rgba(255, 255, 255, 0.9);
         }
 
         .tooltip-left {
-            right: calc(100% + 10px);
+            right: calc(100% + 14px);
             top: 50%;
-            transform: translateY(-50%) scale(0.8) translateX(-5px);
+            transform: translateY(-50%) scale(0.9) translateX(-8px);
         }
 
         .tooltip-left::before {
             left: 100%;
             top: 50%;
             transform: translateY(-50%);
-            border-left-color: #333;
+            border-left-color: rgba(255, 255, 255, 0.9);
         }
 
         .tooltip-right {
-            left: calc(100% + 10px);
+            left: calc(100% + 14px);
             top: 50%;
-            transform: translateY(-50%) scale(0.8) translateX(5px);
+            transform: translateY(-50%) scale(0.9) translateX(8px);
         }
 
         .tooltip-right::before {
             right: 100%;
             top: 50%;
             transform: translateY(-50%);
-            border-right-color: #333;
+            border-right-color: rgba(255, 255, 255, 0.9);
         }
 
         .tooltip.show {
             opacity: 1 !important;
-            animation: tooltipPop 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
+            animation: liquidGlassAppear 0.4s cubic-bezier(0.34, 1.56, 0.64, 1) forwards;
         }
 
         .tooltip-top.show {
@@ -332,16 +375,17 @@
 
         .tooltip-bottom.show {
             transform: translateX(-50%) scale(1) translateY(0) !important;
-            animation: tooltipPopBottom 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
+            animation: liquidGlassAppearBottom 0.4s cubic-bezier(0.34, 1.56, 0.64, 1) forwards;
         }
 
-        @keyframes tooltipPop {
+        @keyframes liquidGlassAppear {
             0% {
-                transform: translateX(-50%) scale(0.8) translateY(-5px);
+                transform: translateX(-50%) scale(0.85) translateY(-12px);
                 opacity: 0;
+                backdrop-filter: blur(0px);
             }
             50% {
-                transform: translateX(-50%) scale(1.05) translateY(0);
+                transform: translateX(-50%) scale(1.02) translateY(2px);
             }
             100% {
                 transform: translateX(-50%) scale(1) translateY(0);
@@ -349,19 +393,77 @@
             }
         }
 
-        @keyframes tooltipPopBottom {
+        @keyframes liquidGlassAppearBottom {
             0% {
-                transform: translateX(-50%) scale(0.8) translateY(5px);
+                transform: translateX(-50%) scale(0.85) translateY(12px);
                 opacity: 0;
+                backdrop-filter: blur(0px);
             }
             50% {
-                transform: translateX(-50%) scale(1.05) translateY(0);
+                transform: translateX(-50%) scale(1.02) translateY(-2px);
             }
             100% {
                 transform: translateX(-50%) scale(1) translateY(0);
                 opacity: 1;
+                backdrop-filter: blur(20px);
             }
         }
+
+        /* Liquid glass tooltip title styling */
+        .tooltip-title {
+            font-weight: 700;
+            font-size: 0.9rem;
+            color: #0a0a1a;
+            margin-bottom: 4px;
+            display: block;
+        }
+
+        .tooltip-desc {
+            font-weight: 400;
+            font-size: 0.8rem;
+            color: #3a3a5a;
+            line-height: 1.45;
+        }
+
+        /* Dark mode support for liquid glass */
+        @media (prefers-color-scheme: dark) {
+            .tooltip {
+                background: linear-gradient(
+                    135deg,
+                    rgba(40, 40, 60, 0.85) 0%,
+                    rgba(30, 30, 50, 0.75) 50%,
+                    rgba(45, 45, 70, 0.8) 100%
+                );
+                color: #e8e8f0;
+                border: 1px solid rgba(255, 255, 255, 0.15);
+                box-shadow:
+                    0 8px 32px rgba(0, 0, 0, 0.4),
+                    0 2px 8px rgba(0, 0, 0, 0.3),
+                    inset 0 1px 0 rgba(255, 255, 255, 0.1),
+                    inset 0 -1px 0 rgba(0, 0, 0, 0.2);
+            }
+
+            .tooltip::before {
+                border-top-color: rgba(40, 40, 60, 0.85);
+            }
+
+            .tooltip-top::before {
+                border-top-color: rgba(40, 40, 60, 0.85);
+            }
+
+            .tooltip-bottom::before {
+                border-bottom-color: rgba(40, 40, 60, 0.85);
+            }
+
+            .tooltip-title {
+                color: #ffffff;
+            }
+
+            .tooltip-desc {
+                color: #c8c8e0;
+            }
+        }
+        /* ==================== END LIQUID GLASS TOOLTIP SYSTEM ==================== */
 
         .question-container {
             margin-bottom: 3rem;
@@ -1105,30 +1207,45 @@
         .variable-label:hover::after {
             content: attr(data-tooltip);
             position: absolute;
-            bottom: 120%;
+            bottom: 130%;
             left: 50%;
             transform: translateX(-50%);
-            background-color: #333;
-            color: #fff;
-            padding: 0.5rem 0.8rem;
-            border-radius: 6px;
+            /* Liquid Glass Effect */
+            background: linear-gradient(
+                135deg,
+                rgba(255, 255, 255, 0.92) 0%,
+                rgba(255, 255, 255, 0.75) 50%,
+                rgba(240, 248, 255, 0.88) 100%
+            );
+            backdrop-filter: blur(20px) saturate(180%);
+            -webkit-backdrop-filter: blur(20px) saturate(180%);
+            color: #1a1a2e;
+            padding: 10px 14px;
+            border-radius: 14px;
             font-size: 0.8rem;
+            font-weight: 500;
             width: 220px;
             text-align: center;
             z-index: 100;
-            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            border: 1px solid rgba(255, 255, 255, 0.6);
+            box-shadow:
+                0 8px 32px rgba(0, 0, 0, 0.12),
+                0 2px 8px rgba(0, 0, 0, 0.08),
+                inset 0 1px 0 rgba(255, 255, 255, 0.8);
             pointer-events: none;
-            line-height: 1.4;
+            line-height: 1.45;
+            animation: liquidGlassAppear 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
         }
 
         .variable-label:hover::before {
             content: '';
             position: absolute;
-            bottom: 100%;
+            bottom: 115%;
             left: 50%;
             transform: translateX(-50%);
-            border: 6px solid transparent;
-            border-top-color: #333;
+            border: 8px solid transparent;
+            border-top-color: rgba(255, 255, 255, 0.9);
+            filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.1));
         }
 
         .print-btn {
