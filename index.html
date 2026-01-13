@@ -15570,6 +15570,366 @@
         .floating-review-btn:hover {
             transform: scale(1.1);
         }
+
+        /* ========== BATCH 39: Science Jokes, Mind Map, Favorite Topics ========== */
+
+        /* Science Jokes */
+        .jokes-modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.7);
+            z-index: 10000;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .jokes-container {
+            background: linear-gradient(135deg, #ff6b6b 0%, #feca57 100%);
+            border-radius: 20px;
+            width: 90%;
+            max-width: 500px;
+            overflow: hidden;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+            text-align: center;
+        }
+
+        .jokes-header {
+            background: rgba(255, 255, 255, 0.2);
+            padding: 20px;
+            color: white;
+        }
+
+        .jokes-header h2 {
+            margin: 0;
+            font-size: 1.5rem;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.2);
+        }
+
+        .jokes-body {
+            padding: 30px;
+            color: white;
+        }
+
+        .joke-setup {
+            font-size: 1.3rem;
+            margin-bottom: 20px;
+            line-height: 1.5;
+        }
+
+        .joke-punchline {
+            font-size: 1.5rem;
+            font-weight: bold;
+            background: rgba(255, 255, 255, 0.2);
+            padding: 15px 20px;
+            border-radius: 15px;
+            margin-bottom: 20px;
+            display: none;
+        }
+
+        .joke-punchline.revealed {
+            display: block;
+            animation: punchlineReveal 0.5s ease;
+        }
+
+        @keyframes punchlineReveal {
+            0% { transform: scale(0.8); opacity: 0; }
+            100% { transform: scale(1); opacity: 1; }
+        }
+
+        .jokes-controls {
+            display: flex;
+            justify-content: center;
+            gap: 15px;
+        }
+
+        .joke-btn {
+            background: white;
+            color: #ff6b6b;
+            border: none;
+            padding: 12px 25px;
+            border-radius: 25px;
+            font-size: 1rem;
+            font-weight: bold;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .joke-btn:hover {
+            transform: scale(1.05);
+            box-shadow: 0 5px 20px rgba(0,0,0,0.2);
+        }
+
+        /* Mind Map */
+        .mindmap-modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.8);
+            z-index: 10000;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .mindmap-container {
+            background: white;
+            border-radius: 20px;
+            width: 95%;
+            max-width: 900px;
+            max-height: 90vh;
+            overflow: hidden;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+        }
+
+        .mindmap-header {
+            background: linear-gradient(135deg, #00bcd4 0%, #26c6da 100%);
+            color: white;
+            padding: 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .mindmap-header h2 {
+            margin: 0;
+            font-size: 1.5rem;
+        }
+
+        .mindmap-body {
+            padding: 30px;
+            overflow-y: auto;
+            max-height: 70vh;
+        }
+
+        .mindmap-tree {
+            display: flex;
+            flex-direction: column;
+            gap: 30px;
+        }
+
+        .mindmap-root {
+            background: linear-gradient(135deg, #00bcd4 0%, #26c6da 100%);
+            color: white;
+            padding: 20px 30px;
+            border-radius: 30px;
+            font-size: 1.3rem;
+            font-weight: bold;
+            text-align: center;
+            max-width: 300px;
+            margin: 0 auto;
+            box-shadow: 0 5px 20px rgba(0, 188, 212, 0.3);
+        }
+
+        .mindmap-branches {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 20px;
+        }
+
+        .mindmap-branch {
+            background: #e0f7fa;
+            border-radius: 15px;
+            padding: 20px;
+            border-left: 4px solid #00bcd4;
+        }
+
+        .mindmap-branch-title {
+            font-weight: bold;
+            color: #00838f;
+            font-size: 1.1rem;
+            margin-bottom: 10px;
+        }
+
+        .mindmap-leaves {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 8px;
+        }
+
+        .mindmap-leaf {
+            background: white;
+            color: #00838f;
+            padding: 6px 12px;
+            border-radius: 20px;
+            font-size: 0.85rem;
+            border: 1px solid #b2ebf2;
+        }
+
+        /* Favorite Topics */
+        .favorites-modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.7);
+            z-index: 10000;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .favorites-container {
+            background: white;
+            border-radius: 20px;
+            width: 90%;
+            max-width: 600px;
+            max-height: 85vh;
+            overflow: hidden;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+        }
+
+        .favorites-header {
+            background: linear-gradient(135deg, #ff5722 0%, #ff7043 100%);
+            color: white;
+            padding: 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .favorites-header h2 {
+            margin: 0;
+            font-size: 1.5rem;
+        }
+
+        .favorites-body {
+            padding: 20px;
+            max-height: 65vh;
+            overflow-y: auto;
+        }
+
+        .favorite-topic-card {
+            background: linear-gradient(135deg, #fff3e0 0%, #ffe0b2 100%);
+            border-radius: 12px;
+            padding: 15px 20px;
+            margin-bottom: 12px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-left: 4px solid #ff5722;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .favorite-topic-card:hover {
+            transform: translateX(5px);
+            box-shadow: 0 5px 15px rgba(255, 87, 34, 0.2);
+        }
+
+        .favorite-topic-info {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+
+        .favorite-topic-icon {
+            font-size: 2rem;
+        }
+
+        .favorite-topic-name {
+            font-weight: bold;
+            color: #e64a19;
+        }
+
+        .favorite-topic-actions button {
+            background: #f44336;
+            color: white;
+            border: none;
+            padding: 8px 15px;
+            border-radius: 6px;
+            cursor: pointer;
+        }
+
+        .add-favorite-btn {
+            background: linear-gradient(135deg, #ff5722 0%, #ff7043 100%);
+            color: white;
+            border: none;
+            padding: 15px 30px;
+            border-radius: 30px;
+            font-size: 1rem;
+            font-weight: bold;
+            cursor: pointer;
+            display: block;
+            width: 100%;
+            margin-top: 15px;
+        }
+
+        /* Floating buttons */
+        .floating-jokes-btn {
+            position: fixed;
+            bottom: 2980px;
+            right: 20px;
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, #ff6b6b 0%, #feca57 100%);
+            color: white;
+            border: none;
+            font-size: 1.3rem;
+            cursor: pointer;
+            box-shadow: 0 5px 20px rgba(255, 107, 107, 0.4);
+            z-index: 999;
+            transition: all 0.3s ease;
+        }
+
+        .floating-jokes-btn:hover {
+            transform: scale(1.1);
+        }
+
+        .floating-mindmap-btn {
+            position: fixed;
+            bottom: 3040px;
+            right: 20px;
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, #00bcd4 0%, #26c6da 100%);
+            color: white;
+            border: none;
+            font-size: 1.3rem;
+            cursor: pointer;
+            box-shadow: 0 5px 20px rgba(0, 188, 212, 0.4);
+            z-index: 999;
+            transition: all 0.3s ease;
+        }
+
+        .floating-mindmap-btn:hover {
+            transform: scale(1.1);
+        }
+
+        .floating-favorites-btn {
+            position: fixed;
+            bottom: 3100px;
+            right: 20px;
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, #ff5722 0%, #ff7043 100%);
+            color: white;
+            border: none;
+            font-size: 1.3rem;
+            cursor: pointer;
+            box-shadow: 0 5px 20px rgba(255, 87, 34, 0.4);
+            z-index: 999;
+            transition: all 0.3s ease;
+        }
+
+        .floating-favorites-btn:hover {
+            transform: scale(1.1);
+        }
+
+        .no-favorites {
+            text-align: center;
+            padding: 40px;
+            color: #999;
+        }
     </style>
 </head>
 
@@ -46982,6 +47342,308 @@ Science Made Fun!
         setTimeout(checkDailyReward, 1000);
 
         console.log('⚡ Power-ups, Daily Login Reward, and Quick Review loaded!');
+    </script>
+
+    <!-- ========== BATCH 39: Science Jokes, Mind Map, Favorite Topics ========== -->
+
+    <!-- Jokes Modal -->
+    <div class="jokes-modal" id="jokes-modal">
+        <div class="jokes-container">
+            <div class="jokes-header">
+                <h2>😂 Science Jokes</h2>
+            </div>
+            <div class="jokes-body">
+                <div class="joke-setup" id="joke-setup">Why did the biology teacher break up with the physics teacher?</div>
+                <div class="joke-punchline" id="joke-punchline">Because there was no chemistry!</div>
+            </div>
+            <div class="jokes-controls">
+                <button class="joke-btn" id="reveal-btn" onclick="revealPunchline()">Tell Me! 🤔</button>
+                <button class="joke-btn" onclick="nextJoke()">Next Joke</button>
+                <button class="joke-btn" onclick="closeJokes()">Close</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Mind Map Modal -->
+    <div class="mindmap-modal" id="mindmap-modal">
+        <div class="mindmap-container">
+            <div class="mindmap-header">
+                <h2>🧠 Science Mind Map</h2>
+                <button onclick="closeMindmap()" style="background: none; border: none; color: white; font-size: 1.5rem; cursor: pointer;">✕</button>
+            </div>
+            <div class="mindmap-body">
+                <select id="mindmap-topic-select" onchange="showMindmapTopic(this.value)" style="width: 100%; padding: 12px; border-radius: 10px; font-size: 1rem; margin-bottom: 20px; border: 2px solid #00bcd4;">
+                    <option value="heat">Heat & Temperature</option>
+                    <option value="light">Light</option>
+                    <option value="electricity">Electricity</option>
+                    <option value="matter">Matter</option>
+                    <option value="plants">Plants</option>
+                </select>
+                <div class="mindmap-tree" id="mindmap-content">
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Favorites Modal -->
+    <div class="favorites-modal" id="favorites-modal">
+        <div class="favorites-container">
+            <div class="favorites-header">
+                <h2>❤️ Favorite Topics</h2>
+                <button onclick="closeFavorites()" style="background: none; border: none; color: white; font-size: 1.5rem; cursor: pointer;">✕</button>
+            </div>
+            <div class="favorites-body" id="favorites-body">
+            </div>
+        </div>
+    </div>
+
+    <!-- Floating Buttons -->
+    <button class="floating-jokes-btn" onclick="openJokes()" title="Science Jokes">😂</button>
+    <button class="floating-mindmap-btn" onclick="openMindmap()" title="Mind Map">🧠</button>
+    <button class="floating-favorites-btn" onclick="openFavorites()" title="Favorites">❤️</button>
+
+    <script>
+        // ========== BATCH 39: Science Jokes, Mind Map, Favorite Topics ==========
+
+        // Science Jokes System
+        const scienceJokes = [
+            { setup: "Why did the biology teacher break up with the physics teacher?", punchline: "Because there was no chemistry!" },
+            { setup: "What did the science book say to the math book?", punchline: "Wow, you've got a lot of problems!" },
+            { setup: "Why can you never trust atoms?", punchline: "Because they make up everything!" },
+            { setup: "What do you call a fish without eyes?", punchline: "A fsh!" },
+            { setup: "Why did the sun go to school?", punchline: "To get brighter!" },
+            { setup: "What's a light year?", punchline: "The same as a regular year, but with fewer calories!" },
+            { setup: "Why are chemists great at solving problems?", punchline: "They have all the solutions!" },
+            { setup: "What did the limestone say to the geologist?", punchline: "Don't take me for granite!" },
+            { setup: "Why did the photon check into a hotel?", punchline: "Because it was traveling light!" },
+            { setup: "What do you do with a sick chemist?", punchline: "If you can't helium, and you can't curium, you might as well barium!" },
+            { setup: "How does the moon cut his hair?", punchline: "Eclipse it!" },
+            { setup: "Why is the mushroom always invited to parties?", punchline: "Because he's a fungi!" },
+            { setup: "What is a tornado's favorite game?", punchline: "Twister!" },
+            { setup: "Why do plants hate math?", punchline: "It gives them square roots!" },
+            { setup: "What do planets like to read?", punchline: "Comet books!" }
+        ];
+
+        let currentJokeIndex = 0;
+
+        function openJokes() {
+            document.getElementById('jokes-modal').style.display = 'flex';
+            showRandomJoke();
+        }
+
+        function closeJokes() {
+            document.getElementById('jokes-modal').style.display = 'none';
+        }
+
+        function showRandomJoke() {
+            currentJokeIndex = Math.floor(Math.random() * scienceJokes.length);
+            displayJoke();
+        }
+
+        function nextJoke() {
+            currentJokeIndex = (currentJokeIndex + 1) % scienceJokes.length;
+            displayJoke();
+        }
+
+        function displayJoke() {
+            const joke = scienceJokes[currentJokeIndex];
+            document.getElementById('joke-setup').textContent = joke.setup;
+            document.getElementById('joke-punchline').textContent = joke.punchline;
+            document.getElementById('joke-punchline').classList.remove('revealed');
+            document.getElementById('reveal-btn').style.display = 'inline-block';
+        }
+
+        function revealPunchline() {
+            document.getElementById('joke-punchline').classList.add('revealed');
+            document.getElementById('reveal-btn').style.display = 'none';
+        }
+
+        // Mind Map System
+        const mindmapData = {
+            heat: {
+                title: "Heat & Temperature",
+                branches: [
+                    { title: "Heat Transfer", leaves: ["Conduction", "Convection", "Radiation"] },
+                    { title: "Conductors", leaves: ["Metal", "Good conductors", "Transfer heat quickly"] },
+                    { title: "Insulators", leaves: ["Plastic", "Wood", "Rubber", "Poor conductors"] },
+                    { title: "Applications", leaves: ["Cooking", "Insulation", "Cooling systems"] }
+                ]
+            },
+            light: {
+                title: "Light",
+                branches: [
+                    { title: "Properties", leaves: ["Travels in straight lines", "Can be reflected", "Can be refracted"] },
+                    { title: "Shadows", leaves: ["Umbra", "Penumbra", "Opaque objects"] },
+                    { title: "Mirrors", leaves: ["Plane mirrors", "Reflection", "Virtual images"] },
+                    { title: "Lenses", leaves: ["Convex", "Concave", "Magnification"] }
+                ]
+            },
+            electricity: {
+                title: "Electricity",
+                branches: [
+                    { title: "Circuits", leaves: ["Series circuit", "Parallel circuit", "Open/closed"] },
+                    { title: "Components", leaves: ["Battery", "Bulb", "Switch", "Wire"] },
+                    { title: "Conductors", leaves: ["Metals", "Water", "Graphite"] },
+                    { title: "Safety", leaves: ["Insulators", "Circuit breakers", "Proper wiring"] }
+                ]
+            },
+            matter: {
+                title: "Matter",
+                branches: [
+                    { title: "States", leaves: ["Solid", "Liquid", "Gas"] },
+                    { title: "Properties", leaves: ["Mass", "Volume", "Density"] },
+                    { title: "Changes", leaves: ["Melting", "Boiling", "Condensation", "Freezing"] },
+                    { title: "Mixtures", leaves: ["Solutions", "Suspensions", "Separation methods"] }
+                ]
+            },
+            plants: {
+                title: "Plants",
+                branches: [
+                    { title: "Parts", leaves: ["Roots", "Stem", "Leaves", "Flowers"] },
+                    { title: "Photosynthesis", leaves: ["Sunlight", "Carbon dioxide", "Water", "Glucose"] },
+                    { title: "Transport", leaves: ["Xylem", "Phloem", "Water", "Nutrients"] },
+                    { title: "Reproduction", leaves: ["Seeds", "Pollination", "Germination"] }
+                ]
+            }
+        };
+
+        function openMindmap() {
+            document.getElementById('mindmap-modal').style.display = 'flex';
+            showMindmapTopic('heat');
+        }
+
+        function closeMindmap() {
+            document.getElementById('mindmap-modal').style.display = 'none';
+        }
+
+        function showMindmapTopic(topic) {
+            const data = mindmapData[topic];
+            const container = document.getElementById('mindmap-content');
+
+            container.innerHTML = `
+                <div class="mindmap-root">${data.title}</div>
+                <div class="mindmap-branches">
+                    ${data.branches.map(branch => `
+                        <div class="mindmap-branch">
+                            <div class="mindmap-branch-title">${branch.title}</div>
+                            <div class="mindmap-leaves">
+                                ${branch.leaves.map(leaf => `
+                                    <span class="mindmap-leaf">${leaf}</span>
+                                `).join('')}
+                            </div>
+                        </div>
+                    `).join('')}
+                </div>
+            `;
+        }
+
+        // Favorite Topics System
+        const availableTopics = [
+            { id: 'heat', name: 'Heat & Temperature', icon: '🔥' },
+            { id: 'light', name: 'Light & Shadows', icon: '💡' },
+            { id: 'electricity', name: 'Electricity', icon: '⚡' },
+            { id: 'forces', name: 'Forces & Motion', icon: '🎢' },
+            { id: 'plants', name: 'Plants', icon: '🌱' },
+            { id: 'animals', name: 'Animals', icon: '🦋' },
+            { id: 'human-body', name: 'Human Body', icon: '🫀' },
+            { id: 'matter', name: 'Matter & Materials', icon: '⚗️' },
+            { id: 'water-cycle', name: 'Water Cycle', icon: '💧' },
+            { id: 'earth', name: 'Earth & Space', icon: '🌍' }
+        ];
+
+        function getFavoriteTopics() {
+            return JSON.parse(localStorage.getItem('favoriteTopics')) || [];
+        }
+
+        function saveFavoriteTopics(favorites) {
+            localStorage.setItem('favoriteTopics', JSON.stringify(favorites));
+        }
+
+        function openFavorites() {
+            document.getElementById('favorites-modal').style.display = 'flex';
+            renderFavorites();
+        }
+
+        function closeFavorites() {
+            document.getElementById('favorites-modal').style.display = 'none';
+        }
+
+        function addFavoriteTopic(topicId) {
+            const favorites = getFavoriteTopics();
+            if (!favorites.includes(topicId)) {
+                favorites.push(topicId);
+                saveFavoriteTopics(favorites);
+                renderFavorites();
+            }
+        }
+
+        function removeFavoriteTopic(topicId) {
+            let favorites = getFavoriteTopics();
+            favorites = favorites.filter(f => f !== topicId);
+            saveFavoriteTopics(favorites);
+            renderFavorites();
+        }
+
+        function renderFavorites() {
+            const container = document.getElementById('favorites-body');
+            const favorites = getFavoriteTopics();
+            const favTopics = availableTopics.filter(t => favorites.includes(t.id));
+            const nonFavTopics = availableTopics.filter(t => !favorites.includes(t.id));
+
+            if (favTopics.length === 0) {
+                container.innerHTML = `
+                    <div class="no-favorites">
+                        <p style="font-size: 3rem; margin-bottom: 15px;">❤️</p>
+                        <p>No favorite topics yet!</p>
+                        <p style="font-size: 0.9rem;">Add topics you want quick access to.</p>
+                    </div>
+                    <h4 style="color: #ff5722; margin: 20px 0 10px;">Available Topics</h4>
+                    ${nonFavTopics.map(topic => `
+                        <div class="favorite-topic-card" onclick="addFavoriteTopic('${topic.id}')">
+                            <div class="favorite-topic-info">
+                                <span class="favorite-topic-icon">${topic.icon}</span>
+                                <span class="favorite-topic-name">${topic.name}</span>
+                            </div>
+                            <div class="favorite-topic-actions">
+                                <button style="background: #4CAF50;">+ Add</button>
+                            </div>
+                        </div>
+                    `).join('')}
+                `;
+                return;
+            }
+
+            container.innerHTML = `
+                <h4 style="color: #ff5722; margin-bottom: 15px;">Your Favorites</h4>
+                ${favTopics.map(topic => `
+                    <div class="favorite-topic-card">
+                        <div class="favorite-topic-info">
+                            <span class="favorite-topic-icon">${topic.icon}</span>
+                            <span class="favorite-topic-name">${topic.name}</span>
+                        </div>
+                        <div class="favorite-topic-actions">
+                            <button onclick="event.stopPropagation(); removeFavoriteTopic('${topic.id}')">Remove</button>
+                        </div>
+                    </div>
+                `).join('')}
+                ${nonFavTopics.length > 0 ? `
+                    <h4 style="color: #999; margin: 20px 0 10px;">Add More</h4>
+                    ${nonFavTopics.map(topic => `
+                        <div class="favorite-topic-card" onclick="addFavoriteTopic('${topic.id}')" style="opacity: 0.7;">
+                            <div class="favorite-topic-info">
+                                <span class="favorite-topic-icon">${topic.icon}</span>
+                                <span class="favorite-topic-name">${topic.name}</span>
+                            </div>
+                            <div class="favorite-topic-actions">
+                                <button style="background: #4CAF50;">+ Add</button>
+                            </div>
+                        </div>
+                    `).join('')}
+                ` : ''}
+            `;
+        }
+
+        console.log('😂 Science Jokes, Mind Map, and Favorite Topics loaded!');
     </script>
 
     <!-- PowerPoint-style Table Grid Selector (positioned fixed, outside all containers) -->
