@@ -11696,6 +11696,916 @@
 
         window.pokeTdQuestions = [];
 
+        // Generate the Poke TD game HTML with MCQ questions embedded
+        window.generatePokeTdHtml = function(mcqQuestions, studentName) {
+            return `<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Poke TD - Tower Defense</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #1e3c72 0%, #2a5298 100%);
+            min-height: 100vh;
+            overflow: hidden;
+            touch-action: manipulation;
+        }
+        #game-container {
+            position: relative;
+            width: 100vw;
+            height: 100vh;
+            display: flex;
+            flex-direction: column;
+        }
+        #top-bar {
+            background: rgba(0,0,0,0.8);
+            padding: 8px 15px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            color: white;
+            font-size: 14px;
+            z-index: 100;
+            flex-shrink: 0;
+        }
+        #top-bar .stat {
+            display: flex;
+            align-items: center;
+            gap: 5px;
+        }
+        #top-bar .stat span { font-weight: bold; }
+        #canvas-container {
+            flex: 1;
+            position: relative;
+            overflow: hidden;
+        }
+        #gameCanvas {
+            display: block;
+            background: #1a1a2e;
+        }
+        #tower-panel {
+            background: rgba(0,0,0,0.9);
+            padding: 10px;
+            display: flex;
+            justify-content: center;
+            gap: 10px;
+            flex-wrap: wrap;
+            z-index: 100;
+            flex-shrink: 0;
+        }
+        .tower-btn {
+            background: linear-gradient(145deg, #2d3436, #1e272e);
+            border: 2px solid #444;
+            border-radius: 10px;
+            padding: 8px 12px;
+            color: white;
+            cursor: pointer;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 3px;
+            min-width: 70px;
+            transition: all 0.2s;
+        }
+        .tower-btn:hover, .tower-btn.selected {
+            border-color: #ffd700;
+            transform: scale(1.05);
+        }
+        .tower-btn.disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+        }
+        .tower-btn .emoji { font-size: 24px; }
+        .tower-btn .name { font-size: 10px; font-weight: bold; }
+        .tower-btn .cost { font-size: 10px; color: #ffd700; }
+        #wave-banner {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            background: rgba(0,0,0,0.9);
+            padding: 20px 40px;
+            border-radius: 15px;
+            border: 3px solid #ffd700;
+            color: white;
+            text-align: center;
+            z-index: 200;
+            display: none;
+        }
+        #wave-banner h2 { font-size: 28px; color: #ffd700; margin-bottom: 10px; }
+        #wave-banner p { font-size: 16px; }
+        #quiz-modal {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0,0,0,0.95);
+            display: none;
+            justify-content: center;
+            align-items: center;
+            z-index: 300;
+        }
+        #quiz-box {
+            background: linear-gradient(145deg, #16213e, #1a1a2e);
+            border: 3px solid #ffd700;
+            border-radius: 20px;
+            padding: 25px;
+            max-width: 500px;
+            width: 90%;
+            color: white;
+            max-height: 80vh;
+            overflow-y: auto;
+        }
+        #quiz-box h3 {
+            color: #ffd700;
+            margin-bottom: 15px;
+            font-size: 18px;
+        }
+        #quiz-question {
+            font-size: 16px;
+            margin-bottom: 20px;
+            line-height: 1.5;
+        }
+        .mcq-options { display: flex; flex-direction: column; gap: 10px; }
+        .mcq-option {
+            background: rgba(255,255,255,0.1);
+            border: 2px solid #444;
+            border-radius: 10px;
+            padding: 12px 15px;
+            cursor: pointer;
+            transition: all 0.2s;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        .mcq-option:hover { border-color: #ffd700; background: rgba(255,215,0,0.1); }
+        .mcq-option.selected { border-color: #ffd700; background: rgba(255,215,0,0.2); }
+        .mcq-option.correct { border-color: #4CAF50; background: rgba(76,175,80,0.3); }
+        .mcq-option.incorrect { border-color: #f44336; background: rgba(244,67,54,0.3); }
+        .mcq-letter {
+            width: 28px;
+            height: 28px;
+            border-radius: 50%;
+            background: #ffd700;
+            color: #1a1a2e;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+            flex-shrink: 0;
+        }
+        #quiz-submit {
+            background: linear-gradient(145deg, #ffd700, #ffaa00);
+            border: none;
+            border-radius: 10px;
+            padding: 12px 30px;
+            font-size: 16px;
+            font-weight: bold;
+            color: #1a1a2e;
+            cursor: pointer;
+            margin-top: 20px;
+            width: 100%;
+            transition: transform 0.2s;
+        }
+        #quiz-submit:hover { transform: scale(1.02); }
+        #quiz-submit:disabled { opacity: 0.5; cursor: not-allowed; }
+        #quiz-result {
+            text-align: center;
+            padding: 15px;
+            border-radius: 10px;
+            margin-top: 15px;
+            display: none;
+        }
+        #quiz-result.correct { background: rgba(76,175,80,0.3); border: 2px solid #4CAF50; }
+        #quiz-result.incorrect { background: rgba(244,67,54,0.3); border: 2px solid #f44336; }
+        #game-over-modal {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0,0,0,0.95);
+            display: none;
+            justify-content: center;
+            align-items: center;
+            z-index: 400;
+        }
+        #game-over-box {
+            background: linear-gradient(145deg, #16213e, #1a1a2e);
+            border: 3px solid #ffd700;
+            border-radius: 20px;
+            padding: 30px;
+            text-align: center;
+            color: white;
+        }
+        #game-over-box h2 { color: #ffd700; font-size: 32px; margin-bottom: 20px; }
+        #game-over-box p { font-size: 18px; margin: 10px 0; }
+        #restart-btn {
+            background: linear-gradient(145deg, #ffd700, #ffaa00);
+            border: none;
+            border-radius: 10px;
+            padding: 15px 40px;
+            font-size: 18px;
+            font-weight: bold;
+            color: #1a1a2e;
+            cursor: pointer;
+            margin-top: 20px;
+        }
+        #start-modal {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0,0,0,0.95);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            z-index: 500;
+        }
+        #start-box {
+            background: linear-gradient(145deg, #16213e, #1a1a2e);
+            border: 3px solid #ffd700;
+            border-radius: 20px;
+            padding: 30px;
+            text-align: center;
+            color: white;
+            max-width: 400px;
+        }
+        #start-box h1 { color: #ffd700; font-size: 36px; margin-bottom: 10px; }
+        #start-box p { margin: 15px 0; line-height: 1.6; }
+        #start-btn {
+            background: linear-gradient(145deg, #ffd700, #ffaa00);
+            border: none;
+            border-radius: 10px;
+            padding: 15px 40px;
+            font-size: 20px;
+            font-weight: bold;
+            color: #1a1a2e;
+            cursor: pointer;
+            margin-top: 20px;
+        }
+        .pokemon-sprite {
+            width: 40px;
+            height: 40px;
+            image-rendering: pixelated;
+        }
+    </style>
+</head>
+<body>
+    <div id="game-container">
+        <div id="top-bar">
+            <div class="stat">❤️ <span id="lives">20</span></div>
+            <div class="stat">💰 <span id="coins">100</span></div>
+            <div class="stat">🌊 Wave: <span id="wave">1</span></div>
+            <div class="stat">⭐ <span id="score">0</span></div>
+        </div>
+        <div id="canvas-container">
+            <canvas id="gameCanvas"></canvas>
+        </div>
+        <div id="tower-panel">
+            <button class="tower-btn" data-tower="pikachu" onclick="selectTower('pikachu')">
+                <span class="emoji">⚡</span>
+                <span class="name">Pikachu</span>
+                <span class="cost">50💰</span>
+            </button>
+            <button class="tower-btn" data-tower="bulbasaur" onclick="selectTower('bulbasaur')">
+                <span class="emoji">🌿</span>
+                <span class="name">Bulbasaur</span>
+                <span class="cost">40💰</span>
+            </button>
+            <button class="tower-btn" data-tower="charmander" onclick="selectTower('charmander')">
+                <span class="emoji">🔥</span>
+                <span class="name">Charmander</span>
+                <span class="cost">45💰</span>
+            </button>
+            <button class="tower-btn" data-tower="squirtle" onclick="selectTower('squirtle')">
+                <span class="emoji">💧</span>
+                <span class="name">Squirtle</span>
+                <span class="cost">45💰</span>
+            </button>
+            <button class="tower-btn" data-tower="eevee" onclick="selectTower('eevee')">
+                <span class="emoji">🦊</span>
+                <span class="name">Eevee</span>
+                <span class="cost">60💰</span>
+            </button>
+        </div>
+        <div id="wave-banner">
+            <h2>Wave <span id="wave-num">1</span></h2>
+            <p id="wave-pokemon">Incoming: Rattata</p>
+        </div>
+        <div id="quiz-modal">
+            <div id="quiz-box">
+                <h3>🧠 Answer to Earn Coins!</h3>
+                <div id="quiz-question"></div>
+                <div id="quiz-options" class="mcq-options"></div>
+                <button id="quiz-submit" onclick="submitQuiz()" disabled>Submit Answer</button>
+                <div id="quiz-result"></div>
+            </div>
+        </div>
+        <div id="game-over-modal">
+            <div id="game-over-box">
+                <h2>Game Over!</h2>
+                <p>Waves Survived: <span id="final-wave">0</span></p>
+                <p>Final Score: <span id="final-score">0</span></p>
+                <p>Questions Correct: <span id="final-correct">0</span>/<span id="final-total">0</span></p>
+                <button id="restart-btn" onclick="restartGame()">Play Again</button>
+            </div>
+        </div>
+        <div id="start-modal">
+            <div id="start-box">
+                <h1>🎮 Poke TD</h1>
+                <p>Welcome, <strong>${studentName}</strong>!</p>
+                <p>Defend against waves of wild Pokemon! Place towers to attack enemies. Answer MCQ questions between waves to earn bonus coins!</p>
+                <p>💡 <em>Tip: Click on the map to place towers!</em></p>
+                <button id="start-btn" onclick="startGame()">Start Game</button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // MCQ Questions from parent
+        const mcqQuestions = ${JSON.stringify(mcqQuestions)};
+        let currentQuestionIndex = 0;
+        let questionsCorrect = 0;
+        let questionsTotal = 0;
+        let selectedMcqOption = null;
+
+        // Game state
+        const canvas = document.getElementById('gameCanvas');
+        const ctx = canvas.getContext('2d');
+
+        let gameState = {
+            lives: 20,
+            coins: 100,
+            wave: 1,
+            score: 0,
+            towers: [],
+            enemies: [],
+            projectiles: [],
+            selectedTower: null,
+            gameRunning: false,
+            waveInProgress: false,
+            enemiesSpawned: 0,
+            enemiesToSpawn: 0,
+            spawnTimer: 0
+        };
+
+        // Path definition (will be scaled)
+        const pathPoints = [
+            {x: 0, y: 0.3},
+            {x: 0.2, y: 0.3},
+            {x: 0.2, y: 0.7},
+            {x: 0.5, y: 0.7},
+            {x: 0.5, y: 0.2},
+            {x: 0.8, y: 0.2},
+            {x: 0.8, y: 0.8},
+            {x: 1.1, y: 0.8}
+        ];
+
+        // Tower types
+        const towerTypes = {
+            pikachu: { cost: 50, damage: 15, range: 120, fireRate: 1.5, color: '#ffd700', emoji: '⚡', projectileColor: '#ffff00' },
+            bulbasaur: { cost: 40, damage: 8, range: 100, fireRate: 1, color: '#4CAF50', emoji: '🌿', projectileColor: '#00ff00' },
+            charmander: { cost: 45, damage: 12, range: 110, fireRate: 1.2, color: '#ff5722', emoji: '🔥', projectileColor: '#ff4400' },
+            squirtle: { cost: 45, damage: 10, range: 130, fireRate: 1, color: '#2196F3', emoji: '💧', projectileColor: '#00aaff' },
+            eevee: { cost: 60, damage: 20, range: 90, fireRate: 2, color: '#9C27B0', emoji: '🦊', projectileColor: '#ff00ff' }
+        };
+
+        // Enemy types by wave
+        const enemyTypes = {
+            rattata: { hp: 30, speed: 1.5, reward: 10, emoji: '🐭', color: '#9C27B0' },
+            pidgey: { hp: 25, speed: 2, reward: 8, emoji: '🐦', color: '#8B4513' },
+            zubat: { hp: 40, speed: 1.8, reward: 12, emoji: '🦇', color: '#4B0082' },
+            geodude: { hp: 80, speed: 0.8, reward: 20, emoji: '🪨', color: '#808080' },
+            machop: { hp: 60, speed: 1.2, reward: 15, emoji: '💪', color: '#4169E1' },
+            haunter: { hp: 50, speed: 1.5, reward: 18, emoji: '👻', color: '#663399' },
+            onix: { hp: 150, speed: 0.5, reward: 35, emoji: '🐍', color: '#696969' },
+            gyarados: { hp: 200, speed: 0.7, reward: 50, emoji: '🐉', color: '#1E90FF' }
+        };
+
+        const waveConfig = [
+            { enemies: ['rattata'], count: 5 },
+            { enemies: ['rattata', 'pidgey'], count: 8 },
+            { enemies: ['pidgey', 'zubat'], count: 10 },
+            { enemies: ['zubat', 'geodude'], count: 10 },
+            { enemies: ['geodude', 'machop'], count: 12 },
+            { enemies: ['machop', 'haunter'], count: 12 },
+            { enemies: ['haunter', 'zubat', 'geodude'], count: 15 },
+            { enemies: ['onix', 'machop'], count: 10 },
+            { enemies: ['onix', 'haunter', 'geodude'], count: 15 },
+            { enemies: ['gyarados', 'onix'], count: 8 }
+        ];
+
+        function resizeCanvas() {
+            const container = document.getElementById('canvas-container');
+            canvas.width = container.clientWidth;
+            canvas.height = container.clientHeight;
+        }
+
+        function getScaledPath() {
+            return pathPoints.map(p => ({
+                x: p.x * canvas.width,
+                y: p.y * canvas.height
+            }));
+        }
+
+        function drawPath() {
+            const path = getScaledPath();
+            ctx.strokeStyle = '#3d3d5c';
+            ctx.lineWidth = 40;
+            ctx.lineCap = 'round';
+            ctx.lineJoin = 'round';
+            ctx.beginPath();
+            ctx.moveTo(path[0].x, path[0].y);
+            for (let i = 1; i < path.length; i++) {
+                ctx.lineTo(path[i].x, path[i].y);
+            }
+            ctx.stroke();
+
+            ctx.strokeStyle = '#4a4a6a';
+            ctx.lineWidth = 35;
+            ctx.beginPath();
+            ctx.moveTo(path[0].x, path[0].y);
+            for (let i = 1; i < path.length; i++) {
+                ctx.lineTo(path[i].x, path[i].y);
+            }
+            ctx.stroke();
+        }
+
+        function drawTowers() {
+            gameState.towers.forEach(tower => {
+                const type = towerTypes[tower.type];
+
+                // Range circle (when selected)
+                if (gameState.selectedTower === tower.type) {
+                    ctx.beginPath();
+                    ctx.arc(tower.x, tower.y, type.range, 0, Math.PI * 2);
+                    ctx.fillStyle = 'rgba(255, 215, 0, 0.1)';
+                    ctx.fill();
+                    ctx.strokeStyle = 'rgba(255, 215, 0, 0.3)';
+                    ctx.stroke();
+                }
+
+                // Tower base
+                ctx.beginPath();
+                ctx.arc(tower.x, tower.y, 20, 0, Math.PI * 2);
+                ctx.fillStyle = type.color;
+                ctx.fill();
+                ctx.strokeStyle = '#fff';
+                ctx.lineWidth = 2;
+                ctx.stroke();
+
+                // Tower emoji
+                ctx.font = '20px Arial';
+                ctx.textAlign = 'center';
+                ctx.textBaseline = 'middle';
+                ctx.fillText(type.emoji, tower.x, tower.y);
+            });
+        }
+
+        function drawEnemies() {
+            gameState.enemies.forEach(enemy => {
+                const type = enemyTypes[enemy.type];
+
+                // Health bar background
+                ctx.fillStyle = '#333';
+                ctx.fillRect(enemy.x - 15, enemy.y - 25, 30, 5);
+
+                // Health bar
+                const healthPercent = enemy.hp / enemy.maxHp;
+                ctx.fillStyle = healthPercent > 0.5 ? '#4CAF50' : healthPercent > 0.25 ? '#ff9800' : '#f44336';
+                ctx.fillRect(enemy.x - 15, enemy.y - 25, 30 * healthPercent, 5);
+
+                // Enemy circle
+                ctx.beginPath();
+                ctx.arc(enemy.x, enemy.y, 15, 0, Math.PI * 2);
+                ctx.fillStyle = type.color;
+                ctx.fill();
+
+                // Enemy emoji
+                ctx.font = '18px Arial';
+                ctx.textAlign = 'center';
+                ctx.textBaseline = 'middle';
+                ctx.fillText(type.emoji, enemy.x, enemy.y);
+            });
+        }
+
+        function drawProjectiles() {
+            gameState.projectiles.forEach(proj => {
+                ctx.beginPath();
+                ctx.arc(proj.x, proj.y, 5, 0, Math.PI * 2);
+                ctx.fillStyle = proj.color;
+                ctx.fill();
+            });
+        }
+
+        function isOnPath(x, y) {
+            const path = getScaledPath();
+            for (let i = 0; i < path.length - 1; i++) {
+                const p1 = path[i];
+                const p2 = path[i + 1];
+                const dist = pointToSegmentDist(x, y, p1.x, p1.y, p2.x, p2.y);
+                if (dist < 30) return true;
+            }
+            return false;
+        }
+
+        function pointToSegmentDist(px, py, x1, y1, x2, y2) {
+            const dx = x2 - x1;
+            const dy = y2 - y1;
+            const t = Math.max(0, Math.min(1, ((px - x1) * dx + (py - y1) * dy) / (dx * dx + dy * dy)));
+            const nearX = x1 + t * dx;
+            const nearY = y1 + t * dy;
+            return Math.sqrt((px - nearX) ** 2 + (py - nearY) ** 2);
+        }
+
+        function isTowerHere(x, y) {
+            return gameState.towers.some(t => Math.sqrt((t.x - x) ** 2 + (t.y - y) ** 2) < 40);
+        }
+
+        function selectTower(type) {
+            const towerData = towerTypes[type];
+            if (gameState.coins >= towerData.cost) {
+                gameState.selectedTower = type;
+                document.querySelectorAll('.tower-btn').forEach(btn => {
+                    btn.classList.remove('selected');
+                    if (btn.dataset.tower === type) btn.classList.add('selected');
+                });
+            }
+        }
+
+        function placeTower(x, y) {
+            if (!gameState.selectedTower) return;
+            if (isOnPath(x, y)) return;
+            if (isTowerHere(x, y)) return;
+
+            const type = towerTypes[gameState.selectedTower];
+            if (gameState.coins < type.cost) return;
+
+            gameState.coins -= type.cost;
+            gameState.towers.push({
+                x: x,
+                y: y,
+                type: gameState.selectedTower,
+                lastFire: 0
+            });
+
+            updateUI();
+            document.querySelectorAll('.tower-btn').forEach(btn => btn.classList.remove('selected'));
+            gameState.selectedTower = null;
+        }
+
+        canvas.addEventListener('click', (e) => {
+            if (!gameState.gameRunning) return;
+            const rect = canvas.getBoundingClientRect();
+            const x = e.clientX - rect.left;
+            const y = e.clientY - rect.top;
+            placeTower(x, y);
+        });
+
+        canvas.addEventListener('touchstart', (e) => {
+            if (!gameState.gameRunning) return;
+            e.preventDefault();
+            const rect = canvas.getBoundingClientRect();
+            const touch = e.touches[0];
+            const x = touch.clientX - rect.left;
+            const y = touch.clientY - rect.top;
+            placeTower(x, y);
+        });
+
+        function spawnEnemy() {
+            const waveIdx = Math.min(gameState.wave - 1, waveConfig.length - 1);
+            const config = waveConfig[waveIdx];
+            const enemyType = config.enemies[Math.floor(Math.random() * config.enemies.length)];
+            const type = enemyTypes[enemyType];
+            const path = getScaledPath();
+
+            gameState.enemies.push({
+                x: path[0].x,
+                y: path[0].y,
+                type: enemyType,
+                hp: type.hp,
+                maxHp: type.hp,
+                pathIndex: 0,
+                progress: 0
+            });
+        }
+
+        function moveEnemies() {
+            const path = getScaledPath();
+            gameState.enemies = gameState.enemies.filter(enemy => {
+                const type = enemyTypes[enemy.type];
+                enemy.progress += type.speed;
+
+                while (enemy.pathIndex < path.length - 1) {
+                    const p1 = path[enemy.pathIndex];
+                    const p2 = path[enemy.pathIndex + 1];
+                    const segLength = Math.sqrt((p2.x - p1.x) ** 2 + (p2.y - p1.y) ** 2);
+
+                    if (enemy.progress < segLength) {
+                        const t = enemy.progress / segLength;
+                        enemy.x = p1.x + (p2.x - p1.x) * t;
+                        enemy.y = p1.y + (p2.y - p1.y) * t;
+                        break;
+                    }
+
+                    enemy.progress -= segLength;
+                    enemy.pathIndex++;
+                }
+
+                if (enemy.pathIndex >= path.length - 1) {
+                    gameState.lives--;
+                    updateUI();
+                    if (gameState.lives <= 0) {
+                        gameOver();
+                    }
+                    return false;
+                }
+
+                return true;
+            });
+        }
+
+        function updateTowers(timestamp) {
+            gameState.towers.forEach(tower => {
+                const type = towerTypes[tower.type];
+                const fireInterval = 1000 / type.fireRate;
+
+                if (timestamp - tower.lastFire < fireInterval) return;
+
+                // Find nearest enemy in range
+                let nearestEnemy = null;
+                let nearestDist = Infinity;
+
+                gameState.enemies.forEach(enemy => {
+                    const dist = Math.sqrt((enemy.x - tower.x) ** 2 + (enemy.y - tower.y) ** 2);
+                    if (dist < type.range && dist < nearestDist) {
+                        nearestDist = dist;
+                        nearestEnemy = enemy;
+                    }
+                });
+
+                if (nearestEnemy) {
+                    tower.lastFire = timestamp;
+                    gameState.projectiles.push({
+                        x: tower.x,
+                        y: tower.y,
+                        targetX: nearestEnemy.x,
+                        targetY: nearestEnemy.y,
+                        damage: type.damage,
+                        color: type.projectileColor,
+                        speed: 8
+                    });
+                }
+            });
+        }
+
+        function updateProjectiles() {
+            gameState.projectiles = gameState.projectiles.filter(proj => {
+                const dx = proj.targetX - proj.x;
+                const dy = proj.targetY - proj.y;
+                const dist = Math.sqrt(dx * dx + dy * dy);
+
+                if (dist < proj.speed) {
+                    // Hit - find enemy at target
+                    gameState.enemies.forEach(enemy => {
+                        const enemyDist = Math.sqrt((enemy.x - proj.targetX) ** 2 + (enemy.y - proj.targetY) ** 2);
+                        if (enemyDist < 20) {
+                            enemy.hp -= proj.damage;
+                            if (enemy.hp <= 0) {
+                                const type = enemyTypes[enemy.type];
+                                gameState.coins += type.reward;
+                                gameState.score += type.reward;
+                                updateUI();
+                            }
+                        }
+                    });
+
+                    // Remove dead enemies
+                    gameState.enemies = gameState.enemies.filter(e => e.hp > 0);
+                    return false;
+                }
+
+                proj.x += (dx / dist) * proj.speed;
+                proj.y += (dy / dist) * proj.speed;
+                return true;
+            });
+        }
+
+        function updateUI() {
+            document.getElementById('lives').textContent = gameState.lives;
+            document.getElementById('coins').textContent = gameState.coins;
+            document.getElementById('wave').textContent = gameState.wave;
+            document.getElementById('score').textContent = gameState.score;
+
+            // Update tower buttons
+            document.querySelectorAll('.tower-btn').forEach(btn => {
+                const type = btn.dataset.tower;
+                if (towerTypes[type].cost > gameState.coins) {
+                    btn.classList.add('disabled');
+                } else {
+                    btn.classList.remove('disabled');
+                }
+            });
+        }
+
+        function showWaveBanner() {
+            const waveIdx = Math.min(gameState.wave - 1, waveConfig.length - 1);
+            const config = waveConfig[waveIdx];
+            const enemyNames = config.enemies.map(e => e.charAt(0).toUpperCase() + e.slice(1)).join(', ');
+
+            document.getElementById('wave-num').textContent = gameState.wave;
+            document.getElementById('wave-pokemon').textContent = 'Incoming: ' + enemyNames;
+            document.getElementById('wave-banner').style.display = 'block';
+
+            setTimeout(() => {
+                document.getElementById('wave-banner').style.display = 'none';
+                startWave();
+            }, 2000);
+        }
+
+        function startWave() {
+            const waveIdx = Math.min(gameState.wave - 1, waveConfig.length - 1);
+            const config = waveConfig[waveIdx];
+
+            gameState.waveInProgress = true;
+            gameState.enemiesSpawned = 0;
+            gameState.enemiesToSpawn = config.count;
+            gameState.spawnTimer = 0;
+        }
+
+        function showQuiz() {
+            if (currentQuestionIndex >= mcqQuestions.length) {
+                currentQuestionIndex = 0; // Loop questions
+            }
+
+            const q = mcqQuestions[currentQuestionIndex];
+            selectedMcqOption = null;
+
+            document.getElementById('quiz-question').textContent = q.question;
+            const optionsContainer = document.getElementById('quiz-options');
+            optionsContainer.innerHTML = '';
+
+            const letters = ['A', 'B', 'C', 'D', 'E'];
+            q.options.forEach((opt, idx) => {
+                const optEl = document.createElement('div');
+                optEl.className = 'mcq-option';
+                optEl.innerHTML = '<span class="mcq-letter">' + letters[idx] + '</span><span>' + opt + '</span>';
+                optEl.onclick = () => selectMcqOption(idx, optEl);
+                optionsContainer.appendChild(optEl);
+            });
+
+            document.getElementById('quiz-submit').disabled = true;
+            document.getElementById('quiz-result').style.display = 'none';
+            document.getElementById('quiz-modal').style.display = 'flex';
+        }
+
+        function selectMcqOption(index, element) {
+            selectedMcqOption = index;
+            document.querySelectorAll('.mcq-option').forEach(el => el.classList.remove('selected'));
+            element.classList.add('selected');
+            document.getElementById('quiz-submit').disabled = false;
+        }
+
+        function submitQuiz() {
+            if (selectedMcqOption === null) return;
+
+            const q = mcqQuestions[currentQuestionIndex];
+            const isCorrect = selectedMcqOption === q.correctIndex;
+            questionsTotal++;
+
+            const options = document.querySelectorAll('.mcq-option');
+            options[q.correctIndex].classList.add('correct');
+            if (!isCorrect) {
+                options[selectedMcqOption].classList.add('incorrect');
+            }
+
+            const resultEl = document.getElementById('quiz-result');
+            if (isCorrect) {
+                questionsCorrect++;
+                const bonus = 30 + Math.floor(Math.random() * 21); // 30-50 coins
+                gameState.coins += bonus;
+                resultEl.className = 'correct';
+                resultEl.innerHTML = '✅ Correct! +' + bonus + ' coins';
+            } else {
+                resultEl.className = 'incorrect';
+                resultEl.innerHTML = '❌ Incorrect. The answer was ' + ['A', 'B', 'C', 'D', 'E'][q.correctIndex] + '.';
+            }
+            resultEl.style.display = 'block';
+            updateUI();
+
+            document.getElementById('quiz-submit').disabled = true;
+
+            setTimeout(() => {
+                document.getElementById('quiz-modal').style.display = 'none';
+                currentQuestionIndex++;
+                gameState.wave++;
+                updateUI();
+                showWaveBanner();
+            }, 2000);
+        }
+
+        function gameOver() {
+            gameState.gameRunning = false;
+            document.getElementById('final-wave').textContent = gameState.wave;
+            document.getElementById('final-score').textContent = gameState.score;
+            document.getElementById('final-correct').textContent = questionsCorrect;
+            document.getElementById('final-total').textContent = questionsTotal;
+            document.getElementById('game-over-modal').style.display = 'flex';
+
+            // Send results to parent
+            if (window.parent !== window) {
+                window.parent.postMessage({
+                    type: 'POKETD_GAME_RESULT',
+                    wave: gameState.wave,
+                    score: gameState.score,
+                    questionsCorrect: questionsCorrect,
+                    questionsTotal: questionsTotal
+                }, '*');
+            }
+        }
+
+        function restartGame() {
+            gameState = {
+                lives: 20,
+                coins: 100,
+                wave: 1,
+                score: 0,
+                towers: [],
+                enemies: [],
+                projectiles: [],
+                selectedTower: null,
+                gameRunning: true,
+                waveInProgress: false,
+                enemiesSpawned: 0,
+                enemiesToSpawn: 0,
+                spawnTimer: 0
+            };
+            currentQuestionIndex = 0;
+            questionsCorrect = 0;
+            questionsTotal = 0;
+
+            document.getElementById('game-over-modal').style.display = 'none';
+            updateUI();
+            showWaveBanner();
+        }
+
+        function startGame() {
+            document.getElementById('start-modal').style.display = 'none';
+            gameState.gameRunning = true;
+            showWaveBanner();
+        }
+
+        let lastTime = 0;
+        function gameLoop(timestamp) {
+            const delta = timestamp - lastTime;
+            lastTime = timestamp;
+
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+            drawPath();
+            drawTowers();
+            drawEnemies();
+            drawProjectiles();
+
+            if (gameState.gameRunning && gameState.waveInProgress) {
+                // Spawn enemies
+                gameState.spawnTimer += delta;
+                if (gameState.spawnTimer > 800 && gameState.enemiesSpawned < gameState.enemiesToSpawn) {
+                    spawnEnemy();
+                    gameState.enemiesSpawned++;
+                    gameState.spawnTimer = 0;
+                }
+
+                moveEnemies();
+                updateTowers(timestamp);
+                updateProjectiles();
+
+                // Check wave complete
+                if (gameState.enemiesSpawned >= gameState.enemiesToSpawn && gameState.enemies.length === 0) {
+                    gameState.waveInProgress = false;
+                    // Show quiz between waves
+                    setTimeout(showQuiz, 500);
+                }
+            }
+
+            requestAnimationFrame(gameLoop);
+        }
+
+        // Initialize
+        window.addEventListener('resize', resizeCanvas);
+        resizeCanvas();
+        updateUI();
+        requestAnimationFrame(gameLoop);
+    </script>
+</body>
+</html>`;
+        };
+
         window.startPokeTD = async function() {
             if (!window.practiceState.currentStudent) {
                 alert("Please select a student first.");
@@ -11772,21 +12682,19 @@
 
             modal.style.display = 'flex';
 
-            // Load the game - using GitHub raw content or local path
-            // For now, use the poketd repo's GitHub Pages URL
-            iframe.src = 'https://polymathlc.github.io/poketd/';
+            // Generate the game HTML with embedded questions
+            const gameHtml = window.generatePokeTdHtml(window.pokeTdQuestions, student.name);
+            const blob = new Blob([gameHtml], { type: 'text/html' });
+            const blobUrl = URL.createObjectURL(blob);
 
-            // Wait for iframe to load, then send questions
-            iframe.onload = function() {
-                setTimeout(() => {
-                    iframe.contentWindow.postMessage({
-                        type: 'POKETD_MCQ_QUESTIONS',
-                        questions: window.pokeTdQuestions,
-                        studentName: student.name,
-                        studentLevel: level
-                    }, '*');
-                }, 1000);
-            };
+            // Clean up previous blob URL if exists
+            if (iframe.dataset.blobUrl) {
+                URL.revokeObjectURL(iframe.dataset.blobUrl);
+            }
+            iframe.dataset.blobUrl = blobUrl;
+
+            // Load the game
+            iframe.src = blobUrl;
         };
 
         window.closePokeTD = function() {
