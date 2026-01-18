@@ -7903,7 +7903,7 @@
                     card.innerHTML = `
                         <span class="question-number">Question ${idx + 1}</span>
                         <div class="remove-btn-wrapper">
-                            <button class="btn-worksheet-remove" onclick="removeFromWorksheet('${item.id}')">✕ Remove</button>
+                            <button class="btn-worksheet-remove" onclick="removeFromWorksheet('${window.escapeAttr(item.id)}')">✕ Remove</button>
                         </div>
                         <div class="worksheet-question-content" style="margin-top: 1rem;">
                             ${item.html}
@@ -8617,14 +8617,14 @@
                     const card = document.createElement('div');
                     card.className = 'saved-worksheet-card';
                     card.innerHTML = `
-                        <h4>📋 ${ws.name}</h4>
+                        <h4>📋 ${window.sanitizeHTML(ws.name)}</h4>
                         <div class="meta">${ws.questionCount} questions • Saved on ${date}</div>
-                        ${ws.description ? `<p style="color: #666; margin-bottom: 1rem;">${ws.description}</p>` : ''}
+                        ${ws.description ? `<p style="color: #666; margin-bottom: 1rem;">${window.sanitizeHTML(ws.description)}</p>` : ''}
                         <div class="actions" style="flex-wrap: wrap;">
-                            <button class="btn" style="background: linear-gradient(135deg, #667eea, #764ba2); color: white;" onclick="attemptWorksheet('${ws.id}')">✏️ Attempt</button>
-                            <button class="btn" style="background: #1976d2; color: white;" onclick="loadWorksheetToActive('${ws.id}')">📥 Load</button>
-                            <button class="btn" style="background: #28a745; color: white;" onclick="viewSavedWorksheet('${ws.id}')">👁️ View</button>
-                            <button class="btn" style="background: #dc3545; color: white;" onclick="deleteSavedWorksheet('${ws.id}')">🗑️ Delete</button>
+                            <button class="btn" style="background: linear-gradient(135deg, #667eea, #764ba2); color: white;" onclick="attemptWorksheet('${window.escapeAttr(ws.id)}')">✏️ Attempt</button>
+                            <button class="btn" style="background: #1976d2; color: white;" onclick="loadWorksheetToActive('${window.escapeAttr(ws.id)}')">📥 Load</button>
+                            <button class="btn" style="background: #28a745; color: white;" onclick="viewSavedWorksheet('${window.escapeAttr(ws.id)}')">👁️ View</button>
+                            <button class="btn" style="background: #dc3545; color: white;" onclick="deleteSavedWorksheet('${window.escapeAttr(ws.id)}')">🗑️ Delete</button>
                         </div>
                     `;
                     container.appendChild(card);
@@ -8693,14 +8693,15 @@
                 }
                 
                 const data = docSnap.data();
-                
+                const safeName = window.sanitizeHTML(data.name);
+
                 // Open in new window for viewing/printing
                 const printWindow = window.open('', '_blank');
                 printWindow.document.write(`
                     <!DOCTYPE html>
                     <html>
                     <head>
-                        <title>${data.name}</title>
+                        <title>${safeName}</title>
                         <style>
                             body { font-family: 'Segoe UI', sans-serif; padding: 2rem; max-width: 900px; margin: 0 auto; }
                             h1 { color: #1976d2; border-bottom: 2px solid #1976d2; padding-bottom: 10px; }
@@ -8712,7 +8713,7 @@
                         </style>
                     </head>
                     <body>
-                        <h1>📋 ${data.name}</h1>
+                        <h1>📋 ${safeName}</h1>
                         <div class="header-info">
                             <span>Name: _______________________</span>
                             <span>Date: _______________</span>
@@ -8720,7 +8721,7 @@
                         </div>
                         ${data.questions.map((q, i) => `
                             <div class="question">
-                                <h3>Question ${i + 1}: ${q.title}</h3>
+                                <h3>Question ${i + 1}: ${window.sanitizeHTML(q.title)}</h3>
                                 <div>${q.html}</div>
                             </div>
                         `).join('')}
