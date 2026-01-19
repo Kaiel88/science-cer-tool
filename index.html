@@ -4939,6 +4939,10 @@
                     <button class="print-btn tooltip-container" onclick="printAll()" data-tooltip="Print the current page or worksheet">🖨️ Print All</button>
                 </div>
                 <div class="header-icons">
+                    <button class="header-icon-btn tooltip-container hidden" onclick="switchTab('vetting', this)" data-tooltip="View questions pending review before adding to question bank (Admin only)" id="header-vetting-btn">
+                        📋
+                        <span id="header-vetting-badge" class="header-icon-badge" style="display: none;">0</span>
+                    </button>
                     <button class="header-icon-btn tooltip-container hidden" onclick="switchTab('flagged', this)" data-tooltip="View questions that have been flagged for review (Admin only)" id="header-flagged-btn">
                         🚩
                         <span id="header-flagged-badge" class="header-icon-badge" style="display: none;">0</span>
@@ -5948,8 +5952,10 @@
                                     style="background: #dc3545; color: white;">🗑️ Clear Form</button>
                                 <button id="admin-process-btn" class="btn" onclick="processAdminQuestion()"
                                     style="background: #28a745; color: white;">👁️ Preview & Select Blanks</button>
+                                <button id="save-to-vetting-btn" class="btn" onclick="saveToVettingList()"
+                                    style="background: #ff9800; color: white;">📝 Add to Vetting List</button>
                                 <button id="save-question-btn" class="btn" onclick="saveAdminQuestion()"
-                                    style="background: var(--primary-blue); color: white;">💾 Save Question</button>
+                                    style="background: var(--primary-blue); color: white;">✅ Add to Question Bank</button>
                             </div>
                         </div>
                         <div id="admin-preview-section" class="hidden" style="margin-top: 4rem;">
@@ -6503,6 +6509,30 @@
                             <div class="inbox-empty" id="flagged-empty-msg">
                                 <div style="font-size: 3rem; margin-bottom: 1rem;">✨</div>
                                 <p>No flagged questions</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Vetting List View (Admin Only) -->
+                <div id="view-vetting" class="view-content hidden" style="flex: 1;">
+                    <div style="max-width: 900px; margin: 0 auto; padding: 2rem;">
+                        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 2rem; flex-wrap: wrap; gap: 1rem;">
+                            <div>
+                                <h2 style="margin: 0; color: #ff9800;">📋 Vetting List</h2>
+                                <p style="margin: 0.5rem 0 0; color: #666;">Questions pending review before adding to question bank</p>
+                            </div>
+                            <div style="display: flex; gap: 10px;">
+                                <button class="btn" style="background: #ff9800; color: white;" onclick="loadVettingList()">🔄 Refresh</button>
+                            </div>
+                        </div>
+
+                        <!-- Vetting List Container -->
+                        <div id="vetting-list-container">
+                            <div class="inbox-empty" id="vetting-empty-msg">
+                                <div style="font-size: 3rem; margin-bottom: 1rem;">✨</div>
+                                <p>No questions pending review</p>
+                                <p style="font-size: 0.9rem; color: #888;">Questions added to the vetting list will appear here for review</p>
                             </div>
                         </div>
                     </div>
@@ -14871,14 +14901,240 @@
         window.updateFlaggedCount = function() {
             const badge = document.getElementById('header-flagged-badge');
             if (!badge) return;
-            
+
             const pendingCount = (window.flaggedQuestions || []).filter(f => f.status !== 'resolved').length;
-            
+
             if (pendingCount > 0) {
                 badge.textContent = pendingCount > 99 ? '99+' : pendingCount;
                 badge.style.display = 'flex';
             } else {
                 badge.style.display = 'none';
+            }
+        };
+
+        // =====================================================
+        // VETTING LIST UI FUNCTIONS
+        // =====================================================
+
+        // Load and render vetting list
+        window.loadVettingList = async function() {
+            if (!window.isAdminUser) return;
+
+            const container = document.getElementById('vetting-list-container');
+            container.innerHTML = '<div style="text-align: center; padding: 2rem; color: #888;">Loading vetting list...</div>';
+
+            if (window.loadVettingListFromFirebase) {
+                await window.loadVettingListFromFirebase();
+            }
+
+            renderVettingList();
+        };
+
+        // Render vetting list
+        window.renderVettingList = function() {
+            const container = document.getElementById('vetting-list-container');
+            const emptyMsg = document.getElementById('vetting-empty-msg');
+
+            const questions = window.vettingQuestions || [];
+
+            if (questions.length === 0) {
+                container.innerHTML = `
+                    <div class="inbox-empty">
+                        <div style="font-size: 3rem; margin-bottom: 1rem;">✨</div>
+                        <p>No questions pending review</p>
+                        <p style="font-size: 0.9rem; color: #888;">Questions added to the vetting list will appear here for review</p>
+                    </div>
+                `;
+                return;
+            }
+
+            container.innerHTML = questions.map(q => `
+                <div class="flagged-question-card" data-vetting-id="${window.escapeAttr(q.id)}" style="border-left-color: #ff9800;">
+                    <div class="flagged-question-header">
+                        <div>
+                            <div class="flagged-question-title">${window.sanitizeHTML(q.title || 'Untitled Question')}</div>
+                            <div class="flagged-question-meta">
+                                <span>Category: ${window.sanitizeHTML(q.category || 'N/A')}</span> •
+                                <span>Level: ${window.sanitizeHTML(q.level || 'N/A')}</span> •
+                                <span>Topic: ${window.sanitizeHTML(q.topic || 'N/A')}</span> •
+                                <span>By: ${window.sanitizeHTML(q.createdBy || 'Unknown')}</span> •
+                                <span>${q.createdAt ? new Date(q.createdAt).toLocaleDateString() : 'Unknown date'}</span>
+                            </div>
+                        </div>
+                        <span class="flagged-status-badge pending" style="background: #ff9800;">📝 Pending Review</span>
+                    </div>
+                    <div class="flagged-question-actions">
+                        <button class="btn" style="background: #667eea; color: white;" onclick="viewVettingQuestion('${window.escapeAttr(q.id)}')">👁️ Preview</button>
+                        <button class="btn" style="background: #1976d2; color: white;" onclick="editVettingQuestion('${window.escapeAttr(q.id)}')">✏️ Edit</button>
+                        <button class="btn" style="background: #4CAF50; color: white;" onclick="approveVettingQuestion('${window.escapeAttr(q.id)}')">✅ Approve & Add to Bank</button>
+                        <button class="btn" style="background: #dc3545; color: white;" onclick="deleteVettingQuestion('${window.escapeAttr(q.id)}')">🗑️ Delete</button>
+                    </div>
+                </div>
+            `).join('');
+        };
+
+        // View vetting question preview
+        window.viewVettingQuestion = function(vettingId) {
+            const question = window.vettingQuestions.find(q => q.id === vettingId);
+            if (!question || !question.html) {
+                alert('Question content not available.');
+                return;
+            }
+
+            const content = document.getElementById('question-popup-content');
+            content.innerHTML = `
+                <div class="question-container" style="margin: 0; box-shadow: none;">
+                    <h3 style="color: #1976d2; margin-bottom: 1rem;">${window.sanitizeHTML(question.title || 'Question')}</h3>
+                    <div class="question-content">${question.html}</div>
+                </div>
+            `;
+            document.getElementById('question-popup-modal').classList.add('visible');
+        };
+
+        // Save question to vetting list (from admin form)
+        window.saveToVettingList = async function() {
+            if (!window.auth || !window.auth.currentUser) {
+                alert("You must be logged in to save.");
+                return;
+            }
+
+            const title = document.getElementById('admin-title').value.trim();
+            if (!title) {
+                alert("Please enter a question title.");
+                document.getElementById('admin-title').focus();
+                return;
+            }
+
+            if (window.adminBlocks.length === 0) {
+                alert("Please add some content blocks before saving.");
+                return;
+            }
+
+            try {
+                const category = document.getElementById('admin-category').value;
+                const level = document.getElementById('admin-level').value;
+
+                let topic = document.getElementById('admin-topic').value;
+                if (topic === 'new-topic') {
+                    topic = document.getElementById('admin-new-topic').value.trim().toLowerCase().replace(/\s+/g, '-');
+                    if (!topic) {
+                        alert("Please enter a name for the new topic.");
+                        return;
+                    }
+                }
+
+                // Build HTML from preview or blocks (similar to saveAdminQuestion)
+                const previewContent = document.getElementById('admin-preview-content');
+                let finalHtml = '';
+
+                if (previewContent.innerHTML.trim()) {
+                    const clone = previewContent.cloneNode(true);
+                    clone.querySelectorAll('.controls, button.submit-btn, button.next-btn, button.print-btn, button.btn-primary').forEach(el => el.remove());
+                    clone.querySelectorAll('.explanation-box').forEach(el => { el.style.display = 'none'; });
+                    clone.querySelectorAll('.video-container').forEach(el => { el.style.display = 'none'; el.classList.add('hidden-until-answered'); });
+
+                    const selectedWords = clone.querySelectorAll('.admin-word.is-blank');
+                    selectedWords.forEach(word => {
+                        const answer = word.textContent.trim().replace(/[.,!?;:]/g, '');
+                        const calcWidth = Math.max(90, (answer.length * 1.5) * 10);
+                        word.outerHTML = `<input type="text" class="answer-input" data-answer="${answer}" placeholder="..." style="width: ${calcWidth}px;">`;
+                    });
+
+                    clone.querySelectorAll('.admin-word:not(.is-blank)').forEach(word => {
+                        word.outerHTML = word.textContent;
+                    });
+
+                    clone.querySelectorAll('.cer-segment').forEach(seg => {
+                        if (!seg.querySelector('.feedback-icon')) {
+                            const icon = document.createElement('span');
+                            icon.className = 'feedback-icon';
+                            seg.appendChild(icon);
+                        }
+                    });
+
+                    finalHtml = clone.innerHTML;
+                } else {
+                    // Build from blocks
+                    let mainHtml = '';
+                    let afterAnswerHtml = '';
+
+                    window.adminBlocks.forEach(block => {
+                        if (block.type === 'text' && block.value) {
+                            mainHtml += `<div style="margin-bottom: 1.5rem; color: var(--main-text); font-size: 1.1rem;">${block.value.replace(/\n/g, '<br>')}</div>`;
+                        } else if (block.type === 'answer' && block.value) {
+                            let answerHtml = block.value.replace(/\[([^\]]+)\]/g, (match, answer) => {
+                                const calcWidth = Math.max(90, (answer.length * 1.5) * 10);
+                                return `<input type="text" class="answer-input" data-answer="${answer.trim()}" placeholder="..." style="width: ${calcWidth}px;">`;
+                            });
+                            mainHtml += `<div class="cer-segment" style="margin-bottom: 1.5rem; line-height: 2;">${answerHtml}<span class="feedback-icon"></span></div>`;
+                        } else if (block.type === 'explanation' && block.value) {
+                            afterAnswerHtml += `<div class="explanation-box" style="margin-top: 1.5rem; padding: 1.5rem; background: #f0f4ff; border-left: 4px solid #007bff; border-radius: 8px; display: none;">
+                                <h4 style="margin-bottom: 0.8rem; color: #007bff; display: flex; align-items: center; gap: 8px;">💡 Explanation</h4>
+                                <div style="color: #444; line-height: 1.6;">${block.value.replace(/\n/g, '<br>')}</div>
+                            </div>`;
+                        } else if (block.type === 'image' && block.value) {
+                            const imageUrl = window.convertDropboxUrl ? window.convertDropboxUrl(block.value) : block.value;
+                            mainHtml += `<img src="${imageUrl}" class="question-diagram" style="max-width: 100%; border-radius: 8px; margin-bottom: 1.5rem; display: block; margin-left: auto; margin-right: auto;">`;
+                        }
+                    });
+
+                    finalHtml = mainHtml;
+
+                    // Add MCQ options if MCQ category
+                    if (category === 'mcq') {
+                        const opts = [
+                            document.getElementById('mcq-opt-1').value,
+                            document.getElementById('mcq-opt-2').value,
+                            document.getElementById('mcq-opt-3').value,
+                            document.getElementById('mcq-opt-4').value
+                        ];
+                        const correct = document.getElementById('mcq-correct').value;
+                        finalHtml += `<div class="mcq-container" style="margin-top: 1rem;">`;
+                        opts.forEach((opt, i) => {
+                            if (opt) {
+                                finalHtml += `
+                                    <label class="mcq-option">
+                                        <input type="radio" name="mcq-answer" value="${i + 1}" data-correct="${correct == i + 1}">
+                                        <span>${opt}</span>
+                                    </label>
+                                `;
+                            }
+                        });
+                        finalHtml += `</div>`;
+                    }
+
+                    finalHtml += afterAnswerHtml;
+                }
+
+                const { doc, setDoc } = await import("https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js");
+
+                const vettingId = "vetting-" + Date.now();
+
+                await setDoc(doc(window.db_fs, "vetting_questions", vettingId), {
+                    title: title,
+                    html: finalHtml,
+                    category: category,
+                    level: level,
+                    topic: topic,
+                    createdBy: window.auth.currentUser.email,
+                    createdAt: new Date().toISOString()
+                });
+
+                alert("Question added to vetting list for review!");
+
+                // Clear the form
+                if (window.clearAdminForm) {
+                    window.clearAdminForm(true, true);
+                }
+
+                // Refresh vetting count
+                if (window.loadVettingListFromFirebase) {
+                    await window.loadVettingListFromFirebase();
+                }
+
+            } catch (e) {
+                console.error("Error saving to vetting list:", e);
+                alert("Error saving question. Please try again.");
             }
         };
 
@@ -14895,7 +15151,7 @@
             }
 
             // Update button states
-            const allBtns = document.querySelectorAll('.tab-btn, #btn-sidebar-admin, #btn-sidebar-worksheet, #btn-sidebar-saved-worksheets, #btn-sidebar-practice, #btn-sidebar-lessons, #btn-sidebar-progress, #btn-sidebar-leaderboard, #btn-sidebar-my-progress, #header-inbox-btn, #header-flagged-btn');
+            const allBtns = document.querySelectorAll('.tab-btn, #btn-sidebar-admin, #btn-sidebar-worksheet, #btn-sidebar-saved-worksheets, #btn-sidebar-practice, #btn-sidebar-lessons, #btn-sidebar-progress, #btn-sidebar-leaderboard, #btn-sidebar-my-progress, #header-inbox-btn, #header-flagged-btn, #header-vetting-btn');
             allBtns.forEach(b => b.classList.remove('active'));
             if (btn) btn.classList.add('active');
 
@@ -14904,9 +15160,9 @@
             mainContentArea.querySelectorAll('.view-content').forEach(el => {
                 el.classList.add('hidden');
             });
-            
+
             // List of special tabs (admin, worksheet, etc) - these need topic containers hidden
-            const specialTabs = ['admin', 'worksheet', 'saved-worksheets', 'practice', 'inbox', 'lessons', 'lesson-detail', 'student-progress', 'my-progress', 'flagged', 'leaderboard', 'question-list'];
+            const specialTabs = ['admin', 'worksheet', 'saved-worksheets', 'practice', 'inbox', 'lessons', 'lesson-detail', 'student-progress', 'my-progress', 'flagged', 'vetting', 'leaderboard', 'question-list'];
             
             // Hide all topic containers for special tabs (practice mode should be a full-page view)
             if (specialTabs.includes(type)) {
@@ -15010,6 +15266,11 @@
             // Load flagged questions when switching to flagged tab
             if (type === 'flagged') {
                 loadFlaggedQuestions();
+            }
+
+            // Load vetting list when switching to vetting tab
+            if (type === 'vetting') {
+                loadVettingList();
             }
         };
         
@@ -18827,6 +19088,148 @@
                     }
                 };
 
+                // =====================================================
+                // VETTING LIST FUNCTIONS
+                // =====================================================
+
+                // Load vetting list from Firebase
+                window.loadVettingListFromFirebase = async function() {
+                    try {
+                        const vettingRef = collection(db, "vetting_questions");
+                        const snapshot = await getDocs(vettingRef);
+
+                        window.vettingQuestions = [];
+                        snapshot.forEach(doc => {
+                            window.vettingQuestions.push({ id: doc.id, ...doc.data() });
+                        });
+
+                        // Sort by createdAt descending
+                        window.vettingQuestions.sort((a, b) => {
+                            const dateA = a.createdAt ? new Date(a.createdAt).getTime() : 0;
+                            const dateB = b.createdAt ? new Date(b.createdAt).getTime() : 0;
+                            return dateB - dateA;
+                        });
+
+                        window.updateVettingCount();
+                    } catch (e) {
+                        console.error("Error loading vetting questions:", e);
+                    }
+                };
+
+                // Update vetting count badge
+                window.updateVettingCount = function() {
+                    const count = window.vettingQuestions ? window.vettingQuestions.length : 0;
+                    const badge = document.getElementById('header-vetting-badge');
+                    if (badge) {
+                        badge.textContent = count;
+                        badge.style.display = count > 0 ? 'flex' : 'none';
+                    }
+                };
+
+                // Delete from vetting list
+                window.deleteVettingQuestion = async function(vettingId) {
+                    if (!confirm("Are you sure you want to delete this question from the vetting list?")) return;
+
+                    try {
+                        await deleteDoc(doc(db, "vetting_questions", vettingId));
+                        alert("Question removed from vetting list.");
+                        window.loadVettingList();
+                    } catch (e) {
+                        console.error("Error deleting vetting question:", e);
+                        alert("Error deleting question. Please try again.");
+                    }
+                };
+
+                // Approve and move to question bank
+                window.approveVettingQuestion = async function(vettingId) {
+                    try {
+                        // Get the vetting question data
+                        const vettingDoc = await getDoc(doc(db, "vetting_questions", vettingId));
+                        if (!vettingDoc.exists()) {
+                            alert("Question not found.");
+                            return;
+                        }
+
+                        const data = vettingDoc.data();
+                        const questionId = "custom-" + Date.now();
+
+                        // Save to custom_questions (question bank)
+                        await setDoc(doc(db, "custom_questions", questionId), {
+                            title: data.title,
+                            html: data.html,
+                            category: data.category,
+                            level: data.level,
+                            topic: data.topic,
+                            type: 'custom',
+                            createdBy: data.createdBy,
+                            createdAt: data.createdAt,
+                            approvedBy: user.email,
+                            approvedAt: new Date().toISOString(),
+                            updatedBy: user.email,
+                            updatedAt: new Date().toISOString()
+                        });
+
+                        // Delete from vetting list
+                        await deleteDoc(doc(db, "vetting_questions", vettingId));
+
+                        alert("Question approved and added to question bank!");
+
+                        // Reload vetting list and custom questions
+                        window.loadVettingList();
+                        if (window.loadCustomQuestions) {
+                            window.customQuestionsLoaded = false;
+                            document.querySelectorAll('.custom-question').forEach(el => el.remove());
+                            await window.loadCustomQuestions();
+                        }
+                    } catch (e) {
+                        console.error("Error approving question:", e);
+                        alert("Error approving question. Please try again.");
+                    }
+                };
+
+                // Edit vetting question (load into admin form)
+                window.editVettingQuestion = async function(vettingId) {
+                    try {
+                        const vettingDoc = await getDoc(doc(db, "vetting_questions", vettingId));
+                        if (!vettingDoc.exists()) {
+                            alert("Question not found.");
+                            return;
+                        }
+
+                        const data = vettingDoc.data();
+
+                        // Switch to admin tab
+                        window.switchTab('admin');
+
+                        // Clear form first
+                        if (window.clearAdminForm) {
+                            window.clearAdminForm(true, false);
+                        }
+
+                        // Fill in the form
+                        document.getElementById('admin-title').value = data.title || '';
+                        document.getElementById('admin-category').value = data.category || 'oeq';
+                        document.getElementById('admin-level').value = data.level || 'P3';
+                        document.getElementById('admin-topic').value = data.topic || 'heat';
+
+                        // Store the vetting ID for saving back
+                        window.editingVettingId = vettingId;
+
+                        // Show the preview content
+                        const previewSection = document.getElementById('admin-preview-section');
+                        const previewContent = document.getElementById('admin-preview-content');
+                        if (previewSection && previewContent) {
+                            previewContent.innerHTML = data.html || '';
+                            previewSection.classList.remove('hidden');
+                        }
+
+                        alert("Question loaded for editing. Make your changes and click 'Add to Question Bank' to approve.");
+                    } catch (e) {
+                        console.error("Error editing vetting question:", e);
+                        alert("Error loading question. Please try again.");
+                    }
+                };
+
                 // Check admin status
                 const emailParts = user.email.toLowerCase().split('@');
                 const handle = emailParts[1] === 'gmail.com' ? emailParts[0].replace(/\./g, '') : emailParts[0];
@@ -18839,11 +19242,19 @@
                     document.getElementById('btn-sidebar-admin').classList.remove('hidden');
                     document.getElementById('btn-sidebar-progress').classList.remove('hidden');
                     document.getElementById('header-flagged-btn').classList.remove('hidden');
-                    
+                    document.getElementById('header-vetting-btn').classList.remove('hidden');
+
                     // Load flagged questions count for admin
                     if (window.loadFlaggedQuestionsFromFirebase) {
                         window.loadFlaggedQuestionsFromFirebase().then(() => {
                             window.updateFlaggedCount();
+                        });
+                    }
+
+                    // Load vetting list count for admin
+                    if (window.loadVettingListFromFirebase) {
+                        window.loadVettingListFromFirebase().then(() => {
+                            window.updateVettingCount();
                         });
                     }
                 } else {
@@ -18851,6 +19262,7 @@
                     document.getElementById('btn-sidebar-admin').classList.add('hidden');
                     document.getElementById('btn-sidebar-progress').classList.add('hidden');
                     document.getElementById('header-flagged-btn').classList.add('hidden');
+                    document.getElementById('header-vetting-btn').classList.add('hidden');
                 }
 
                 window.loadCustomQuestions();
@@ -19387,6 +19799,7 @@
         const tooltipDescriptions = {
             'header-tutorial-btn': 'Click to view a comprehensive tutorial covering all features of the app',
             'header-inbox-btn': 'View messages and notifications from teachers',
+            'header-vetting-btn': 'View questions pending review before adding to question bank (Admin only)',
             'header-flagged-btn': 'View questions that have been flagged for review (Admin only)',
             'header-settings-btn': 'Access account settings and preferences',
             'print-btn': 'Print the current page or worksheet',
