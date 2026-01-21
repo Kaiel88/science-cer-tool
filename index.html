@@ -6938,6 +6938,98 @@
         })();
 
         // =====================================================
+        // AUTO-REFRESH QUESTIONS ON PAGE ACCESS
+        // =====================================================
+        (function() {
+            'use strict';
+
+            // Session cache buster for images
+            window.sessionCacheBuster = Date.now();
+
+            // Track when page was last refreshed
+            let lastRefreshTime = Date.now();
+            const REFRESH_INTERVAL = 5 * 60 * 1000; // 5 minutes
+
+            // Function to refresh question data
+            window.refreshQuestionData = async function() {
+                console.log('Refreshing question data...');
+
+                // Clear image cache to force fresh images
+                if (window.imageCache) {
+                    window.imageCache.clear();
+                }
+                window.preloadingImages = new Set();
+
+                // Update session cache buster for new images
+                window.sessionCacheBuster = Date.now();
+
+                // Reset custom questions loaded flag
+                window.customQuestionsLoaded = false;
+
+                // Remove existing custom questions from DOM
+                document.querySelectorAll('.custom-question').forEach(el => el.remove());
+
+                // Reload custom questions if function exists and user is logged in
+                if (window.loadCustomQuestions && window.auth?.currentUser) {
+                    try {
+                        await window.loadCustomQuestions();
+                        console.log('Questions refreshed successfully');
+                    } catch (e) {
+                        console.error('Error refreshing questions:', e);
+                    }
+                }
+
+                lastRefreshTime = Date.now();
+            };
+
+            // Refresh when page becomes visible (user switches back to tab)
+            document.addEventListener('visibilitychange', function() {
+                if (document.visibilityState === 'visible') {
+                    const timeSinceLastRefresh = Date.now() - lastRefreshTime;
+
+                    // Only refresh if it's been more than 5 minutes since last refresh
+                    // and user is not in admin mode
+                    if (timeSinceLastRefresh > REFRESH_INTERVAL) {
+                        const isInAdminMode = document.getElementById('view-admin') &&
+                                              !document.getElementById('view-admin').classList.contains('hidden');
+                        const hasUnsavedWork = window.adminBlocks && window.adminBlocks.length > 0;
+
+                        if (!isInAdminMode && !hasUnsavedWork) {
+                            window.refreshQuestionData();
+                        }
+                    }
+                }
+            });
+
+            // Also refresh on page focus (for browsers that don't fire visibilitychange)
+            window.addEventListener('focus', function() {
+                const timeSinceLastRefresh = Date.now() - lastRefreshTime;
+                if (timeSinceLastRefresh > REFRESH_INTERVAL) {
+                    const isInAdminMode = document.getElementById('view-admin') &&
+                                          !document.getElementById('view-admin').classList.contains('hidden');
+                    const hasUnsavedWork = window.adminBlocks && window.adminBlocks.length > 0;
+
+                    if (!isInAdminMode && !hasUnsavedWork) {
+                        window.refreshQuestionData();
+                    }
+                }
+            });
+
+            // Clear stale data on initial page load
+            window.addEventListener('load', function() {
+                // Clear image cache on fresh page load
+                if (window.imageCache) {
+                    window.imageCache.clear();
+                }
+
+                // Reset custom questions loaded flag to ensure fresh load
+                window.customQuestionsLoaded = false;
+
+                console.log('Page loaded - ready for fresh question data');
+            });
+        })();
+
+        // =====================================================
         // GLOBAL STATE & UTILITIES
         // =====================================================
         window.adminBlocks = [];
@@ -18282,9 +18374,15 @@
         };
 
         // Convert Dropbox URL to displayable format
+        // Adds cache-busting parameter to prevent stale images
         window.convertDropboxUrl = function(url) {
             if (!url) return url;
-            
+
+            // Get or create a session-based cache buster
+            if (!window.sessionCacheBuster) {
+                window.sessionCacheBuster = Date.now();
+            }
+
             // Handle new Dropbox format: /scl/fi/xxx/file.jpg?rlkey=xxx&dl=0
             if (url.includes('dropbox.com/scl/')) {
                 // Replace dl=0 or dl=1 with raw=1
@@ -18292,16 +18390,25 @@
                 if (!url.includes('raw=1')) {
                     url += (url.includes('?') ? '&' : '?') + 'raw=1';
                 }
+                // Add cache-buster if not already present
+                if (!url.includes('_cb=')) {
+                    url += '&_cb=' + window.sessionCacheBuster;
+                }
                 return url;
             }
-            
+
             // Handle old Dropbox format
             if (url.includes('dropbox.com')) {
-                return url.replace('www.dropbox.com', 'dl.dropboxusercontent.com')
+                url = url.replace('www.dropbox.com', 'dl.dropboxusercontent.com')
                           .replace('?dl=0', '')
                           .replace('?dl=1', '');
+                // Add cache-buster
+                if (!url.includes('_cb=')) {
+                    url += (url.includes('?') ? '&' : '?') + '_cb=' + window.sessionCacheBuster;
+                }
+                return url;
             }
-            
+
             return url;
         };
 
@@ -19479,6 +19586,18 @@
             if (user) {
                 overlay.style.display = 'none';
                 trackLoginDays(user);
+
+                // Reset question loading state on login to ensure fresh data
+                window.customQuestionsLoaded = false;
+
+                // Clear image cache to force fresh images on login
+                if (window.imageCache) {
+                    window.imageCache.clear();
+                }
+                window.sessionCacheBuster = Date.now();
+
+                // Remove any existing custom questions to prevent duplicates
+                document.querySelectorAll('.custom-question').forEach(el => el.remove());
 
                 window.loadCustomQuestions = async function() {
                     if (window.customQuestionsLoaded) return;
