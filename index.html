@@ -8105,12 +8105,9 @@
                         <div style="color: #dc3545; text-align: center; padding: 20px; background: #fff3f3; border-radius: 8px; border: 1px dashed #dc3545;">
                             <div style="font-size: 2rem; margin-bottom: 0.5rem;">🖼️</div>
                             <p style="margin: 0 0 0.5rem 0; font-weight: 500;">Image unavailable</p>
-                            <div style="display: flex; gap: 8px; justify-content: center; flex-wrap: wrap;">
-                                <button onclick="window.retryImageLoad('${uniqueId}')" style="background: #dc3545; color: white; border: none; padding: 6px 12px; border-radius: 4px; cursor: pointer; font-size: 0.85rem;">
-                                    🔄 Retry
-                                </button>
-                                ${window.isAdminUser ? `<button onclick="window.showImageDebug('${uniqueId}')" style="background: #666; color: white; border: none; padding: 6px 12px; border-radius: 4px; cursor: pointer; font-size: 0.85rem;">🔍 Debug</button>` : ''}
-                            </div>
+                            <button onclick="window.retryImageLoad('${uniqueId}')" style="background: #dc3545; color: white; border: none; padding: 6px 12px; border-radius: 4px; cursor: pointer; font-size: 0.85rem;">
+                                🔄 Retry
+                            </button>
                         </div>
                     `;
                     placeholder.style.display = 'block';
@@ -8119,36 +8116,6 @@
             }
         };
 
-        /**
-         * Show debug info for a failed image (admin only)
-         */
-        window.showImageDebug = function(uniqueId) {
-            const img = document.getElementById(uniqueId);
-            if (!img) return;
-
-            const originalSrc = img.dataset.originalSrc || img.src;
-            const currentSrc = img.src;
-
-            const debugInfo = `
-Image Debug Info:
-================
-Original URL: ${originalSrc}
-Current URL: ${currentSrc}
-Retry Count: ${img.dataset.retryCount || 0}
-
-Tips:
-- Check if the Dropbox link is still valid
-- Make sure the file is publicly shared
-- Try re-uploading the image and updating the question
-            `.trim();
-
-            // Copy to clipboard
-            navigator.clipboard.writeText(originalSrc).then(() => {
-                alert(debugInfo + '\n\n✅ Original URL copied to clipboard!');
-            }).catch(() => {
-                prompt('Debug Info (URL copied):', originalSrc);
-            });
-        };
 
         /**
          * Retry loading a failed image
