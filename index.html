@@ -8029,11 +8029,16 @@
         };
 
         /**
-         * Create a simple image element - no fancy wrappers
+         * Create image element with preloading
          */
         window.createOptimizedImage = function(src, className = '', style = '') {
             const fixedSrc = window.convertDropboxUrl(src);
-            return `<img src="${fixedSrc}" class="${className}" style="max-width: 100%; border-radius: 8px; display: block; margin: 0 auto; ${style}" onerror="this.style.display='none'; this.insertAdjacentHTML('afterend', '<div style=\\'color:#999; text-align:center; padding:15px; background:#f8f8f8; border-radius:8px;\\'>Image unavailable</div>');">`;
+
+            // Preload immediately
+            const preload = new Image();
+            preload.src = fixedSrc;
+
+            return `<img src="${fixedSrc}" class="${className}" style="max-width: 100%; border-radius: 8px; display: block; margin: 0 auto; ${style}" onerror="this.onerror=null; this.style.display='none'; this.insertAdjacentHTML('afterend', '<div style=\\'color:#999; text-align:center; padding:15px; background:#f8f8f8; border-radius:8px;\\'>Image unavailable</div>');">`;
         };
 
 
@@ -18416,7 +18421,8 @@
         };
 
         /**
-         * Convert Dropbox URL to direct link - SIMPLE VERSION
+         * Convert Dropbox URL for direct image display
+         * Uses raw=1 for immediate inline serving (faster than dl=1)
          */
         window.convertDropboxUrl = function(url) {
             if (!url) return url;
@@ -18424,33 +18430,50 @@
             // Decode HTML entities
             url = url.replace(/&amp;/g, '&');
 
-            // New format: dropbox.com/scl/fi/... - change dl=0 to dl=1
+            // New format: dropbox.com/scl/fi/...
+            // Use raw=1 for direct serving (no redirect, faster)
             if (url.includes('dropbox.com/scl/')) {
-                return url.replace('dl=0', 'dl=1');
+                // Remove dl parameter and add raw=1
+                url = url.replace(/[?&]dl=[01]/g, '');
+                // Clean up double && or trailing &
+                url = url.replace(/&&/g, '&').replace(/\?&/g, '?').replace(/&$/g, '');
+                // Add raw=1
+                url += (url.includes('?') ? '&' : '?') + 'raw=1';
+                return url;
             }
 
-            // Old format: www.dropbox.com/s/... - use direct domain
+            // Old format: www.dropbox.com/s/... - use direct CDN domain
             if (url.includes('www.dropbox.com/s/')) {
                 return url.replace('www.dropbox.com', 'dl.dropboxusercontent.com')
-                          .replace('?dl=0', '').replace('?dl=1', '');
+                          .replace(/\?dl=[01]/g, '');
             }
 
             return url;
         };
 
         /**
-         * Normalize image URLs in HTML - SIMPLE VERSION
+         * Normalize image URLs in HTML
          */
         window.normalizeImageUrls = function(html) {
             if (!html) return html;
 
-            // Fix encoded ampersands
+            // Fix encoded ampersands globally
             html = html.replace(/&amp;/g, '&');
 
-            // Fix Dropbox URLs
+            // Fix all Dropbox image URLs
             html = html.replace(/src="([^"]*dropbox\.com[^"]*)"/g, (match, url) => {
                 return 'src="' + window.convertDropboxUrl(url) + '"';
             });
+
+            // Also preload these images immediately
+            const imgRegex = /src="([^"]+)"/g;
+            let m;
+            while ((m = imgRegex.exec(html)) !== null) {
+                if (m[1].includes('dropbox.com') || m[1].match(/\.(jpg|jpeg|png|gif|webp)$/i)) {
+                    const img = new Image();
+                    img.src = window.convertDropboxUrl(m[1]);
+                }
+            }
 
             return html;
         };
@@ -18498,7 +18521,7 @@
         };
 
         /**
-         * Process images in element - SIMPLE VERSION
+         * Process images in element - fix URLs and preload
          */
         window.processImagesInElement = function(element) {
             if (!element) return;
@@ -18508,15 +18531,21 @@
                 if (!src) return;
 
                 // Fix the URL
-                const fixedSrc = window.convertDropboxUrl(src.replace(/&amp;/g, '&'));
+                src = src.replace(/&amp;/g, '&');
+                const fixedSrc = window.convertDropboxUrl(src);
+
+                // Set loading to eager for immediate load
+                img.loading = 'eager';
+                img.decoding = 'async';
 
                 // Update src if changed
-                if (fixedSrc !== img.src) {
+                if (fixedSrc !== src) {
                     img.src = fixedSrc;
                 }
 
-                // Simple error handler - just hide and show message
+                // Simple error handler
                 img.onerror = function() {
+                    this.onerror = null;
                     this.style.display = 'none';
                     if (!this.nextElementSibling?.classList?.contains('img-error')) {
                         this.insertAdjacentHTML('afterend', '<div class="img-error" style="color:#999; text-align:center; padding:15px; background:#f8f8f8; border-radius:8px; margin: 10px 0;">Image unavailable</div>');
