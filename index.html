@@ -20102,6 +20102,19 @@
                     hideTooltip();
                 }
             }, true);
+
+            // Hide tooltip on scroll to prevent it from persisting when scrolling
+            const hideTooltipOnScroll = () => {
+                clearTimeout(tooltipTimeout);
+                hideTooltip();
+            };
+            window.addEventListener('scroll', hideTooltipOnScroll, true);
+
+            // Also listen on main content area which has its own scroll
+            const mainContent = document.getElementById('main-content-area');
+            if (mainContent) {
+                mainContent.addEventListener('scroll', hideTooltipOnScroll);
+            }
         });
 
         // Re-initialize tooltips after dynamic content loads
