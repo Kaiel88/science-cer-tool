@@ -21,18 +21,10 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link rel="preconnect" href="https://www.gstatic.com" crossorigin>
     <link rel="preconnect" href="https://firebasestorage.googleapis.com" crossorigin>
-    <!-- Preconnect for Dropbox image hosting - critical for fast image loading -->
-    <link rel="preconnect" href="https://www.dropbox.com" crossorigin>
-    <link rel="preconnect" href="https://dropbox.com" crossorigin>
-    <link rel="preconnect" href="https://dl.dropboxusercontent.com" crossorigin>
-    <link rel="preconnect" href="https://uc.dropboxusercontent.com" crossorigin>
     <!-- DNS prefetch for external resources -->
     <link rel="dns-prefetch" href="https://fonts.googleapis.com">
     <link rel="dns-prefetch" href="https://www.gstatic.com">
     <link rel="dns-prefetch" href="https://firebasestorage.googleapis.com">
-    <link rel="dns-prefetch" href="https://www.dropbox.com">
-    <link rel="dns-prefetch" href="https://dropbox.com">
-    <link rel="dns-prefetch" href="https://dl.dropboxusercontent.com">
     <!-- Preload critical Firebase modules -->
     <link rel="modulepreload" href="https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js">
     <link rel="modulepreload" href="https://www.gstatic.com/firebasejs/10.7.1/firebase-auth.js">
@@ -8037,33 +8029,11 @@
         };
 
         /**
-         * Create image element with aggressive preloading
+         * Create image element - simple version
          */
         window.createOptimizedImage = function(src, className = '', style = '') {
             const fixedSrc = window.convertDropboxUrl(src);
-
-            // Use multiple preload methods for maximum speed
-            // Method 1: Image object
-            const preload = new Image();
-            preload.crossOrigin = 'anonymous';
-            preload.src = fixedSrc;
-
-            // Method 2: Link preload tag
-            if (!document.querySelector(`link[href="${fixedSrc}"]`)) {
-                const link = document.createElement('link');
-                link.rel = 'preload';
-                link.as = 'image';
-                link.href = fixedSrc;
-                link.crossOrigin = 'anonymous';
-                document.head.appendChild(link);
-            }
-
-            // Method 3: Fetch API
-            if (window.fetch) {
-                fetch(fixedSrc, { mode: 'no-cors', priority: 'high', cache: 'force-cache' }).catch(() => {});
-            }
-
-            return `<img src="${fixedSrc}" class="${className}" loading="eager" decoding="sync" fetchpriority="high" crossorigin="anonymous" style="max-width: 100%; border-radius: 8px; display: block; margin: 0 auto; ${style}" onerror="this.onerror=null; this.style.display='none'; this.insertAdjacentHTML('afterend', '<div style=\\'color:#999; text-align:center; padding:15px; background:#f8f8f8; border-radius:8px;\\'>Image unavailable</div>');">`;
+            return `<img src="${fixedSrc}" class="${className}" style="max-width: 100%; border-radius: 8px; display: block; margin: 0 auto; ${style}" onerror="this.style.opacity='0.3'; this.title='Image failed to load';">`;
         };
 
 
@@ -18445,50 +18415,32 @@
 
         /**
          * Convert Dropbox URL for direct image display
-         * Uses raw=1 for immediate inline serving (faster than dl=1)
-         * Handles all Dropbox URL formats robustly
+         * Simple version - just adds dl=1 for direct download
          */
         window.convertDropboxUrl = function(url) {
             if (!url) return url;
 
-            // Decode HTML entities first
+            // Decode HTML entities
             url = url.replace(/&amp;/g, '&');
 
-            // Skip if already converted to CDN domain
-            if (url.includes('dl.dropboxusercontent.com') || url.includes('uc.dropboxusercontent.com')) {
+            // Already a direct link
+            if (url.includes('dl.dropboxusercontent.com')) {
                 return url;
             }
 
-            // Skip if already has raw=1 properly set
-            if (url.includes('raw=1') && !url.includes('dl=')) {
-                return url;
-            }
-
-            // New format: dropbox.com/scl/fi/... (with or without www)
-            // Use raw=1 for direct serving (no redirect, faster)
+            // New format: dropbox.com/scl/fi/...
             if (url.includes('dropbox.com/scl/')) {
-                try {
-                    const urlObj = new URL(url);
-                    // Remove dl parameter if present
-                    urlObj.searchParams.delete('dl');
-                    // Remove existing raw parameter to avoid duplicates
-                    urlObj.searchParams.delete('raw');
-                    // Add raw=1 for inline serving
-                    urlObj.searchParams.set('raw', '1');
-                    return urlObj.toString();
-                } catch (e) {
-                    // Fallback: manual string manipulation
-                    url = url.replace(/[?&]dl=[01]/g, '').replace(/[?&]raw=[01]/g, '');
-                    url = url.replace(/&&/g, '&').replace(/\?&/g, '?').replace(/&$/g, '');
-                    url += (url.includes('?') ? '&' : '?') + 'raw=1';
-                    return url;
+                // Just add dl=1 if not present
+                if (!url.includes('dl=1')) {
+                    url = url.replace(/[?&]dl=0/g, '');
+                    url += (url.includes('?') ? '&' : '?') + 'dl=1';
                 }
+                return url;
             }
 
-            // Old format: www.dropbox.com/s/... - use direct CDN domain
+            // Old format: www.dropbox.com/s/...
             if (url.includes('dropbox.com/s/')) {
-                return url.replace(/www\.dropbox\.com/g, 'dl.dropboxusercontent.com')
-                          .replace(/dropbox\.com(?!\.)/g, 'dl.dropboxusercontent.com')
+                return url.replace('www.dropbox.com', 'dl.dropboxusercontent.com')
                           .replace(/\?dl=[01]/g, '');
             }
 
@@ -18496,52 +18448,18 @@
         };
 
         /**
-         * Normalize image URLs in HTML and aggressively preload
+         * Normalize image URLs in HTML - simple version
          */
         window.normalizeImageUrls = function(html) {
             if (!html) return html;
 
-            // Fix encoded ampersands globally
+            // Fix encoded ampersands
             html = html.replace(/&amp;/g, '&');
 
-            // Fix all Dropbox image URLs
+            // Fix Dropbox URLs
             html = html.replace(/src="([^"]*dropbox\.com[^"]*)"/g, (match, url) => {
                 return 'src="' + window.convertDropboxUrl(url) + '"';
             });
-
-            // Aggressively preload images using multiple methods
-            const imgRegex = /src="([^"]+)"/g;
-            let m;
-            while ((m = imgRegex.exec(html)) !== null) {
-                const rawUrl = m[1];
-                if (rawUrl.includes('dropbox.com') || rawUrl.match(/\.(jpg|jpeg|png|gif|webp)$/i)) {
-                    const fixedUrl = window.convertDropboxUrl(rawUrl);
-
-                    // Method 1: Create preload link tag (most effective)
-                    if (!document.querySelector(`link[href="${fixedUrl}"]`)) {
-                        const link = document.createElement('link');
-                        link.rel = 'preload';
-                        link.as = 'image';
-                        link.href = fixedUrl;
-                        link.crossOrigin = 'anonymous';
-                        document.head.appendChild(link);
-                    }
-
-                    // Method 2: Create Image object as backup
-                    const img = new Image();
-                    img.crossOrigin = 'anonymous';
-                    img.src = fixedUrl;
-
-                    // Method 3: Use fetch API with high priority if available
-                    if (window.fetch) {
-                        fetch(fixedUrl, {
-                            mode: 'no-cors',
-                            priority: 'high',
-                            cache: 'force-cache'
-                        }).catch(() => {}); // Ignore errors, this is just preloading
-                    }
-                }
-            }
 
             return html;
         };
@@ -18589,7 +18507,7 @@
         };
 
         /**
-         * Process images in element - fix URLs and ensure immediate loading
+         * Process images in element - simple URL fix
          */
         window.processImagesInElement = function(element) {
             if (!element) return;
@@ -18602,43 +18520,16 @@
                 src = src.replace(/&amp;/g, '&');
                 const fixedSrc = window.convertDropboxUrl(src);
 
-                // Set loading attributes for maximum priority
-                img.loading = 'eager';
-                img.decoding = 'sync'; // Use sync for immediate decode
-                if ('fetchPriority' in img) {
-                    img.fetchPriority = 'high';
-                }
-
-                // Remove any lazy loading attributes
-                img.removeAttribute('data-src');
-                img.removeAttribute('data-lazy');
-
-                // Update src if changed - force reload by clearing first
+                // Update src if changed
                 if (fixedSrc !== src) {
-                    // Create preload to start download immediately
-                    const preloader = new Image();
-                    preloader.src = fixedSrc;
-
-                    // Then set the actual image src
                     img.src = fixedSrc;
                 }
 
-                // Simple error handler with retry option
+                // Simple error handler
                 img.onerror = function() {
                     this.onerror = null;
-                    this.style.display = 'none';
-                    if (!this.nextElementSibling?.classList?.contains('img-error')) {
-                        const retryDiv = document.createElement('div');
-                        retryDiv.className = 'img-error';
-                        retryDiv.style.cssText = 'color:#999; text-align:center; padding:15px; background:#f8f8f8; border-radius:8px; margin: 10px 0; cursor: pointer;';
-                        retryDiv.innerHTML = 'Image unavailable - <span style="color:#007bff; text-decoration:underline;">click to retry</span>';
-                        retryDiv.onclick = () => {
-                            retryDiv.remove();
-                            this.style.display = '';
-                            this.src = fixedSrc + (fixedSrc.includes('?') ? '&' : '?') + '_retry=' + Date.now();
-                        };
-                        this.insertAdjacentElement('afterend', retryDiv);
-                    }
+                    this.style.opacity = '0.3';
+                    this.title = 'Image failed to load';
                 };
             });
         };
