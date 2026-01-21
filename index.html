@@ -406,6 +406,12 @@
             100% { left: 100%; }
         }
 
+        /* Image loading shimmer animation */
+        @keyframes shimmer {
+            0% { background-position: -200% 0; }
+            100% { background-position: 200% 0; }
+        }
+
         /* Tooltip positioning - arrows with CSS custom properties for dynamic positioning */
         .tooltip-top::before {
             content: '';
@@ -7779,16 +7785,144 @@
         };
 
         // =====================================================
-        // IMAGE LAZY LOADING
+        // IMAGE LAZY LOADING AND PRELOADING
         // =====================================================
+
+        // Image cache to store preloaded images
+        window.imageCache = new Map();
+        window.preloadingImages = new Set();
+
+        /**
+         * Preload an image and cache it
+         * @param {string} url - Image URL to preload
+         * @returns {Promise} - Resolves when image is loaded
+         */
+        window.preloadImage = function(url) {
+            if (!url) return Promise.resolve();
+
+            // Already cached
+            if (window.imageCache.has(url)) {
+                return Promise.resolve(window.imageCache.get(url));
+            }
+
+            // Already preloading
+            if (window.preloadingImages.has(url)) {
+                return new Promise((resolve) => {
+                    const checkCache = setInterval(() => {
+                        if (window.imageCache.has(url)) {
+                            clearInterval(checkCache);
+                            resolve(window.imageCache.get(url));
+                        }
+                    }, 50);
+                    // Timeout after 10s
+                    setTimeout(() => { clearInterval(checkCache); resolve(); }, 10000);
+                });
+            }
+
+            window.preloadingImages.add(url);
+
+            return new Promise((resolve) => {
+                const img = new Image();
+                img.onload = () => {
+                    window.imageCache.set(url, img);
+                    window.preloadingImages.delete(url);
+                    resolve(img);
+                };
+                img.onerror = () => {
+                    window.preloadingImages.delete(url);
+                    resolve();
+                };
+                img.src = url;
+            });
+        };
+
+        /**
+         * Preload images from question blocks
+         * @param {Array} questions - Array of questions with blocks
+         */
+        window.preloadQuestionImages = function(questions) {
+            if (!questions || !Array.isArray(questions)) return;
+
+            const imageUrls = [];
+            questions.forEach(q => {
+                if (q.blocks && Array.isArray(q.blocks)) {
+                    q.blocks.forEach(block => {
+                        if (block.type === 'image' && block.value) {
+                            const url = window.convertDropboxUrl ?
+                                window.convertDropboxUrl(block.value) : block.value;
+                            imageUrls.push(url);
+                        }
+                    });
+                }
+            });
+
+            // Preload all images in parallel
+            imageUrls.forEach(url => window.preloadImage(url));
+        };
+
+        /**
+         * Create an optimized image element with loading placeholder
+         * @param {string} src - Image source URL
+         * @param {string} className - CSS class name
+         * @param {string} style - Inline styles
+         * @returns {string} - HTML string for image with loading state
+         */
+        window.createOptimizedImage = function(src, className = '', style = '') {
+            const uniqueId = 'img-' + Math.random().toString(36).substr(2, 9);
+            const isCached = window.imageCache.has(src);
+
+            // Start preloading if not cached
+            if (!isCached) {
+                window.preloadImage(src);
+            }
+
+            return `<div class="img-loading-wrapper" style="position: relative; ${style}">
+                <div id="${uniqueId}-placeholder" class="img-placeholder" style="
+                    position: absolute; top: 0; left: 0; right: 0; bottom: 0;
+                    background: linear-gradient(90deg, #f0f0f0 25%, #e0e0e0 50%, #f0f0f0 75%);
+                    background-size: 200% 100%;
+                    animation: ${isCached ? 'none' : 'shimmer 1.5s infinite'};
+                    border-radius: 8px;
+                    min-height: 100px;
+                    display: ${isCached ? 'none' : 'block'};
+                "></div>
+                <img src="${src}"
+                    class="${className}"
+                    style="opacity: ${isCached ? '1' : '0'}; transition: opacity 0.3s ease; max-width: 100%; border-radius: 8px; display: block; margin-left: auto; margin-right: auto;"
+                    onload="this.style.opacity='1'; var p=document.getElementById('${uniqueId}-placeholder'); if(p)p.style.display='none';"
+                    onerror="this.style.display='none'; var p=document.getElementById('${uniqueId}-placeholder'); if(p)p.innerHTML='<p style=\\'color:#dc3545; text-align:center; padding:20px;\\'>⚠️ Image failed to load</p>';"
+                    loading="eager"
+                >
+            </div>`;
+        };
+
+        /**
+         * Extract and preload images from HTML string
+         * @param {string} html - HTML string containing images
+         */
+        window.preloadImagesFromHtml = function(html) {
+            if (!html) return;
+
+            // Extract image URLs from src attributes
+            const imgRegex = /src=["']([^"']+\.(?:jpg|jpeg|png|gif|webp|svg)[^"']*)["']/gi;
+            let match;
+            while ((match = imgRegex.exec(html)) !== null) {
+                let url = match[1];
+                // Convert Dropbox URLs if needed
+                if (window.convertDropboxUrl) {
+                    url = window.convertDropboxUrl(url);
+                }
+                window.preloadImage(url);
+            }
+        };
 
         /**
          * Initialize lazy loading for images
          * Uses native loading="lazy" with IntersectionObserver fallback
          */
         window.initLazyLoading = function() {
-            // Add loading="lazy" to all images without it
-            document.querySelectorAll('img:not([loading])').forEach(img => {
+            // Add loading="lazy" to all images without it (except optimized ones)
+            document.querySelectorAll('img:not([loading]):not(.img-loading-wrapper img)').forEach(img => {
                 img.setAttribute('loading', 'lazy');
             });
 
@@ -7809,7 +7943,7 @@
                             }
                         });
                     }, {
-                        rootMargin: '50px 0px',
+                        rootMargin: '200px 0px', // Increased for earlier loading
                         threshold: 0.01
                     });
 
@@ -11014,6 +11148,13 @@
 
                 window.allQuestionsList = allQuestions;
                 window.filteredQuestionsList = [...allQuestions];
+
+                // Preload images from question HTML for faster loading
+                if (window.preloadImagesFromHtml) {
+                    allQuestions.slice(0, 20).forEach(q => {
+                        if (q.html) window.preloadImagesFromHtml(q.html);
+                    });
+                }
 
                 // Populate topic filter
                 const topicFilter = document.getElementById('question-list-filter-topic');
@@ -15172,7 +15313,7 @@
                             </div>`;
                         } else if (block.type === 'image' && block.value) {
                             const imageUrl = window.convertDropboxUrl ? window.convertDropboxUrl(block.value) : block.value;
-                            mainHtml += `<img src="${imageUrl}" class="question-diagram" style="max-width: 100%; border-radius: 8px; margin-bottom: 1.5rem; display: block; margin-left: auto; margin-right: auto;">`;
+                            mainHtml += window.createOptimizedImage(imageUrl, 'question-diagram', 'margin-bottom: 1.5rem;');
                         }
                     });
 
@@ -17360,7 +17501,7 @@
                              </div>`;
                 } else if (block.type === 'image' && block.value) {
                     const imageUrl = convertDropboxUrl(block.value);
-                    mainHtml += `<img src="${imageUrl}" style="max-width: 100%; border-radius: 8px; margin-bottom: 1.5rem; display: block; margin-left: auto; margin-right: auto;" onerror="this.style.display='none'; this.insertAdjacentHTML('afterend', '<p style=\\'color:#dc3545;\\'>⚠️ Image failed to load. Check URL.</p>');">`;
+                    mainHtml += window.createOptimizedImage(imageUrl, 'question-diagram', 'margin-bottom: 1.5rem;');
                 } else if (block.type === 'video' && block.value) {
                     // Video goes after the answer/MCQ options
                     let videoUrl = block.value;
@@ -17562,7 +17703,7 @@
                              </div>`;
                         } else if (block.type === 'image' && block.value) {
                             const imageUrl = convertDropboxUrl(block.value);
-                            mainHtml += `<img src="${imageUrl}" class="question-diagram" style="max-width: 100%; border-radius: 8px; margin-bottom: 1.5rem; display: block; margin-left: auto; margin-right: auto;">`;
+                            mainHtml += window.createOptimizedImage(imageUrl, 'question-diagram', 'margin-bottom: 1.5rem;');
                         } else if (block.type === 'video' && block.value) {
                             // Video goes after MCQ/answer section
                             let videoUrl = block.value;
@@ -20102,6 +20243,19 @@
                     hideTooltip();
                 }
             }, true);
+
+            // Hide tooltip on scroll to prevent it from persisting when scrolling
+            const hideTooltipOnScroll = () => {
+                clearTimeout(tooltipTimeout);
+                hideTooltip();
+            };
+            window.addEventListener('scroll', hideTooltipOnScroll, true);
+
+            // Also listen on main content area which has its own scroll
+            const mainContent = document.getElementById('main-content-area');
+            if (mainContent) {
+                mainContent.addEventListener('scroll', hideTooltipOnScroll);
+            }
         });
 
         // Re-initialize tooltips after dynamic content loads
