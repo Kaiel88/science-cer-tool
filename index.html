@@ -860,6 +860,82 @@
             border-color: #007bff;
         }
 
+        /* Symbol Picker Styles */
+        .symbol-picker-dropdown {
+            position: absolute;
+            top: 100%;
+            left: 0;
+            z-index: 10001;
+            background: white;
+            border: 1px solid #dee2e6;
+            border-radius: 12px;
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.15);
+            padding: 12px;
+            min-width: 280px;
+            max-height: 400px;
+            overflow-y: auto;
+            margin-top: 4px;
+        }
+
+        .symbol-picker-header {
+            font-weight: 600;
+            font-size: 0.9rem;
+            color: #333;
+            padding-bottom: 8px;
+            margin-bottom: 8px;
+            border-bottom: 1px solid #eee;
+        }
+
+        .symbol-category {
+            margin-bottom: 12px;
+        }
+
+        .symbol-category:last-child {
+            margin-bottom: 0;
+        }
+
+        .symbol-category-title {
+            font-size: 0.75rem;
+            font-weight: 600;
+            color: #666;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            margin-bottom: 6px;
+        }
+
+        .symbol-grid {
+            display: grid;
+            grid-template-columns: repeat(8, 1fr);
+            gap: 4px;
+        }
+
+        .symbol-grid button {
+            width: 32px;
+            height: 32px;
+            border: 1px solid #e0e0e0;
+            background: #f8f9fa;
+            border-radius: 6px;
+            cursor: pointer;
+            font-size: 1rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.15s ease;
+            color: #333;
+            padding: 0;
+        }
+
+        .symbol-grid button:hover {
+            background: #667eea;
+            color: white;
+            border-color: #667eea;
+            transform: scale(1.1);
+        }
+
+        .symbol-grid button:active {
+            transform: scale(0.95);
+        }
+
         .rich-text-editor {
             min-height: 120px;
             padding: 14px;
@@ -15877,8 +15953,96 @@
                                 <button type="button" onclick="formatText(${block.id}, 'bold')" class="format-btn" title="Bold (Ctrl+B)"><strong>B</strong></button>
                                 <button type="button" onclick="formatText(${block.id}, 'italic')" class="format-btn" title="Italic (Ctrl+I)"><em>I</em></button>
                                 <button type="button" onclick="formatText(${block.id}, 'underline')" class="format-btn" title="Underline (Ctrl+U)"><u>U</u></button>
+                                <button type="button" onclick="formatText(${block.id}, 'superscript')" class="format-btn" title="Superscript">X<sup style="font-size: 0.6em;">2</sup></button>
+                                <button type="button" onclick="formatText(${block.id}, 'subscript')" class="format-btn" title="Subscript">X<sub style="font-size: 0.6em;">2</sub></button>
                             </div>
-                            
+
+                            <!-- Symbols -->
+                            <div class="toolbar-group">
+                                <div class="symbol-picker-container" style="position: relative; display: inline-block;">
+                                    <button type="button" class="format-btn" title="Insert Symbol" onclick="toggleSymbolPicker(${block.id}, this)">
+                                        <span style="font-size: 14px;">Ω</span>
+                                    </button>
+                                    <div id="symbol-picker-${block.id}" class="symbol-picker-dropdown" style="display: none;">
+                                        <div class="symbol-picker-header">Insert Symbol</div>
+                                        <div class="symbol-category">
+                                            <div class="symbol-category-title">Units & Measurements</div>
+                                            <div class="symbol-grid">
+                                                <button type="button" onclick="insertSymbol(${block.id}, 'cm²')" title="cm squared">cm²</button>
+                                                <button type="button" onclick="insertSymbol(${block.id}, 'cm³')" title="cm cubed">cm³</button>
+                                                <button type="button" onclick="insertSymbol(${block.id}, 'm²')" title="m squared">m²</button>
+                                                <button type="button" onclick="insertSymbol(${block.id}, 'm³')" title="m cubed">m³</button>
+                                                <button type="button" onclick="insertSymbol(${block.id}, 'mL')" title="millilitres">mL</button>
+                                                <button type="button" onclick="insertSymbol(${block.id}, 'L')" title="litres">L</button>
+                                                <button type="button" onclick="insertSymbol(${block.id}, '°C')" title="degrees Celsius">°C</button>
+                                                <button type="button" onclick="insertSymbol(${block.id}, '°F')" title="degrees Fahrenheit">°F</button>
+                                            </div>
+                                        </div>
+                                        <div class="symbol-category">
+                                            <div class="symbol-category-title">Math Operators</div>
+                                            <div class="symbol-grid">
+                                                <button type="button" onclick="insertSymbol(${block.id}, '+')" title="plus">+</button>
+                                                <button type="button" onclick="insertSymbol(${block.id}, '−')" title="minus">−</button>
+                                                <button type="button" onclick="insertSymbol(${block.id}, '×')" title="multiply">×</button>
+                                                <button type="button" onclick="insertSymbol(${block.id}, '÷')" title="divide">÷</button>
+                                                <button type="button" onclick="insertSymbol(${block.id}, '=')" title="equals">=</button>
+                                                <button type="button" onclick="insertSymbol(${block.id}, '≠')" title="not equal">≠</button>
+                                                <button type="button" onclick="insertSymbol(${block.id}, '≈')" title="approximately">≈</button>
+                                                <button type="button" onclick="insertSymbol(${block.id}, '±')" title="plus minus">±</button>
+                                            </div>
+                                        </div>
+                                        <div class="symbol-category">
+                                            <div class="symbol-category-title">Comparison</div>
+                                            <div class="symbol-grid">
+                                                <button type="button" onclick="insertSymbol(${block.id}, '<')" title="less than">&lt;</button>
+                                                <button type="button" onclick="insertSymbol(${block.id}, '>')" title="greater than">&gt;</button>
+                                                <button type="button" onclick="insertSymbol(${block.id}, '≤')" title="less than or equal">≤</button>
+                                                <button type="button" onclick="insertSymbol(${block.id}, '≥')" title="greater than or equal">≥</button>
+                                            </div>
+                                        </div>
+                                        <div class="symbol-category">
+                                            <div class="symbol-category-title">Arrows</div>
+                                            <div class="symbol-grid">
+                                                <button type="button" onclick="insertSymbol(${block.id}, '→')" title="right arrow">→</button>
+                                                <button type="button" onclick="insertSymbol(${block.id}, '⟶')" title="long right arrow">⟶</button>
+                                                <button type="button" onclick="insertSymbol(${block.id}, '←')" title="left arrow">←</button>
+                                                <button type="button" onclick="insertSymbol(${block.id}, '⟵')" title="long left arrow">⟵</button>
+                                                <button type="button" onclick="insertSymbol(${block.id}, '↔')" title="left right arrow">↔</button>
+                                                <button type="button" onclick="insertSymbol(${block.id}, '⟷')" title="long left right arrow">⟷</button>
+                                                <button type="button" onclick="insertSymbol(${block.id}, '↑')" title="up arrow">↑</button>
+                                                <button type="button" onclick="insertSymbol(${block.id}, '↓')" title="down arrow">↓</button>
+                                            </div>
+                                        </div>
+                                        <div class="symbol-category">
+                                            <div class="symbol-category-title">Greek Letters</div>
+                                            <div class="symbol-grid">
+                                                <button type="button" onclick="insertSymbol(${block.id}, 'α')" title="alpha">α</button>
+                                                <button type="button" onclick="insertSymbol(${block.id}, 'β')" title="beta">β</button>
+                                                <button type="button" onclick="insertSymbol(${block.id}, 'γ')" title="gamma">γ</button>
+                                                <button type="button" onclick="insertSymbol(${block.id}, 'δ')" title="delta">δ</button>
+                                                <button type="button" onclick="insertSymbol(${block.id}, 'Δ')" title="Delta">Δ</button>
+                                                <button type="button" onclick="insertSymbol(${block.id}, 'π')" title="pi">π</button>
+                                                <button type="button" onclick="insertSymbol(${block.id}, 'Ω')" title="Omega">Ω</button>
+                                                <button type="button" onclick="insertSymbol(${block.id}, 'μ')" title="mu">μ</button>
+                                            </div>
+                                        </div>
+                                        <div class="symbol-category">
+                                            <div class="symbol-category-title">Fractions & Other</div>
+                                            <div class="symbol-grid">
+                                                <button type="button" onclick="insertSymbol(${block.id}, '½')" title="one half">½</button>
+                                                <button type="button" onclick="insertSymbol(${block.id}, '¼')" title="one quarter">¼</button>
+                                                <button type="button" onclick="insertSymbol(${block.id}, '¾')" title="three quarters">¾</button>
+                                                <button type="button" onclick="insertSymbol(${block.id}, '∞')" title="infinity">∞</button>
+                                                <button type="button" onclick="insertSymbol(${block.id}, '√')" title="square root">√</button>
+                                                <button type="button" onclick="insertSymbol(${block.id}, '∴')" title="therefore">∴</button>
+                                                <button type="button" onclick="insertSymbol(${block.id}, '∵')" title="because">∵</button>
+                                                <button type="button" onclick="insertSymbol(${block.id}, '•')" title="bullet">•</button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
                             <!-- Alignment -->
                             <div class="toolbar-group">
                                 <button type="button" onclick="formatText(${block.id}, 'justifyLeft')" class="format-btn" title="Align Left">
@@ -16004,17 +16168,72 @@
         window.formatText = function(blockId, command) {
             const editor = document.getElementById(`editor-${blockId}`);
             if (!editor) return;
-            
+
             // Focus the editor first
             editor.focus();
-            
+
             // Execute the formatting command
             document.execCommand(command, false, null);
-            
+
             // Update block value
             updateBlockValueFromEditor(blockId);
         };
-        
+
+        // Toggle symbol picker visibility
+        window.toggleSymbolPicker = function(blockId, button) {
+            const picker = document.getElementById(`symbol-picker-${blockId}`);
+            if (!picker) return;
+
+            // Close all other symbol pickers first
+            document.querySelectorAll('.symbol-picker-dropdown').forEach(p => {
+                if (p.id !== `symbol-picker-${blockId}`) {
+                    p.style.display = 'none';
+                }
+            });
+
+            // Toggle this picker
+            const isVisible = picker.style.display === 'block';
+            picker.style.display = isVisible ? 'none' : 'block';
+
+            // Close picker when clicking outside
+            if (!isVisible) {
+                const closeHandler = (e) => {
+                    if (!picker.contains(e.target) && e.target !== button && !button.contains(e.target)) {
+                        picker.style.display = 'none';
+                        document.removeEventListener('click', closeHandler);
+                    }
+                };
+                // Delay to prevent immediate close
+                setTimeout(() => {
+                    document.addEventListener('click', closeHandler);
+                }, 10);
+            }
+        };
+
+        // Insert symbol at cursor position in editor
+        window.insertSymbol = function(blockId, symbol) {
+            const editor = document.getElementById(`editor-${blockId}`);
+            if (!editor) return;
+
+            // Focus the editor
+            editor.focus();
+
+            // Try to restore selection or place at end
+            const selection = window.getSelection();
+
+            // Insert the symbol using execCommand for better undo support
+            document.execCommand('insertText', false, symbol);
+
+            // Update block value
+            updateBlockValueFromEditor(blockId);
+
+            // Close the symbol picker
+            const picker = document.getElementById(`symbol-picker-${blockId}`);
+            if (picker) {
+                picker.style.display = 'none';
+            }
+        };
+
         window.insertNumberedList = function(blockId, listType) {
             const editor = document.getElementById(`editor-${blockId}`);
             if (!editor || !listType) return;
@@ -16496,6 +16715,71 @@
                     <div class="admin-table-wrapper" style="margin-top: 10px;">
                         <div class="table-toolbar">
                             <div class="table-toolbar-group">
+                                <label>Format:</label>
+                                <button onclick="formatTableSelection('bold')" title="Bold"><strong>B</strong></button>
+                                <button onclick="formatTableSelection('italic')" title="Italic"><em>I</em></button>
+                                <button onclick="formatTableSelection('superscript')" title="Superscript">X<sup style="font-size:0.6em">2</sup></button>
+                                <button onclick="formatTableSelection('subscript')" title="Subscript">X<sub style="font-size:0.6em">2</sub></button>
+                                <div style="position: relative; display: inline-block;">
+                                    <button onclick="toggleTableSymbolPicker(${blockId}, this)" title="Insert Symbol">Ω</button>
+                                    <div id="table-symbol-picker-${blockId}" class="symbol-picker-dropdown" style="display: none; left: auto; right: 0;">
+                                        <div class="symbol-picker-header">Insert Symbol</div>
+                                        <div class="symbol-category">
+                                            <div class="symbol-category-title">Units</div>
+                                            <div class="symbol-grid">
+                                                <button type="button" onclick="insertTableSymbol('cm²')">cm²</button>
+                                                <button type="button" onclick="insertTableSymbol('cm³')">cm³</button>
+                                                <button type="button" onclick="insertTableSymbol('m²')">m²</button>
+                                                <button type="button" onclick="insertTableSymbol('m³')">m³</button>
+                                                <button type="button" onclick="insertTableSymbol('mL')">mL</button>
+                                                <button type="button" onclick="insertTableSymbol('L')">L</button>
+                                                <button type="button" onclick="insertTableSymbol('°C')">°C</button>
+                                                <button type="button" onclick="insertTableSymbol('°F')">°F</button>
+                                            </div>
+                                        </div>
+                                        <div class="symbol-category">
+                                            <div class="symbol-category-title">Math</div>
+                                            <div class="symbol-grid">
+                                                <button type="button" onclick="insertTableSymbol('+')">+</button>
+                                                <button type="button" onclick="insertTableSymbol('−')">−</button>
+                                                <button type="button" onclick="insertTableSymbol('×')">×</button>
+                                                <button type="button" onclick="insertTableSymbol('÷')">÷</button>
+                                                <button type="button" onclick="insertTableSymbol('=')">=</button>
+                                                <button type="button" onclick="insertTableSymbol('≠')">≠</button>
+                                                <button type="button" onclick="insertTableSymbol('≈')">≈</button>
+                                                <button type="button" onclick="insertTableSymbol('±')">±</button>
+                                            </div>
+                                        </div>
+                                        <div class="symbol-category">
+                                            <div class="symbol-category-title">Arrows</div>
+                                            <div class="symbol-grid">
+                                                <button type="button" onclick="insertTableSymbol('→')">→</button>
+                                                <button type="button" onclick="insertTableSymbol('⟶')">⟶</button>
+                                                <button type="button" onclick="insertTableSymbol('←')">←</button>
+                                                <button type="button" onclick="insertTableSymbol('⟵')">⟵</button>
+                                                <button type="button" onclick="insertTableSymbol('↑')">↑</button>
+                                                <button type="button" onclick="insertTableSymbol('↓')">↓</button>
+                                                <button type="button" onclick="insertTableSymbol('≤')">≤</button>
+                                                <button type="button" onclick="insertTableSymbol('≥')">≥</button>
+                                            </div>
+                                        </div>
+                                        <div class="symbol-category">
+                                            <div class="symbol-category-title">Greek & Other</div>
+                                            <div class="symbol-grid">
+                                                <button type="button" onclick="insertTableSymbol('α')">α</button>
+                                                <button type="button" onclick="insertTableSymbol('β')">β</button>
+                                                <button type="button" onclick="insertTableSymbol('Δ')">Δ</button>
+                                                <button type="button" onclick="insertTableSymbol('π')">π</button>
+                                                <button type="button" onclick="insertTableSymbol('μ')">μ</button>
+                                                <button type="button" onclick="insertTableSymbol('½')">½</button>
+                                                <button type="button" onclick="insertTableSymbol('¼')">¼</button>
+                                                <button type="button" onclick="insertTableSymbol('√')">√</button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="table-toolbar-group">
                                 <label>Select:</label>
                                 <button onclick="selectTableRow(${blockId})" title="Select Entire Row">☰ Row</button>
                                 <button onclick="selectTableColumn(${blockId})" title="Select Entire Column">║ Col</button>
@@ -16563,11 +16847,63 @@
         window.colorPickerMode = null; // 'row', 'col', or 'cell'
         window.colorPickerBlockId = null;
 
+        // Format text in currently focused table cell
+        window.formatTableSelection = function(command) {
+            const activeElement = document.activeElement;
+            if (activeElement && (activeElement.tagName === 'TD' || activeElement.tagName === 'TH') && activeElement.isContentEditable) {
+                document.execCommand(command, false, null);
+                // Update the table block data
+                const blockId = parseInt(activeElement.dataset.block, 10);
+                if (blockId) {
+                    updateTableData(blockId);
+                }
+            }
+        };
+
+        // Toggle table symbol picker
+        window.toggleTableSymbolPicker = function(blockId, button) {
+            const picker = document.getElementById(`table-symbol-picker-${blockId}`);
+            if (!picker) return;
+
+            // Close all other symbol pickers
+            document.querySelectorAll('.symbol-picker-dropdown').forEach(p => {
+                if (p !== picker) p.style.display = 'none';
+            });
+
+            const isVisible = picker.style.display === 'block';
+            picker.style.display = isVisible ? 'none' : 'block';
+
+            if (!isVisible) {
+                const closeHandler = (e) => {
+                    if (!picker.contains(e.target) && e.target !== button && !button.contains(e.target)) {
+                        picker.style.display = 'none';
+                        document.removeEventListener('click', closeHandler);
+                    }
+                };
+                setTimeout(() => document.addEventListener('click', closeHandler), 10);
+            }
+        };
+
+        // Insert symbol in currently focused table cell
+        window.insertTableSymbol = function(symbol) {
+            const activeElement = document.activeElement;
+            if (activeElement && (activeElement.tagName === 'TD' || activeElement.tagName === 'TH') && activeElement.isContentEditable) {
+                document.execCommand('insertText', false, symbol);
+                // Update the table block data
+                const blockId = parseInt(activeElement.dataset.block, 10);
+                if (blockId) {
+                    updateTableData(blockId);
+                }
+            }
+            // Close all symbol pickers
+            document.querySelectorAll('.symbol-picker-dropdown').forEach(p => p.style.display = 'none');
+        };
+
         window.selectTableCell = function(cell, event) {
             const blockId = parseInt(cell.dataset.block, 10);
             const row = parseInt(cell.dataset.row, 10);
             const col = parseInt(cell.dataset.col, 10);
-            
+
             // Check for Shift or Ctrl key for multi-selection
             if (event && (event.shiftKey || event.ctrlKey || event.metaKey)) {
                 // Multi-select mode
