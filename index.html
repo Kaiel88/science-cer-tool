@@ -835,6 +835,79 @@
             color: #856404;
         }
 
+        /* Page Loading Overlay - blocks interaction until images load */
+        .page-loading-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(255, 255, 255, 0.95);
+            z-index: 10000;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            opacity: 1;
+            visibility: visible;
+            transition: opacity 0.3s ease, visibility 0.3s ease;
+        }
+
+        .page-loading-overlay.hidden {
+            opacity: 0;
+            visibility: hidden;
+            pointer-events: none;
+        }
+
+        .page-loading-content {
+            text-align: center;
+            padding: 2rem;
+        }
+
+        .page-loading-spinner {
+            width: 60px;
+            height: 60px;
+            border: 4px solid #e0e0e0;
+            border-top: 4px solid #007bff;
+            border-radius: 50%;
+            animation: pageLoadSpin 1s linear infinite;
+            margin: 0 auto 1.5rem;
+        }
+
+        @keyframes pageLoadSpin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
+        .page-loading-text {
+            font-size: 1.1rem;
+            color: #333;
+            font-weight: 500;
+            margin-bottom: 1rem;
+        }
+
+        .page-loading-progress {
+            width: 280px;
+            height: 10px;
+            background: #e0e0e0;
+            border-radius: 5px;
+            overflow: hidden;
+            margin: 0 auto 0.75rem;
+        }
+
+        .page-loading-progress-fill {
+            height: 100%;
+            background: linear-gradient(90deg, #007bff, #00d4ff);
+            border-radius: 5px;
+            width: 0%;
+            transition: width 0.3s ease;
+        }
+
+        .page-loading-status {
+            font-size: 0.9rem;
+            color: #666;
+        }
+
         .results-table {
             width: 100%;
             max-width: 700px;
@@ -8849,6 +8922,179 @@
         // =====================================================
 
         /**
+         * Page loading overlay state
+         */
+        window.pageLoadingState = {
+            overlay: null,
+            totalImages: 0,
+            loadedImages: 0,
+            isActive: false
+        };
+
+        /**
+         * Create and show the page loading overlay
+         */
+        window.showPageLoadingOverlay = function() {
+            // Remove existing overlay if present
+            if (window.pageLoadingState.overlay) {
+                window.pageLoadingState.overlay.remove();
+            }
+
+            // Reset state
+            window.pageLoadingState.totalImages = 0;
+            window.pageLoadingState.loadedImages = 0;
+            window.pageLoadingState.isActive = true;
+
+            // Create overlay element
+            const overlay = document.createElement('div');
+            overlay.className = 'page-loading-overlay';
+            overlay.id = 'page-loading-overlay';
+            overlay.innerHTML = `
+                <div class="page-loading-content">
+                    <div class="page-loading-spinner"></div>
+                    <div class="page-loading-text">Loading page...</div>
+                    <div class="page-loading-progress">
+                        <div class="page-loading-progress-fill"></div>
+                    </div>
+                    <div class="page-loading-status">Preparing content...</div>
+                </div>
+            `;
+
+            document.body.appendChild(overlay);
+            window.pageLoadingState.overlay = overlay;
+
+            // Start tracking images after a small delay to let DOM update
+            setTimeout(() => {
+                window.trackPageImages();
+            }, 50);
+
+            return overlay;
+        };
+
+        /**
+         * Hide the page loading overlay
+         */
+        window.hidePageLoadingOverlay = function() {
+            window.pageLoadingState.isActive = false;
+            const overlay = document.getElementById('page-loading-overlay');
+            if (overlay) {
+                overlay.classList.add('hidden');
+                // Remove from DOM after transition
+                setTimeout(() => {
+                    overlay.remove();
+                    window.pageLoadingState.overlay = null;
+                }, 300);
+            }
+        };
+
+        /**
+         * Update the loading overlay progress
+         */
+        window.updatePageLoadingProgress = function() {
+            const overlay = document.getElementById('page-loading-overlay');
+            if (!overlay || !window.pageLoadingState.isActive) return;
+
+            const { totalImages, loadedImages } = window.pageLoadingState;
+            const progressFill = overlay.querySelector('.page-loading-progress-fill');
+            const statusText = overlay.querySelector('.page-loading-status');
+            const loadingText = overlay.querySelector('.page-loading-text');
+
+            if (totalImages === 0) {
+                // No images to load, complete immediately
+                progressFill.style.width = '100%';
+                statusText.textContent = 'Ready!';
+                loadingText.textContent = 'Page loaded';
+                setTimeout(() => {
+                    window.hidePageLoadingOverlay();
+                }, 300);
+                return;
+            }
+
+            const progress = (loadedImages / totalImages) * 100;
+            progressFill.style.width = progress + '%';
+            statusText.textContent = `Loading images: ${loadedImages} of ${totalImages}`;
+
+            if (progress < 30) {
+                loadingText.textContent = 'Loading images...';
+            } else if (progress < 70) {
+                loadingText.textContent = 'Almost there...';
+            } else if (progress < 100) {
+                loadingText.textContent = 'Finishing up...';
+            } else {
+                loadingText.textContent = 'Page loaded';
+                statusText.textContent = 'All images loaded!';
+                setTimeout(() => {
+                    window.hidePageLoadingOverlay();
+                }, 300);
+            }
+        };
+
+        /**
+         * Track all images on the page and wait for them to load
+         */
+        window.trackPageImages = function() {
+            if (!window.pageLoadingState.isActive) return;
+
+            // Find all visible images in question containers and diagrams
+            const images = document.querySelectorAll('.question-diagram, .question-container img, .lesson-detail img');
+            const visibleImages = [];
+
+            images.forEach(img => {
+                // Check if image is in a visible container (not hidden)
+                const container = img.closest('.hidden, [style*="display: none"]');
+                if (!container && img.src && !img.src.startsWith('data:')) {
+                    visibleImages.push(img);
+                }
+            });
+
+            window.pageLoadingState.totalImages = visibleImages.length;
+            window.pageLoadingState.loadedImages = 0;
+
+            if (visibleImages.length === 0) {
+                // No images to track, hide overlay
+                window.updatePageLoadingProgress();
+                return;
+            }
+
+            // Track each image
+            visibleImages.forEach(img => {
+                if (img.complete && img.naturalHeight !== 0) {
+                    // Image already loaded
+                    window.pageLoadingState.loadedImages++;
+                    window.updatePageLoadingProgress();
+                } else {
+                    // Wait for image to load or error
+                    const onLoad = () => {
+                        window.pageLoadingState.loadedImages++;
+                        window.updatePageLoadingProgress();
+                        img.removeEventListener('load', onLoad);
+                        img.removeEventListener('error', onError);
+                    };
+                    const onError = () => {
+                        // Count errors as "loaded" to not block forever
+                        window.pageLoadingState.loadedImages++;
+                        window.updatePageLoadingProgress();
+                        img.removeEventListener('load', onLoad);
+                        img.removeEventListener('error', onError);
+                    };
+                    img.addEventListener('load', onLoad);
+                    img.addEventListener('error', onError);
+                }
+            });
+
+            // Update progress immediately with initial count
+            window.updatePageLoadingProgress();
+
+            // Safety timeout - hide overlay after 15 seconds no matter what
+            setTimeout(() => {
+                if (window.pageLoadingState.isActive) {
+                    console.log('Page loading timeout - forcing overlay close');
+                    window.hidePageLoadingOverlay();
+                }
+            }, 15000);
+        };
+
+        /**
          * Refresh/reload a failed image with progress bar
          * @param {HTMLElement} container - The img-loading-container element
          */
@@ -8920,6 +9166,19 @@
 
                 // Short delay to show completion, then update the actual image
                 setTimeout(() => {
+                    // Override image handlers before setting new src
+                    img.onload = function() {
+                        this.classList.add('loaded');
+                        errorPlaceholder.classList.remove('visible');
+                        container.style.minHeight = 'auto';
+                    };
+                    img.onerror = function() {
+                        // If it fails again, show error placeholder
+                        errorPlaceholder.classList.add('visible');
+                    };
+
+                    // Update the stored src for future retries
+                    img.dataset.src = refreshUrl;
                     img.src = refreshUrl;
                     img.classList.add('loaded');
                     errorPlaceholder.classList.remove('visible');
@@ -10431,9 +10690,12 @@
         };
 
         window.openLesson = async function(lessonId) {
+            // Show loading overlay while lesson loads
+            window.showPageLoadingOverlay();
+
             try {
                 const { doc, getDoc } = await import("https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js");
-                
+
                 const docRef = doc(window.db_fs, "shared_lessons", lessonId);
                 const docSnap = await getDoc(docRef);
                 
@@ -10557,9 +10819,16 @@
                 
                 switchTab('lesson-detail');
 
+                // Initialize image loading indicators and track images
+                setTimeout(() => {
+                    window.initImageLoadingIndicators();
+                    window.trackPageImages();
+                }, 100);
+
             } catch (e) {
                 console.error("Open lesson error:", e);
                 window.showToast("Failed to open lesson. Please try again.", "error");
+                window.hidePageLoadingOverlay();
             }
         };
 
@@ -12764,12 +13033,16 @@
 
         // Show question popup
         window.showQuestionPopup = function(questionId, listIndex) {
+            // Show loading overlay while question loads
+            window.showPageLoadingOverlay();
+
             let question = window.filteredQuestionsList[listIndex];
             if (!question) {
                 // Try to find by ID
                 const found = window.allQuestionsList.find(q => q.id === questionId);
                 if (!found) {
                     alert('Question not found');
+                    window.hidePageLoadingOverlay();
                     return;
                 }
                 question = found;
@@ -12940,6 +13213,12 @@
                     if (window.processImagesInElement) {
                         window.processImagesInElement(bodyDiv);
                     }
+
+                    // Initialize image loading indicators and track images
+                    setTimeout(() => {
+                        window.initImageLoadingIndicators();
+                        window.trackPageImages();
+                    }, 50);
                 }
             });
 
@@ -13334,7 +13613,10 @@
                 endPractice();
                 return;
             }
-            
+
+            // Show page loading overlay while question loads
+            window.showPageLoadingOverlay();
+
             const question = state.questions[state.currentIndex];
             const container = document.getElementById('practice-question-content');
             const student = state.currentStudent;
@@ -13436,12 +13718,18 @@
             }
             
             container.appendChild(clone);
-            
+
             // Update level and topic display
             document.getElementById('practice-question-level').textContent = question.level;
             document.getElementById('practice-question-topic').textContent = `Topic: ${question.topic}`;
-            
+
             updatePracticeStats();
+
+            // Initialize image loading indicators and track images for the loading overlay
+            setTimeout(() => {
+                window.initImageLoadingIndicators();
+                window.trackPageImages();
+            }, 50);
         };
 
         window.checkPracticeAnswer = async function() {
