@@ -14,7 +14,7 @@
     <meta http-equiv="Expires" content="-1">
     <meta http-equiv="X-Content-Type-Options" content="nosniff">
     <!-- APP VERSION - Update this when making changes -->
-    <meta name="app-version" content="2026.01.26.2">
+    <meta name="app-version" content="2026.01.26.3">
     <title>CER Interactive Questions</title>
     <!-- Preconnect for faster resource loading -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -14869,6 +14869,12 @@
                 
                 const currentVersion = getCurrentAppVersion();
                 const lastCheckedVersion = localStorage.getItem('app_last_version');
+                const lastRefreshAttempt = localStorage.getItem('app_last_refresh_attempt');
+                const refreshAttemptTime = parseInt(localStorage.getItem('app_refresh_attempt_time') || '0');
+                
+                // Prevent infinite refresh loop: if we already tried to refresh to this version recently, skip
+                const fiveMinutes = 5 * 60 * 1000;
+                const recentlyAttemptedRefresh = lastRefreshAttempt && (Date.now() - refreshAttemptTime < fiveMinutes);
                 
                 // Check Firestore for the latest version
                 const versionDoc = await getDoc(doc(window.db_fs, "app_settings", "version"));
@@ -14877,17 +14883,32 @@
                     const serverVersion = versionDoc.data().current;
                     const forceRefresh = versionDoc.data().forceRefresh || false;
                     
-                    console.log(`Current: ${currentVersion}, Server: ${serverVersion}, Last: ${lastCheckedVersion}`);
+                    console.log(`Current: ${currentVersion}, Server: ${serverVersion}, Last: ${lastCheckedVersion}, LastRefreshAttempt: ${lastRefreshAttempt}`);
                     
                     // If server version is newer than current version
                     if (serverVersion && serverVersion !== currentVersion) {
+                        // Check if we already tried to refresh to this version (prevents infinite loop)
+                        if (lastRefreshAttempt === serverVersion && recentlyAttemptedRefresh) {
+                            console.log('Already attempted refresh to this version recently, skipping auto-refresh');
+                            // Still show manual update option but don't auto-refresh
+                            showUpdateBanner(serverVersion, false);
+                            return;
+                        }
+                        
                         if (forceRefresh) {
+                            // Mark that we're attempting to refresh to this version
+                            localStorage.setItem('app_last_refresh_attempt', serverVersion);
+                            localStorage.setItem('app_refresh_attempt_time', Date.now().toString());
                             // Force refresh immediately
                             showUpdateBanner(serverVersion, true);
                         } else {
                             // Show update notification
                             showUpdateBanner(serverVersion, false);
                         }
+                    } else {
+                        // Versions match, clear the refresh attempt tracker
+                        localStorage.removeItem('app_last_refresh_attempt');
+                        localStorage.removeItem('app_refresh_attempt_time');
                     }
                 }
                 
@@ -14901,6 +14922,11 @@
 
         // Show update notification banner
         window.showUpdateBanner = function(newVersion, autoRefresh = false) {
+            // Check if user dismissed this session
+            if (sessionStorage.getItem('update_dismissed') === 'true' && !autoRefresh) {
+                return;
+            }
+            
             // Remove existing banner if any
             const existingBanner = document.getElementById('update-banner');
             if (existingBanner) existingBanner.remove();
@@ -14908,6 +14934,7 @@
             const banner = document.createElement('div');
             banner.id = 'update-banner';
             banner.className = 'update-banner';
+            banner.dataset.version = newVersion; // Store version for forceRefresh
             
             if (autoRefresh) {
                 banner.innerHTML = `
@@ -14939,6 +14966,11 @@
 
         // Force refresh the page
         window.forceRefresh = function() {
+            // Mark the refresh attempt to prevent infinite loops
+            const serverVersion = document.getElementById('update-banner')?.dataset?.version || 'unknown';
+            localStorage.setItem('app_last_refresh_attempt', serverVersion);
+            localStorage.setItem('app_refresh_attempt_time', Date.now().toString());
+            
             // Clear cache and reload
             if ('caches' in window) {
                 caches.keys().then(names => {
