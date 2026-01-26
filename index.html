@@ -14,7 +14,7 @@
     <meta http-equiv="Expires" content="-1">
     <meta http-equiv="X-Content-Type-Options" content="nosniff">
     <!-- APP VERSION - Update this when making changes -->
-    <meta name="app-version" content="2026.01.26.3">
+    <meta name="app-version" content="2026.01.26.4">
     <title>CER Interactive Questions</title>
     <!-- Preconnect for faster resource loading -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -9142,10 +9142,20 @@
 
         /**
          * Initialize image loading indicators for all question images
+         * DEPRECATED: Now handled by image-loader.js (ImageLoader)
+         * This function is kept as a no-op for backwards compatibility
          */
         window.initImageLoadingIndicators = function() {
-            // Find all question diagram images that don't have loading containers yet
-            const images = document.querySelectorAll('.question-diagram:not(.img-processed), .question-container img:not(.img-processed)');
+            // Defer to new ImageLoader system if available
+            if (window.ImageLoader && window.ImageLoader.processImagesInElement) {
+                document.querySelectorAll('.question-container, .custom-question').forEach(container => {
+                    window.ImageLoader.processImagesInElement(container);
+                });
+                return;
+            }
+            
+            // Legacy fallback - find all question diagram images that don't have loading containers yet
+            const images = document.querySelectorAll('.question-diagram:not(.img-processed):not([data-enhanced]), .question-container img:not(.img-processed):not([data-enhanced])');
 
             images.forEach(img => {
                 // Skip if already processed or is inside a loading container

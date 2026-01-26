@@ -334,7 +334,8 @@
     
     /**
      * Load a single image with retry logic
-     * Returns a Promise that resolves to an object URL or rejects on failure
+     * Uses Image element (better CORS support) instead of fetch for external images
+     * Returns a Promise that resolves to the image URL or rejects on failure
      */
     function loadImage(url, attempt = 0) {
         const fixedUrl = convertDropboxUrl(url);
@@ -344,87 +345,98 @@
             return state.loading.get(fixedUrl);
         }
         
-        // Check memory cache first
+        // Check memory cache first (stores successful URLs)
         const cached = getFromMemoryCache(fixedUrl);
         if (cached) {
             return Promise.resolve(cached);
         }
         
-        // Create loading promise
-        const loadPromise = new Promise(async (resolve, reject) => {
-            // Try IndexedDB cache
-            const cachedBlob = await getFromIndexedDB(fixedUrl);
-            if (cachedBlob) {
-                const objectUrl = URL.createObjectURL(cachedBlob);
-                storeInMemoryCache(fixedUrl, objectUrl);
-                state.loading.delete(fixedUrl);
-                resolve(objectUrl);
-                return;
-            }
+        // Create loading promise using Image element (avoids CORS issues with Dropbox)
+        const loadPromise = new Promise((resolve, reject) => {
+            const img = new Image();
+            img.crossOrigin = 'anonymous'; // Try CORS but won't block if server doesn't support
             
-            // Fetch the image
-            const controller = new AbortController();
-            const timeoutId = setTimeout(() => controller.abort(), CONFIG.LOAD_TIMEOUT);
+            let timeoutId;
+            let resolved = false;
             
-            try {
-                const response = await fetch(fixedUrl, {
-                    signal: controller.signal,
-                    mode: 'cors',
-                    credentials: 'omit'
-                });
-                
+            const cleanup = () => {
                 clearTimeout(timeoutId);
+                img.onload = null;
+                img.onerror = null;
+            };
+            
+            timeoutId = setTimeout(() => {
+                if (resolved) return;
+                cleanup();
                 
-                if (!response.ok) {
-                    throw new Error(`HTTP ${response.status}`);
-                }
-                
-                const blob = await response.blob();
-                
-                // Verify it's actually an image
-                if (!blob.type.startsWith('image/')) {
-                    throw new Error('Response is not an image');
-                }
-                
-                // Cache in IndexedDB (async, don't wait)
-                storeInIndexedDB(fixedUrl, blob);
-                
-                // Create object URL and cache in memory
-                const objectUrl = URL.createObjectURL(blob);
-                storeInMemoryCache(fixedUrl, objectUrl);
-                
-                // Clear failed state
-                state.failed.delete(fixedUrl);
-                state.loading.delete(fixedUrl);
-                
-                resolve(objectUrl);
-                
-            } catch (error) {
-                clearTimeout(timeoutId);
-                
-                // Should we retry?
                 if (attempt < CONFIG.MAX_RETRIES) {
                     const delay = getRetryDelay(attempt);
-                    console.log(`Image load failed (attempt ${attempt + 1}/${CONFIG.MAX_RETRIES + 1}), retrying in ${Math.round(delay)}ms:`, fixedUrl.substring(0, 60));
-                    
+                    console.log(`Image timeout (attempt ${attempt + 1}/${CONFIG.MAX_RETRIES + 1}), retrying in ${Math.round(delay)}ms`);
                     state.loading.delete(fixedUrl);
                     
                     setTimeout(() => {
                         loadImage(url, attempt + 1).then(resolve).catch(reject);
                     }, delay);
                 } else {
-                    // Max retries reached
                     state.failed.set(fixedUrl, {
                         attempts: attempt + 1,
                         lastAttempt: Date.now(),
-                        error: error.message
+                        error: 'timeout'
+                    });
+                    state.loading.delete(fixedUrl);
+                    reject(new Error('Timeout'));
+                }
+            }, CONFIG.LOAD_TIMEOUT);
+            
+            img.onload = async () => {
+                if (resolved) return;
+                resolved = true;
+                cleanup();
+                
+                // Use decode() for smoother rendering
+                try {
+                    await img.decode();
+                } catch (e) {
+                    // decode() not critical, continue
+                }
+                
+                // Cache the successful URL
+                storeInMemoryCache(fixedUrl, fixedUrl);
+                state.failed.delete(fixedUrl);
+                state.loading.delete(fixedUrl);
+                
+                resolve(fixedUrl);
+            };
+            
+            img.onerror = () => {
+                if (resolved) return;
+                cleanup();
+                
+                if (attempt < CONFIG.MAX_RETRIES) {
+                    const delay = getRetryDelay(attempt);
+                    console.log(`Image error (attempt ${attempt + 1}/${CONFIG.MAX_RETRIES + 1}), retrying in ${Math.round(delay)}ms`);
+                    state.loading.delete(fixedUrl);
+                    
+                    setTimeout(() => {
+                        // Add cache buster for retry
+                        const retryUrl = url + (url.includes('?') ? '&' : '?') + `_cb=${Date.now()}`;
+                        loadImage(retryUrl, attempt + 1).then(resolve).catch(reject);
+                    }, delay);
+                } else {
+                    state.failed.set(fixedUrl, {
+                        attempts: attempt + 1,
+                        lastAttempt: Date.now(),
+                        error: 'load failed'
                     });
                     state.loading.delete(fixedUrl);
                     
                     console.warn(`Image load failed after ${attempt + 1} attempts:`, fixedUrl.substring(0, 60));
-                    reject(error);
+                    reject(new Error('Load failed'));
                 }
-            }
+            };
+            
+            // Start loading
+            img.src = fixedUrl;
         });
         
         state.loading.set(fixedUrl, loadPromise);
