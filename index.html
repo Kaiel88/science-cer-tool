@@ -14,7 +14,7 @@
     <meta http-equiv="Expires" content="-1">
     <meta http-equiv="X-Content-Type-Options" content="nosniff">
     <!-- APP VERSION - Update this when making changes -->
-    <meta name="app-version" content="2026.01.26.6">
+    <meta name="app-version" content="2026.01.26.7">
     <title>CER Interactive Questions</title>
     <!-- Preconnect for faster resource loading -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -5485,24 +5485,33 @@
         }
     </style>
     
-    <!-- Simple Dropbox URL fixer - no complex overlays -->
+    <!-- Simple Dropbox URL fixer - uses image proxy for reliability -->
     <script>
-    // Simple Dropbox URL converter
+    // Convert Dropbox URL and route through image proxy for reliable loading
     window.convertDropboxUrl = function(url) {
         if (!url) return url;
         url = url.replace(/&amp;/g, '&');
-        if (url.includes('dl.dropboxusercontent.com')) return url;
+        
+        // Skip if already proxied
+        if (url.includes('wsrv.nl')) return url;
+        
+        // Fix Dropbox URL format first
+        var fixedUrl = url;
         if (url.includes('dropbox.com/scl/')) {
-            url = url.replace(/[?&]dl=[01]/g, '');
-            if (!url.includes('raw=1')) {
-                url += (url.includes('?') ? '&' : '?') + 'raw=1';
+            fixedUrl = url.replace(/[?&]dl=[01]/g, '');
+            if (!fixedUrl.includes('raw=1')) {
+                fixedUrl += (fixedUrl.includes('?') ? '&' : '?') + 'raw=1';
             }
-            return url;
+        } else if (url.includes('dropbox.com/s/')) {
+            fixedUrl = url.replace('www.dropbox.com', 'dl.dropboxusercontent.com').replace(/\?dl=[01]/g, '');
         }
-        if (url.includes('dropbox.com/s/')) {
-            return url.replace('www.dropbox.com', 'dl.dropboxusercontent.com').replace(/\?dl=[01]/g, '');
+        
+        // Route Dropbox URLs through wsrv.nl image proxy (handles CORS, redirects, caching)
+        if (fixedUrl.includes('dropbox.com') || fixedUrl.includes('dropboxusercontent.com')) {
+            return 'https://wsrv.nl/?url=' + encodeURIComponent(fixedUrl);
         }
-        return url;
+        
+        return fixedUrl;
     };
     
     // Fix all Dropbox images on page load
